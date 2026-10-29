@@ -9,7 +9,9 @@
   "name": "Appflare",
   "summary": "A single Worker in your own Cloudflare account that lets you browse a catalog of Cloudflare-native apps, install them, and keep them updated.",
   "tagline": "Install and update apps in your own Cloudflare account",
-  "repo": "appflare/appflare",
+  // This fork's repository: the release workflow signs a manifest whose
+  // `catalog.repo` must name the repository it runs in.
+  "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["utilities"],
   "maintainers": ["MendyLanda"],
