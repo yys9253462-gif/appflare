@@ -23,12 +23,12 @@ Releases, tagged `manager@<version>`. The installer is published to npm as
    push to `main`; commits that landed in between never enter that version.
 4. The release runs in isolated jobs:
    - **build** (no secrets): `APPFLARE_VERSION=<version> pnpm release:pack --out
-     dist/release --key-id appflare-2026-09` builds the manager with the version
+     dist/release --key-id appflare-yys-2026-10` builds the manager with the version
      baked in, stamps the catalog manifest's `source` with the version and commit,
      packs `apps/manager` into an unsigned intermediate, and checks it.
    - **sign** (holds only `APPFLARE_SIGNING_KEY`, runs only the packer): checks
      that `manifest.json` is format 1, `appflare@<version>` with key id
-     `appflare-2026-09`, and built from this repository's version commit (the
+     `appflare-yys-2026-10`, and built from this repository's version commit (the
      embedded catalog manifest's `repo`, `source.sha`, and `source.ref`), signs
      it, and verifies the signature against the public keys embedded in
      `@appflare/schema`.
@@ -51,7 +51,7 @@ marked as pre-releases.
 To pack locally (unsigned unless you pass `--key-id`):
 
 ```sh
-APPFLARE_VERSION=0.0.1-test pnpm release:pack --out /tmp/manager-release --key-id appflare-2026-09
+APPFLARE_VERSION=0.0.1-test pnpm release:pack --out /tmp/manager-release --key-id appflare-yys-2026-10
 node packages/pack/bin/appflare-pack.js verify /tmp/manager-release --hashes-only
 ```
 
@@ -361,7 +361,7 @@ pending, the `sandbox-*` jobs release that version from its version commit unles
 `sandbox@<version>` is already published with its three assets:
 
 - **sandbox-build** (no secrets): `APPFLARE_VERSION=<version> pnpm release:pack
-  --app sandbox --out dist/sandbox-release --key-id appflare-2026-09` stamps the
+  --app sandbox --out dist/sandbox-release --key-id appflare-yys-2026-10` stamps the
   version into the Worker's config and image tag, packs `apps/sandbox`, and checks it.
 - **sandbox-sign**: checks `manifest.json` against the plan and signs it, as for the
   manager.
@@ -403,7 +403,7 @@ Artifacts are Ed25519-signed; verifiers pick the public key by the manifest's
 
 | Key id | Signs |
 |---|---|
-| `appflare-2026-09` | Manager releases (`manager@<version>`, this repository) |
+| `appflare-yys-2026-10` | Manager releases (`manager@<version>`, this repository) |
 | `catalog-2026-09` | Catalog app releases (`<slug>@<version>`, `appflare/catalog`) |
 
 Both ids currently share one keypair, so the single org secret signs both

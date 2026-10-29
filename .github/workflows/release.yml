@@ -15,7 +15,7 @@ name: release
 #   build-packer  read-only; builds @appflare/pack into a self-contained bundle,
 #                 never builds or runs manager code
 #   build         read-only, no secrets; builds and packs the manager into an
-#                 unsigned intermediate with keyId appflare-2026-09
+#                 unsigned intermediate with keyId appflare-yys-2026-10
 #   sign          APPFLARE_SIGNING_KEY only; runs only the packer bundle, and signs
 #                 only a manifest.json whose format, app, version, catalog repo and
 #                 source, and keyId match
@@ -95,7 +95,9 @@ defaults:
     shell: bash
 
 env:
-  KEY_ID: appflare-2026-09
+  # This fork signs its own releases; `packages/schema/src/keys.ts` trusts this
+  # id and the official one is no longer trusted for manager releases.
+  KEY_ID: appflare-yys-2026-10
 
 jobs:
   version:
@@ -305,7 +307,7 @@ jobs:
         run: |
           set -euo pipefail
           # Bakes APPFLARE_VERSION into the Worker, stamps catalog.source ref/sha, packs
-          # with keyId appflare-2026-09 (no signature), checks the artifact.
+          # with keyId appflare-yys-2026-10 (no signature), checks the artifact.
           pnpm release:pack --out dist/release --key-id "${KEY_ID}"
           node packages/pack/bin/appflare-pack.js verify dist/release --hashes-only
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -329,7 +331,7 @@ jobs:
           APPFLARE_SIGNING_KEY: ${{ secrets.APPFLARE_SIGNING_KEY }}
         run: |
           if [ -z "${APPFLARE_SIGNING_KEY}" ]; then
-            echo "::error title=APPFLARE_SIGNING_KEY is not set::Manager releases are signed. Add the signing key (base64 PKCS#8 Ed25519, key id appflare-2026-09) as the APPFLARE_SIGNING_KEY Actions secret of the appflare org or this repository, then re-run this workflow (docs/RELEASING.md)."
+            echo "::error title=APPFLARE_SIGNING_KEY is not set::Manager releases are signed. Add the signing key (base64 PKCS#8 Ed25519, key id appflare-yys-2026-10) as the APPFLARE_SIGNING_KEY Actions secret of the appflare org or this repository, then re-run this workflow (docs/RELEASING.md)."
             exit 1
           fi
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -1230,7 +1232,7 @@ jobs:
         run: |
           set -euo pipefail
           # Stamps the version into the Worker's config and image tag, stamps
-          # catalog.source ref/sha, packs with keyId appflare-2026-09 (no signature),
+          # catalog.source ref/sha, packs with keyId appflare-yys-2026-10 (no signature),
           # checks the artifact.
           pnpm release:pack --app sandbox --out dist/sandbox-release --key-id "${KEY_ID}"
           node packages/pack/bin/appflare-pack.js verify dist/sandbox-release --hashes-only
@@ -1255,7 +1257,7 @@ jobs:
           APPFLARE_SIGNING_KEY: ${{ secrets.APPFLARE_SIGNING_KEY }}
         run: |
           if [ -z "${APPFLARE_SIGNING_KEY}" ]; then
-            echo "::error title=APPFLARE_SIGNING_KEY is not set::Sandbox Worker releases are signed. Add the signing key (base64 PKCS#8 Ed25519, key id appflare-2026-09) as the APPFLARE_SIGNING_KEY Actions secret of the appflare org or this repository, then re-run this workflow (docs/RELEASING.md)."
+            echo "::error title=APPFLARE_SIGNING_KEY is not set::Sandbox Worker releases are signed. Add the signing key (base64 PKCS#8 Ed25519, key id appflare-yys-2026-10) as the APPFLARE_SIGNING_KEY Actions secret of the appflare org or this repository, then re-run this workflow (docs/RELEASING.md)."
             exit 1
           fi
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0

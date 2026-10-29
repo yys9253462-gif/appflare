@@ -37,10 +37,21 @@ const UNSIGNED_KEY_ID = "unsigned";
  */
 const PUBLIC_KEY_2026_09 = "HYmxJhxMa0jtF1nDO7yuDXxjVSm+ph6NnrXABpoDqG8=";
 
+/**
+ * This fork's own manager key (2026-10). Its private half is the
+ * `APPFLARE_SIGNING_KEY` secret of the fork, and it signs nothing else: the
+ * official catalog's key below still verifies that catalog's apps. Key id
+ * starts with `appflare-`, which is what `isManagerKeyId` accepts for a
+ * manager release.
+ */
+const PUBLIC_KEY_YYS_2026_10 = "tethTBVVxKyvyOIdseRlLimByHZoxKsKBrBnmiplmTk=";
+
 /** Trusted artifact signing keys, selected by `manifest.keyId`. */
 export const signingKeys: readonly SigningKey[] = [
-  // Manager releases: `manager@<version>` on appflare/appflare (docs/RELEASING.md).
-  { keyId: "appflare-2026-09", publicKeyBase64: PUBLIC_KEY_2026_09 },
+  // Manager releases: `manager@<version>` on this fork's repository. The
+  // official key is deliberately NOT here: a release signed with it must not be
+  // able to replace this manager.
+  { keyId: "appflare-yys-2026-10", publicKeyBase64: PUBLIC_KEY_YYS_2026_10 },
   // Catalog app releases: `<slug>@<version>` on appflare/catalog.
   { keyId: "catalog-2026-09", publicKeyBase64: PUBLIC_KEY_2026_09 },
 ];

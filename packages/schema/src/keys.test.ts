@@ -33,12 +33,14 @@ function manifestBytes(keyId: string): Uint8Array {
 }
 
 describe("signingKeys", () => {
-  it("embeds the manager and catalog key ids, sharing one 32-byte public key", () => {
-    expect(signingKeys.map((k) => k.keyId)).toEqual(["appflare-2026-09", "catalog-2026-09"]);
+  it("embeds this fork's manager key and the official catalog key", () => {
+    expect(signingKeys.map((k) => k.keyId)).toEqual(["appflare-yys-2026-10", "catalog-2026-09"]);
     for (const key of signingKeys) {
       expect(decodePublicKey(key)).toHaveLength(32);
     }
-    expect(new Set(signingKeys.map((k) => k.publicKeyBase64)).size).toBe(1);
+    // Two keypairs since the fork took its manager releases over: the official
+    // key still verifies the official catalog only.
+    expect(new Set(signingKeys.map((k) => k.publicKeyBase64)).size).toBe(2);
   });
 
   it("has unique key ids and never trusts the unsigned id", () => {
@@ -60,10 +62,10 @@ describe("verifyManifestSignature", () => {
 
   it("rejects a manifest that claims a trusted key id but was signed by another key", async () => {
     const pair = await generateSigningKeypair();
-    const bytes = manifestBytes("appflare-2026-09");
+    const bytes = manifestBytes("catalog-2026-09");
     const sig = await signWith(pair.privateKeyPkcs8Base64, bytes);
     await expect(verifyManifestSignature(bytes, sig)).rejects.toThrow(
-      'manifest signature does not verify with keyId "appflare-2026-09"',
+      'manifest signature does not verify with keyId "catalog-2026-09"',
     );
   });
 
