@@ -384,6 +384,86 @@ export const ZH: Record<string, string> = {
     "它的应用会从目录页消失，它的密钥也不再被信任。不会卸载任何东西。之后可以重新添加。",
   "Remove catalog": "移除目录",
 
+  // Settings > Updates: Appflare itself.
+  "The release feed lists no Appflare release yet.": "发布源里还没有 Appflare 的发布版本。",
+  "Could not check for updates.": "无法检查更新。",
+  "Check now": "立即检查",
+  "Up to date": "已是最新",
+  "The version of Appflare running here, its newest release, and whether it updates itself.":
+    "这里运行的 Appflare 版本、它的最新发布版本，以及它是否会自动更新。",
+  "Running version": "运行版本",
+  "Latest release": "最新发布版本",
+  "None found yet": "尚未找到",
+  published: "发布于",
+  "Last checked": "上次检查",
+  "View update log": "查看更新日志",
+  "Update Appflare to {version}": "更新 Appflare 到 {version}",
+  "Appflare update started": "Appflare 更新已开始",
+  "From {from}. Appflare keeps the current version for a rollback.":
+    "从 {from} 升级。Appflare 会保留当前版本以便回滚。",
+  "Appflare uploads the new version next to the current one; the current one keeps serving.":
+    "Appflare 会把新版本上传到当前版本旁边，当前版本继续提供服务。",
+  "It checks the new version's preview: it must report version {version} and a working database. That first request already migrates Appflare's database to the new version's schema, before the switch; migrations only add to it, so the current version keeps working with it.":
+    "然后它会检查新版本的预览：新版本必须报告版本 {version} 且数据库可用。这个首次请求会在切换之前就把 Appflare 的数据库迁移到新版本的结构；迁移只会新增内容，所以当前版本仍能继续用它。",
+  "Then it switches all traffic to the new version. The page you are on reloads by itself once the new version answers.":
+    "接着它会把所有流量切到新版本。新版本开始响应后，你当前所在的页面会自动刷新。",
+  "Nothing else runs during the update: installs, updates, and uninstalls wait until it finishes. If the new version fails its check, the current one keeps serving. To go back later, roll back under":
+    "更新期间不会执行其他任务：安装、更新和卸载都会等它结束。如果新版本检查不通过，当前版本继续提供服务。之后要回退，请在",
+  ".": "里回滚。",
+
+  // Settings > Removed apps.
+  "Apps that were uninstalled but kept some of their data in the account.":
+    "已卸载、但还在这账户里保留了一些数据的应用。",
+  "No removed apps": "没有已移除的应用",
+  "No uninstalled app that keeps data is listed. Apps you forgot are not listed here even when they still keep data; their own pages show what they kept.":
+    "这里不会列出保留着数据的已卸载应用。被你“忽略”的应用即使仍保留数据也不会出现在这里；它们自己的页面会显示保留了什么。",
+  Deleting: "删除中",
+  "{name}, Worker {worker}, uninstalled": "{name}，Worker {worker}，卸载于",
+  "Kept in the account": "在本账户中保留的资源",
+  "Deleting the kept data did not finish": "删除保留的数据未完成",
+  "The job failed.": "任务失败。",
+
+  // What a Cloudflare resource is called (`components/format.ts`).
+  "KV namespace": "KV 命名空间",
+  "D1 database": "D1 数据库",
+  "R2 bucket": "R2 存储桶",
+  Queue: "队列",
+  "Queue consumer": "队列消费者",
+  "Vectorize index": "Vectorize 索引",
+  "Hyperdrive configuration": "Hyperdrive 配置",
+  "Replaced Hyperdrive configuration": "已替换的 Hyperdrive 配置",
+  "Pipelines stream": "Pipelines 流",
+  "Pipelines sink": "Pipelines 接收端",
+  Pipeline: "Pipeline",
+  "R2 Data Catalog": "R2 数据目录",
+  "Durable Object class": "Durable Object 类",
+  Workflow: "Workflow",
+  "Cron trigger": "定时触发器",
+  Secret: "密钥",
+  "workers.dev route": "workers.dev 路由",
+  "Rate limit": "速率限制",
+  "Custom domain": "自定义域名",
+  "External domain": "外部域名",
+  "Wildcard domain": "通配域名",
+  "DNS record": "DNS 记录",
+  "Workers route": "Workers 路由",
+  "Email route": "邮件路由",
+  "Access service token": "Access 服务令牌",
+  "Access application": "Access 应用",
+
+  // What a job is doing (`components/format.ts`).
+  Install: "安装",
+  Uninstall: "卸载",
+  Rollback: "回滚",
+  "Appflare update": "Appflare 更新",
+  "Settings change": "设置变更",
+  "Enable sandbox builds": "启用沙盒构建",
+  "Update sandbox builds": "更新沙盒构建",
+  "Disable sandbox builds": "停用沙盒构建",
+  "Appflare rollback": "Appflare 回滚",
+  "Build for review": "构建以供审核",
+  "Move Appflare's address": "迁移 Appflare 地址",
+
   // The same names as chart tabs, where they are shorter.
   "CPU time": "CPU 时间",
   "DO duration": "DO 时长",

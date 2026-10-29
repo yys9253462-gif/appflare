@@ -9,6 +9,7 @@ import {
   type ManagerUpdateState,
   startSelfUpdate,
 } from "../catalog/manager-releases.functions";
+import { t } from "../i18n";
 import { BusyButton } from "./busy-button";
 import { ConfirmDialog } from "./confirm-dialog";
 import { DescriptionItem, DescriptionList } from "./description-list";
@@ -45,10 +46,10 @@ export function AppflareUpdatesCard({
     setNotice(null);
     try {
       const next = await checkManagerUpdates();
-      if (next.latest === null) setNotice("The release feed lists no Appflare release yet.");
+      if (next.latest === null) setNotice(t("The release feed lists no Appflare release yet."));
       await router.invalidate();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not check for updates.");
+      setError(err instanceof Error ? err.message : t("Could not check for updates."));
     }
     setChecking(false);
   }
@@ -65,7 +66,7 @@ export function AppflareUpdatesCard({
       icon={<ArrowsClockwiseIcon />}
       onClick={onCheck}
     >
-      Check now
+      {t("Check now")}
     </BusyButton>
   ) : null;
   return (
@@ -73,14 +74,16 @@ export function AppflareUpdatesCard({
       {...settingsSection("updates", "appflare")}
       badge={
         state.activeJobId !== null ? (
-          <Badge variant="info">Updating</Badge>
+          <Badge variant="info">{t("Updating")}</Badge>
         ) : state.updateAvailable ? (
-          <Badge variant="warning">Update available</Badge>
+          <Badge variant="warning">{t("Update available")}</Badge>
         ) : latest !== null ? (
-          <Badge variant="success">Up to date</Badge>
+          <Badge variant="success">{t("Up to date")}</Badge>
         ) : null
       }
-      description="The version of Appflare running here, its newest release, and whether it updates itself."
+      description={t(
+        "The version of Appflare running here, its newest release, and whether it updates itself.",
+      )}
       action={
         update !== null ? (
           <SettingsSelfUpdate from={state.current} version={update.version} />
@@ -93,14 +96,14 @@ export function AppflareUpdatesCard({
       <SectionRows>
         <SectionBody>
           <DescriptionList>
-            <DescriptionItem label="Running version">
+            <DescriptionItem label={t("Running version")}>
               <Text variant="mono" as="span">
                 {state.current}
               </Text>
             </DescriptionItem>
-            <DescriptionItem label="Latest release">
+            <DescriptionItem label={t("Latest release")}>
               {latest === null ? (
-                "None found yet"
+                t("None found yet")
               ) : (
                 <>
                   <Text variant="mono" as="span">
@@ -109,13 +112,13 @@ export function AppflareUpdatesCard({
                   {latest.publishedAt !== null && (
                     <Text variant="secondary" as="span">
                       {" "}
-                      published <Timestamp iso={latest.publishedAt} />
+                      {t("published")} <Timestamp iso={latest.publishedAt} />
                     </Text>
                   )}
                 </>
               )}
             </DescriptionItem>
-            <DescriptionItem label="Last checked">
+            <DescriptionItem label={t("Last checked")}>
               <Timestamp iso={state.checkedAt} />
             </DescriptionItem>
           </DescriptionList>
@@ -128,7 +131,7 @@ export function AppflareUpdatesCard({
                   variant="secondary"
                   icon={<ArrowRightIcon />}
                 >
-                  View update log
+                  {t("View update log")}
                 </LinkButton>
               )}
               {update !== null && checkNow}
@@ -152,12 +155,12 @@ function SettingsSelfUpdate({ from, version }: { from: string; version: string }
       version={version}
       trigger={(p) => (
         <Button {...p} variant="primary" icon={<ArrowCircleUpIcon />}>
-          Update Appflare to {version}
+          {t("Update Appflare to {version}", { version })}
         </Button>
       )}
       onConfirm={async () => {
         const { jobId } = await startSelfUpdate({ data: { version } });
-        await jobStarted(jobId, "Appflare update started");
+        await jobStarted(jobId, t("Appflare update started"));
       }}
     />
   );
@@ -186,41 +189,46 @@ export function SelfUpdateDialog({
     <ConfirmDialog
       {...dialog}
       size="lg"
-      title={`Update Appflare to ${version}`}
-      description={`From ${from}. Appflare keeps the current version for a rollback.`}
-      actionLabel="Update"
+      title={t("Update Appflare to {version}", { version })}
+      description={t("From {from}. Appflare keeps the current version for a rollback.", {
+        from,
+      })}
+      actionLabel={t("Update")}
       destructive={false}
       onConfirm={onConfirm}
     >
       <ol className="grid list-decimal gap-2 pl-5">
         <li>
           <Text>
-            Appflare uploads the new version next to the current one; the current one keeps serving.
+            {t(
+              "Appflare uploads the new version next to the current one; the current one keeps serving.",
+            )}
           </Text>
         </li>
         <li>
           <Text>
-            It checks the new version's preview: it must report version {version} and a working
-            database. That first request already migrates Appflare's database to the new version's
-            schema, before the switch; migrations only add to it, so the current version keeps
-            working with it.
+            {t(
+              "It checks the new version's preview: it must report version {version} and a working database. That first request already migrates Appflare's database to the new version's schema, before the switch; migrations only add to it, so the current version keeps working with it.",
+              { version },
+            )}
           </Text>
         </li>
         <li>
           <Text>
-            Then it switches all traffic to the new version. The page you are on reloads by itself
-            once the new version answers.
+            {t(
+              "Then it switches all traffic to the new version. The page you are on reloads by itself once the new version answers.",
+            )}
           </Text>
         </li>
       </ol>
       <Text variant="secondary">
-        Nothing else runs during the update: installs, updates, and uninstalls wait until it
-        finishes. If the new version fails its check, the current one keeps serving. To go back
-        later, roll back under{" "}
+        {t(
+          "Nothing else runs during the update: installs, updates, and uninstalls wait until it finishes. If the new version fails its check, the current one keeps serving. To go back later, roll back under",
+        )}{" "}
         <Link href={settingsLink("updates", "versions")}>
-          {settingsSectionTitle("updates", "versions")}
+          {t(settingsSectionTitle("updates", "versions"))}
         </Link>
-        .
+        {t(".")}
       </Text>
     </ConfirmDialog>
   );

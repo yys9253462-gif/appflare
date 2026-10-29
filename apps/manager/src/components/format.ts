@@ -1,5 +1,7 @@
 /** Shared display formatting for dates, sizes, and labels. */
 
+import { t } from "../i18n";
+
 const dateTime = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
 const date = new Intl.DateTimeFormat(undefined, { dateStyle: "medium" });
 const exactDateTime = new Intl.DateTimeFormat(undefined, { dateStyle: "long", timeStyle: "long" });
@@ -69,7 +71,7 @@ export const RESOURCE_KIND_LABELS: Record<string, string> = {
 };
 
 export function resourceKindLabel(kind: string): string {
-  return RESOURCE_KIND_LABELS[kind] ?? kind;
+  return t(RESOURCE_KIND_LABELS[kind] ?? kind);
 }
 
 /**

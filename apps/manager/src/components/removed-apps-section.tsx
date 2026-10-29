@@ -1,5 +1,6 @@
 import { Badge, Banner, Link, LinkButton, Text } from "@cloudflare/kumo";
 import { ArrowRightIcon, TrashSimpleIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import type { RemovedAppRow } from "../installs/removed-apps.functions";
 import { resourceKindLabel } from "./format";
 import { BANNER_ICON, MessageText } from "./message-text";
@@ -20,13 +21,15 @@ export function RemovedAppsSection({ rows, isAdmin }: { rows: RemovedAppRow[]; i
   return (
     <Section
       {...settingsSection("removedApps", "removed-apps")}
-      description="Apps that were uninstalled but kept some of their data in the account."
+      description={t("Apps that were uninstalled but kept some of their data in the account.")}
       empty={
         rows.length === 0 ? (
           <SectionEmpty
             icon={<TrashSimpleIcon size={48} className="text-kumo-inactive" />}
-            title="No removed apps"
-            description="No uninstalled app that keeps data is listed. Apps you forgot are not listed here even when they still keep data; their own pages show what they kept."
+            title={t("No removed apps")}
+            description={t(
+              "No uninstalled app that keeps data is listed. Apps you forgot are not listed here even when they still keep data; their own pages show what they kept.",
+            )}
           />
         ) : undefined
       }
@@ -48,12 +51,15 @@ function RemovedAppItem({ row, isAdmin }: { row: RemovedAppRow; isAdmin: boolean
       title={
         <span className="flex flex-wrap items-center gap-2">
           <Link href={`/apps/${row.id}`}>{row.label}</Link>
-          {busy && <Badge variant="info">Deleting</Badge>}
+          {busy && <Badge variant="info">{t("Deleting")}</Badge>}
         </span>
       }
       description={
         <>
-          {row.name}, Worker <span className={mono}>{row.workerName}</span>, uninstalled{" "}
+          {t("{name}, Worker {worker}, uninstalled", {
+            name: row.name,
+            worker: row.workerName,
+          })}{" "}
           <Timestamp iso={row.uninstalledAt} />
         </>
       }
@@ -64,7 +70,7 @@ function RemovedAppItem({ row, isAdmin }: { row: RemovedAppRow; isAdmin: boolean
             variant="secondary"
             icon={<ArrowRightIcon />}
           >
-            View log
+            {t("View log")}
           </LinkButton>
         ) : isAdmin ? (
           <>
@@ -75,7 +81,7 @@ function RemovedAppItem({ row, isAdmin }: { row: RemovedAppRow; isAdmin: boolean
       }
     >
       <div className="grid gap-1.5">
-        <Text bold>Kept in the account</Text>
+        <Text bold>{t("Kept in the account")}</Text>
         <ul className="grid gap-1">
           {row.retained.map((r) => (
             <li key={r.id} className="flex flex-wrap items-baseline gap-x-2">
@@ -89,8 +95,8 @@ function RemovedAppItem({ row, isAdmin }: { row: RemovedAppRow; isAdmin: boolean
         <Banner
           variant="error"
           icon={BANNER_ICON.error}
-          title="Deleting the kept data did not finish"
-          description={<MessageText message={row.lastFailure.error ?? "The job failed."} />}
+          title={t("Deleting the kept data did not finish")}
+          description={<MessageText message={row.lastFailure.error ?? t("The job failed.")} />}
           action={
             <LinkButton
               href={`/jobs/${row.lastFailure.jobId}`}
