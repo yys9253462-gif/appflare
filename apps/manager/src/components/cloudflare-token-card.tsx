@@ -27,6 +27,7 @@ import {
 import { startCloudflareReconnect } from "../cloudflare/reconnect.functions";
 import { RECONNECT_OUTCOME_COPY, type ReconnectOutcome } from "../cloudflare/reconnect-outcome";
 import { scopeReasons } from "../cloudflare/scope-reasons";
+import { t } from "../i18n";
 import type { TokenStatus } from "../server/token.functions";
 import { appflareDevLink } from "./appflare-dev-link";
 import { BusyButton } from "./busy-button";
@@ -94,7 +95,7 @@ export function CloudflareTokenCard({
         )}
         {needsReconnect && <ReconnectNotice canRotate={canRotate} />}
         <DescriptionList>
-          <DescriptionItem label="Account">{status.accountName ?? "Unknown"}</DescriptionItem>
+          <DescriptionItem label={t("Account")}>{status.accountName ?? "Unknown"}</DescriptionItem>
           <DescriptionItem label={needsReconnect ? "Was connected with" : "Connected with"}>
             {CONNECTION_COPY.kindName[connection.kind]}
           </DescriptionItem>
@@ -107,12 +108,12 @@ export function CloudflareTokenCard({
 
 function ConnectionBadge({ connection }: { connection: ConnectionView }) {
   if (connection.state === "needs_reconnect") {
-    return <Badge variant="error">Needs reconnecting</Badge>;
+    return <Badge variant="error">{t("Needs reconnecting")}</Badge>;
   }
   return connection.ready ? (
-    <Badge variant="success">Active</Badge>
+    <Badge variant="success">{t("Active")}</Badge>
   ) : (
-    <Badge variant="warning">Waiting for redeploy</Badge>
+    <Badge variant="warning">{t("Waiting for redeploy")}</Badge>
   );
 }
 
@@ -140,7 +141,7 @@ function OutcomeBanner({
         action={
           copy.retry && onRetry !== null ? (
             <Button variant="secondary" size="sm" className={TOUCH_TARGET} onClick={onRetry}>
-              Start again
+              {t("Start again")}
             </Button>
           ) : undefined
         }
@@ -182,11 +183,13 @@ function ConnectionDetails({
   const appflareDev = appflareDevLink(managerUrl);
   return (
     <Collapsible.Root>
-      <Collapsible.DefaultTrigger className={TOUCH_TARGET}>Details</Collapsible.DefaultTrigger>
+      <Collapsible.DefaultTrigger className={TOUCH_TARGET}>
+        {t("Details")}
+      </Collapsible.DefaultTrigger>
       <Collapsible.DefaultPanel>
         <div className="grid gap-3">
           <DescriptionList>
-            <DescriptionItem label="State">{stateWords(connection)}</DescriptionItem>
+            <DescriptionItem label={t("State")}>{stateWords(connection)}</DescriptionItem>
             {connection.problem !== null && (
               <DescriptionItem
                 label={connection.state === "needs_reconnect" ? "Why" : "Last problem"}
@@ -199,7 +202,7 @@ function ConnectionDetails({
                 )}
               </DescriptionItem>
             )}
-            <DescriptionItem label="Since">
+            <DescriptionItem label={t("Since")}>
               <Timestamp
                 iso={
                   connection.kind === "api_token"
@@ -209,24 +212,24 @@ function ConnectionDetails({
                 fallback="Unknown"
               />
             </DescriptionItem>
-            <DescriptionItem label="Account ID">
+            <DescriptionItem label={t("Account ID")}>
               <span className="break-all">
                 <Text variant="mono" as="span">
                   {status.accountId ?? "Unknown"}
                 </Text>
               </span>
             </DescriptionItem>
-            <DescriptionItem label="Worker">
+            <DescriptionItem label={t("Worker")}>
               <Text variant="mono" as="span">
                 {status.workerName ?? "Unknown"}
               </Text>
             </DescriptionItem>
             {connection.oauth !== null ? (
               <>
-                <DescriptionItem label="Last renewed">
+                <DescriptionItem label={t("Last renewed")}>
                   <Timestamp iso={connection.oauth.renewedAt} />
                 </DescriptionItem>
-                <DescriptionItem label="OAuth client ID">
+                <DescriptionItem label={t("OAuth client ID")}>
                   <span className="break-all">
                     <Text variant="mono" as="span">
                       {connection.oauth.clientId}
@@ -236,17 +239,17 @@ function ConnectionDetails({
               </>
             ) : (
               <>
-                <DescriptionItem label="Last verified">
+                <DescriptionItem label={t("Last verified")}>
                   <Timestamp iso={status.verifiedAt} fallback="Never" />
                 </DescriptionItem>
-                <DescriptionItem label="Stored as">
+                <DescriptionItem label={t("Stored as")}>
                   {status.hasSecret
                     ? "The CF_API_TOKEN secret, bound to the running version."
                     : "The CF_API_TOKEN secret; the running version does not have it yet."}
                 </DescriptionItem>
-                <DescriptionItem label="Permissions">
+                <DescriptionItem label={t("Permissions")}>
                   <Link href={settingsLink("account", "capability-token-permissions")}>
-                    Token permissions
+                    {t("Token permissions")}
                   </Link>
                 </DescriptionItem>
               </>
@@ -259,7 +262,7 @@ function ConnectionDetails({
                 scopes={connection.oauth.scopes}
               />
               {connection.oauth.missingScopes.length > 0 && (
-                <ScopeList label="Not granted" scopes={connection.oauth.missingScopes} />
+                <ScopeList label={t("Not granted")} scopes={connection.oauth.missingScopes} />
               )}
             </>
           )}
@@ -267,12 +270,12 @@ function ConnectionDetails({
             <div className="grid gap-0.5">
               <Text size="sm" as="p">
                 <Link href={appflareDev} target="_blank" rel="noreferrer">
-                  Use this Appflare on appflare.dev
+                  {t("Use this Appflare on appflare.dev")}
                   <ArrowSquareOutIcon className="ml-1 inline" aria-hidden />
                 </Link>
               </Text>
               <Text variant="secondary" size="sm" as="p">
-                Install buttons on appflare.dev then open here, in this browser.
+                {t("Install buttons on appflare.dev then open here, in this browser.")}
               </Text>
             </div>
           )}
@@ -375,10 +378,10 @@ function ReconnectDialog({
                 onValueChange={(v) => setWay(v === "token" ? "token" : "sign-in")}
                 appearance="card"
               >
-                <Radio.Legend className="sr-only">How Appflare connects</Radio.Legend>
+                <Radio.Legend className="sr-only">{t("How Appflare connects")}</Radio.Legend>
                 <Radio.Item
                   value="sign-in"
-                  label="Sign in with Cloudflare"
+                  label={t("Sign in with Cloudflare")}
                   description={ways.signIn}
                 />
                 <Radio.Item value="token" label={ways.tokenLabel} description={ways.token} />
@@ -404,7 +407,7 @@ function ReconnectDialog({
         {saved !== null && (
           <LayerDialog.Actions>
             <LayerDialog.Actions.Primary onClick={() => change(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           </LayerDialog.Actions>
         )}

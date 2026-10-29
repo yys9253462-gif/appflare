@@ -9,6 +9,7 @@ import {
   passkeysSupported,
 } from "../auth/passkey-errors";
 import { passkeysAfterMoveLine } from "../domains/moved-note";
+import { t } from "../i18n";
 import { type PasskeyRow, removePasskey } from "../server/passkeys.functions";
 import { passkeyNameInput } from "../server/schemas";
 import { BusyMark, busyActionProps } from "./busy-button";
@@ -41,7 +42,9 @@ export function PasskeysSection({
   return (
     <Section
       {...settingsSection("users", "passkeys")}
-      description="Sign in with your fingerprint, face, screen lock, or a security key instead of your password. Your password keeps working."
+      description={t(
+        "Sign in with your fingerprint, face, screen lock, or a security key instead of your password. Your password keeps working.",
+      )}
       // With no passkey yet, the empty state offers it instead.
       action={canAdd && passkeys.length > 0 ? <AddPasskeyDialog /> : null}
     >
@@ -58,7 +61,7 @@ export function PasskeysSection({
             variant="alert"
             icon={BANNER_ICON.alert}
             title={PASSKEY_MESSAGES.registerUnsupported}
-            description="Open this page in a current browser to add a passkey."
+            description={t("Open this page in a current browser to add a passkey.")}
           />
         </SectionBody>
       )}
@@ -67,21 +70,21 @@ export function PasskeysSection({
           <SectionBody>
             <SectionEmpty
               icon={<FingerprintIcon size={48} className="text-kumo-inactive" />}
-              title="No passkeys yet"
-              description="Add a passkey to sign in without typing your password."
+              title={t("No passkeys yet")}
+              description={t("Add a passkey to sign in without typing your password.")}
               contents={supported ? <AddPasskeyDialog /> : undefined}
             />
           </SectionBody>
         )
       ) : (
-        <SectionTable label="Passkeys" minWidth="sm" stickyFirstColumn>
+        <SectionTable label={t("Passkeys")} minWidth="sm" stickyFirstColumn>
           <Table.Header>
             <Table.Row>
-              <Table.Head>Name</Table.Head>
-              <Table.Head>Kind</Table.Head>
-              <Table.Head>Added</Table.Head>
+              <Table.Head>{t("Name")}</Table.Head>
+              <Table.Head>{t("Kind")}</Table.Head>
+              <Table.Head>{t("Added")}</Table.Head>
               <Table.Head>
-                <span className="sr-only">Actions</span>
+                <span className="sr-only">{t("Actions")}</span>
               </Table.Head>
             </Table.Row>
           </Table.Header>
@@ -179,23 +182,24 @@ function AddPasskeyDialog() {
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<PlusIcon />}>
-            Add passkey
+            {t("Add passkey")}
           </Button>
         )}
       />
       <LayerDialog.Content>
-        <LayerDialog.Title>Add passkey</LayerDialog.Title>
+        <LayerDialog.Title>{t("Add passkey")}</LayerDialog.Title>
         <LayerDialog.Description>
-          Name it after the device or password manager that keeps it, so you can tell your passkeys
-          apart. Your browser then asks you to create it.
+          {t(
+            "Name it after the device or password manager that keeps it, so you can tell your passkeys apart. Your browser then asks you to create it.",
+          )}
         </LayerDialog.Description>
         <LayerDialog.Body>
           <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
             {error !== null && <ErrorMessageBanner message={error} newTab />}
             <Input
-              label="Name"
+              label={t("Name")}
               name="name"
-              placeholder="Work laptop"
+              placeholder={t("Work laptop")}
               autoComplete="off"
               required
               maxLength={100}
@@ -203,10 +207,10 @@ function AddPasskeyDialog() {
             />
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary type="submit" form={formId} {...busyActionProps(pending)}>
             <BusyMark pending={pending} />
-            Create passkey
+            {t("Create passkey")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>
@@ -231,8 +235,10 @@ function RemovePasskeyDialog({ passkey }: { passkey: PasskeyRow }) {
         </Button>
       )}
       title={`Remove ${label}`}
-      description="You will no longer be able to sign in with it. Delete it from your device or password manager as well."
-      actionLabel="Remove passkey"
+      description={t(
+        "You will no longer be able to sign in with it. Delete it from your device or password manager as well.",
+      )}
+      actionLabel={t("Remove passkey")}
       onConfirm={async () => {
         await removePasskey({ data: { id: passkey.id } });
         await router.invalidate();

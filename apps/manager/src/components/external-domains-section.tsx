@@ -21,6 +21,7 @@ import {
   VALIDATION_METHODS,
   type ValidationMethod,
 } from "../gateway/gateway";
+import { t } from "../i18n";
 import {
   type ExternalDomainOptions,
   type ExternalDomainStatus,
@@ -82,8 +83,8 @@ export function ExternalDomainsSection({
     return (
       <Section
         id="external-domains"
-        title="External domains"
-        description="Hostnames in DNS outside this account, such as a customer's domain."
+        title={t("External domains")}
+        description={t("Hostnames in DNS outside this account, such as a customer's domain.")}
         className={FLUSH_RING_CLASS}
       >
         <SectionBody>
@@ -95,8 +96,8 @@ export function ExternalDomainsSection({
   return (
     <Section
       id="external-domains"
-      title="External domains"
-      description="Hostnames in DNS outside this account, such as a customer's domain."
+      title={t("External domains")}
+      description={t("Hostnames in DNS outside this account, such as a customer's domain.")}
       action={canAdd ? <AddExternalDomainDialog install={install} /> : null}
       className={FLUSH_RING_CLASS}
       // One line, as the custom domains above it: the gateway's setup only
@@ -257,7 +258,7 @@ function DomainState({ status }: { status: ExternalDomainStatus }) {
   if (status.active) {
     return (
       <span className="flex flex-wrap items-center gap-2">
-        <Text variant="secondary">Serving with its own certificate.</Text>
+        <Text variant="secondary">{t("Serving with its own certificate.")}</Text>
         {status.health !== null && (
           <>
             <HealthBadge status={status.health.status} access={status.health.access === true} />
@@ -286,7 +287,7 @@ function DomainState({ status }: { status: ExternalDomainStatus }) {
         <Banner
           variant="secondary"
           icon={BANNER_ICON.secondary}
-          title="Cloudflare says"
+          title={t("Cloudflare says")}
           description={<MessageText message={status.errors.join(" ")} />}
         />
       )}
@@ -296,12 +297,12 @@ function DomainState({ status }: { status: ExternalDomainStatus }) {
 
 function RecordsTable({ records }: { records: ExternalDomainStatus["records"] }) {
   return (
-    <ResponsiveTable label="DNS records" card={false}>
+    <ResponsiveTable label={t("DNS records")} card={false}>
       <Table.Header>
         <Table.Row>
-          <Table.Head>Type</Table.Head>
-          <Table.Head>Name</Table.Head>
-          <Table.Head>Value</Table.Head>
+          <Table.Head>{t("Type")}</Table.Head>
+          <Table.Head>{t("Name")}</Table.Head>
+          <Table.Head>{t("Value")}</Table.Head>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -427,12 +428,12 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<PlusIcon />}>
-            Add external domain
+            {t("Add external domain")}
           </Button>
         )}
       />
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Add an external domain</LayerDialog.Title>
+        <LayerDialog.Title>{t("Add an external domain")}</LayerDialog.Title>
         <LayerDialog.Description>
           Serve {install.label} on a hostname whose DNS is managed elsewhere. Appflare registers it
           with Cloudflare for SaaS and shows the records its owner adds.{" "}
@@ -443,7 +444,7 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
             {options === null && loadError === null && (
               <div className="flex items-center gap-2">
                 <AppflareLoader size="sm" />
-                <Text variant="secondary">Reading the gateway…</Text>
+                <Text variant="secondary">{t("Reading the gateway…")}</Text>
               </div>
             )}
             {loadError !== null && <ErrorMessageBanner message={loadError} newTab />}
@@ -451,7 +452,7 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="The gateway is not set up"
+                title={t("The gateway is not set up")}
                 description={
                   <span>
                     External domains go through a gateway on one domain of this account. Set it up
@@ -472,7 +473,7 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
               <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
                 {/* A whole hostname, not a URL: no scheme in front, and no zone after it. */}
                 <Input
-                  label="Hostname"
+                  label={t("Hostname")}
                   error={hostnameError}
                   description={
                     checked?.ok === true && checked.apex
@@ -489,7 +490,7 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
                 />
                 <ValidationChoice value={method} onChange={setMethod} disabled={pending} />
                 <Text variant="secondary" size="sm">
-                  Visitors reach it through <span className={mono}>{gateway.hostname}</span>.{" "}
+                  {t("Visitors reach it through")} <span className={mono}>{gateway.hostname}</span>.{" "}
                   {EXTERNAL_DOMAIN_COST}
                 </Text>
                 {error !== null && <ErrorMessageBanner message={error} newTab />}
@@ -498,14 +499,14 @@ function AddExternalDomainDialog({ install }: { install: InstallDetail }) {
           </div>
         </LayerDialog.Body>
         {gateway !== null && (
-          <LayerDialog.Actions dismissLabel="Cancel">
+          <LayerDialog.Actions dismissLabel={t("Cancel")}>
             <LayerDialog.Actions.Primary
               type="submit"
               form={formId}
               {...busyActionProps(pending, checked === null || !checked.ok)}
             >
               <BusyMark pending={pending} />
-              Add domain
+              {t("Add domain")}
             </LayerDialog.Actions.Primary>
           </LayerDialog.Actions>
         )}
@@ -538,7 +539,7 @@ function RemoveExternalDomainDialog({
       )}
       title={`Remove ${domain.hostname}`}
       description="Cloudflare stops serving the app on this hostname at once; visitors get an error page until its owner points the name elsewhere. The records its owner added can then be deleted."
-      actionLabel="Remove domain"
+      actionLabel={t("Remove domain")}
       onConfirm={async () => {
         const removed = await removeExternalDomain({ data: { installId, resourceId: domain.id } });
         await router.invalidate();

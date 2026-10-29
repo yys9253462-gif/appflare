@@ -1,5 +1,6 @@
 import { Input, InputArea, Radio, Select } from "@cloudflare/kumo";
 import { useState } from "react";
+import { t } from "../i18n";
 import { type InstallVarField, MAX_CARD_OPTIONS, varValueProblem } from "../installs/install-vars";
 import { FieldLabel, fieldDescription } from "./field-label";
 import {
@@ -94,7 +95,7 @@ export function VarField({
     return (
       <Select
         label={label}
-        placeholder="Choose one"
+        placeholder={t("Choose one")}
         value={value === "" ? null : value}
         onValueChange={(next) => onChange(typeof next === "string" ? next : "")}
         items={field.options.map((option) => ({ value: option.value, label: option.label }))}
@@ -109,7 +110,7 @@ export function VarField({
       <InputArea
         label={
           <>
-            {label} <span className="font-normal text-kumo-subtle">JSON</span>
+            {label} <span className="font-normal text-kumo-subtle">{t("JSON")}</span>
           </>
         }
         value={value}

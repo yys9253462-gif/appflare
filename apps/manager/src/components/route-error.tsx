@@ -2,6 +2,7 @@ import { Banner } from "@cloudflare/kumo";
 import { ArrowClockwiseIcon } from "@phosphor-icons/react";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { ACCESS_DENIED_MESSAGE, isAccessDenied } from "../access/denied";
+import { t } from "../i18n";
 import { isStaleBuildError } from "../stale-build";
 import { BANNER_ICON, MessageText } from "./message-text";
 
@@ -31,7 +32,7 @@ export function RouteError({ error }: ErrorComponentProps) {
           description={reloadable}
           action={
             <Banner.Action icon={<ArrowClockwiseIcon />} onClick={() => window.location.reload()}>
-              Reload
+              {t("Reload")}
             </Banner.Action>
           }
         />
@@ -43,7 +44,7 @@ export function RouteError({ error }: ErrorComponentProps) {
       <Banner
         variant="error"
         icon={BANNER_ICON.error}
-        title="Something went wrong"
+        title={t("Something went wrong")}
         description={
           <MessageText message={error instanceof Error ? error.message : "Unexpected error."} />
         }

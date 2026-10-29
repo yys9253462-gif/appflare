@@ -13,6 +13,7 @@ import { Fragment } from "react";
 import type { HeaderAction, Provenance } from "../catalog/app-page";
 import { type AuthorLink, authorLinks } from "../catalog/authors";
 import { avatarSrc } from "../catalog/avatar";
+import { t } from "../i18n";
 import { AppIcon, AuthorAvatar } from "./catalog-media";
 import { MessageText } from "./message-text";
 import { Tooltip } from "./tooltip";
@@ -50,7 +51,7 @@ export function AppPageHeader({
   return (
     <header className="grid gap-5">
       <Breadcrumbs size="sm">
-        <Breadcrumbs.Link href="/catalog">Catalog</Breadcrumbs.Link>
+        <Breadcrumbs.Link href="/catalog">{t("Catalog")}</Breadcrumbs.Link>
         <Breadcrumbs.Separator />
         <Breadcrumbs.Current>{name}</Breadcrumbs.Current>
       </Breadcrumbs>
@@ -127,7 +128,7 @@ function HeaderButton({
   if (action.href !== null) {
     return (
       <LinkButton href={action.href} variant="primary" aria-label={`Manage ${name}`}>
-        Manage
+        {t("Manage")}
       </LinkButton>
     );
   }
@@ -181,7 +182,7 @@ function AuthorLine({
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1">
       <Text as="span" variant="secondary" size="sm">
-        By
+        {t("By")}
       </Text>
       {authors.map((author, i) => {
         const separator = i === 0 ? "" : i === authors.length - 1 ? "and" : ",";

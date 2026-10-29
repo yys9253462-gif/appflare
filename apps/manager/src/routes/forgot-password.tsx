@@ -15,6 +15,7 @@ import { BusyButton } from "../components/busy-button";
 import { StatusRegion, SuccessBanner } from "../components/message-text";
 import { PasswordInput } from "../components/password-input";
 import { returnToSearchSchema, withReturnTo } from "../components/return-to";
+import { t } from "../i18n";
 import { getPasswordRecoveryOptions } from "../server/recovery.functions";
 import { getSetupStatus } from "../server/setup.functions";
 import { loadAppflareVersion } from "../server/version.functions";
@@ -49,7 +50,7 @@ function ForgotPasswordPage() {
   const [mode, setMode] = useState<Mode>(emailReset ? "email" : "code");
   return (
     <AuthLayout
-      title="Forgot your password?"
+      title={t("Forgot your password?")}
       description={
         mode === "email"
           ? "Appflare emails you a link to choose a new one."
@@ -75,7 +76,7 @@ function useSignInHref(): string {
 function BackToSignIn() {
   return (
     <Text variant="secondary" size="sm" as="p">
-      <Link href={useSignInHref()}>Back to sign in</Link>
+      <Link href={useSignInHref()}>{t("Back to sign in")}</Link>
     </Text>
   );
 }
@@ -111,7 +112,7 @@ function EmailForm({ onUseCode }: { onUseCode: () => void }) {
         {sent && (
           <SuccessBanner
             live={false}
-            title="Check your email"
+            title={t("Check your email")}
             description={RECOVERY_MESSAGES.emailSent}
           />
         )}
@@ -120,7 +121,7 @@ function EmailForm({ onUseCode }: { onUseCode: () => void }) {
         {error !== null && <AuthError message={error} />}
         {!sent && (
           <form className="grid gap-4" onSubmit={onSubmit}>
-            <Input label="Email" name="email" type="email" autoComplete="username" required />
+            <Input label={t("Email")} name="email" type="email" autoComplete="username" required />
             <BusyButton
               pending={pending}
               type="submit"
@@ -181,34 +182,41 @@ function CodeForm({ onUseEmail }: { onUseEmail: (() => void) | undefined }) {
         {done && (
           <SuccessBanner
             live={false}
-            title="Password changed"
-            description="Sign in with your new password. You were signed out everywhere else."
+            title={t("Password changed")}
+            description={t("Sign in with your new password. You were signed out everywhere else.")}
           />
         )}
       </StatusRegion>
       <div className="grid gap-5">
         {done ? (
-          <Link href={signInHref}>Sign in</Link>
+          <Link href={signInHref}>{t("Sign in")}</Link>
         ) : (
           <>
             {error !== null && <AuthError message={error} />}
             <Text variant="secondary">
-              An admin of this Appflare can give you a code. If you manage the Cloudflare account it
-              runs in, get one yourself by running this on your computer:
+              {t(
+                "An admin of this Appflare can give you a code. If you manage the Cloudflare account it runs in, get one yourself by running this on your computer:",
+              )}
             </Text>
             <ClipboardText text={RECOVER_COMMAND} />
             <form className="grid gap-4" onSubmit={onSubmit}>
-              <Input label="Email" name="email" type="email" autoComplete="username" required />
               <Input
-                label="Recovery code"
+                label={t("Email")}
+                name="email"
+                type="email"
+                autoComplete="username"
+                required
+              />
+              <Input
+                label={t("Recovery code")}
                 name="code"
                 autoComplete="one-time-code"
                 spellCheck={false}
-                placeholder="XXXXX-XXXXX-XXXXX-XXXXX"
+                placeholder={t("XXXXX-XXXXX-XXXXX-XXXXX")}
                 required
               />
               <PasswordInput
-                label="New password"
+                label={t("New password")}
                 name="newPassword"
                 autoComplete="new-password"
                 minLength={PASSWORD_LIMITS.min}

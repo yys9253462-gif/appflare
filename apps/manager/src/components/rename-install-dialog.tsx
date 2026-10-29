@@ -2,6 +2,7 @@ import { Button, Input, LayerDialog } from "@cloudflare/kumo";
 import { PencilSimpleIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { type FormEvent, useId, useRef, useState } from "react";
+import { t } from "../i18n";
 import {
   DISPLAY_NAME_MAX_LENGTH,
   displayNameProblem,
@@ -83,22 +84,23 @@ export function RenameInstallDialog({
             size="sm"
             shape="square"
             icon={<PencilSimpleIcon />}
-            aria-label="Rename"
-            title="Rename"
+            aria-label={t("Rename")}
+            title={t("Rename")}
           />
         )}
       />
       <LayerDialog.Content size="sm">
         <LayerDialog.Title>Rename {renameStartValue(install)}</LayerDialog.Title>
         <LayerDialog.Description>
-          The name Appflare shows for this install. The Worker, its address and its resources keep
-          their names.
+          {t(
+            "The name Appflare shows for this install. The Worker, its address and its resources keep their names.",
+          )}
         </LayerDialog.Description>
         <LayerDialog.Body>
           <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
             <Input
               ref={field}
-              label="Name"
+              label={t("Name")}
               value={value}
               onChange={(e) => setValue(e.currentTarget.value)}
               placeholder={install.name}
@@ -110,14 +112,14 @@ export function RenameInstallDialog({
             {failure !== null && <ErrorMessageBanner message={failure} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}
             {...busyActionProps(pending, problem !== null)}
           >
             <BusyMark pending={pending} />
-            Save
+            {t("Save")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>

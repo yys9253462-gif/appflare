@@ -1,6 +1,7 @@
 import type { IndexBuild } from "@appflare/schema";
 import { Checkbox, Collapsible, Link, Text } from "@cloudflare/kumo";
 import { ShippingContainerIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import {
   buildCostSentence,
   CONTAINERS_PRICING_URL,
@@ -71,7 +72,7 @@ export function SandboxBuildConfirmation({
         onCheckedChange={(value: boolean) => onChange(value)}
       />
       <Collapsible.Root>
-        <Collapsible.DefaultTrigger>How this works</Collapsible.DefaultTrigger>
+        <Collapsible.DefaultTrigger>{t("How this works")}</Collapsible.DefaultTrigger>
         <Collapsible.DefaultPanel>
           <div className="grid gap-2 pt-1">
             <Text variant="secondary" size="sm">
@@ -93,7 +94,7 @@ export function SandboxBuildConfirmation({
             </Text>
             <Text variant="secondary" size="sm">
               <Link href={CONTAINERS_PRICING_URL} target="_blank" rel="noopener noreferrer">
-                Containers pricing
+                {t("Containers pricing")}
                 <Link.ExternalIcon />
               </Link>
             </Text>

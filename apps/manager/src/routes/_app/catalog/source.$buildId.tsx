@@ -42,6 +42,7 @@ import { PageHeader } from "../../../components/page-header";
 import { Section, SectionBody, SectionRows, SectionTable } from "../../../components/section";
 import { Timestamp } from "../../../components/timestamp";
 import { UpdateFromBuild } from "../../../components/update-from-build";
+import { t } from "../../../i18n";
 import {
   type InstallAgainRecord,
   type InstallFormPrefill,
@@ -160,11 +161,11 @@ function ReviewPage() {
   if (build === null) {
     return (
       <>
-        <PageHeader title="Build not found" parents={[CATALOG_CRUMB]} />
+        <PageHeader title={t("Build not found")} parents={[CATALOG_CRUMB]} />
         <Empty
           icon={<GitBranchIcon size={48} className="text-kumo-inactive" />}
-          title="No such build"
-          description="The link may be wrong."
+          title={t("No such build")}
+          description={t("The link may be wrong.")}
         />
       </>
     );
@@ -190,7 +191,7 @@ function ReviewPage() {
         parents={parents}
         actions={
           <LinkButton href={`/jobs/${build.id}`} variant="secondary" icon={<ArrowRightIcon />}>
-            Build log
+            {t("Build log")}
           </LinkButton>
         }
       />
@@ -267,16 +268,16 @@ function DiscardButton({
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<TrashIcon />}>
-          Throw away
+          {t("Throw away")}
         </Button>
       )}
-      title="Throw away this build"
+      title={t("Throw away this build")}
       description={
         failed
           ? "Its log and any files it left in your sandbox Worker's bucket are deleted. Build again to try once more."
           : "Its files are deleted from your sandbox Worker's bucket. Getting it back means building it again."
       }
-      actionLabel="Throw away"
+      actionLabel={t("Throw away")}
       onConfirm={async () => {
         await discardSourceBuild({ data: { buildId } });
         onThrownAway();
@@ -307,11 +308,11 @@ function BuildState({
         <Banner
           variant="secondary"
           icon={<AppflareLoader size="sm" aria-hidden />}
-          title="Building in your sandbox Worker"
+          title={t("Building in your sandbox Worker")}
           description={`This page shows the review once the build is done${again === null ? "" : `, with the install form filled in from ${again.record.label}`}. Its log shows each step as it runs.`}
           action={
             <LinkButton href={`/jobs/${build.id}`} variant="secondary" icon={<ArrowRightIcon />}>
-              View log
+              {t("View log")}
             </LinkButton>
           }
         />
@@ -322,7 +323,7 @@ function BuildState({
           variant="error"
           icon={BANNER_ICON.error}
           role={bannerRole("error")}
-          title="The build failed"
+          title={t("The build failed")}
           description={
             <span className="grid gap-2">
               <span>
@@ -333,8 +334,10 @@ function BuildState({
                 )}
               </span>
               <span>
-                Nothing was deployed. Fix what the log names, or choose another branch or build
-                command, and build again. <DocsLink topic="sourceBuildJob" variant="inline" />
+                {t(
+                  "Nothing was deployed. Fix what the log names, or choose another branch or build command, and build again.",
+                )}{" "}
+                <DocsLink topic="sourceBuildJob" variant="inline" />
               </span>
             </span>
           }
@@ -390,7 +393,7 @@ function ThrownAwayBanner({ deleting, focus }: { deleting: boolean; focus: boole
       className="outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
       variant="secondary"
       icon={<TrashIcon weight="fill" />}
-      title="This build was thrown away"
+      title={t("This build was thrown away")}
       description={`An admin threw it away, or nobody used it within ${UNUSED_BUILD_DAYS} days. Its files ${deleting ? "are being" : "are"} deleted from your sandbox Worker's bucket. Build again to install it.`}
     />
   );
@@ -449,7 +452,7 @@ function Review({
           <Banner
             variant="alert"
             icon={BANNER_ICON.alert}
-            title="This commit's bindings differ from the catalog's release"
+            title={t("This commit's bindings differ from the catalog's release")}
             description={
               <span className="grid gap-1">
                 {review.baseline.added.length > 0 && (
@@ -520,7 +523,7 @@ function Review({
 function SourceCard({ build, review }: { build: SourceBuildView; review: SourceBuildReview }) {
   const detected = build.detected;
   return (
-    <Section title="Source" badge={<OriginBadge origin={build.origin} />}>
+    <Section title={t("Source")} badge={<OriginBadge origin={build.origin} />}>
       <SectionBody>
         <Text variant="secondary">
           {build.origin === "repository"
@@ -529,7 +532,7 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
           <DocsLink topic="sourceBuildReview" variant="inline" />
         </Text>
         <DescriptionList>
-          <DescriptionItem label="App">
+          <DescriptionItem label={t("App")}>
             {review.catalog.name}
             {review.catalog.summary !== "" && (
               <Text as="span" variant="secondary">
@@ -538,13 +541,13 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
               </Text>
             )}
           </DescriptionItem>
-          <DescriptionItem label="Repository">
+          <DescriptionItem label={t("Repository")}>
             <Link href={build.repoUrl} target="_blank" rel="noopener noreferrer">
               {build.repo}
               <Link.ExternalIcon />
             </Link>
           </DescriptionItem>
-          <DescriptionItem label="Built from">
+          <DescriptionItem label={t("Built from")}>
             <span className={mono}>{build.ref ?? build.requestedRef ?? "the default branch"}</span>
             {build.commit !== null && (
               <Text as="span" variant="secondary">
@@ -553,13 +556,13 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
               </Text>
             )}
           </DescriptionItem>
-          <DescriptionItem label="Version">
+          <DescriptionItem label={t("Version")}>
             <span className={mono}>{build.version ?? "unknown"}</span>
           </DescriptionItem>
-          <DescriptionItem label="License">{review.catalog.license}</DescriptionItem>
+          <DescriptionItem label={t("License")}>{review.catalog.license}</DescriptionItem>
           {detected !== null && (
             <>
-              <DescriptionItem label="Build command">
+              <DescriptionItem label={t("Build command")}>
                 {detected.buildCommand === null ? (
                   "None"
                 ) : (
@@ -570,12 +573,12 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
                   {BUILD_COMMAND_FROM[detected.buildCommandFrom]}
                 </Text>
               </DescriptionItem>
-              <DescriptionItem label="Dependencies">
+              <DescriptionItem label={t("Dependencies")}>
                 {detected.installDirs === undefined ? (
                   <>Installed with {detected.packageManager}, install scripts disabled</>
                 ) : (
                   <span className="grid gap-0.5">
-                    <span>Installed in this order, install scripts disabled:</span>
+                    <span>{t("Installed in this order, install scripts disabled:")}</span>
                     {detected.installDirs.map((dir) => (
                       <span key={dir.path}>
                         <span className={mono}>{dir.path}</span>
@@ -590,16 +593,16 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
                   </span>
                 )}
               </DescriptionItem>
-              <DescriptionItem label="Wrangler config">
+              <DescriptionItem label={t("Wrangler config")}>
                 <span className={mono}>{detected.wranglerConfig}</span>
               </DescriptionItem>
             </>
           )}
-          <DescriptionItem label="Built">
+          <DescriptionItem label={t("Built")}>
             <span className="grid gap-0.5">
               <span>
-                In your sandbox Worker with <span className={mono}>{build.image ?? "unknown"}</span>
-                , unsigned
+                {t("In your sandbox Worker with")}{" "}
+                <span className={mono}>{build.image ?? "unknown"}</span>, unsigned
               </span>
               {build.builtAt !== null && (
                 <Text as="span" variant="secondary" size="sm">
@@ -609,7 +612,7 @@ function SourceCard({ build, review }: { build: SourceBuildView; review: SourceB
             </span>
           </DescriptionItem>
           {build.purpose === "update" && build.install !== null && (
-            <DescriptionItem label="Installed now">
+            <DescriptionItem label={t("Installed now")}>
               <span className={mono}>{build.install.version}</span>
               {build.install.commit !== null && (
                 <Text as="span" variant="secondary">
@@ -688,8 +691,8 @@ function WhatItDeclares({ review }: { review: SourceBuildReview }) {
   const hasNames = hasBindings || creates.length > 0 || secrets.length > 0 || vars.length > 0;
   return (
     <Section
-      title="What it declares"
-      description="Read from the built Worker, as the install will use it."
+      title={t("What it declares")}
+      description={t("Read from the built Worker, as the install will use it.")}
       action={hasNames ? <TechnicalNamesSwitch /> : null}
     >
       <SectionRows>
@@ -708,7 +711,7 @@ function WhatItDeclares({ review }: { review: SourceBuildReview }) {
           </div>
           {review.crons.length > 0 && (
             <Text variant="secondary" size="sm">
-              Cron triggers: <span className={mono}>{review.crons.join(", ")}</span>
+              {t("Cron triggers:")} <span className={mono}>{review.crons.join(", ")}</span>
             </Text>
           )}
           <Text variant="secondary" size="sm">
@@ -725,11 +728,11 @@ function WhatItDeclares({ review }: { review: SourceBuildReview }) {
           </Text>
         </SectionBody>
         {hasBindings && showNames && (
-          <SectionTable label="Bindings" minWidth="sm">
+          <SectionTable label={t("Bindings")} minWidth="sm">
             <Table.Header>
               <Table.Row>
-                <Table.Head>Binding</Table.Head>
-                <Table.Head>Type</Table.Head>
+                <Table.Head>{t("Binding")}</Table.Head>
+                <Table.Head>{t("Type")}</Table.Head>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -767,7 +770,7 @@ function Requirements({
       ? null
       : `Available on this account: ${checks.met.map((c) => c.label).join(", ")}.`;
   return (
-    <Section title="Runs on" titleAction={<DocsLink topic="requirements" />}>
+    <Section title={t("Runs on")} titleAction={<DocsLink topic="requirements" />}>
       <SectionBody>
         <PrimitiveBadges
           primitives={review.primitives}
@@ -781,7 +784,7 @@ function Requirements({
             title={build.purpose === "update" ? "Before you update" : "Before you install"}
             description={
               <div className="grid gap-2">
-                <span>Check that this account offers what the app needs:</span>
+                <span>{t("Check that this account offers what the app needs:")}</span>
                 <ul className="grid list-disc gap-1 pl-5">
                   {checks.pending.map((check) => (
                     <li key={check.key}>
@@ -803,7 +806,7 @@ function Requirements({
                 )}
                 {confirmation !== null && (
                   <Checkbox
-                    label="This account meets these requirements"
+                    label={t("This account meets these requirements")}
                     checked={confirmation.checked}
                     onCheckedChange={(checked: boolean) => confirmation.onChange(checked)}
                   />

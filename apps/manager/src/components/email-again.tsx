@@ -1,5 +1,6 @@
 import { Banner, Button, Text } from "@cloudflare/kumo";
 import { ArrowsClockwiseIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import { startEmailAgain } from "../installs/reconfigure.functions";
 import type { EmailAgainParts } from "../jobs/reconfigure/email-again";
@@ -61,20 +62,20 @@ export function EmailAgainBanner({
     <Banner
       variant="alert"
       icon={BANNER_ICON.alert}
-      title="Part of the app's email is not set up"
+      title={t("Part of the app's email is not set up")}
       description={`${emailLeftOutSummary(parts)} An update or a rollback left this out because something Appflare did not set up was in the way, or Cloudflare refused a call. Setting the email up again checks ${parts.zoneName} first and changes nothing Appflare did not set up; the Worker is not deployed again.`}
       action={
         canStart ? (
           <ConfirmDialog
             trigger={(p) => (
               <Button {...p} variant="secondary" icon={<ArrowsClockwiseIcon />} disabled={disabled}>
-                Set up email again
+                {t("Set up email again")}
               </Button>
             )}
             size="lg"
             title={`Set up the email of ${install.label} again`}
             description={`Appflare checks ${parts.zoneName} first. If a routing rule or a catch-all it did not set up is in the way, it stops without changing anything and says what to delete or change in the Cloudflare dashboard.`}
-            actionLabel="Set up email again"
+            actionLabel={t("Set up email again")}
             destructive={false}
             onConfirm={async () => {
               const { jobId } = await startEmailAgain({ data: { installId: install.id, parts } });

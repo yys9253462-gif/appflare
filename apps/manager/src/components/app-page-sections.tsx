@@ -16,6 +16,7 @@ import type { AppLink, SettingItem } from "../catalog/app-page";
 import { maintainerProfile } from "../catalog/authors";
 import type { InstalledRef } from "../catalog/catalog.functions";
 import { requirementDocs } from "../catalog/requirements";
+import { t } from "../i18n";
 import { DocsLink, RequirementDocsLink } from "./docs-link";
 import { PageSection } from "./page-section";
 import { StatusBadge } from "./status-badge";
@@ -155,7 +156,7 @@ export function BeforeYouInstall({
     <Banner
       variant="alert"
       icon={<WarningIcon weight="fill" />}
-      title="Before you install"
+      title={t("Before you install")}
       description={
         <div className="grid gap-2">
           <span>
@@ -169,7 +170,7 @@ export function BeforeYouInstall({
           </ul>
           <span className="grid gap-1">
             <Checkbox
-              label="My account has these"
+              label={t("My account has these")}
               checked={confirmed}
               disabled={disabledReason !== null}
               onCheckedChange={(checked: boolean) => onConfirmedChange(checked)}
@@ -202,7 +203,7 @@ export function NeedsList({
     <div className="grid gap-3">
       {needs.length === 0 ? (
         <Text as="p" variant="secondary">
-          Nothing beyond what every Cloudflare account has.
+          {t("Nothing beyond what every Cloudflare account has.")}
         </Text>
       ) : (
         <ul className="m-0 grid list-none gap-x-6 gap-y-3 p-0 sm:grid-cols-2">

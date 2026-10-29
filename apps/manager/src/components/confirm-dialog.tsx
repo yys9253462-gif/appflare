@@ -1,5 +1,6 @@
 import { Input, LayerDialog } from "@cloudflare/kumo";
 import { type ComponentProps, type FormEvent, type ReactNode, useId, useState } from "react";
+import { t } from "../i18n";
 import { BusyMark, busyActionProps } from "./busy-button";
 import { ErrorMessageBanner } from "./message-text";
 
@@ -126,8 +127,8 @@ export function ConfirmDialog({
               <Input
                 label={
                   <>
-                    Type <strong className="font-medium text-kumo-default">{confirmText}</strong> to
-                    confirm
+                    Type <strong className="font-medium text-kumo-default">{confirmText}</strong>
+                    {t("to confirm")}
                   </>
                 }
                 placeholder={confirmText}
@@ -143,7 +144,7 @@ export function ConfirmDialog({
             {error !== null && <ErrorMessageBanner message={error} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}

@@ -20,6 +20,7 @@ import {
   TrashIcon,
 } from "@phosphor-icons/react";
 import { type FormEvent, type ReactNode, useState } from "react";
+import { t } from "../i18n";
 import { enteredVarFields, missingRequiredVar, varValueProblem } from "../installs/install-vars";
 import type { InstallDetail } from "../installs/installs.functions";
 import { startReconfigure } from "../installs/reconfigure.functions";
@@ -223,22 +224,22 @@ export function AppSettingsSection({
   const notice = settingsNotice(isAdmin, busy, settings.unavailable);
 
   return (
-    <Section id="settings" title="Settings and secrets" className={FLUSH_RING_CLASS}>
+    <Section id="settings" title={t("Settings and secrets")} className={FLUSH_RING_CLASS}>
       <SectionBody>
         <form className="grid gap-6" onSubmit={onSubmit}>
           {notice === "members" && (
             <Banner
               variant="secondary"
               icon={BANNER_ICON.secondary}
-              title="Only admins can change settings"
+              title={t("Only admins can change settings")}
             />
           )}
           {notice === "busy" && (
             <Banner
               variant="secondary"
               icon={BANNER_ICON.secondary}
-              title="A job of this app is running"
-              description="Settings can be saved once it has finished."
+              title={t("A job of this app is running")}
+              description={t("Settings can be saved once it has finished.")}
               action={
                 <LinkButton
                   href={`/jobs/${install.activeJobId}`}
@@ -254,7 +255,7 @@ export function AppSettingsSection({
             <MessageBanner message={settings.unavailable} variant="secondary" />
           )}
           {nothingToEdit ? (
-            <Text variant="secondary">This app has no settings or secrets to change.</Text>
+            <Text variant="secondary">{t("This app has no settings or secrets to change.")}</Text>
           ) : (
             <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
               <Text variant="secondary" size="sm">
@@ -281,7 +282,7 @@ export function AppSettingsSection({
             <fieldset disabled={!canEdit || pending} className="grid gap-6">
               {settings.fields.length > 0 && (
                 <Group
-                  title="Settings"
+                  title={t("Settings")}
                   description={
                     selfDeploying
                       ? "Handed to the app's installer. One left at its default follows the default of each new version."
@@ -303,7 +304,7 @@ export function AppSettingsSection({
 
               {showNames && (settings.fixedVars ?? []).length > 0 && (
                 <Group
-                  title="Set by the catalog entry"
+                  title={t("Set by the catalog entry")}
                   description="Values the app's catalog entry gives its Workers. They are part of the app, so they cannot be changed here; placeholders are filled in at each deploy."
                 >
                   <ul className="m-0 grid list-none gap-1.5 p-0" data-fixed-vars>
@@ -323,7 +324,7 @@ export function AppSettingsSection({
               {settings.secrets.length > 0 && (
                 <Group
                   id="secrets"
-                  title="Secrets"
+                  title={t("Secrets")}
                   description={
                     selfDeploying
                       ? "Kept encrypted for the app's installer. Values are never shown; a new value replaces the current one."
@@ -385,8 +386,10 @@ export function AppSettingsSection({
               {settings.databases.length > 0 && (
                 <Group
                   id="databases"
-                  title="Databases"
-                  description="Connection strings are never stored, so they are never shown. A new one gets a new Hyperdrive configuration, which the new version binds. The old configuration is kept until the next update or settings change, so undoing this change from Versions still reaches the old database."
+                  title={t("Databases")}
+                  description={t(
+                    "Connection strings are never stored, so they are never shown. A new one gets a new Hyperdrive configuration, which the new version binds. The old configuration is kept until the next update or settings change, so undoing this change from Versions still reaches the old database.",
+                  )}
                 >
                   <div className="grid gap-4">
                     {settings.databases.map((db) => (
@@ -413,7 +416,7 @@ export function AppSettingsSection({
               {settings.email !== null && (
                 <Group
                   id="email-zone"
-                  title="Email"
+                  title={t("Email")}
                   description={
                     settings.email.zoneName === null
                       ? "The app receives email through Cloudflare Email Routing; Appflare has no record of its domain."
@@ -426,7 +429,7 @@ export function AppSettingsSection({
                     <Banner
                       variant="alert"
                       icon={BANNER_ICON.alert}
-                      title="Moving email did not finish"
+                      title={t("Moving email did not finish")}
                       description={`Routing rules the app no longer needs are still set up on ${leftover.join(", ")}. Finishing the move checks ${settings.email.zoneName ?? "the new domain"} again and removes them; the Worker is not deployed again.`}
                       action={
                         canEdit ? (
@@ -511,13 +514,13 @@ export function AppSettingsSection({
                   <Banner
                     variant="alert"
                     icon={BANNER_ICON.alert}
-                    title="No preview check for this change"
+                    title={t("No preview check for this change")}
                     description={`${settings.skipsPreview}.`}
                   />
                   <Checkbox
                     checked={confirmNoPreview}
                     onCheckedChange={(checked: boolean) => setConfirmNoPreview(checked)}
-                    label="Save without checking the new settings first"
+                    label={t("Save without checking the new settings first")}
                   />
                 </div>
               )}
@@ -640,7 +643,7 @@ function DatabaseRow({
             <FieldLabel label={databaseLabel(slot)} name={slot.binding} />
           </Text>
           {slot.configName === null ? (
-            <Badge variant="warning">No configuration recorded</Badge>
+            <Badge variant="warning">{t("No configuration recorded")}</Badge>
           ) : (
             // The Hyperdrive configuration's name is technical detail.
             showNames && <Badge variant="outline">{slot.configName}</Badge>
@@ -722,9 +725,11 @@ function SecretRow({
           <Label showOptional={slot.declared && slot.optional}>
             <FieldLabel label={slot.label} name={slot.envName ?? slot.name} />
           </Label>
-          {!slot.present && <Badge variant={slot.optional ? "outline" : "warning"}>Not set</Badge>}
-          {!slot.declared && <Badge variant="outline">Not used by this version</Badge>}
-          {removed && <Badge variant="error">Will be removed</Badge>}
+          {!slot.present && (
+            <Badge variant={slot.optional ? "outline" : "warning"}>{t("Not set")}</Badge>
+          )}
+          {!slot.declared && <Badge variant="outline">{t("Not used by this version")}</Badge>}
+          {removed && <Badge variant="error">{t("Will be removed")}</Badge>}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {value === undefined && !removed && (
@@ -794,7 +799,7 @@ function SecretRow({
             value={value}
             disabled={disabled}
             onChange={(next) => onValueChange(next)}
-            description="The current value stays until the new one is saved."
+            description={t("The current value stays until the new one is saved.")}
           />
         ) : (
           <Input
@@ -806,7 +811,7 @@ function SecretRow({
             required
             value={value}
             onChange={(e) => onValueChange(e.currentTarget.value)}
-            description="The current value stays until the new one is saved."
+            description={t("The current value stays until the new one is saved.")}
           />
         ))}
       {value !== undefined && tokenHelp}

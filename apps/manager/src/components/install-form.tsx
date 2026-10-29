@@ -21,6 +21,7 @@ import { storedAccessProblem } from "../access/app-access";
 import type { AccountPlan } from "../account/plan";
 import type { CapabilitiesView } from "../capabilities/capabilities";
 import { type LimitedKind, workersPaidLimitsConfirmation } from "../catalog/account-limits";
+import { t } from "../i18n";
 import { accessStartsOn } from "../installs/access-offer";
 import { appTokenSecret } from "../installs/app-token-secret";
 import { DISPLAY_NAME_MAX_LENGTH, displayNameProblem } from "../installs/display-name";
@@ -633,7 +634,7 @@ export function InstallForm({
                     neededEntries.length === 0 ? null : leftToFill.length === 0 ? (
                       <span className="inline-flex items-center gap-1 text-kumo-success text-sm">
                         <CheckCircleIcon aria-hidden weight="fill" />
-                        All filled in
+                        {t("All filled in")}
                       </span>
                     ) : (
                       <span className="text-kumo-subtle text-sm">
@@ -655,7 +656,9 @@ export function InstallForm({
                         required
                         value={appToken}
                         onChange={(e) => setAppToken(e.currentTarget.value)}
-                        description="The app's installer runs with it from your sandbox Worker. Appflare keeps no copy."
+                        description={t(
+                          "The app's installer runs with it from your sandbox Worker. Appflare keeps no copy.",
+                        )}
                       />
                       <AppTokenHelp appName={catalog.name} permissions={tokenPermissions} />
                     </div>
@@ -685,7 +688,7 @@ export function InstallForm({
 
               {/* The zone reads are admin-only calls; a member sees no zone field. */}
               {receivesEmail && canInstall && blockedReason === null && (
-                <FormGroup title="Email" description={EMAIL_ROUTING_INTRO}>
+                <FormGroup title={t("Email")} description={EMAIL_ROUTING_INTRO}>
                   <EmailRoutingFields
                     slug={appKey}
                     workerName={workerName}
@@ -699,7 +702,7 @@ export function InstallForm({
               )}
 
               <FoldedGroup
-                title="Optional settings"
+                title={t("Optional settings")}
                 count={foldLabels.length}
                 summary={foldSummary(foldLabels)}
                 open={foldOpen || foldProblem}
@@ -737,7 +740,7 @@ export function InstallForm({
 
               {confirms && (
                 <fieldset
-                  aria-label="Plan and cost"
+                  aria-label={t("Plan and cost")}
                   className="grid gap-3 rounded-xl bg-kumo-recessed p-4 ring ring-kumo-hairline"
                 >
                   {confirmsCost !== null && (

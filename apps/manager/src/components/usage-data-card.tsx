@@ -2,6 +2,7 @@ import { AppflareLoader } from "@appflare/brand/loader";
 import { CodeBlock, Collapsible, Text } from "@cloudflare/kumo";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { t } from "../i18n";
 import { TELEMETRY_COPY, type TelemetryStatus } from "../telemetry/telemetry";
 import { previewTelemetry, setTelemetry } from "../telemetry/telemetry.functions";
 import { ErrorMessageBanner } from "./message-text";
@@ -53,7 +54,7 @@ export function UsageDataCard({ status, isAdmin }: { status: TelemetryStatus; is
     // development build, whatever the switch says) is spelled out below it.
     <Section
       {...settingsSection("usageData", "anonymous-report")}
-      description="What the report is for, what it holds, and the switch that turns it off."
+      description={t("What the report is for, what it holds, and the switch that turns it off.")}
       error={error}
     >
       <SectionBody>

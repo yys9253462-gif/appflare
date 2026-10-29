@@ -1,6 +1,7 @@
 import { Banner, Button, LayerDialog, Link, Text } from "@cloudflare/kumo";
 import { ArrowsClockwiseIcon, GitBranchIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { type FormEvent, useId, useState } from "react";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import { checkSourceChanges, startSourceBuild } from "../installs/source-builds.functions";
 import type { SourceChanges } from "../installs/source-builds.server";
@@ -51,7 +52,7 @@ export function SourceChangesCard({
   return (
     <Section
       id="source"
-      title="Source"
+      title={t("Source")}
       titleAction={<DocsLink topic="repositoryUpdates" />}
       badge={<OriginBadge origin={install.origin} />}
       className={FLUSH_RING_CLASS}
@@ -170,7 +171,7 @@ function RebuildDialog({
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="secondary" icon={<ArrowsClockwiseIcon />} disabled={disabled}>
-            Rebuild and update
+            {t("Rebuild and update")}
           </Button>
         )}
       />
@@ -192,14 +193,14 @@ function RebuildDialog({
             {error !== null && <ErrorMessageBanner message={error} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}
             {...busyActionProps(pending, !costConfirmed)}
           >
             <BusyMark pending={pending} />
-            Rebuild for review
+            {t("Rebuild for review")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>

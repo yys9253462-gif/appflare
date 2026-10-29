@@ -2,6 +2,7 @@ import { Badge, Button, InputGroup, Select, Text } from "@cloudflare/kumo";
 import { PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react";
 import { useId, useState } from "react";
 import type { AccountPlan } from "../../account/plan";
+import { t } from "../../i18n";
 import { type AlertRuleFields, alertSentenceParts, checkAlertAmount } from "../alert-rules";
 import { count, PERIOD_NOUN, usd } from "../attention-format";
 import { PERIODS, type Period } from "../math";
@@ -102,8 +103,8 @@ export function RuleItem({
                   size="sm"
                   shape="square"
                   icon={<PencilSimpleIcon />}
-                  aria-label="Edit alert"
-                  title="Edit"
+                  aria-label={t("Edit alert")}
+                  title={t("Edit")}
                   onClick={onEdit}
                 />
               )}
@@ -113,8 +114,8 @@ export function RuleItem({
                   size="sm"
                   shape="square"
                   icon={<TrashIcon />}
-                  aria-label="Remove alert"
-                  title="Remove"
+                  aria-label={t("Remove alert")}
+                  title={t("Remove")}
                   onClick={onRemove}
                 />
               )}
@@ -186,9 +187,9 @@ export function RuleEditor({
   return (
     <div className="grid gap-3 bg-kumo-recessed px-3 py-3">
       <div className="flex flex-wrap items-center gap-2">
-        <Text>When it</Text>
+        <Text>{t("When it")}</Text>
         <Select
-          aria-label="Alert when it has or is on pace to"
+          aria-label={t("Alert when it has or is on pace to")}
           className="w-48"
           value={rule.kind}
           onValueChange={(v) => setRule({ ...rule, kind: v === "pace" ? "pace" : "spent" })}
@@ -200,7 +201,7 @@ export function RuleEditor({
         <InputGroup className="w-28">
           {usdUnit && <InputGroup.Addon>$</InputGroup.Addon>}
           <InputGroup.Input
-            aria-label="Amount"
+            aria-label={t("Amount")}
             name="alert-amount"
             inputMode="decimal"
             autoComplete="off"
@@ -219,7 +220,7 @@ export function RuleEditor({
         </InputGroup>
         {!free && (
           <Select
-            aria-label="Unit"
+            aria-label={t("Unit")}
             className="w-48"
             value={rule.unit}
             onValueChange={(v) => setRule({ ...rule, unit: v === "pct" ? "pct" : "usd" })}
@@ -230,10 +231,10 @@ export function RuleEditor({
           />
         )}
         {free ? (
-          <Text>of a free daily limit today</Text>
+          <Text>{t("of a free daily limit today")}</Text>
         ) : (
           <Select
-            aria-label="Period"
+            aria-label={t("Period")}
             className="w-36"
             value={rule.period}
             onValueChange={(v) => {
@@ -246,7 +247,7 @@ export function RuleEditor({
       {error !== null && <AmountError id={errorId}>{error}</AmountError>}
       <div className="flex justify-end gap-2">
         <Button variant="secondary" size="sm" onClick={onCancel}>
-          Cancel
+          {t("Cancel")}
         </Button>
         <Button
           variant="primary"

@@ -14,6 +14,7 @@ import {
   stayAtWorkersDev,
 } from "../domains/manager-address.functions";
 import { PENDING_ROW } from "../domains/moved-note";
+import { t } from "../i18n";
 import { BusyButton, BusyMark, busyActionProps } from "./busy-button";
 import { ConfirmDialog } from "./confirm-dialog";
 import { TokenPermissionsBanner } from "./domain-dialog-parts";
@@ -90,7 +91,9 @@ export function ManagerAddressSection({ view }: { view: AddressView }) {
   return (
     <Section
       {...settingsSection("domains", "address")}
-      description="Where you and your users open Appflare: its workers.dev address, or a domain of yours."
+      description={t(
+        "Where you and your users open Appflare: its workers.dev address, or a domain of yours.",
+      )}
       error={"error" in view.address ? view.address.error : null}
       action={
         canMove || moving !== null ? (
@@ -114,7 +117,9 @@ export function ManagerAddressSection({ view }: { view: AddressView }) {
                 variant="alert"
                 icon={BANNER_ICON.alert}
                 title={`${address.hostname} no longer points at Appflare`}
-                description="Cloudflare no longer lists it among the domains of Appflare's Worker. Appflare goes back to its workers.dev address at its next check."
+                description={t(
+                  "Cloudflare no longer lists it among the domains of Appflare's Worker. Appflare goes back to its workers.dev address at its next check.",
+                )}
               />
             </SectionBody>
           )}
@@ -130,7 +135,7 @@ export function ManagerAddressSection({ view }: { view: AddressView }) {
               action={
                 <MoveAddressDialog
                   kind={kind}
-                  label="Use it as Appflare's address"
+                  label={t("Use it as Appflare's address")}
                   initial={domain}
                   accountId={view.accountId}
                   onMoved={setMovedTo}
@@ -316,12 +321,12 @@ function RevertDialog({
       }}
       trigger={(p) => (
         <Button {...p} variant="secondary" icon={<ArrowUUpLeftIcon />}>
-          Go back to workers.dev
+          {t("Go back to workers.dev")}
         </Button>
       )}
-      title="Go back to workers.dev"
+      title={t("Go back to workers.dev")}
       description={`Appflare moves back to ${target}, which stops sending visits to ${hostname}, and ${hostname} is removed from Appflare's Worker. Passkeys added at ${hostname} work only there: sign in at workers.dev with your password or a passkey added there.`}
-      actionLabel="Go back to workers.dev"
+      actionLabel={t("Go back to workers.dev")}
       destructive={false}
       onConfirm={async () => {
         const result = await revertManagerAddress({ data: {} });
@@ -513,9 +518,9 @@ function MoveAddressContent({
         {kind === "move" ? "Give Appflare its own address" : "Change Appflare's address"}
       </LayerDialog.Title>
       <LayerDialog.Description>
-        Appflare moves to a name in one of your domains on Cloudflare, which creates its DNS record
-        and certificate. It switches once the new address answers, and its workers.dev address then
-        sends visits there. Everyone signs in again at the new address.
+        {t(
+          "Appflare moves to a name in one of your domains on Cloudflare, which creates its DNS record and certificate. It switches once the new address answers, and its workers.dev address then sends visits there. Everyone signs in again at the new address.",
+        )}
       </LayerDialog.Description>
       <LayerDialog.Body>
         {progress !== null ? (
@@ -529,7 +534,7 @@ function MoveAddressContent({
           loadError === null ? (
             <div className="flex items-center gap-2">
               <AppflareLoader size="sm" />
-              <Text variant="secondary">Reading the account's domains…</Text>
+              <Text variant="secondary">{t("Reading the account's domains…")}</Text>
             </div>
           ) : (
             <ErrorMessageBanner message={loadError} newTab />
@@ -553,7 +558,7 @@ function MoveAddressContent({
         )}
       </LayerDialog.Body>
       {ready && progress === null && (
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}

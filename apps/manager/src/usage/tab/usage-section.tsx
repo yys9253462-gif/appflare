@@ -5,6 +5,7 @@ import { reconnectDialogHref } from "../../cloudflare/reconnect-outcome";
 import { BusyButton } from "../../components/busy-button";
 import { Section, SectionEmpty, SectionTable } from "../../components/section";
 import { settingsLink } from "../../components/settings-links";
+import { t } from "../../i18n";
 import { percent, usd } from "../attention-format";
 import type { ProductKey } from "../math";
 import { USAGE_RANGES, type UsageRange, type UsageTabData } from "../tab";
@@ -89,7 +90,7 @@ export function FreshUsage({
   return (
     <SectionEmpty
       icon={<ClockIcon size={48} className="text-kumo-inactive" />}
-      title="Usage shows up about an hour after install"
+      title={t("Usage shows up about an hour after install")}
       description={`Installed ${minutes === 1 ? "1 minute" : `${minutes} minutes`} ago. Until Cloudflare reports its usage, alerts and auto-pause can't see this app; they start with the first numbers. ${logsOn ? "Workers Logs are on, so its requests show in Cloudflare's logs already." : "Workers Logs show it within a couple of minutes."}`}
       contents={
         isAdmin && !logsOn ? (
@@ -116,13 +117,13 @@ export function ReconnectUsage({ isAdmin, via }: { isAdmin: boolean; via: "oauth
     return (
       <SectionEmpty
         icon={<PlugsIcon size={48} className="text-kumo-inactive" />}
-        title="Give the token access to usage"
+        title={t("Give the token access to usage")}
         description="Appflare reads usage with the Account Analytics (Read) permission, which its Cloudflare API token doesn't have. Add it to the token in the Cloudflare dashboard; spend protection starts with the first numbers."
         contents={
           isAdmin ? (
-            <Link href={settingsLink("account", "connection")}>Cloudflare connection</Link>
+            <Link href={settingsLink("account", "connection")}>{t("Cloudflare connection")}</Link>
           ) : (
-            <Text variant="secondary">An admin can change the token.</Text>
+            <Text variant="secondary">{t("An admin can change the token.")}</Text>
           )
         }
       />
@@ -131,13 +132,13 @@ export function ReconnectUsage({ isAdmin, via }: { isAdmin: boolean; via: "oauth
   return (
     <SectionEmpty
       icon={<PlugsIcon size={48} className="text-kumo-inactive" />}
-      title="Reconnect to see usage"
+      title={t("Reconnect to see usage")}
       description="Appflare reads usage with a Cloudflare permission this connection doesn't have yet. Reconnecting Cloudflare adds it; spend protection starts with the first numbers."
       contents={
         isAdmin ? (
-          <Link href={reconnectDialogHref()}>Reconnect Cloudflare</Link>
+          <Link href={reconnectDialogHref()}>{t("Reconnect Cloudflare")}</Link>
         ) : (
-          <Text variant="secondary">An admin can reconnect Cloudflare.</Text>
+          <Text variant="secondary">{t("An admin can reconnect Cloudflare.")}</Text>
         )
       }
     />
@@ -178,8 +179,10 @@ export function UsageSection({
     ) : product === null ? (
       <SectionEmpty
         icon={<ClockIcon size={48} className="text-kumo-inactive" />}
-        title="No usage yet"
-        description="Cloudflare has reported no usage for this app in the last 30 days. Appflare reads it every 5 minutes."
+        title={t("No usage yet")}
+        description={t(
+          "Cloudflare has reported no usage for this app in the last 30 days. Appflare reads it every 5 minutes.",
+        )}
       />
     ) : undefined;
   const paid = data.plan === "paid";
@@ -187,7 +190,7 @@ export function UsageSection({
   return (
     <Section
       id="usage"
-      title="Usage by product"
+      title={t("Usage by product")}
       description={<StatusLine data={data} />}
       action={empty === undefined ? <RangeTabs range={range} onRange={setRange} /> : undefined}
       empty={empty}
@@ -213,16 +216,16 @@ export function UsageSection({
               />
             </Suspense>
           </div>
-          <SectionTable label="Usage by product" minWidth="lg">
+          <SectionTable label={t("Usage by product")} minWidth="lg">
             <Table.Header>
               <Table.Row>
-                <Table.Head>Product</Table.Head>
-                <Table.Head>Last 24 hours</Table.Head>
-                <Table.Head>Today</Table.Head>
-                <Table.Head>This month</Table.Head>
-                <Table.Head>Projected</Table.Head>
+                <Table.Head>{t("Product")}</Table.Head>
+                <Table.Head>{t("Last 24 hours")}</Table.Head>
+                <Table.Head>{t("Today")}</Table.Head>
+                <Table.Head>{t("This month")}</Table.Head>
+                <Table.Head>{t("Projected")}</Table.Head>
                 <Table.Head>{paid ? "Of included" : "Of free limit"}</Table.Head>
-                {paid && <Table.Head>Cost past included</Table.Head>}
+                {paid && <Table.Head>{t("Cost past included")}</Table.Head>}
               </Table.Row>
             </Table.Header>
             <Table.Body>

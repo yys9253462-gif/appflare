@@ -2,6 +2,7 @@ import type { TokenPermission } from "@appflare/schema";
 import { Input, Text } from "@cloudflare/kumo";
 import { KeyIcon } from "@phosphor-icons/react";
 import { type FormEvent, useState } from "react";
+import { t } from "../i18n";
 import { replaceAppCredentials } from "../installs/app-credentials.functions";
 import { AppTokenHelp } from "./app-token-permissions";
 import { BusyButton } from "./busy-button";
@@ -85,7 +86,7 @@ export function AppCredentialsCard({
   }
 
   return (
-    <Section title="App token">
+    <Section title={t("App token")}>
       <SectionBody>
         <form className="grid gap-4" onSubmit={onSubmit} onInput={onInput}>
           <Text variant="secondary">
@@ -97,7 +98,7 @@ export function AppCredentialsCard({
           <div>
             <fieldset disabled={!canEdit || pending} className="grid gap-4">
               <Input
-                label="New app token"
+                label={t("New app token")}
                 type="password"
                 autoComplete="off"
                 spellCheck={false}

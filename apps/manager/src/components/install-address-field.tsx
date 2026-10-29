@@ -27,6 +27,7 @@ import {
   VALIDATION_METHODS,
   type ValidationMethod,
 } from "../gateway/gateway";
+import { t } from "../i18n";
 import { checkSubdomainInZone } from "../installs/custom-domain-input";
 import { getDomainOptions } from "../installs/custom-domains.functions";
 import type { DomainOptions } from "../installs/custom-domains.server";
@@ -451,7 +452,7 @@ export function InstallAddressField({
     // Headed like the install form's other groups, which name their fieldset the same way.
     <fieldset aria-labelledby={headingId} className="grid min-w-0 gap-2">
       <Text variant="heading" as="h3" id={headingId}>
-        Address
+        {t("Address")}
       </Text>
       {/* One field in three parts: the scheme, the name you type, and the domain,
           a dropdown pinned at the right edge. The parts are siblings, so the
@@ -586,7 +587,7 @@ export function InstallAddressField({
         <Banner
           variant="alert"
           icon={<WarningIcon weight="fill" />}
-          title="The gateway for other domains is not set up"
+          title={t("The gateway for other domains is not set up")}
           description={
             <span>
               Set it up once in the{" "}
@@ -615,8 +616,8 @@ export function InstallAddressField({
             disabled={disabled}
             className="[&>div]:flex-wrap [&>div]:gap-x-6 [&>div]:gap-y-2"
           >
-            <Radio.Item value="http" label="Not yet" />
-            <Radio.Item value="txt" label="Yes, it shows another site" />
+            <Radio.Item value="http" label={t("Not yet")} />
+            <Radio.Item value="txt" label={t("Yes, it shows another site")} />
           </Radio.Group>
           <Text variant="secondary" size="sm">
             <MoreText more={EXTERNAL_DOMAIN_COST}>{VALIDATION_LABELS[method].help}</MoreText>
@@ -759,7 +760,10 @@ function DomainPicker({
         </Combobox.Icon>
       </Combobox.Trigger>
       <Combobox.Content align="end" className="w-80 max-w-[calc(100vw-2rem)]">
-        <Combobox.Input placeholder="Search your domains…" aria-label="Search your domains" />
+        <Combobox.Input
+          placeholder={t("Search your domains…")}
+          aria-label={t("Search your domains")}
+        />
         {noMatch && (
           <p className="m-0 px-3.5 pb-1 text-kumo-subtle text-sm">
             No domain of yours matches “{query.trim()}”.
@@ -833,7 +837,7 @@ function TrayLine({ status, url }: { status: AddressStatus | null; url: string |
     return (
       <span data-address-status="address" className="flex min-w-0 items-center gap-1.5">
         <GlobeHemisphereWestIcon aria-hidden className="shrink-0 text-kumo-subtle" />
-        {address ?? <span className="text-kumo-subtle">Type a name for the address.</span>}
+        {address ?? <span className="text-kumo-subtle">{t("Type a name for the address.")}</span>}
       </span>
     );
   }
@@ -942,13 +946,13 @@ function WorkerNameLine({
     return (
       <div className="mt-1">
         <InputGroup
-          label="Worker name"
+          label={t("Worker name")}
           size="sm"
-          description="Its resources are named after it. Each install of an app needs its own."
+          description={t("Its resources are named after it. Each install of an app needs its own.")}
           error={problem === null ? undefined : { message: problem, match: true }}
         >
           <InputGroup.Input
-            aria-label="Worker name"
+            aria-label={t("Worker name")}
             value={workerName}
             onChange={(e) => onChange(e.currentTarget.value.trim())}
             autoComplete="off"
@@ -965,7 +969,7 @@ function WorkerNameLine({
                   <AppflareLoader />
                 ) : check.state === "free" ? (
                   <CheckCircleIcon
-                    aria-label="Available"
+                    aria-label={t("Available")}
                     weight="fill"
                     className="text-kumo-success"
                   />

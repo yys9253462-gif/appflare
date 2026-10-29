@@ -4,6 +4,7 @@ import { type ReactElement, useEffect, useState } from "react";
 import { DocsLink } from "../../components/docs-link";
 import { Section, SectionRow, SectionRows } from "../../components/section";
 import { settingsLink } from "../../components/settings-links";
+import { t } from "../../i18n";
 import type { AlertRuleFields } from "../alert-rules";
 import type { AppSpendPatch } from "../app-spend";
 import { listWords } from "../attention";
@@ -60,7 +61,7 @@ function AlertsGoTo({ channels }: { channels: string[] | null }) {
       {channels.length > 0
         ? `Alerts go to ${listWords(channels)}, and to Home.`
         : "Alerts go to Home."}{" "}
-      <Link href={settingsLink("notifications")}>Notification channels</Link>
+      <Link href={settingsLink("notifications")}>{t("Notification channels")}</Link>
     </>
   );
 }
@@ -99,7 +100,7 @@ export function SpendProtectionSection({
   return (
     <Section
       id="spend-protection"
-      title="Spend protection"
+      title={t("Spend protection")}
       titleAction={<DocsLink topic="spendProtection" />}
       badge={
         <span className="flex gap-1.5">
@@ -117,11 +118,11 @@ export function SpendProtectionSection({
     >
       <SectionRows>
         <SectionRow
-          title="Unusual usage"
+          title={t("Unusual usage")}
           description={SPEND_COPY.unusual}
           action={
             <Select
-              aria-label="Unusual usage alert"
+              aria-label={t("Unusual usage alert")}
               className="w-60"
               disabled={!isAdmin}
               value={String(factor)}
@@ -134,12 +135,12 @@ export function SpendProtectionSection({
           }
         />
         <SectionRow
-          title="Usage alerts"
+          title={t("Usage alerts")}
           description={plan === "paid" ? SPEND_COPY.alertsPaid : SPEND_COPY.alertsFree}
           action={
             isAdmin && editing === null ? (
               <Button variant="secondary" icon={<PlusIcon />} onClick={() => setEditing("new")}>
-                Add alert
+                {t("Add alert")}
               </Button>
             ) : undefined
           }
@@ -187,7 +188,7 @@ export function SpendProtectionSection({
           )}
         </SectionRow>
         <SectionRow
-          title="Pause automatically"
+          title={t("Pause automatically")}
           description={
             <>
               {auto
@@ -195,12 +196,12 @@ export function SpendProtectionSection({
                 : plan === "paid"
                   ? SPEND_COPY.autoOffPaid
                   : SPEND_COPY.autoOffFree}{" "}
-              <Link href={SPEND_DEFAULTS_HREF}>Change the default</Link>
+              <Link href={SPEND_DEFAULTS_HREF}>{t("Change the default")}</Link>
             </>
           }
           action={
             <Select
-              aria-label="Pause automatically"
+              aria-label={t("Pause automatically")}
               className="w-60"
               disabled={!isAdmin}
               value={shown.autoPause}
@@ -277,7 +278,7 @@ function PauseTriggers({
             "This app's own triggers."
           ) : (
             <>
-              The account's triggers. <Link href={SPEND_DEFAULTS_HREF}>Edit them</Link>
+              The account's triggers. <Link href={SPEND_DEFAULTS_HREF}>{t("Edit them")}</Link>
             </>
           )}
         </Text>
@@ -365,10 +366,10 @@ function BudgetExemption({
       <Text>
         Monthly budget: Appflare may pause this app when this month's Appflare usage, including the
         $5 plan, is on pace to pass <span className="font-medium tabular-nums">{usd(budget)}</span>.{" "}
-        <Link href={SPEND_DEFAULTS_HREF}>Budget settings</Link>
+        <Link href={SPEND_DEFAULTS_HREF}>{t("Budget settings")}</Link>
       </Text>
       <Checkbox
-        label="Never pause this app for the budget"
+        label={t("Never pause this app for the budget")}
         checked={exempt}
         disabled={onChange === undefined}
         onCheckedChange={(v: boolean) => onChange?.(v)}

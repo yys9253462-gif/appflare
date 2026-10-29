@@ -5,6 +5,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { ACCESS_RECOVERY_COMMAND, accessRecoverySteps } from "../access/recovery";
 import { zeroTrustDashboardUrl } from "../cloudflare/dashboard-links";
+import { t } from "../i18n";
 import {
   type AccessCheck,
   type AccessStatus,
@@ -53,9 +54,13 @@ export function AccessCard({
     <Section
       {...settingsSection("users", "access")}
       badge={
-        status.enabled ? <Badge variant="success">On</Badge> : <Badge variant="neutral">Off</Badge>
+        status.enabled ? (
+          <Badge variant="success">{t("On")}</Badge>
+        ) : (
+          <Badge variant="neutral">{t("Off")}</Badge>
+        )
       }
-      description="Protect this manager with Cloudflare Access, in front of its sign-in page."
+      description={t("Protect this manager with Cloudflare Access, in front of its sign-in page.")}
       action={!status.enabled && isAdmin ? <TurnOnDialog viewerEmail={viewerEmail} /> : null}
     >
       <SectionBody>
@@ -64,14 +69,13 @@ export function AccessCard({
         ) : (
           <>
             <Text variant="secondary">
-              Put this manager behind Cloudflare Access. Before anyone reaches the sign-in page,
-              Access asks them to prove they own an admin's email. Appflare then checks the Access
-              token on every request and refuses the rest. The health check at /api/health stays
-              open.
+              {t(
+                "Put this manager behind Cloudflare Access. Before anyone reaches the sign-in page, Access asks them to prove they own an admin's email. Appflare then checks the Access token on every request and refuses the rest. The health check at /api/health stays open.",
+              )}
             </Text>
             {!isAdmin && (
               <Text variant="secondary" size="sm">
-                Only admins can turn this on.
+                {t("Only admins can turn this on.")}
               </Text>
             )}
           </>
@@ -109,21 +113,21 @@ function EnabledDetails({ status, isAdmin }: { status: AccessStatus; isAdmin: bo
           so the notice's region adds no gap while empty. */}
       <div>
         <DescriptionList>
-          <DescriptionItem label="Protected address">
+          <DescriptionItem label={t("Protected address")}>
             <Text variant="mono" as="span">
               {status.domain ?? "Unknown"}
             </Text>
           </DescriptionItem>
-          <DescriptionItem label="Zero Trust team">
+          <DescriptionItem label={t("Zero Trust team")}>
             <Text variant="mono" as="span">
               {status.teamDomain ?? "Unknown"}
             </Text>
           </DescriptionItem>
-          <DescriptionItem label="On since">
+          <DescriptionItem label={t("On since")}>
             <Timestamp iso={status.enabledAt} />
           </DescriptionItem>
           {status.adminEmails !== null && (
-            <DescriptionItem label="Allowed admins">
+            <DescriptionItem label={t("Allowed admins")}>
               {status.adminEmails.join(", ") || "None"}
             </DescriptionItem>
           )}
@@ -207,15 +211,16 @@ function TurnOnDialog({ viewerEmail }: { viewerEmail: string }) {
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<LockKeyIcon />}>
-            Protect with Cloudflare Access
+            {t("Protect with Cloudflare Access")}
           </Button>
         )}
       />
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Protect with Cloudflare Access</LayerDialog.Title>
+        <LayerDialog.Title>{t("Protect with Cloudflare Access")}</LayerDialog.Title>
         <LayerDialog.Description>
-          Appflare creates a self-hosted Access application for this address that allows only the
-          admins' emails.
+          {t(
+            "Appflare creates a self-hosted Access application for this address that allows only the admins' emails.",
+          )}
         </LayerDialog.Description>
         <LayerDialog.Body>
           <div className="grid gap-4">
@@ -224,7 +229,9 @@ function TurnOnDialog({ viewerEmail }: { viewerEmail: string }) {
             {state.step === "checking" && error === null && (
               <div className="flex items-center gap-3">
                 <AppflareLoader size="sm" />
-                <Text variant="secondary">Checking the token and the Zero Trust organization…</Text>
+                <Text variant="secondary">
+                  {t("Checking the token and the Zero Trust organization…")}
+                </Text>
               </div>
             )}
 
@@ -233,20 +240,20 @@ function TurnOnDialog({ viewerEmail }: { viewerEmail: string }) {
             {state.step === "checked" && state.check.ok && (
               <>
                 <DescriptionList>
-                  <DescriptionItem label="Address">
+                  <DescriptionItem label={t("Address")}>
                     <Text variant="mono" as="span">
                       {state.check.hostname}
                     </Text>
                   </DescriptionItem>
-                  <DescriptionItem label="Zero Trust team">
+                  <DescriptionItem label={t("Zero Trust team")}>
                     <Text variant="mono" as="span">
                       {state.check.teamDomain}
                     </Text>
                   </DescriptionItem>
-                  <DescriptionItem label="Allowed emails">
+                  <DescriptionItem label={t("Allowed emails")}>
                     {state.check.adminEmails.join(", ")}
                   </DescriptionItem>
-                  <DescriptionItem label="Login methods">
+                  <DescriptionItem label={t("Login methods")}>
                     {state.check.loginMethods.length > 0
                       ? state.check.loginMethods.join("; ")
                       : "None found"}
@@ -272,27 +279,27 @@ function TurnOnDialog({ viewerEmail }: { viewerEmail: string }) {
             {state.step === "done" && (
               <SuccessBanner
                 live={false}
-                title="Cloudflare Access protection is on"
+                title={t("Cloudflare Access protection is on")}
                 description={`Reload to sign in through Access. From now on every visit to ${state.hostname} starts with the Access sign-in.`}
               />
             )}
           </StatusRegion>
         </LayerDialog.Body>
         {ready && (
-          <LayerDialog.Actions dismissLabel="Cancel">
+          <LayerDialog.Actions dismissLabel={t("Cancel")}>
             <LayerDialog.Actions.Primary
               onClick={() => void onTurnOn()}
               {...busyActionProps(pending, !confirmed)}
             >
               <BusyMark pending={pending} />
-              Turn on
+              {t("Turn on")}
             </LayerDialog.Actions.Primary>
           </LayerDialog.Actions>
         )}
         {state.step === "done" && (
           <LayerDialog.Actions>
             <LayerDialog.Actions.Primary onClick={() => window.location.reload()}>
-              Reload and sign in
+              {t("Reload and sign in")}
             </LayerDialog.Actions.Primary>
           </LayerDialog.Actions>
         )}
@@ -306,12 +313,13 @@ function LockoutWarning({ hostname }: { hostname: string }) {
   return (
     <span className="grid gap-2">
       <span>
-        Access asks for this before Appflare's own sign-in. With the Cloudflare account login
-        method, only members of this Cloudflare account get in, with their Cloudflare login email.
-        To let other emails in, add One-time PIN as a login method in the Zero Trust dashboard
-        first.
+        {t(
+          "Access asks for this before Appflare's own sign-in. With the Cloudflare account login method, only members of this Cloudflare account get in, with their Cloudflare login email. To let other emails in, add One-time PIN as a login method in the Zero Trust dashboard first.",
+        )}
       </span>
-      <span>If Access keeps you out, you see Cloudflare's page, not Appflare's. To recover:</span>
+      <span>
+        {t("If Access keeps you out, you see Cloudflare's page, not Appflare's. To recover:")}
+      </span>
       <span>1. {deleteApp}</span>
       <span>2. {runCommand}</span>
       <Text variant="mono" as="span">
@@ -357,12 +365,12 @@ function TurnOffDialog({ domain }: { domain: string | null }) {
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<LockKeyOpenIcon />}>
-          Turn off
+          {t("Turn off")}
         </Button>
       )}
-      title="Turn off Cloudflare Access"
+      title={t("Turn off Cloudflare Access")}
       description={`Appflare deletes the Access applications for ${domain ?? "this address"} and stops checking Access tokens. Appflare's own sign-in still protects the manager.`}
-      actionLabel="Turn off"
+      actionLabel={t("Turn off")}
       onConfirm={async () => {
         await turnOffAccess();
         // A full reload: Access no longer answers for this address, and the

@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { startSelfUpdate } from "../catalog/manager-releases.functions";
+import { t } from "../i18n";
 import { MANAGER_UPDATES_HREF, type ManagerStatus } from "../installs/pending-updates";
 import type { JobView } from "../jobs/jobs.functions";
 import { POLL_MS, useLiveJob, useVersionSwitch } from "../jobs/live-job";
@@ -247,7 +248,7 @@ function CardBody({
   const logLink =
     jobId === null ? null : (
       <Link href={`/jobs/${jobId}`} variant="inline">
-        View log
+        {t("View log")}
       </Link>
     );
   return (
@@ -292,8 +293,8 @@ function CardBody({
                 size="sm"
                 variant="ghost"
                 icon={XIcon}
-                aria-label="Dismiss"
-                title="Dismiss"
+                aria-label={t("Dismiss")}
+                title={t("Dismiss")}
                 onClick={onDismiss}
               />
             </div>
@@ -340,7 +341,7 @@ function CardBody({
                 <Text bold>Updated to {state.target}</Text>
               </div>
               <Text size="sm" variant="secondary">
-                The new version did not answer yet.
+                {t("The new version did not answer yet.")}
               </Text>
               {logLink}
               <Button

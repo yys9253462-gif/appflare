@@ -5,6 +5,7 @@ import {
 } from "@appflare/schema";
 import { Banner, Checkbox, Input, Link, Radio } from "@cloudflare/kumo";
 import { ShippingContainerIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import {
   CONTAINERS_PRICING_URL,
   describeInstance,
@@ -68,24 +69,28 @@ export function BuildCommandField({
         }
         disabled={disabled}
       >
-        <Radio.Item label="Work it out" description={detectDescription} value="detect" />
+        <Radio.Item label={t("Work it out")} description={detectDescription} value="detect" />
         <Radio.Item
-          label="Run this command"
-          description="One plain command, run after the dependencies are installed and before wrangler bundles the Worker. No pipes, quotes or variables."
+          label={t("Run this command")}
+          description={t(
+            "One plain command, run after the dependencies are installed and before wrangler bundles the Worker. No pipes, quotes or variables.",
+          )}
           value="command"
         />
         <Radio.Item
-          label="None"
-          description="Only the wrangler config's own build.command runs, as wrangler deploy would run it."
+          label={t("None")}
+          description={t(
+            "Only the wrangler config's own build.command runs, as wrangler deploy would run it.",
+          )}
           value="none"
         />
       </Radio.Group>
       {value.mode === "command" && (
         <Input
-          label="Command"
+          label={t("Command")}
           value={value.command}
           onChange={(e) => onChange({ ...value, command: e.currentTarget.value })}
-          placeholder="pnpm run build"
+          placeholder={t("pnpm run build")}
           autoComplete="off"
           spellCheck={false}
           className="font-mono"
@@ -123,7 +128,7 @@ export function SourceBuildCostConfirmation({
       <Banner
         variant="alert"
         icon={<ShippingContainerIcon weight="fill" />}
-        title="Built in your account, not checked"
+        title={t("Built in your account, not checked")}
         description={
           <div className="grid gap-2">
             <span>
@@ -140,7 +145,7 @@ export function SourceBuildCostConfirmation({
             </span>
             {sandboxFirst && <SandboxFirstNote />}
             <Link href={CONTAINERS_PRICING_URL} target="_blank" rel="noopener noreferrer">
-              Containers pricing
+              {t("Containers pricing")}
               <Link.ExternalIcon />
             </Link>
           </div>

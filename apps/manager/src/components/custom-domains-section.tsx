@@ -3,6 +3,7 @@ import { Badge, Button, LayerDialog, Link, Text } from "@cloudflare/kumo";
 import { ArrowsClockwiseIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { type FormEvent, useCallback, useEffect, useId, useState } from "react";
+import { t } from "../i18n";
 import { checkSubdomainInZone, DOMAIN_SETTING_UP } from "../installs/custom-domain-input";
 import {
   addCustomDomain,
@@ -353,12 +354,12 @@ function AddDomainDialog({ install }: { install: InstallDetail }) {
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<PlusIcon />}>
-            Add domain
+            {t("Add domain")}
           </Button>
         )}
       />
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Add a custom domain</LayerDialog.Title>
+        <LayerDialog.Title>{t("Add a custom domain")}</LayerDialog.Title>
         <LayerDialog.Description>
           Serve {install.label} on a hostname in one of your domains on Cloudflare. Cloudflare
           creates its DNS record and certificate.{" "}
@@ -371,7 +372,7 @@ function AddDomainDialog({ install }: { install: InstallDetail }) {
             {options === null && loadError === null && (
               <div className="flex items-center gap-2">
                 <AppflareLoader size="sm" />
-                <Text variant="secondary">Reading the account's domains…</Text>
+                <Text variant="secondary">{t("Reading the account's domains…")}</Text>
               </div>
             )}
             {loadError !== null && <ErrorMessageBanner message={loadError} newTab />}
@@ -422,7 +423,7 @@ function AddDomainDialog({ install }: { install: InstallDetail }) {
           </div>
         </LayerDialog.Body>
         {canSubmit && (
-          <LayerDialog.Actions dismissLabel="Cancel">
+          <LayerDialog.Actions dismissLabel={t("Cancel")}>
             <LayerDialog.Actions.Primary
               type="submit"
               form={formId}
@@ -470,7 +471,7 @@ function RemoveDomainDialog({
           ? `The app stops answering on ${domain.hostname} and every name under it; Appflare deletes the DNS records and Workers routes it added. If this is its last live domain while workers.dev is off, Appflare turns workers.dev back on first, unless an admin turned it off.`
           : "The app stops answering on this hostname. If this is its last live domain while workers.dev is off, Appflare turns workers.dev back on first, unless an admin turned it off."
       }
-      actionLabel="Remove domain"
+      actionLabel={t("Remove domain")}
       onConfirm={async () => {
         const data = { installId, resourceId: domain.id };
         if (domain.wildcard) {
@@ -573,12 +574,12 @@ function AddWildcardDomainDialog({ install, reason }: { install: InstallDetail; 
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<PlusIcon />}>
-            Add wildcard domain
+            {t("Add wildcard domain")}
           </Button>
         )}
       />
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Add a wildcard domain</LayerDialog.Title>
+        <LayerDialog.Title>{t("Add a wildcard domain")}</LayerDialog.Title>
         <LayerDialog.Description>
           {reason.length > 0 ? `${reason} ` : ""}
           {WILDCARD_EXPLAINER}{" "}
@@ -591,7 +592,7 @@ function AddWildcardDomainDialog({ install, reason }: { install: InstallDetail; 
             {options === null && loadError === null && (
               <div className="flex items-center gap-2">
                 <AppflareLoader size="sm" />
-                <Text variant="secondary">Reading the account's domains…</Text>
+                <Text variant="secondary">{t("Reading the account's domains…")}</Text>
               </div>
             )}
             {loadError !== null && <ErrorMessageBanner message={loadError} newTab />}
@@ -644,14 +645,14 @@ function AddWildcardDomainDialog({ install, reason }: { install: InstallDetail; 
           </div>
         </LayerDialog.Body>
         {canSubmit && (
-          <LayerDialog.Actions dismissLabel="Cancel">
+          <LayerDialog.Actions dismissLabel={t("Cancel")}>
             <LayerDialog.Actions.Primary
               type="submit"
               form={formId}
               {...busyActionProps(pending, zone === null || (needsConsent && !wholeDomain))}
             >
               <BusyMark pending={pending} />
-              Add wildcard domain
+              {t("Add wildcard domain")}
             </LayerDialog.Actions.Primary>
           </LayerDialog.Actions>
         )}

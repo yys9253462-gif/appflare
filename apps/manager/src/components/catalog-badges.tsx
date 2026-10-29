@@ -34,6 +34,7 @@ import {
   primitiveStatuses,
   primitivesNote,
 } from "../catalog/primitives";
+import { t } from "../i18n";
 import { installCheckBadgeCopy, PLAN_BADGES } from "./catalog-badge-copy";
 import { Tooltip } from "./tooltip";
 
@@ -183,7 +184,7 @@ export function PrimitiveBadges({
         })}
         {statuses.length === 0 && note === null && (
           <Text as="span" variant="secondary">
-            Worker only: nothing beyond a Worker, which every plan includes.
+            {t("Worker only: nothing beyond a Worker, which every plan includes.")}
           </Text>
         )}
       </div>

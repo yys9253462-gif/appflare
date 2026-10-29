@@ -1,6 +1,7 @@
 import { Banner, Button, Checkbox, Text } from "@cloudflare/kumo";
 import { ArrowClockwiseIcon, TrashIcon, WarningIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import {
   HYPERDRIVE_KIND,
@@ -122,11 +123,11 @@ export function UninstallDialog({
       trigger={(p) =>
         mode === "retry" ? (
           <Button {...p} variant="secondary-destructive" icon={<ArrowClockwiseIcon />}>
-            Retry uninstall
+            {t("Retry uninstall")}
           </Button>
         ) : (
           <Button {...p} variant="secondary-destructive" icon={<TrashIcon />}>
-            Uninstall
+            {t("Uninstall")}
           </Button>
         )
       }
@@ -146,7 +147,7 @@ export function UninstallDialog({
       <Banner
         variant="alert"
         icon={<WarningIcon weight="fill" />}
-        title="Deleting data is permanent"
+        title={t("Deleting data is permanent")}
         description={
           selfDeploying ? (
             "The installer's destroy command deletes the app's databases, buckets and namespaces with everything in them. It runs in a container on Workers Paid, like an install."
@@ -160,7 +161,7 @@ export function UninstallDialog({
       />
       {selfDeploying && install.resources.length > 0 && (
         <div className="grid gap-1.5">
-          <Text bold>Deleted by the app's installer</Text>
+          <Text bold>{t("Deleted by the app's installer")}</Text>
           <ul className="grid gap-1">
             {install.resources.map((r) => (
               <li key={r.id} className="flex flex-wrap items-baseline gap-x-2">
@@ -173,10 +174,11 @@ export function UninstallDialog({
       )}
       {install.emailRoutes.length > 0 && (
         <div className="grid gap-1.5">
-          <Text bold>Email Routing</Text>
+          <Text bold>{t("Email Routing")}</Text>
           <Text variant="secondary">
-            Undone first, before the Worker, so no mail is sent to a Worker that no longer exists.
-            Nothing here holds data.
+            {t(
+              "Undone first, before the Worker, so no mail is sent to a Worker that no longer exists. Nothing here holds data.",
+            )}
           </Text>
           <ul className="grid list-disc gap-1 pl-5">
             {install.emailRoutes.map((r) => (
@@ -189,7 +191,7 @@ export function UninstallDialog({
       )}
       {install.domains.length + install.externalDomains.length > 0 && (
         <div className="grid gap-1.5">
-          <Text bold>Domains</Text>
+          <Text bold>{t("Domains")}</Text>
           <Text variant="secondary">
             Removed first, before the Worker. A domain holds no data, so there is nothing to keep.
             External domains stop answering at once; their owners can delete the DNS records they
@@ -206,7 +208,7 @@ export function UninstallDialog({
       )}
       {data.length > 0 ? (
         <div className="grid gap-3">
-          <Text bold>Data resources</Text>
+          <Text bold>{t("Data resources")}</Text>
           {data.map((r) => {
             const held = usageText(usage.get(r.id));
             return (
@@ -230,7 +232,7 @@ export function UninstallDialog({
           })}
         </div>
       ) : selfDeploying ? null : (
-        <Text variant="secondary">This app has no data resources besides its Worker.</Text>
+        <Text variant="secondary">{t("This app has no data resources besides its Worker.")}</Text>
       )}
     </ConfirmDialog>
   );

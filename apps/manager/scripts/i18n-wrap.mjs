@@ -99,12 +99,21 @@ function wrapFile(file, text) {
     const raw = m[1];
     if (inSpan(spans, m.index)) continue;
     if (!looksLikeUiText(raw)) continue;
+    // A JSX opening tag ends with `>` right after its name, a quote or a brace.
+    // One after a space or an operator is code: `a > b`, `=> Promise<T>`.
+    if (!/["'}>a-zA-Z0-9_/]/.test(text[m.index - 1] ?? "")) continue;
     const multiline = raw.includes("\n");
     const core = raw.replace(/\s+/g, " ").trim();
     if (!looksLikeUiText(core)) continue;
+    // What sits between two JSX elements in an object literal (`... />, alert: <`)
+    // or between the arms of a union type (`| ReturnType<...>`).
+    if (/^[,:;|&]/.test(core)) continue;
     let replacement;
     if (multiline) {
-      replacement = `{t(${JSON.stringify(core)})}`;
+      // JSX drops the whitespace around a line break, but keeps a space that
+      // ends the run on the same line as the element that follows it.
+      const keepsTrailingSpace = /[^\s][ \t]+$/.test(raw);
+      replacement = `{t(${JSON.stringify(core)})}${keepsTrailingSpace ? " " : ""}`;
     } else {
       const lead = raw.match(/^\s*/)[0];
       const trail = raw.match(/\s*$/)[0];
@@ -113,9 +122,11 @@ function wrapFile(file, text) {
     edits.push({ start: m.index, end: m.index + m[0].length, replacement: `>${replacement}<` });
   }
 
-  // Whitelisted props given a bare string.
+  // Whitelisted props given a bare string. No spaces around the `=`: a
+  // destructuring default (`label = "Domain"`) is written with them, a JSX
+  // attribute is not.
   const propRe = new RegExp(
-    `\\b(${TEXT_PROPS.join("|")})\\s*=\\s*(["'])((?:(?!\\2)[^\\\\]|\\\\.)*)\\2`,
+    `\\b(${TEXT_PROPS.join("|")})=(["'])((?:(?!\\2)[^\\\\]|\\\\.)*)\\2`,
     "g",
   );
   for (let m = propRe.exec(text); m !== null; m = propRe.exec(text)) {

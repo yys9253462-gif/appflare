@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { BrowseQuery } from "../catalog/browse";
 import type { CatalogSource } from "../catalog/sources";
 import { type FilterPill, removePill } from "../catalog/storefront";
+import { t } from "../i18n";
 import { Tooltip } from "./tooltip";
 
 /**
@@ -75,7 +76,7 @@ function Pills({
     <ul
       // biome-ignore lint/a11y/noRedundantRoles: list styles are removed, and Safari then drops the list role
       role="list"
-      aria-label="Active filters"
+      aria-label={t("Active filters")}
       // Many pills scroll sideways inside the field rather than squeeze out the words.
       className="flex min-w-0 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
@@ -114,16 +115,18 @@ function FilterMenu({
   return (
     <DropdownMenu>
       <Tooltip
-        content="Filter by plan, license or installed"
+        content={t("Filter by plan, license or installed")}
         render={
           <DropdownMenu.Trigger
-            render={<InputGroup.Button shape="square" icon={FunnelIcon} aria-label="Filters" />}
+            render={
+              <InputGroup.Button shape="square" icon={FunnelIcon} aria-label={t("Filters")} />
+            }
           />
         }
       />
       <DropdownMenu.Content align="end" className="min-w-56">
         <DropdownMenu.Group>
-          <DropdownMenu.Label>Plan</DropdownMenu.Label>
+          <DropdownMenu.Label>{t("Plan")}</DropdownMenu.Label>
           <DropdownMenu.RadioGroup
             value={query.plan ?? ANY}
             onValueChange={(value: unknown) =>
@@ -131,7 +134,7 @@ function FilterMenu({
             }
           >
             <DropdownMenu.RadioItem value={ANY}>
-              Any plan
+              {t("Any plan")}
               <DropdownMenu.RadioItemIndicator />
             </DropdownMenu.RadioItem>
             {(["free", "paid"] as const).map((plan) => (
@@ -144,7 +147,7 @@ function FilterMenu({
         </DropdownMenu.Group>
         <DropdownMenu.Separator />
         <DropdownMenu.Group>
-          <DropdownMenu.Label>License</DropdownMenu.Label>
+          <DropdownMenu.Label>{t("License")}</DropdownMenu.Label>
           <DropdownMenu.RadioGroup
             value={query.license ?? ANY}
             onValueChange={(value: unknown) =>
@@ -157,7 +160,7 @@ function FilterMenu({
             }
           >
             <DropdownMenu.RadioItem value={ANY}>
-              Any license
+              {t("Any license")}
               <DropdownMenu.RadioItemIndicator />
             </DropdownMenu.RadioItem>
             {(Object.keys(LICENSE_FILTERS) as LicenseFilter[]).map((license) => (
@@ -172,7 +175,7 @@ function FilterMenu({
           <>
             <DropdownMenu.Separator />
             <DropdownMenu.Group>
-              <DropdownMenu.Label>Catalog</DropdownMenu.Label>
+              <DropdownMenu.Label>{t("Catalog")}</DropdownMenu.Label>
               <DropdownMenu.RadioGroup
                 value={query.source ?? ANY}
                 onValueChange={(value: unknown) =>
@@ -182,7 +185,7 @@ function FilterMenu({
                 }
               >
                 <DropdownMenu.RadioItem value={ANY}>
-                  Every catalog
+                  {t("Every catalog")}
                   <DropdownMenu.RadioItemIndicator />
                 </DropdownMenu.RadioItem>
                 {sources.map((source) => (
@@ -241,7 +244,7 @@ export function CatalogSearch({
         autoComplete="off"
         value={text}
         placeholder={pills.length === 0 ? "Search apps by name, purpose or author" : "Search"}
-        aria-label="Search apps"
+        aria-label={t("Search apps")}
         onChange={(e) => onText(e.target.value)}
         onKeyDown={(e) => {
           const field = e.currentTarget;

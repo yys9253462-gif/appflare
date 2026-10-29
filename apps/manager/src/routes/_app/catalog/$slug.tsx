@@ -52,6 +52,7 @@ import { BANNER_ICON, MessageLinkButtons, MessageText } from "../../../component
 import { PageHeader } from "../../../components/page-header";
 import { SANDBOX_CAPABILITY_LINK_LABEL } from "../../../components/sandbox-first";
 import { ScreenshotGallery } from "../../../components/screenshot-gallery";
+import { t } from "../../../i18n";
 import {
   type InstallAgainRecord,
   installAgainPrefill,
@@ -109,11 +110,11 @@ function CatalogEntryPage() {
   if (detail.app === null) {
     return (
       <>
-        <PageHeader title="App not found" parents={[CATALOG_CRUMB]} />
+        <PageHeader title={t("App not found")} parents={[CATALOG_CRUMB]} />
         {detail.error !== null ? (
           <Empty
             icon={<WarningCircleIcon size={48} className="text-kumo-inactive" />}
-            title="The catalog is unavailable"
+            title={t("The catalog is unavailable")}
             description={plainMessage(detail.error)}
             contents={<MessageLinkButtons message={detail.error} />}
           />
@@ -121,7 +122,7 @@ function CatalogEntryPage() {
           <Empty
             icon={<StorefrontIcon size={48} className="text-kumo-inactive" />}
             title={`No app "${slug}" in the catalog`}
-            description="It may have been removed from the catalog, or the link is wrong."
+            description={t("It may have been removed from the catalog, or the link is wrong.")}
           />
         )}
       </>
@@ -237,7 +238,7 @@ function AppPage({
         <Banner
           variant="error"
           icon={BANNER_ICON.error}
-          title="This app cannot be installed right now"
+          title={t("This app cannot be installed right now")}
           description={<MessageText message={detail.error} />}
         />
       )}
@@ -266,12 +267,12 @@ function AppPage({
         </section>
       )}
 
-      <AppSection title="About">
+      <AppSection title={t("About")}>
         <Description paragraphs={paragraphs} />
       </AppSection>
 
       <AppSection
-        title="What it needs on your account"
+        title={t("What it needs on your account")}
         titleAction={<DocsLink topic="requirements" />}
       >
         <NeedsList
@@ -286,13 +287,13 @@ function AppPage({
       </AppSection>
 
       {settings.length > 0 && (
-        <AppSection title="Settings you will choose">
+        <AppSection title={t("Settings you will choose")}>
           <SettingsList items={settings} />
         </AppSection>
       )}
 
       {catalog !== null && (
-        <AppSection title="Links">
+        <AppSection title={t("Links")}>
           <LinksList
             links={appLinks(catalog, detail.appLicense)}
             maintainers={app.maintainers}
@@ -305,11 +306,11 @@ function AppPage({
         <div ref={installedRef} tabIndex={-1} className="scroll-mt-6 outline-none">
           <AppSection
             id="installed"
-            title="On your account"
+            title={t("On your account")}
             actions={
               canInstall && multipleInstalls ? (
                 <Button variant="secondary" icon={PlusIcon} onClick={openInstall}>
-                  Install another
+                  {t("Install another")}
                 </Button>
               ) : undefined
             }

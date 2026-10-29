@@ -7,6 +7,7 @@ import { PageHeader } from "../../../components/page-header";
 import { ResponsiveTable } from "../../../components/responsive-table";
 import { StatusBadge } from "../../../components/status-badge";
 import { Timestamp } from "../../../components/timestamp";
+import { t } from "../../../i18n";
 import { JOB_LIST_LIMIT } from "../../../jobs/job-list";
 import { listJobs } from "../../../jobs/jobs.functions";
 
@@ -26,26 +27,30 @@ function JobsPage() {
   return (
     <>
       <PageHeader
-        title="Jobs"
-        description="Installs, updates, settings changes, rollbacks and uninstalls, newest first."
+        title={t("Jobs")}
+        description={t(
+          "Installs, updates, settings changes, rollbacks and uninstalls, newest first.",
+        )}
       />
       {rows.length === 0 ? (
         <Empty
           icon={<ListChecksIcon size={48} className="text-kumo-inactive" />}
-          title="No jobs yet"
-          description="Every install, update and uninstall runs as a job with its own log, listed here."
+          title={t("No jobs yet")}
+          description={t(
+            "Every install, update and uninstall runs as a job with its own log, listed here.",
+          )}
         />
       ) : (
         <>
-          <ResponsiveTable label="Jobs" minWidth="lg" stickyFirstColumn>
+          <ResponsiveTable label={t("Jobs")} minWidth="lg" stickyFirstColumn>
             <Table.Header>
               <Table.Row>
-                <Table.Head>Job</Table.Head>
-                <Table.Head>App</Table.Head>
-                <Table.Head>Status</Table.Head>
-                <Table.Head>Started by</Table.Head>
-                <Table.Head>Started</Table.Head>
-                <Table.Head>Finished</Table.Head>
+                <Table.Head>{t("Job")}</Table.Head>
+                <Table.Head>{t("App")}</Table.Head>
+                <Table.Head>{t("Status")}</Table.Head>
+                <Table.Head>{t("Started by")}</Table.Head>
+                <Table.Head>{t("Started")}</Table.Head>
+                <Table.Head>{t("Finished")}</Table.Head>
               </Table.Row>
             </Table.Header>
             <Table.Body>

@@ -3,6 +3,7 @@ import { Banner, Link, LinkButton, Text } from "@cloudflare/kumo";
 import { EnvelopeSimpleIcon, KeyIcon } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { accountTokenTemplateUrl } from "../cloudflare/token-template";
+import { t } from "../i18n";
 import { EMAIL_ROUTING_PERMISSIONS } from "../installs/email-routing";
 import { getEmailZoneOptions, previewEmailRouting } from "../installs/email-routing.functions";
 import type { EmailRoutingPreview, EmailZoneOptions } from "../installs/email-routing.server";
@@ -120,7 +121,7 @@ export function EmailRoutingFields({
       {withHeading && (
         <div className="grid gap-1.5">
           <Text bold as={headingLevel}>
-            Email
+            {t("Email")}
           </Text>
           <Text variant="secondary" size="sm">
             {EMAIL_ROUTING_INTRO}
@@ -130,7 +131,7 @@ export function EmailRoutingFields({
       {options === null && loadError === null && (
         <div className="flex items-center gap-2">
           <AppflareLoader size="sm" />
-          <Text variant="secondary">Reading the account's domains…</Text>
+          <Text variant="secondary">{t("Reading the account's domains…")}</Text>
         </div>
       )}
       {loadError !== null && <ErrorMessageBanner message={loadError} newTab />}
@@ -139,7 +140,7 @@ export function EmailRoutingFields({
           <SignInPermissionsBanner noZones />
         ) : (
           <PermissionsBanner
-            title="Appflare cannot see any domain in this account"
+            title={t("Appflare cannot see any domain in this account")}
             missing={EMAIL_ROUTING_PERMISSIONS}
             why="Either the account has no domain on Cloudflare yet (add one and wait until it is active), or the token lacks the permissions receiving email needs."
           />
@@ -193,7 +194,7 @@ function PermissionsBanner({
             dashboard, add them for the domains you want to use, and save; an edited token keeps its
             value. Or create a new token and replace the old one in the{" "}
             <Link href={settingsLink("account", "connection")} target="_blank" rel="noopener">
-              Cloudflare connection settings
+              {t("Cloudflare connection settings")}
             </Link>{" "}
             with Change how Appflare connects.
           </span>
@@ -247,7 +248,7 @@ function PreviewDetails({
           <SignInPermissionsBanner noZones={false} what="set up Email Routing" />
         ) : (
           <PermissionsBanner
-            title="The Cloudflare token cannot set up Email Routing yet"
+            title={t("The Cloudflare token cannot set up Email Routing yet")}
             missing={preview.missing}
             why={`The token lacks permissions on ${zone} that the install needs.`}
           />
@@ -298,7 +299,7 @@ function PreviewDetails({
         <Banner
           variant="secondary"
           icon={BANNER_ICON.secondary}
-          title="Whether this app also sends email is unknown until it is built"
+          title={t("Whether this app also sends email is unknown until it is built")}
           description="The app is built in this account when the install starts. If it sends email, it can send to the account's verified destination addresses for free; sending to other addresses needs Email Sending on Workers Paid."
         />
       )}
@@ -306,7 +307,7 @@ function PreviewDetails({
         <Banner
           variant="secondary"
           icon={BANNER_ICON.secondary}
-          title="This app also sends email"
+          title={t("This app also sends email")}
           description={
             preview.destinations === null
               ? "It can send to the account's verified destination addresses for free; sending to other addresses needs Email Sending on Workers Paid."

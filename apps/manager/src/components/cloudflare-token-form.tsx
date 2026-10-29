@@ -18,6 +18,7 @@ import {
   userTokenTemplateUrl,
 } from "../cloudflare/token-template";
 import type { TokenVerification, VerifyTokenResult } from "../cloudflare/verify-token";
+import { t } from "../i18n";
 import {
   CONNECTED_PAUSE_MS,
   type SavedTokenSummary,
@@ -144,7 +145,7 @@ export function CloudflareTokenForm({
         <div className="grid gap-3">
           <div className="grid gap-1.5">
             <div className="flex items-center gap-1">
-              <Text bold>1. Create a token</Text>
+              <Text bold>{t("1. Create a token")}</Text>
               <DocsLink topic="tokenPermissions" />
             </div>
             <Text variant="secondary">
@@ -155,9 +156,9 @@ export function CloudflareTokenForm({
             {optional.length > 0 && (
               <div className="grid gap-1">
                 <Text variant="secondary">
-                  It also selects permissions that only one optional feature uses. You can remove
-                  them from the token if you will not use that feature, and add them back later by
-                  editing or rotating the token:
+                  {t(
+                    "It also selects permissions that only one optional feature uses. You can remove them from the token if you will not use that feature, and add them back later by editing or rotating the token:",
+                  )}
                 </Text>
                 <ul className="grid gap-1 pl-4">
                   {optional.map(({ feature, groups }) => (
@@ -184,16 +185,16 @@ export function CloudflareTokenForm({
             <Text variant="secondary" size="sm">
               Not a Super Administrator?{" "}
               <Link href={userTokenTemplateUrl()} target="_blank" rel="noopener noreferrer">
-                Create a user token instead <Link.ExternalIcon />
+                {t("Create a user token instead")} <Link.ExternalIcon />
               </Link>
             </Text>
           </div>
         </div>
 
         <form ref={formRef} className="grid gap-3" onSubmit={onVerify}>
-          <Text bold>2. Paste and verify it</Text>
+          <Text bold>{t("2. Paste and verify it")}</Text>
           <Input
-            label="Cloudflare API token"
+            label={t("Cloudflare API token")}
             type="password"
             autoComplete="off"
             spellCheck={false}
@@ -203,7 +204,9 @@ export function CloudflareTokenForm({
             // Locked while a request is in flight, so a result always matches the value.
             disabled={verifying || saving}
             onChange={(event) => onTokenChange(event.currentTarget.value)}
-            description="Stored as an encrypted secret on this Worker. Appflare never shows it again."
+            description={t(
+              "Stored as an encrypted secret on this Worker. Appflare never shows it again.",
+            )}
           />
           <div className="flex flex-wrap justify-end gap-2">
             <BusyButton
@@ -233,7 +236,7 @@ export function CloudflareTokenForm({
             variant="error"
             icon={BANNER_ICON.error}
             role={bannerRole("error")}
-            title="Verification failed"
+            title={t("Verification failed")}
             description={<MessageText message={result.error} newTab />}
           />
         )}
@@ -254,12 +257,16 @@ function VerifiedSummary({ result }: { result: TokenVerification | null }) {
       <StatusRegion spacing="mt-6">
         {result !== null && (
           <div className="grid gap-3">
-            <SuccessBanner live={false} title="Token verified" description={verifiedLine(result)} />
+            <SuccessBanner
+              live={false}
+              title={t("Token verified")}
+              description={verifiedLine(result)}
+            />
             {result.missing.length > 0 && result.permissionsOk && (
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="Some permissions could not be confirmed"
+                title={t("Some permissions could not be confirmed")}
                 description={`Missing or not readable: ${result.missing.join(", ")}. You can continue; apps that need them will fail to install until the token has them.`}
               />
             )}
@@ -272,8 +279,10 @@ function VerifiedSummary({ result }: { result: TokenVerification | null }) {
             variant="error"
             icon={BANNER_ICON.error}
             role={bannerRole("error")}
-            title="This token cannot manage Workers"
-            description="Appflare needs Workers Scripts: Edit to store the token on itself and install apps. Create a token from the link above."
+            title={t("This token cannot manage Workers")}
+            description={t(
+              "Appflare needs Workers Scripts: Edit to store the token on itself and install apps. Create a token from the link above.",
+            )}
           />
         </div>
       )}
@@ -433,7 +442,7 @@ export function SetupTokenForm({
   return (
     <form ref={formRef} onSubmit={onSubmit}>
       <ol className="grid gap-4">
-        <Part n={1} title="Create a token" extra={<DocsLink topic="tokenPermissions" />}>
+        <Part n={1} title={t("Create a token")} extra={<DocsLink topic="tokenPermissions" />}>
           <div>
             <LinkButton
               href={accountTokenTemplateUrl()}
@@ -445,11 +454,12 @@ export function SetupTokenForm({
             </LinkButton>
           </div>
           <Text variant="secondary">
-            The link opens Cloudflare with the permissions already selected. Scroll down, choose
-            Review token, then Create token, and copy it.
+            {t(
+              "The link opens Cloudflare with the permissions already selected. Scroll down, choose Review token, then Create token, and copy it.",
+            )}
           </Text>
           <Collapsible.Root>
-            <Collapsible.DefaultTrigger>What the token can do</Collapsible.DefaultTrigger>
+            <Collapsible.DefaultTrigger>{t("What the token can do")}</Collapsible.DefaultTrigger>
             <Collapsible.DefaultPanel>
               <TokenUses />
             </Collapsible.DefaultPanel>
@@ -457,14 +467,14 @@ export function SetupTokenForm({
           <Text variant="secondary" size="sm">
             Not a Super Administrator?{" "}
             <Link href={userTokenTemplateUrl()} target="_blank" rel="noopener noreferrer">
-              Create a user token instead <Link.ExternalIcon />
+              {t("Create a user token instead")} <Link.ExternalIcon />
             </Link>
           </Text>
         </Part>
-        <Part n={2} title="Paste it">
+        <Part n={2} title={t("Paste it")}>
           <Input
-            aria-label="Cloudflare API token"
-            placeholder="Cloudflare API token"
+            aria-label={t("Cloudflare API token")}
+            placeholder={t("Cloudflare API token")}
             type="password"
             autoComplete="off"
             spellCheck={false}
@@ -478,12 +488,12 @@ export function SetupTokenForm({
             }}
           />
           <Text variant="secondary" size="sm">
-            Stored as an encrypted secret on this Worker. Appflare never shows it again.
+            {t("Stored as an encrypted secret on this Worker. Appflare never shows it again.")}
           </Text>
         </Part>
         <Part
           n={3}
-          title="Connect"
+          title={t("Connect")}
           extra={<ConnectedHeadline outcome={connected?.outcome ?? null} />}
         >
           <BusyButton
@@ -524,7 +534,9 @@ function ConnectedHeadline({ outcome }: { outcome: TokenOutcome | null }) {
             </span>
             <Text as="span">
               {outcome.headline}
-              {outcome.autoAdvance && <span className="text-kumo-subtle">. Continuing…</span>}
+              {outcome.autoAdvance && (
+                <span className="text-kumo-subtle">{t(". Continuing…")}</span>
+              )}
             </Text>
           </span>
         )}
@@ -539,7 +551,7 @@ function MissingPermissions({ missing }: { missing: string[] }) {
     <Banner
       variant="alert"
       icon={BANNER_ICON.alert}
-      title="Some permissions could not be confirmed"
+      title={t("Some permissions could not be confirmed")}
       description={`Missing or not readable: ${missing.join(", ")}. Apps that need them fail to install until the token has them. Choose Continue to go on.`}
     />
   );

@@ -2,6 +2,7 @@ import { Link, LinkButton } from "@cloudflare/kumo";
 import { QuestionIcon } from "@phosphor-icons/react";
 import { requirementDocs } from "../catalog/requirements";
 import { type DocsTopic, docsUrl } from "../docs-topics";
+import { t } from "../i18n";
 import { Tooltip } from "./tooltip";
 
 export const DOCS_LINK_LABEL = "Learn more in the docs";
@@ -23,7 +24,7 @@ export function DocsLink({
   if (variant === "inline") {
     return (
       <Link href={href} target="_blank" rel="noopener noreferrer">
-        Learn more
+        {t("Learn more")}
         <Link.ExternalIcon />
       </Link>
     );

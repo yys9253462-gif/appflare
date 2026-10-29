@@ -13,6 +13,7 @@ import { BusyButton } from "../components/busy-button";
 import { StatusRegion, SuccessBanner } from "../components/message-text";
 import { PasswordInput } from "../components/password-input";
 import { returnToSearchSchema, withReturnTo } from "../components/return-to";
+import { t } from "../i18n";
 import { getSetupStatus } from "../server/setup.functions";
 import { loadAppflareVersion } from "../server/version.functions";
 
@@ -64,8 +65,8 @@ function ResetPasswordPage() {
 
   return (
     <AuthLayout
-      title="Choose a new password"
-      description="You are signed out everywhere once it is set."
+      title={t("Choose a new password")}
+      description={t("You are signed out everywhere once it is set.")}
       version={version}
     >
       <div>
@@ -74,8 +75,8 @@ function ResetPasswordPage() {
           {usable && done && (
             <SuccessBanner
               live={false}
-              title="Password changed"
-              description="Sign in with your new password."
+              title={t("Password changed")}
+              description={t("Sign in with your new password.")}
             />
           )}
         </StatusRegion>
@@ -83,16 +84,18 @@ function ResetPasswordPage() {
           {!usable ? (
             <>
               <AuthError message={RECOVERY_MESSAGES.linkInvalid} />
-              <Link href={withReturnTo("/forgot-password", returnTo)}>Ask for a new link</Link>
+              <Link href={withReturnTo("/forgot-password", returnTo)}>
+                {t("Ask for a new link")}
+              </Link>
             </>
           ) : done ? (
-            <Link href={signInHref}>Sign in</Link>
+            <Link href={signInHref}>{t("Sign in")}</Link>
           ) : (
             <>
               {error !== null && <AuthError message={error} />}
               <form className="grid gap-4" onSubmit={onSubmit}>
                 <PasswordInput
-                  label="New password"
+                  label={t("New password")}
                   name="newPassword"
                   autoComplete="new-password"
                   minLength={PASSWORD_LIMITS.min}
@@ -109,7 +112,7 @@ function ResetPasswordPage() {
                 </BusyButton>
               </form>
               <Text variant="secondary" size="sm" as="p">
-                <Link href={signInHref}>Back to sign in</Link>
+                <Link href={signInHref}>{t("Back to sign in")}</Link>
               </Text>
             </>
           )}

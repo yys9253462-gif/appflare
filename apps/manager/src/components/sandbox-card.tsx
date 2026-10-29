@@ -5,6 +5,7 @@ import { ArrowCircleUpIcon, CubeIcon, PlugsConnectedIcon, PowerIcon } from "@pho
 import { useRouter } from "@tanstack/react-router";
 import { type ReactNode, useState } from "react";
 import type { CapabilitiesView } from "../capabilities/capabilities";
+import { t } from "../i18n";
 import { buildCostLine, CONTAINERS_PRICING_URL, estimateBuild } from "../sandbox/cost";
 import { sandboxPreflightProblems } from "../sandbox/preflight";
 import {
@@ -74,7 +75,9 @@ export function SandboxCard({
       {...settingsSection("building", "sandbox")}
       titleAction={<DocsLink topic="sandboxBuilds" />}
       badge={<StateBadge status={status} />}
-      description="Some catalog apps have no ready-made release. Appflare can build them from their pinned commit in a container in your own account, with the optional sandbox Worker. Builds need Workers Paid and are not signed."
+      description={t(
+        "Some catalog apps have no ready-made release. Appflare can build them from their pinned commit in a container in your own account, with the optional sandbox Worker. Builds need Workers Paid and are not signed.",
+      )}
     >
       <SectionBody>
         {status.activeJob !== null && <RunningJob job={status.activeJob} />}
@@ -88,7 +91,9 @@ export function SandboxCard({
               <SuccessBanner
                 live={false}
                 title={CONNECTED}
-                description="Appflare now runs with its binding to the sandbox Worker. It can take a few seconds to show here."
+                description={t(
+                  "Appflare now runs with its binding to the sandbox Worker. It can take a few seconds to show here.",
+                )}
               />
             )}
           </StatusRegion>
@@ -109,10 +114,11 @@ export function SandboxCard({
 }
 
 function StateBadge({ status }: { status: SandboxCardState }) {
-  if (status.activeJob !== null) return <Badge variant="info">Changing</Badge>;
-  if (status.connected && status.problem === null) return <Badge variant="success">On</Badge>;
-  if (status.connected) return <Badge variant="warning">Not answering</Badge>;
-  return <Badge variant="neutral">Off</Badge>;
+  if (status.activeJob !== null) return <Badge variant="info">{t("Changing")}</Badge>;
+  if (status.connected && status.problem === null)
+    return <Badge variant="success">{t("On")}</Badge>;
+  if (status.connected) return <Badge variant="warning">{t("Not answering")}</Badge>;
+  return <Badge variant="neutral">{t("Off")}</Badge>;
 }
 
 function RunningJob({ job }: { job: { id: string; kind: string } }) {
@@ -123,8 +129,8 @@ function RunningJob({ job }: { job: { id: string; kind: string } }) {
       title={`${jobKindLabel(job)} is running`}
       description={
         <>
-          Follow it in <Link href={`/jobs/${job.id}`}>its job log</Link>. The actions here come back
-          when it ends.
+          Follow it in <Link href={`/jobs/${job.id}`}>{t("its job log")}</Link>
+          {t(". The actions here come back when it ends.")}
         </>
       }
     />
@@ -151,7 +157,8 @@ function LastFailure({
             <MessageText message={failure.message} />
           </span>
           <span>
-            See <Link href={`/jobs/${failure.id}`}>its job log</Link> for what happened.
+            {t("See")} <Link href={`/jobs/${failure.id}`}>{t("its job log")}</Link>
+            {t("for what happened.")}
           </span>
         </span>
       }
@@ -173,15 +180,16 @@ function SandboxUsageNote() {
   return (
     <div className="grid gap-2">
       <Text>
-        Workers Paid usage applies while builds run: each build runs one container, billed as
-        container time beyond what Workers Paid includes each month. Nothing runs between builds.
+        {t(
+          "Workers Paid usage applies while builds run: each build runs one container, billed as container time beyond what Workers Paid includes each month. Nothing runs between builds.",
+        )}
       </Text>
       <Text variant="secondary" size="sm">
         A typical build: {buildCostLine(estimateBuild())}. Each app shows its own estimate before it
         is built.
       </Text>
       <Link href={CONTAINERS_PRICING_URL} target="_blank" rel="noopener noreferrer">
-        Containers pricing
+        {t("Containers pricing")}
         <Link.ExternalIcon />
       </Link>
     </div>
@@ -194,12 +202,12 @@ function EnableDialog({ status, disabled }: { status: SandboxCardState; disabled
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="primary" icon={<PowerIcon />} disabled={disabled}>
-          Enable sandbox builds
+          {t("Enable sandbox builds")}
         </Button>
       )}
-      title="Enable sandbox builds"
+      title={t("Enable sandbox builds")}
       description={`Appflare creates the sandbox Worker ${status.pinnedVersion} (${SANDBOX_WORKER}) in this account, with the container applications that run its image and the R2 bucket ${SANDBOX_BUCKET_NAME}, then connects to it.`}
-      actionLabel="Enable"
+      actionLabel={t("Enable")}
       destructive={false}
       onConfirm={() => start("enable")}
     >
@@ -214,12 +222,12 @@ function UpdateDialog({ status, disabled }: { status: SandboxCardState; disabled
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="primary" icon={<ArrowCircleUpIcon />} disabled={disabled}>
-          Update sandbox
+          {t("Update sandbox")}
         </Button>
       )}
-      title="Update sandbox"
+      title={t("Update sandbox")}
       description={`Appflare uploads the sandbox Worker ${status.pinnedVersion} and rolls its container applications out to its image. Builds wait until it is done.`}
-      actionLabel="Update"
+      actionLabel={t("Update")}
       destructive={false}
       onConfirm={() => start("update")}
     >
@@ -295,17 +303,17 @@ function Connected({ status, isAdmin }: { status: SandboxCardState; isAdmin: boo
           variant="error"
           icon={BANNER_ICON.error}
           role={bannerRole("error")}
-          title="The sandbox Worker does not answer as expected"
+          title={t("The sandbox Worker does not answer as expected")}
           description={
             status.problem === null ? undefined : <MessageText message={status.problem} />
           }
         />
       ) : (
         <DescriptionList>
-          <DescriptionItem label="Sandbox Worker">
+          <DescriptionItem label={t("Sandbox Worker")}>
             <span className="font-mono text-[0.9em]">{status.info.sandboxVersion}</span>
           </DescriptionItem>
-          <DescriptionItem label="Image">
+          <DescriptionItem label={t("Image")}>
             <span className="font-mono text-[0.9em]">{status.info.image}</span>
           </DescriptionItem>
         </DescriptionList>
@@ -386,7 +394,7 @@ function NotConnected({
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Fix this first"
+          title={t("Fix this first")}
           description={
             <span className="grid gap-1">
               {problems.map((p) => (
@@ -403,7 +411,7 @@ function NotConnected({
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Appflare could not check whether the sandbox Worker exists"
+          title={t("Appflare could not check whether the sandbox Worker exists")}
         />
       )}
       {isAdmin ? (
@@ -416,7 +424,7 @@ function NotConnected({
         </div>
       ) : (
         <Text variant="secondary" size="sm">
-          Only admins can enable them.
+          {t("Only admins can enable them.")}
         </Text>
       )}
     </div>
@@ -432,8 +440,10 @@ function DanglingBindingNote() {
     <Banner
       variant="alert"
       icon={BANNER_ICON.alert}
-      title="Appflare still has a binding to a deleted sandbox Worker"
-      description="Sandbox builds are off. Disabling them removes the binding, and enabling them replaces it."
+      title={t("Appflare still has a binding to a deleted sandbox Worker")}
+      description={t(
+        "Sandbox builds are off. Disabling them removes the binding, and enabling them replaces it.",
+      )}
     />
   );
 }
@@ -451,7 +461,7 @@ function LeftoverWorker({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <Text variant="secondary" size="sm">
-        A sandbox Worker is in this account.
+        {t("A sandbox Worker is in this account.")}
       </Text>
       <div className="flex gap-2">
         <DisableDialog status={status} disabled={disabled} />
@@ -473,7 +483,7 @@ function ConnectButton({ disabled, connect }: { disabled: boolean; connect: Conn
   if (connect.done) return null;
   return (
     <ActionButton
-      label="Connect only"
+      label={t("Connect only")}
       icon={<PlugsConnectedIcon />}
       variant="secondary"
       disabled={disabled}
@@ -493,13 +503,15 @@ function DisableDialog({ status, disabled }: { status: SandboxCardState; disable
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<CubeIcon />} disabled={disabled}>
-          Disable sandbox builds
+          {t("Disable sandbox builds")}
         </Button>
       )}
-      title="Disable sandbox builds"
-      description="Appflare deletes the sandbox Worker with the containers it builds in and the storage that holds every build and its log, then disconnects from it. GitHub access tokens are kept on the sandbox Worker, so they are removed too."
+      title={t("Disable sandbox builds")}
+      description={t(
+        "Appflare deletes the sandbox Worker with the containers it builds in and the storage that holds every build and its log, then disconnects from it. GitHub access tokens are kept on the sandbox Worker, so they are removed too.",
+      )}
       {...(inUse ? {} : { confirmText: SANDBOX_WORKER })}
-      actionLabel="Disable and delete"
+      actionLabel={t("Disable and delete")}
       disabled={inUse}
       onConfirm={(typed) => start("disable", typed)}
     >
@@ -507,21 +519,23 @@ function DisableDialog({ status, disabled }: { status: SandboxCardState; disable
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Apps still need the sandbox Worker"
+          title={t("Apps still need the sandbox Worker")}
           description={`${status.inUseBy.join(", ")} ${status.inUseBy.length === 1 ? "was" : "were"} built or deployed in it, and ${status.inUseBy.length === 1 ? "its" : "their"} updates and uninstall run there. Uninstall ${status.inUseBy.length === 1 ? "it" : "them"} first.`}
         />
       ) : (
         <Text variant="secondary">
-          Apps are not affected: none of them was built in the sandbox Worker. Enable sandbox builds
-          again at any time.
+          {t(
+            "Apps are not affected: none of them was built in the sandbox Worker. Enable sandbox builds again at any time.",
+          )}
         </Text>
       )}
       <Collapsible.Root>
-        <Collapsible.DefaultTrigger>Technical details</Collapsible.DefaultTrigger>
+        <Collapsible.DefaultTrigger>{t("Technical details")}</Collapsible.DefaultTrigger>
         <Collapsible.DefaultPanel>
           <Text variant="secondary" size="sm">
-            Deleted: the Worker <span className="font-mono text-[0.9em]">{SANDBOX_WORKER}</span>,
-            its container applications, and the R2 bucket{" "}
+            {t("Deleted: the Worker")}{" "}
+            <span className="font-mono text-[0.9em]">{SANDBOX_WORKER}</span>, its container
+            applications, and the R2 bucket{" "}
             <span className="font-mono text-[0.9em]">appflare-builds</span>.
           </Text>
         </Collapsible.DefaultPanel>

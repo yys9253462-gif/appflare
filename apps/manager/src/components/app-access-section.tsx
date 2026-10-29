@@ -23,6 +23,7 @@ import {
 } from "../access/app-access";
 import { INSTALL_ACCESS_MESSAGES } from "../access/messages";
 import { dashboardLinks } from "../cloudflare/dashboard-links";
+import { t } from "../i18n";
 import {
   checkAppAccess,
   makePublicPaths,
@@ -77,17 +78,19 @@ export function AppAccessSection({
   return (
     <Section
       id="access"
-      title="Cloudflare Access"
+      title={t("Cloudflare Access")}
       titleAction={<DocsLink topic="protectApps" />}
       className={FLUSH_RING_CLASS}
       badge={
         access.protected ? (
-          <Badge variant="success">Protected</Badge>
+          <Badge variant="success">{t("Protected")}</Badge>
         ) : (
-          <Badge variant="neutral">Off</Badge>
+          <Badge variant="neutral">{t("Off")}</Badge>
         )
       }
-      description="Ask for a Cloudflare sign-in on every address of the app, so only Appflare's users reach it."
+      description={t(
+        "Ask for a Cloudflare sign-in on every address of the app, so only Appflare's users reach it.",
+      )}
       action={canTurnOn ? <TurnOnDialog install={install} access={access} again={false} /> : null}
     >
       <SectionBody>
@@ -99,7 +102,12 @@ export function AppAccessSection({
             description={`${accessRequiredLine(install.name)} Appflare never protects it on its own, and holds its updates until it is protected.`}
             action={
               canTurnOn ? (
-                <TurnOnDialog install={install} access={access} again={false} label="Turn on" />
+                <TurnOnDialog
+                  install={install}
+                  access={access}
+                  again={false}
+                  label={t("Turn on")}
+                />
               ) : undefined
             }
           />
@@ -109,7 +117,7 @@ export function AppAccessSection({
           <Banner
             variant="alert"
             icon={BANNER_ICON.alert}
-            title="Cloudflare Access is not in step with this app's addresses"
+            title={t("Cloudflare Access is not in step with this app's addresses")}
             description="The last update of its Access applications failed. Appflare tries again every 30 minutes; the app's addresses stay protected meanwhile."
           />
         )}
@@ -118,32 +126,32 @@ export function AppAccessSection({
             key={app}
             variant="alert"
             icon={BANNER_ICON.alert}
-            title="Another Access application covers part of this app"
+            title={t("Another Access application covers part of this app")}
             description={INSTALL_ACCESS_MESSAGES.addressTaken(app, uris)}
           />
         ))}
         {access.protected ? (
           <DescriptionList>
-            <DescriptionItem label="Who gets in">
+            <DescriptionItem label={t("Who gets in")}>
               Appflare's users: {people(access.users)}, members included
             </DescriptionItem>
             {access.teamDomain !== null && (
-              <DescriptionItem label="Sign-in">
+              <DescriptionItem label={t("Sign-in")}>
                 <Text variant="mono" as="span">
                   {access.teamDomain}
                 </Text>
               </DescriptionItem>
             )}
-            <DescriptionItem label="Public paths">
+            <DescriptionItem label={t("Public paths")}>
               {access.publicPaths.length > 0
                 ? access.publicPaths.join(", ")
                 : "None; every path asks for a sign-in, links you share included"}
             </DescriptionItem>
-            <DescriptionItem label="Access application">
+            <DescriptionItem label={t("Access application")}>
               <span className="grid gap-0.5">
                 {access.appName !== null && <span>{access.appName}</span>}
                 <Link href={dashboardLinks(accountId).accessApps} target="_blank" rel="noopener">
-                  Open in Zero Trust
+                  {t("Open in Zero Trust")}
                   <Link.ExternalIcon />
                 </Link>
               </span>
@@ -177,12 +185,12 @@ export function AppAccessSection({
         {isAdmin && !idle && install.activeJobId !== null && (
           <Text variant="secondary" size="sm">
             Another job of this app is running; change this once it finishes.{" "}
-            <Link href={`/jobs/${install.activeJobId}`}>View its log</Link>
+            <Link href={`/jobs/${install.activeJobId}`}>{t("View its log")}</Link>
           </Text>
         )}
         {!isAdmin && (
           <Text variant="secondary" size="sm">
-            Only admins can change this.
+            {t("Only admins can change this.")}
           </Text>
         )}
         {repair !== null && (
@@ -250,7 +258,7 @@ function TurnOnDialog({
       trigger={(p) =>
         again ? (
           <Button {...p} variant="secondary" icon={<ArrowsClockwiseIcon />}>
-            Protect again
+            {t("Protect again")}
           </Button>
         ) : (
           <Button {...p} variant="primary" icon={<LockKeyIcon />}>
@@ -282,7 +290,9 @@ function TurnOnDialog({
       {state.step === "checking" && checkError === null && (
         <div className="flex items-center gap-3">
           <AppflareLoader size="sm" />
-          <Text variant="secondary">Checking the token and the Zero Trust organization…</Text>
+          <Text variant="secondary">
+            {t("Checking the token and the Zero Trust organization…")}
+          </Text>
         </div>
       )}
       {checkError !== null && (
@@ -295,7 +305,7 @@ function TurnOnDialog({
           variant="error"
           icon={BANNER_ICON.error}
           role={bannerRole("error")}
-          title="This account cannot protect apps yet"
+          title={t("This account cannot protect apps yet")}
           description={
             <span className="grid gap-1">
               <span>
@@ -331,10 +341,10 @@ function TurnOffDialog({ install, access }: { install: InstallDetail; access: In
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<LockKeyOpenIcon />}>
-          Turn off
+          {t("Turn off")}
         </Button>
       )}
-      title="Turn off Cloudflare Access"
+      title={t("Turn off Cloudflare Access")}
       description={
         <>
           Appflare deletes the app's Access applications. Anyone with the app's address can then
@@ -344,7 +354,7 @@ function TurnOffDialog({ install, access }: { install: InstallDetail; access: In
             : ""}
         </>
       }
-      actionLabel="Turn off"
+      actionLabel={t("Turn off")}
       onConfirm={start}
     />
   );
@@ -361,12 +371,12 @@ function MakePublicDialog({ install, paths }: { install: InstallDetail; paths: s
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary" icon={<GlobeIcon />}>
-          Make public
+          {t("Make public")}
         </Button>
       )}
       title={`Make ${paths.join(", ")} public`}
       description={`Anyone can then reach ${paths.length === 1 ? "this path" : "these paths"} of ${install.label} without signing in, on every address of the app.`}
-      actionLabel="Make public"
+      actionLabel={t("Make public")}
       destructive={false}
       onConfirm={async () => {
         const result = await makePublicPaths({ data: { installId: install.id, paths } });

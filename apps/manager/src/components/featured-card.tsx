@@ -2,6 +2,7 @@ import { Badge, Button, LayerCard, Link, LinkButton, Popover, Text } from "@clou
 import { InfoIcon, XIcon } from "@phosphor-icons/react";
 import { dismissFeatured } from "../catalog/catalog.functions";
 import { type FeaturedCard as FeaturedCardData, safeExternalUrl } from "../catalog/featured";
+import { t } from "../i18n";
 import { AppCover } from "./catalog-media";
 import { Tooltip } from "./tooltip";
 import { useOptimisticDismiss } from "./use-optimistic-dismiss";
@@ -29,7 +30,7 @@ export function FeaturedCard({ item }: { item: FeaturedCardData }) {
 
   return (
     <LayerCard
-      render={<aside aria-label="Sponsored" />}
+      render={<aside aria-label={t("Sponsored")} />}
       className="flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2"
     >
       {item.image !== null && (
@@ -40,7 +41,7 @@ export function FeaturedCard({ item }: { item: FeaturedCardData }) {
       )}
       <div className="grid min-w-0 flex-1 basis-64 gap-0.5">
         <span className="flex min-w-0 items-center gap-2">
-          <Badge variant="neutral">Sponsored</Badge>
+          <Badge variant="neutral">{t("Sponsored")}</Badge>
           <Text as="span" bold truncate>
             {item.title}
           </Text>
@@ -79,12 +80,12 @@ export function FeaturedCard({ item }: { item: FeaturedCardData }) {
                 size="sm"
                 variant="ghost"
                 icon={InfoIcon}
-                aria-label="About sponsored items"
+                aria-label={t("About sponsored items")}
               />
             }
           />
           <Popover.Content>
-            <Popover.Title>Sponsored</Popover.Title>
+            <Popover.Title>{t("Sponsored")}</Popover.Title>
             <Popover.Description>
               {item.app !== null
                 ? `${DISCLOSURE} This app is in the catalog and was tested like every other app; being sponsored changes nothing else.`
@@ -93,14 +94,14 @@ export function FeaturedCard({ item }: { item: FeaturedCardData }) {
           </Popover.Content>
         </Popover>
         <Tooltip
-          content="Hide"
+          content={t("Hide")}
           render={
             <Button
               shape="square"
               size="sm"
               variant="ghost"
               icon={XIcon}
-              aria-label="Hide this sponsored item"
+              aria-label={t("Hide this sponsored item")}
               onClick={dismiss}
             />
           }

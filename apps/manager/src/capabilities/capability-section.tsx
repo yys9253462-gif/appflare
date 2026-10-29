@@ -27,6 +27,7 @@ import { ErrorMessageBanner, MessageText } from "../components/message-text";
 import { Section, SectionRow, SectionRows } from "../components/section";
 import { settingsSection } from "../components/settings-links";
 import { Timestamp } from "../components/timestamp";
+import { t } from "../i18n";
 import { type CapabilitiesView, manualPlanControl } from "./capabilities";
 import {
   CAPABILITY_STATE_LABELS,
@@ -111,12 +112,14 @@ function ChoosePlanDialog({
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary" size="sm">
-          Choose plan
+          {t("Choose plan")}
         </Button>
       )}
       title={ACCOUNT_PLAN_COPY.manualLegend}
-      description="Appflare cannot read the plan from Cloudflare, so it uses the one you choose here."
-      actionLabel="Save"
+      description={t(
+        "Appflare cannot read the plan from Cloudflare, so it uses the one you choose here.",
+      )}
+      actionLabel={t("Save")}
       destructive={false}
       disabled={choice === null}
       onOpen={() => setChoice(view.manualPlan)}
@@ -281,7 +284,7 @@ export function CapabilityRowList({
               <>
                 <RowAction row={row} options={options} />
                 <Collapsible.DefaultTrigger className="h-7 text-sm font-normal text-kumo-subtle">
-                  Details
+                  {t("Details")}
                 </Collapsible.DefaultTrigger>
               </>
             }

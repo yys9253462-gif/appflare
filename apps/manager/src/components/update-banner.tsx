@@ -3,6 +3,7 @@ import { Banner, Checkbox, LayerDialog, LinkButton, Text } from "@cloudflare/kum
 import { ArrowCircleUpIcon, ArrowRightIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { type FormEvent, type ReactNode, useId, useState } from "react";
 import { workersPaidLimitsConfirmation } from "../catalog/account-limits";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import { reinstallSentence } from "../installs/tier-change";
 import { startUpdate } from "../installs/versions.functions";
@@ -83,7 +84,7 @@ export function UpdateBanner({ install, isAdmin }: { install: InstallDetail; isA
         action={
           isAdmin ? (
             <LinkButton href={appLink(install.id, "danger-zone")} variant="secondary">
-              Go to Uninstall
+              {t("Go to Uninstall")}
             </LinkButton>
           ) : undefined
         }
@@ -128,8 +129,9 @@ export function streamTokenNotes(names: readonly string[]): Record<string, React
     names.map((name) => [
       name,
       <Text key={name} variant="secondary" size="sm">
-        This version sends events into a new table in R2. Cloudflare keeps this token as the
-        credential its event stream writes with.
+        {t(
+          "This version sends events into a new table in R2. Cloudflare keeps this token as the credential its event stream writes with.",
+        )}
       </Text>,
     ]),
   );
@@ -320,14 +322,14 @@ function UpdateDialog({
                 <Banner
                   variant="alert"
                   icon={BANNER_ICON.alert}
-                  title="No preview check for this update"
+                  title={t("No preview check for this update")}
                   description={`${needs.skipsPreview}.`}
                 />
                 <Checkbox
                   checked={confirmed}
                   onCheckedChange={(checked: boolean) => setConfirmed(checked)}
                   disabled={pending}
-                  label="Update without checking the new version first"
+                  label={t("Update without checking the new version first")}
                 />
               </div>
             )}
@@ -335,7 +337,7 @@ function UpdateDialog({
               <Banner
                 variant="secondary"
                 icon={<EnvelopeSimpleIcon weight="fill" />}
-                title="Email changes with this version"
+                title={t("Email changes with this version")}
                 description={needs.emailRouting}
               />
             )}
@@ -356,7 +358,7 @@ function UpdateDialog({
             {needs.needsSecrets.length > 0 && (
               <div className="grid gap-4">
                 <div className="grid gap-1.5">
-                  <Text bold>New secrets</Text>
+                  <Text bold>{t("New secrets")}</Text>
                   <Text variant="secondary" size="sm">
                     {(needs.heldSecrets ?? []).length > 0
                       ? "This version needs secrets the app does not have yet, or the value of one it has again."
@@ -397,14 +399,14 @@ function UpdateDialog({
             {error !== null && <ErrorMessageBanner message={error} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}
             {...busyActionProps(pending, !ready)}
           >
             <BusyMark pending={pending} />
-            Update
+            {t("Update")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>

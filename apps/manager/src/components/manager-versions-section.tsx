@@ -3,6 +3,7 @@ import { Badge, Banner, Button, Link, Table, Text } from "@cloudflare/kumo";
 import { ArrowClockwiseIcon, ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
+import { t } from "../i18n";
 import { useVersionSwitch } from "../jobs/live-job";
 import type { SwitchJob } from "../jobs/live-job-state";
 import type { ManagerVersionRow } from "../jobs/self-update/rollback";
@@ -120,7 +121,7 @@ export function ManagerVersionsSection({
       error={state.ok ? null : state.error}
       empty={
         state.ok && state.versions.length === 0 ? (
-          <Text variant="secondary">Cloudflare lists no versions of Appflare's Worker.</Text>
+          <Text variant="secondary">{t("Cloudflare lists no versions of Appflare's Worker.")}</Text>
         ) : undefined
       }
     >
@@ -138,13 +139,13 @@ export function ManagerVersionsSection({
         )}
       </StatusRegion>
       {state.ok && state.versions.length > 0 && (
-        <SectionTable label="Appflare versions" stickyFirstColumn>
+        <SectionTable label={t("Appflare versions")} stickyFirstColumn>
           <Table.Header>
             <Table.Row>
-              <Table.Head>Appflare version</Table.Head>
-              <Table.Head>Worker version</Table.Head>
-              <Table.Head>Created</Table.Head>
-              <Table.Head>Made by</Table.Head>
+              <Table.Head>{t("Appflare version")}</Table.Head>
+              <Table.Head>{t("Worker version")}</Table.Head>
+              <Table.Head>{t("Created")}</Table.Head>
+              <Table.Head>{t("Made by")}</Table.Head>
               {isAdmin && <Table.Head />}
             </Table.Row>
           </Table.Header>
@@ -154,7 +155,7 @@ export function ManagerVersionsSection({
                 <Table.Cell className="align-top">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className={mono}>{row.appflareVersion ?? "unknown"}</span>
-                    {row.serving && <Badge variant="success">Serving</Badge>}
+                    {row.serving && <Badge variant="success">{t("Serving")}</Badge>}
                   </div>
                 </Table.Cell>
                 <Table.Cell className="align-top">
@@ -215,7 +216,7 @@ function RollbackNotices({
           title={`Appflare rolled back to ${notice.version}`}
           description={
             <Link href={`/jobs/${notice.jobId}`} variant="inline">
-              View log
+              {t("View log")}
             </Link>
           }
         />
@@ -238,7 +239,7 @@ function RollbackNotices({
           variant="alert"
           icon={BANNER_ICON.alert}
           title={`Rolled back to ${stalledAt}`}
-          description="It did not answer here yet."
+          description={t("It did not answer here yet.")}
           action={
             <Banner.Action
               variant="secondary"
@@ -289,7 +290,7 @@ function RollbackDialog({
         </>
       }
       confirmText={label}
-      actionLabel="Roll back"
+      actionLabel={t("Roll back")}
       onConfirm={async () => {
         await onRolledBack(await rollBackManager({ data: { versionId: row.id } }));
       }}
@@ -297,7 +298,7 @@ function RollbackDialog({
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="The database is not rolled back"
+        title={t("The database is not rolled back")}
         description="Appflare's database stays as it is. When this version's code is older than the database's schema (a newer version migrated it since), Appflare refuses the rollback."
       />
       <ul className="grid list-disc gap-2 pl-5">
@@ -309,19 +310,23 @@ function RollbackDialog({
         </li>
         <li>
           <Text>
-            Cloudflare refuses a version whose secrets changed since it was deployed, such as an
-            older API token. Pick a newer version of the same release then.
+            {t(
+              "Cloudflare refuses a version whose secrets changed since it was deployed, such as an older API token. Pick a newer version of the same release then.",
+            )}
           </Text>
         </li>
         <li>
           <Text>
-            Automatic updates of Appflare are turned off, so the older version is not updated again
-            right away.
+            {t(
+              "Automatic updates of Appflare are turned off, so the older version is not updated again right away.",
+            )}
           </Text>
         </li>
       </ul>
       <Text variant="secondary">
-        Nothing else may run during the rollback. This page reloads once the older version answers.
+        {t(
+          "Nothing else may run during the rollback. This page reloads once the older version answers.",
+        )}
       </Text>
     </ConfirmDialog>
   );

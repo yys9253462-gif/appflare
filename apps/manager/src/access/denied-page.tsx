@@ -5,6 +5,7 @@ import { AuthLayout, FULL_WIDTH_ACTION } from "../components/auth-layout";
 import { COLOR_MODE_SCRIPT } from "../components/color-mode";
 import { FAVICON_LINKS, FAVICON_META } from "../components/favicons";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import appCss from "../styles.css?url";
 import { ACCESS_RECOVERY_COMMAND } from "./recovery";
 
@@ -37,19 +38,19 @@ export function AccessDeniedPage({
     <AuthLayout width="wide" title={title} description={detail} version={version}>
       {address !== null && (
         <LinkButton href={address} variant="primary" className={FULL_WIDTH_ACTION}>
-          Open the manager
+          {t("Open the manager")}
         </LinkButton>
       )}
       <Banner
         variant="secondary"
         icon={<LockKeyIcon weight="fill" />}
-        title="Locked out?"
+        title={t("Locked out?")}
         description={
           <span className="grid gap-2">
             <span>
               An admin turns Access protection off in{" "}
-              <Link href={settingsLink("users", "access")}>Cloudflare Access settings</Link>. If
-              that page cannot be reached:
+              <Link href={settingsLink("users", "access")}>{t("Cloudflare Access settings")}</Link>
+              {t(". If that page cannot be reached:")}
             </span>
             <span>1. {steps[0]}</span>
             <span>2. {steps[1]}</span>

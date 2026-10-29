@@ -1,5 +1,6 @@
 import { Banner, Collapsible, LinkButton } from "@cloudflare/kumo";
 import { ArrowCounterClockwiseIcon, ArrowRightIcon, InfoIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import type { InstallAgainRecord } from "../installs/install-again";
 import { resourceKindLabel } from "./format";
 
@@ -60,7 +61,7 @@ export function InstallAgainBanner({
           ))}
           {left > 0 && (
             <Collapsible.Root>
-              <Collapsible.DefaultTrigger>What it left</Collapsible.DefaultTrigger>
+              <Collapsible.DefaultTrigger>{t("What it left")}</Collapsible.DefaultTrigger>
               <Collapsible.DefaultPanel>
                 <ul className="grid list-disc gap-1 pl-5">
                   {again.leftovers.map((r) => (

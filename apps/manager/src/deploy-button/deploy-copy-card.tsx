@@ -2,6 +2,7 @@ import { Link, LinkButton, Text } from "@cloudflare/kumo";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 import { DocsLink } from "../components/docs-link";
+import { t } from "../i18n";
 import { type DeployCopyCleanup, USER_API_TOKENS_URL } from "./deploy-copy";
 
 /**
@@ -17,7 +18,7 @@ export function DeployCopySteps({ cleanup }: { cleanup: DeployCopyCleanup }) {
       <ol className="grid gap-2">
         <CleanupStep
           step={1}
-          title="Disconnect Workers Builds"
+          title={t("Disconnect Workers Builds")}
           hint="Settings › Builds › Disconnect"
           action={
             <LinkButton
@@ -33,7 +34,7 @@ export function DeployCopySteps({ cleanup }: { cleanup: DeployCopyCleanup }) {
         />
         <CleanupStep
           step={2}
-          title="Delete the repository copy"
+          title={t("Delete the repository copy")}
           hint="Settings › Delete this repository"
           action={
             <LinkButton
@@ -52,7 +53,7 @@ export function DeployCopySteps({ cleanup }: { cleanup: DeployCopyCleanup }) {
         <Text variant="secondary" size="sm">
           Also delete the API token Workers Builds created, if any, from{" "}
           <Link href={USER_API_TOKENS_URL} target="_blank" rel="noopener noreferrer">
-            your API tokens
+            {t("your API tokens")}
             <Link.ExternalIcon />
           </Link>
           .

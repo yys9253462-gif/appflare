@@ -35,6 +35,7 @@ import {
   redeemOwnerClaimWith,
   takeOwnerClaimFromAddressBar,
 } from "../handoff/owner-claim";
+import { t } from "../i18n";
 import { AddressSkippedNote, AddressStep } from "../onboarding/address-step";
 import {
   initialWizardState,
@@ -210,8 +211,10 @@ function ClaimNotice({
       <Banner
         variant="alert"
         icon={<WarningIcon weight="fill" />}
-        title="This setup link has expired"
-        description="Links work once, for 30 minutes. Open Appflare again from the page that installed it."
+        title={t("This setup link has expired")}
+        description={t(
+          "Links work once, for 30 minutes. Open Appflare again from the page that installed it.",
+        )}
       />
     );
   }
@@ -220,8 +223,8 @@ function ClaimNotice({
       variant="alert"
       icon={<WarningIcon weight="fill" />}
       className={ACTIONS_UNDER_ON_PHONE}
-      title="Your setup link did not go through"
-      description="Appflare did not answer yet."
+      title={t("Your setup link did not go through")}
+      description={t("Appflare did not answer yet.")}
       action={
         <BusyButton
           pending={trying}
@@ -381,7 +384,7 @@ function HandoffStep({
         an API token for this account.
       </Text>
       <Button variant="secondary" className={FULL_WIDTH_ACTION} onClick={onUseToken}>
-        Connect with an API token instead
+        {t("Connect with an API token instead")}
       </Button>
     </div>
   );
@@ -389,10 +392,12 @@ function HandoffStep({
   return (
     <>
       <LinkButton href={installPage} variant="primary" className={FULL_WIDTH_ACTION}>
-        Back to the installer
+        {t("Back to the installer")}
       </LinkButton>
       <Collapsible.Root>
-        <Collapsible.DefaultTrigger className={TOUCH_TARGET}>Other ways</Collapsible.DefaultTrigger>
+        <Collapsible.DefaultTrigger className={TOUCH_TARGET}>
+          {t("Other ways")}
+        </Collapsible.DefaultTrigger>
         <Collapsible.DefaultPanel>{otherWays}</Collapsible.DefaultPanel>
       </Collapsible.Root>
     </>
@@ -427,7 +432,7 @@ function RedeployingStep({ onReady }: { onReady: () => void }) {
   return (
     <div className="flex items-center gap-2">
       <AppflareLoader size="sm" />
-      <Text>Waiting for the new version to answer…</Text>
+      <Text>{t("Waiting for the new version to answer…")}</Text>
     </div>
   );
 }
@@ -489,10 +494,10 @@ function CreateOwnerStep({
   return (
     <form className="grid gap-4" onSubmit={onSubmit}>
       {error !== null && <AuthError message={error} />}
-      <Input label="Name" name="name" autoComplete="name" required maxLength={100} />
-      <Input label="Email" name="email" type="email" autoComplete="email" required />
+      <Input label={t("Name")} name="name" autoComplete="name" required maxLength={100} />
+      <Input label={t("Email")} name="email" type="email" autoComplete="email" required />
       <PasswordInput
-        label="Password"
+        label={t("Password")}
         name="password"
         autoComplete="new-password"
         minLength={MIN_PASSWORD_LENGTH}
@@ -505,7 +510,7 @@ function CreateOwnerStep({
         </Text>
       )}
       <BusyButton pending={pending} type="submit" variant="primary" className={FULL_WIDTH_ACTION}>
-        Create owner account
+        {t("Create owner account")}
       </BusyButton>
     </form>
   );
@@ -555,8 +560,10 @@ function WaitForAdminStep() {
       <Banner
         variant="secondary"
         icon={<InfoIcon weight="fill" />}
-        title="An admin needs to finish setup"
-        description="Appflare needs a Cloudflare API token before anyone can use it. Ask an admin to sign in and add one."
+        title={t("An admin needs to finish setup")}
+        description={t(
+          "Appflare needs a Cloudflare API token before anyone can use it. Ask an admin to sign in and add one.",
+        )}
       />
       <BusyButton
         pending={signingOut}
@@ -638,20 +645,22 @@ function TokenSavedStep({
           <Banner
             variant="alert"
             icon={<WarningIcon weight="fill" />}
-            title="The old setup secret could not be removed"
+            title={t("The old setup secret could not be removed")}
             description={
               <div className="grid gap-2">
                 <p>
-                  It guards nothing any more, so it can stay. A developer can remove it with the
-                  command under Technical details.
+                  {t(
+                    "It guards nothing any more, so it can stay. A developer can remove it with the command under Technical details.",
+                  )}
                 </p>
                 <Collapsible.Root>
-                  <Collapsible.DefaultTrigger>Technical details</Collapsible.DefaultTrigger>
+                  <Collapsible.DefaultTrigger>{t("Technical details")}</Collapsible.DefaultTrigger>
                   <Collapsible.DefaultPanel>
                     <div className="grid gap-1.5">
                       <p>
-                        The secret is <code className="font-mono text-[0.9em]">SETUP_TOKEN</code> on
-                        Appflare's own Worker. To remove it:
+                        {t("The secret is")}{" "}
+                        <code className="font-mono text-[0.9em]">{t("SETUP_TOKEN")}</code>
+                        {t("on Appflare's own Worker. To remove it:")}
                       </p>
                       <ClipboardText
                         text={`wrangler secret delete SETUP_TOKEN --name ${saved.workerName}`}

@@ -1,6 +1,7 @@
 import { Button, DropdownMenu } from "@cloudflare/kumo";
 import { BooksIcon, GitBranchIcon, PlusIcon } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
+import { t } from "../i18n";
 import type { SandboxReadiness } from "../sandbox/readiness";
 import { RepositoryBuildDialog } from "./repository-build-dialog";
 import { RouterAnchor } from "./router-anchor";
@@ -41,15 +42,15 @@ export function CatalogAddMenu({
               variant="secondary"
               shape="square"
               icon={PlusIcon}
-              aria-label="Add"
-              title="Add"
+              aria-label={t("Add")}
+              title={t("Add")}
             />
           }
         />
         <DropdownMenu.Content align="end">
           {repositoryBuilds && (
             <DropdownMenu.Item icon={GitBranchIcon} onClick={() => setRepositoryOpen(true)}>
-              From a repository…
+              {t("From a repository…")}
             </DropdownMenu.Item>
           )}
           <DropdownMenu.LinkItem

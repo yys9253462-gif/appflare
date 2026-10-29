@@ -3,6 +3,7 @@ import { useKumoToastManager } from "@cloudflare/kumo";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Section } from "../../components/section";
 import { PauseAppButton } from "../../home/pause-resume-buttons";
+import { t } from "../../i18n";
 import { createAlertRuleFn, deleteAlertRuleFn, updateAlertRuleFn } from "../alert-rules.functions";
 import { setObservabilityFn } from "../observability.functions";
 import type { UsageTabData } from "../tab";
@@ -139,10 +140,10 @@ export function UsageTab({
 
   if (data === null) {
     return (
-      <Section id="usage" title="Usage by product" error={loading ? null : error}>
+      <Section id="usage" title={t("Usage by product")} error={loading ? null : error}>
         {loading && (
           <div className="flex h-40 items-center justify-center">
-            <AppflareLoader size={32} aria-label="Reading usage" />
+            <AppflareLoader size={32} aria-label={t("Reading usage")} />
           </div>
         )}
       </Section>

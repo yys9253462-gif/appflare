@@ -1,4 +1,5 @@
 import { InputGroup } from "@cloudflare/kumo";
+import { t } from "../i18n";
 import { type HostnameCheck, ROOT_DOMAIN_PLACEHOLDER } from "../installs/custom-domain-input";
 import { wildcardPattern } from "../installs/wildcard-domain-input";
 
@@ -50,14 +51,14 @@ export function ZoneHostnameField({
         : `A name under ${zoneName}, or nothing for ${zoneName} itself.`;
   return (
     <InputGroup
-      label="Subdomain"
+      label={t("Subdomain")}
       error={error === undefined ? undefined : { message: error, match: true }}
       description={description}
       disabled={disabled || zoneName === null}
     >
       {/* A hostname, not a URL: no scheme in front. */}
       <InputGroup.Input
-        aria-label="Subdomain"
+        aria-label={t("Subdomain")}
         placeholder={ROOT_DOMAIN_PLACEHOLDER}
         value={value}
         onChange={(e) => onChange(e.currentTarget.value)}

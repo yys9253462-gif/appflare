@@ -10,6 +10,7 @@ import {
   UNMAPPED_PERMISSION_REASON,
   userTokenTemplateUrl,
 } from "../cloudflare/token-template";
+import { t } from "../i18n";
 import { useAccountId } from "./use-account-id";
 
 /** How a permission reads in the list: the dashboard's scope, group and level. */
@@ -89,7 +90,7 @@ export function AppTokenHelp({
         <Collapsible.DefaultPanel>
           <div className="grid gap-2 pt-1">
             <Text variant="secondary" size="sm">
-              In the form, narrow the token to this account and the zones the app needs.
+              {t("In the form, narrow the token to this account and the zones the app needs.")}
             </Text>
             <ul className="m-0 grid list-none gap-2 p-0">
               {resolved.map((p) => (

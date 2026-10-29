@@ -1,6 +1,7 @@
 import { Banner, Button, Text } from "@cloudflare/kumo";
 import { EyeSlashIcon, TrashIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
+import { t } from "../i18n";
 import { deleteRetainedData, forgetRemovedApp } from "../installs/removed-apps.functions";
 import { ConfirmDialog } from "./confirm-dialog";
 import { resourceKindLabel } from "./format";
@@ -58,9 +59,11 @@ export function DeleteRetainedDialog({
         </Button>
       )}
       title={`Delete what ${app.label} kept`}
-      description="Deletes every resource below from your Cloudflare account. The app stays uninstalled, and its jobs stay in the history."
+      description={t(
+        "Deletes every resource below from your Cloudflare account. The app stays uninstalled, and its jobs stay in the history.",
+      )}
       confirmText={app.workerName}
-      actionLabel="Delete retained data"
+      actionLabel={t("Delete retained data")}
       onConfirm={async () => {
         const { jobId } = await deleteRetainedData({ data: { installId: app.id } });
         await jobStarted(jobId, "Deleting the kept data");
@@ -69,11 +72,13 @@ export function DeleteRetainedDialog({
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="Deleting data is permanent"
-        description="Each resource is deleted with everything in it, including every object in an R2 bucket."
+        title={t("Deleting data is permanent")}
+        description={t(
+          "Each resource is deleted with everything in it, including every object in an R2 bucket.",
+        )}
       />
       <div className="grid gap-1.5">
-        <Text bold>Deleted</Text>
+        <Text bold>{t("Deleted")}</Text>
         <RetainedList retained={app.retained} />
       </div>
     </ConfirmDialog>
@@ -102,7 +107,7 @@ export function ForgetDialog({ app, disabled = false }: { app: RemovedApp; disab
       )}
       title={`Forget ${app.label}`}
       description={`Removes ${app.label} from Removed apps. Nothing is deleted: the resources below stay in your Cloudflare account with everything in them. Only the app's own page still lists them, where Delete retained data stays available; you can also delete them in the Cloudflare dashboard.`}
-      actionLabel="Forget and keep the resources"
+      actionLabel={t("Forget and keep the resources")}
       destructive={false}
       onConfirm={async () => {
         await forgetRemovedApp({ data: { installId: app.id } });
@@ -110,7 +115,7 @@ export function ForgetDialog({ app, disabled = false }: { app: RemovedApp; disab
       }}
     >
       <div className="grid gap-1.5">
-        <Text bold>Stays in the account</Text>
+        <Text bold>{t("Stays in the account")}</Text>
         <RetainedList retained={app.retained} />
       </div>
     </ConfirmDialog>

@@ -1,5 +1,6 @@
 import { Banner, CodeBlock, Collapsible, InputArea, Text } from "@cloudflare/kumo";
 import { CheckCircleIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import {
   FAILURE_REPORT_COPY,
   type FailureReportPreview,
@@ -64,18 +65,18 @@ export function FailureReportBody({
       <div className="grid gap-2">
         <Text bold>{FAILURE_REPORT_COPY.summaryTitle}</Text>
         <DescriptionList>
-          <DescriptionItem label="What failed">
+          <DescriptionItem label={t("What failed")}>
             {app === null ? what : `${what} of ${app}`}
           </DescriptionItem>
-          <DescriptionItem label="Where it stopped">
+          <DescriptionItem label={t("Where it stopped")}>
             {summary.failedStep ?? "Not recorded"}
           </DescriptionItem>
-          <DescriptionItem label="Cloudflare error codes">
+          <DescriptionItem label={t("Cloudflare error codes")}>
             {summary.cloudflareCodes.length === 0 ? "None" : summary.cloudflareCodes.join(", ")}
           </DescriptionItem>
-          <DescriptionItem label="Appflare version">{summary.managerVersion}</DescriptionItem>
-          <DescriptionItem label="Workers plan">{PLAN_LABELS[summary.plan]}</DescriptionItem>
-          <DescriptionItem label="Job log">
+          <DescriptionItem label={t("Appflare version")}>{summary.managerVersion}</DescriptionItem>
+          <DescriptionItem label={t("Workers plan")}>{PLAN_LABELS[summary.plan]}</DescriptionItem>
+          <DescriptionItem label={t("Job log")}>
             {summary.logLines === 0
               ? "No lines"
               : `${summary.logLines} lines${summary.logTruncated ? " (the end of the log)" : ""}, private details removed`}

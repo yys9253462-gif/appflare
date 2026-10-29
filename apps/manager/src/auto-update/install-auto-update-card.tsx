@@ -6,6 +6,7 @@ import { FLUSH_RING_CLASS } from "../components/hash-target";
 import { ErrorMessageBanner } from "../components/message-text";
 import { Section, SectionBody } from "../components/section";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import {
   AUTO_UPDATE_CHOICES,
@@ -59,7 +60,7 @@ export function InstallAutoUpdateCard({
       id="automatic-updates"
       title={AUTO_UPDATE_COPY.installLegend}
       titleAction={<DocsLink topic="automaticUpdates" />}
-      description={<Link href={settingsLink("updates", "apps")}>Change the default</Link>}
+      description={<Link href={settingsLink("updates", "apps")}>{t("Change the default")}</Link>}
       className={FLUSH_RING_CLASS}
     >
       <SectionBody className="gap-3">
@@ -113,7 +114,7 @@ export function InstallAutoUpdateCard({
           )}
         {!isAdmin && (
           <Text variant="secondary" size="sm">
-            Only admins can change it.
+            {t("Only admins can change it.")}
           </Text>
         )}
         {error !== null && <ErrorMessageBanner message={error} />}

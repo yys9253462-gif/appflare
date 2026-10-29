@@ -10,6 +10,7 @@ import {
 } from "../domains/manager-address.functions";
 import { MOVE_STEPS } from "../domains/move-address-lines";
 import { MOVED_PASSKEY_NOTE } from "../domains/moved-note";
+import { t } from "../i18n";
 import { checkSubdomainInZone, type HostnameCheck } from "../installs/custom-domain-input";
 import type { JobView } from "../jobs/jobs.functions";
 import { useLiveJob } from "../jobs/live-job";
@@ -362,7 +363,7 @@ export function MoveProgress({
       </div>
       {!done &&
         (jobId === null ? (
-          <Text variant="secondary">Checking the name and attaching the domain…</Text>
+          <Text variant="secondary">{t("Checking the name and attaching the domain…")}</Text>
         ) : (
           <Text variant="secondary">
             This can take a few minutes while Cloudflare issues the certificate. You can close this
@@ -370,7 +371,7 @@ export function MoveProgress({
           </Text>
         ))}
       {lines.length > 0 && (
-        <ol className="grid max-h-64 gap-1.5 overflow-y-auto" aria-label="The move's log">
+        <ol className="grid max-h-64 gap-1.5 overflow-y-auto" aria-label={t("The move's log")}>
           {lines.map((line) => (
             <li key={line.id} className="flex items-start gap-2" data-level={line.level}>
               <CircleIcon
@@ -390,17 +391,19 @@ export function MoveProgress({
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          description="Cloudflare Access refused the last few checks of the move, so this page cannot tell where it stands. Reload the page, or open Appflare at its new address."
+          description={t(
+            "Cloudflare Access refused the last few checks of the move, so this page cannot tell where it stands. Reload the page, or open Appflare at its new address.",
+          )}
           action={
             <Button variant="secondary" onClick={() => window.location.reload()}>
-              Reload
+              {t("Reload")}
             </Button>
           }
         />
       )}
       {jobId !== null && (
         <div>
-          <Link href={`/jobs/${jobId}`}>Open the job</Link>
+          <Link href={`/jobs/${jobId}`}>{t("Open the job")}</Link>
         </div>
       )}
     </div>
@@ -429,7 +432,7 @@ export function MovedNotice({ movedTo }: { movedTo: MovedTo }) {
     >
       <LayerDialog.Content>
         <LayerDialog.Title>Appflare now lives at {movedTo.hostname}</LayerDialog.Title>
-        <LayerDialog.Description>Sign in again there.</LayerDialog.Description>
+        <LayerDialog.Description>{t("Sign in again there.")}</LayerDialog.Description>
         <LayerDialog.Body>
           <div className="grid gap-4">
             <Text variant="secondary">{MOVED_PASSKEY_NOTE}</Text>

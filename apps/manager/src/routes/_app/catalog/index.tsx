@@ -38,6 +38,7 @@ import { BANNER_ICON, MessageLinkButtons, MessageText } from "../../../component
 import { PageHeader } from "../../../components/page-header";
 import { settingsLink } from "../../../components/settings-links";
 import { Tooltip } from "../../../components/tooltip";
+import { t } from "../../../i18n";
 import { CATALOG_STALE_MS } from "../../../router-timing";
 
 /**
@@ -70,8 +71,8 @@ function CatalogPage() {
   return (
     <>
       <PageHeader
-        title="Catalog"
-        description="Apps you can add to your Cloudflare account."
+        title={t("Catalog")}
+        description={t("Apps you can add to your Cloudflare account.")}
         actions={
           viewer.role === "admin" ? (
             <>
@@ -127,7 +128,8 @@ function CatalogPage() {
             <>
               The catalog lists apps this version of Appflare does not understand yet. Update
               Appflare in the{" "}
-              <Link href={settingsLink("updates", "appflare")}>Updates settings</Link> to see them.
+              <Link href={settingsLink("updates", "appflare")}>{t("Updates settings")}</Link>
+              {t("to see them.")}
             </>
           }
         />
@@ -135,7 +137,7 @@ function CatalogPage() {
       {catalog.error !== null ? (
         <Empty
           icon={<WarningCircleIcon size={48} className="text-kumo-inactive" />}
-          title="The catalog is unavailable"
+          title={t("The catalog is unavailable")}
           // Kumo's empty state takes plain text; a place the message names becomes its button.
           description={plainMessage(catalog.error)}
           contents={<MessageLinkButtons message={catalog.error} />}
@@ -143,8 +145,8 @@ function CatalogPage() {
       ) : catalog.apps.length === 0 ? (
         <Empty
           icon={<StorefrontIcon size={48} className="text-kumo-inactive" />}
-          title="No apps in the catalog yet"
-          description="The list of apps was loaded but is empty."
+          title={t("No apps in the catalog yet")}
+          description={t("The list of apps was loaded but is empty.")}
         />
       ) : (
         <Storefront catalog={catalog} />
@@ -252,9 +254,9 @@ function Storefront({ catalog }: { catalog: CatalogList }) {
         results.length === 0 ? (
           <Empty
             icon={<MagnifyingGlassIcon size={48} className="text-kumo-inactive" />}
-            title="No apps match"
-            description="Try other words, or remove a filter."
-            contents={<Button onClick={clearAll}>Show all apps</Button>}
+            title={t("No apps match")}
+            description={t("Try other words, or remove a filter.")}
+            contents={<Button onClick={clearAll}>{t("Show all apps")}</Button>}
           />
         ) : (
           <CatalogSection title={resultsTitle(query, addedDates)} titleId={resultsId}>
@@ -275,7 +277,7 @@ function Storefront({ catalog }: { catalog: CatalogList }) {
             </Fragment>
           ))}
           {rows.length === 0 && featured}
-          <CatalogSection title="All apps" titleId={allId}>
+          <CatalogSection title={t("All apps")} titleId={allId}>
             <AppGrid apps={byName} labelledBy={allId} />
           </CatalogSection>
         </>
@@ -349,14 +351,14 @@ function RefreshButton() {
 
   return (
     <Tooltip
-      content="Refresh the list of apps"
+      content={t("Refresh the list of apps")}
       render={
         <BusyButton
           pending={pending}
           variant="ghost"
           shape="square"
           icon={ArrowsClockwiseIcon}
-          aria-label="Refresh the list of apps"
+          aria-label={t("Refresh the list of apps")}
           onClick={onRefresh}
         />
       }

@@ -29,6 +29,7 @@ import {
   type GithubAccessState,
   getGithubAccess,
 } from "../github/tokens.functions";
+import { t } from "../i18n";
 import { ENABLE_SANDBOX_PLACE, UPDATE_SANDBOX_HINT } from "../sandbox/connect-copy";
 import { BusyMark, busyActionProps } from "./busy-button";
 import { ConfirmDialog } from "./confirm-dialog";
@@ -89,7 +90,9 @@ export function GithubAccessCard({ isAdmin }: { isAdmin: boolean }) {
           </Badge>
         )
       }
-      description="Read-only GitHub tokens for installing from private repositories and for downloading Appflare's own releases. Each token is kept as a secret on the sandbox Worker and is never shown again."
+      description={t(
+        "Read-only GitHub tokens for installing from private repositories and for downloading Appflare's own releases. Each token is kept as a secret on the sandbox Worker and is never shown again.",
+      )}
       // With no token yet, the empty state offers it instead.
       action={hasTokens ? addToken : null}
       error={loadError}
@@ -98,7 +101,7 @@ export function GithubAccessCard({ isAdmin }: { isAdmin: boolean }) {
         <SectionBody>
           <div className="flex items-center gap-2">
             <AppflareLoader size="sm" />
-            <Text variant="secondary">Loading the tokens…</Text>
+            <Text variant="secondary">{t("Loading the tokens…")}</Text>
           </div>
         </SectionBody>
       )}
@@ -109,8 +112,10 @@ export function GithubAccessCard({ isAdmin }: { isAdmin: boolean }) {
           <SectionEmpty
             size="sm"
             icon={<GithubLogoIcon size={32} className="text-kumo-inactive" />}
-            title="No GitHub access tokens"
-            description="Public repositories need none. Add a token to install from a private one."
+            title={t("No GitHub access tokens")}
+            description={t(
+              "Public repositories need none. Add a token to install from a private one.",
+            )}
             contents={addToken ?? undefined}
           />
         </SectionBody>
@@ -131,8 +136,10 @@ function accessNotice(state: GithubAccessState): ReactNode {
       <Banner
         variant="secondary"
         icon={BANNER_ICON.secondary}
-        title="Sandbox builds are off"
-        description="Tokens are kept on the sandbox Worker, which also clones the repositories. Enable sandbox builds above to add one. Disabling sandbox builds removes every token."
+        title={t("Sandbox builds are off")}
+        description={t(
+          "Tokens are kept on the sandbox Worker, which also clones the repositories. Enable sandbox builds above to add one. Disabling sandbox builds removes every token.",
+        )}
       />
     );
   }
@@ -141,8 +148,8 @@ function accessNotice(state: GithubAccessState): ReactNode {
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="The sandbox Worker cannot use tokens yet"
-        description="To update it, choose Update sandbox above."
+        title={t("The sandbox Worker cannot use tokens yet")}
+        description={t("To update it, choose Update sandbox above.")}
       />
     );
   }
@@ -151,8 +158,8 @@ function accessNotice(state: GithubAccessState): ReactNode {
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="The sandbox Worker did not answer"
-        description="Tokens can be added once it answers again. Reload the page in a minute."
+        title={t("The sandbox Worker did not answer")}
+        description={t("Tokens can be added once it answers again. Reload the page in a minute.")}
       />
     );
   }
@@ -167,14 +174,14 @@ function TokenTable({
   onChanged: () => Promise<void>;
 }) {
   return (
-    <SectionTable label="GitHub tokens" stickyFirstColumn>
+    <SectionTable label={t("GitHub tokens")} stickyFirstColumn>
       <Table.Header>
         <Table.Row>
-          <Table.Head>Label</Table.Head>
-          <Table.Head>Used for</Table.Head>
-          <Table.Head>Last used</Table.Head>
+          <Table.Head>{t("Label")}</Table.Head>
+          <Table.Head>{t("Used for")}</Table.Head>
+          <Table.Head>{t("Last used")}</Table.Head>
           <Table.Head>
-            <span className="sr-only">Actions</span>
+            <span className="sr-only">{t("Actions")}</span>
           </Table.Head>
         </Table.Row>
       </Table.Header>
@@ -292,18 +299,18 @@ function AddTokenDialog({
       <LayerDialog.Trigger
         render={(p) => (
           <Button {...p} variant="primary" icon={<PlusIcon />}>
-            Add token
+            {t("Add token")}
           </Button>
         )}
       />
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Add a GitHub access token</LayerDialog.Title>
+        <LayerDialog.Title>{t("Add a GitHub access token")}</LayerDialog.Title>
         <LayerDialog.Description>
           Create a fine-grained personal access token on GitHub with{" "}
-          <strong className="font-medium text-kumo-default">Contents: Read-only</strong> on the
-          repositories it is for (GitHub adds{" "}
-          <strong className="font-medium text-kumo-default">Metadata: Read-only</strong> itself),
-          and nothing else.{" "}
+          <strong className="font-medium text-kumo-default">{t("Contents: Read-only")}</strong> on
+          the repositories it is for (GitHub adds{" "}
+          <strong className="font-medium text-kumo-default">{t("Metadata: Read-only")}</strong>{" "}
+          itself), and nothing else.{" "}
           <Link
             href={newTokenUrl(label, repositories, { forBuilds, forReleases })}
             target="_blank"
@@ -316,8 +323,8 @@ function AddTokenDialog({
         <LayerDialog.Body>
           <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
             <Input
-              label="Label"
-              placeholder="Acme private apps"
+              label={t("Label")}
+              placeholder={t("Acme private apps")}
               value={label}
               onChange={(e) => setLabel(e.currentTarget.value)}
               autoComplete="off"
@@ -326,8 +333,10 @@ function AddTokenDialog({
               disabled={pending}
             />
             <SensitiveInput
-              label="Token"
-              description="Stored on the sandbox Worker as a secret. Appflare cannot show it again."
+              label={t("Token")}
+              description={t(
+                "Stored on the sandbox Worker as a secret. Appflare cannot show it again.",
+              )}
               value={token}
               onValueChange={(next: string) => setToken(next)}
               autoComplete="off"
@@ -340,14 +349,14 @@ function AddTokenDialog({
               disabled={pending}
             >
               <div className="grid gap-3">
-                <Checkbox.Item value={BUILDS} label="Builds of private repositories" />
+                <Checkbox.Item value={BUILDS} label={t("Builds of private repositories")} />
                 {forBuilds && (
                   <div className="pl-6">
                     <Input
-                      label="Repositories"
+                      label={t("Repositories")}
                       required={false}
                       description={<FieldHelp text={REPOSITORIES_HELP} />}
-                      placeholder="acme/api, acme/*"
+                      placeholder={t("acme/api, acme/*")}
                       value={repositories}
                       onChange={(e) => {
                         setRepositories(e.currentTarget.value);
@@ -362,7 +371,7 @@ function AddTokenDialog({
                 )}
               </div>
               <div className="grid gap-1">
-                <Checkbox.Item value={RELEASES} label="Appflare release downloads" />
+                <Checkbox.Item value={RELEASES} label={t("Appflare release downloads")} />
                 <div className="grid gap-1 pl-6">
                   <Text as="p" variant="secondary" size="sm">
                     <FieldHelp text={RELEASE_DOWNLOADS_HELP} />
@@ -378,10 +387,10 @@ function AddTokenDialog({
             {error !== null && <ErrorMessageBanner message={error} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary type="submit" form={formId} {...busyActionProps(pending)}>
             <BusyMark pending={pending} />
-            Add token
+            {t("Add token")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>
@@ -411,7 +420,7 @@ function DeleteTokenDialog({
       )}
       title={`Delete ${token.label}`}
       description={deleteTokenDescription(token)}
-      actionLabel="Delete token"
+      actionLabel={t("Delete token")}
       onConfirm={async () => {
         await deleteGithubToken({ data: { id: token.id } });
         await onDeleted();

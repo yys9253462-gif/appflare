@@ -1,5 +1,6 @@
 import { Empty, LinkButton } from "@cloudflare/kumo";
 import { GearIcon, LinkBreakIcon, StorefrontIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import { PageHeader } from "./page-header";
 import { settingsLink } from "./settings-links";
 
@@ -47,7 +48,7 @@ export function InstallLinkProblem({
   const { title, description } = COPY[kind];
   return (
     <>
-      <PageHeader title="Install" parents={[{ label: "Catalog", href: "/catalog" }]} />
+      <PageHeader title={t("Install")} parents={[{ label: "Catalog", href: "/catalog" }]} />
       <Empty
         icon={
           kind === "repository" ? (
@@ -61,7 +62,7 @@ export function InstallLinkProblem({
         contents={
           <div className="flex flex-wrap justify-center gap-2">
             <LinkButton href="/catalog" variant="primary" icon={<StorefrontIcon />}>
-              Open the catalog
+              {t("Open the catalog")}
             </LinkButton>
             {kind !== "repository" && isAdmin && (
               <LinkButton

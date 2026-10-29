@@ -29,6 +29,7 @@ import { SeedCredentialsCard } from "../../../components/seed-credentials-card";
 import { StatusBadge } from "../../../components/status-badge";
 import { Timestamp } from "../../../components/timestamp";
 import { jobFailureTopic } from "../../../docs-topics";
+import { t } from "../../../i18n";
 import { jobFailureHeadline, jobFailureLine } from "../../../jobs/job-failure-copy";
 import {
   type BuildProgressView,
@@ -59,11 +60,11 @@ function JobPage() {
   if (job === null) {
     return (
       <>
-        <PageHeader title="Job not found" parents={[JOBS_CRUMB]} />
+        <PageHeader title={t("Job not found")} parents={[JOBS_CRUMB]} />
         <Empty
           icon={<ListChecksIcon size={48} className="text-kumo-inactive" />}
-          title="No such job"
-          description="The link may be wrong."
+          title={t("No such job")}
+          description={t("The link may be wrong.")}
         />
       </>
     );
@@ -96,7 +97,7 @@ function JobPage() {
         }
       />
       <Section
-        title="Status"
+        title={t("Status")}
         badge={
           <span className="flex items-center gap-2">
             {isActive(job) && <AppflareLoader size="sm" />}
@@ -111,12 +112,12 @@ function JobPage() {
           <DescriptionList>
             {/* The Worker's name is technical detail too: the title names the app. */}
             {job.install !== null && showNames && (
-              <DescriptionItem label="Worker">
+              <DescriptionItem label={t("Worker")}>
                 <span className="font-mono text-[0.9em]">{job.install.workerName}</span>
               </DescriptionItem>
             )}
             {job.targetVersion !== null && (
-              <DescriptionItem label="Appflare version">
+              <DescriptionItem label={t("Appflare version")}>
                 <span className="font-mono text-[0.9em]">{job.targetVersion}</span>
               </DescriptionItem>
             )}
@@ -132,11 +133,13 @@ function JobPage() {
                 <span className="font-mono text-[0.9em]">{job.workerVersionId}</span>
               </DescriptionItem>
             )}
-            <DescriptionItem label="Started by">{startedByLabel(job.startedBy)}</DescriptionItem>
-            <DescriptionItem label="Started">
+            <DescriptionItem label={t("Started by")}>
+              {startedByLabel(job.startedBy)}
+            </DescriptionItem>
+            <DescriptionItem label={t("Started")}>
               <Timestamp iso={job.startedAt} />
             </DescriptionItem>
-            <DescriptionItem label="Finished">
+            <DescriptionItem label={t("Finished")}>
               <Timestamp iso={job.finishedAt} />
             </DescriptionItem>
           </DescriptionList>
@@ -147,7 +150,7 @@ function JobPage() {
         <Banner
           variant="secondary"
           icon={<AppflareLoader size="sm" aria-hidden />}
-          title="Appflare is switching versions…"
+          title={t("Appflare is switching versions…")}
           description={
             job.kind === "self_rollback"
               ? `Cloudflare is moving traffic to ${job.targetVersion ?? "the earlier version"}. This page reloads once it answers.`
@@ -162,7 +165,7 @@ function JobPage() {
         <Banner
           variant="default"
           icon={<GitBranchIcon weight="fill" />}
-          title="Built. Review it next"
+          title={t("Built. Review it next")}
           description={
             job.sourceBuild.purpose === "update"
               ? "Nothing changed yet. The review shows what the new build declares; update from there."
@@ -181,7 +184,7 @@ function JobPage() {
       )}
       {job.build !== null && <BuildProgress build={job.build} />}
       <Section
-        title="Log"
+        title={t("Log")}
         empty={
           job.logs.length === 0 ? (
             <SectionEmpty
@@ -193,12 +196,12 @@ function JobPage() {
         }
       >
         {/* On a phone the level sits under the time and long lines wrap: nothing to swipe to. */}
-        <SectionTable label="Log" minWidth="none">
+        <SectionTable label={t("Log")} minWidth="none">
           <Table.Header>
             <Table.Row>
-              <Table.Head>Time</Table.Head>
-              <Table.Head className="max-sm:hidden">Level</Table.Head>
-              <Table.Head>Message</Table.Head>
+              <Table.Head>{t("Time")}</Table.Head>
+              <Table.Head className="max-sm:hidden">{t("Level")}</Table.Head>
+              <Table.Head>{t("Message")}</Table.Head>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -249,7 +252,7 @@ function BuildProgress({ build }: { build: BuildProgressView }) {
           when the {build.kind === "installer" ? "run" : "build"} ends.
         </Text>
         {build.lines.length === 0 ? (
-          <Text variant="mono-secondary">No output yet.</Text>
+          <Text variant="mono-secondary">{t("No output yet.")}</Text>
         ) : (
           // Kumo's code block, as a box that scrolls; focusable so a keyboard can scroll it.
           // biome-ignore lint/a11y/useSemanticElements: a named, scrollable output box, not a group of form controls
@@ -352,7 +355,7 @@ function JobFailure({
             {/* An install that did not finish, once its cause is fixed. */}
             {again !== null && (
               <LinkButton href={again} variant="primary" icon={<ArrowCounterClockwiseIcon />}>
-                Install again
+                {t("Install again")}
               </LinkButton>
             )}
           </BannerActions>

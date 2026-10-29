@@ -11,6 +11,7 @@ import {
   whoGetsIn,
   zeroTrustUsersNote,
 } from "../access/app-access";
+import { t } from "../i18n";
 import { checkAppAccess } from "../installs/access-change.functions";
 import { DocsLink } from "./docs-link";
 import { MoreText } from "./field-label";
@@ -92,13 +93,13 @@ export function InstallAccessField({
     <div id="install-access" className="grid gap-1">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <Checkbox
-          label="Protect with Cloudflare Access"
+          label={t("Protect with Cloudflare Access")}
           checked={required || (checked && problem === null)}
           disabled={disabled || required || problem !== null}
           onCheckedChange={(next: boolean) => onCheckedChange(next)}
           {...describedBy}
         />
-        {required && <Badge variant="secondary">Required</Badge>}
+        {required && <Badge variant="secondary">{t("Required")}</Badge>}
       </div>
       <div id={explanationId} className="grid gap-1 pl-6">
         {problem !== null && fix !== null && (

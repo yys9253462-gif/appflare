@@ -22,6 +22,7 @@ import {
 import { useRouter } from "@tanstack/react-router";
 import { type FormEvent, type RefObject, useEffect, useId, useRef, useState } from "react";
 import type { Role } from "../auth/roles";
+import { t } from "../i18n";
 import {
   type AccessPolicyOutcome,
   type AppAccessPolicyOutcome,
@@ -70,7 +71,7 @@ export function UsersSection({
   return (
     <Section
       {...settingsSection("users", "users")}
-      description="Who can sign in to this manager, and what each of them can change."
+      description={t("Who can sign in to this manager, and what each of them can change.")}
       action={users !== null ? <AddUserDialog button={addButton} /> : null}
     >
       {users === null ? (
@@ -78,8 +79,8 @@ export function UsersSection({
           <Banner
             variant="secondary"
             icon={BANNER_ICON.secondary}
-            title="Only admins can view and add users"
-            description="Ask an admin if you need an account for someone else."
+            title={t("Only admins can view and add users")}
+            description={t("Ask an admin if you need an account for someone else.")}
           />
         </SectionBody>
       ) : (
@@ -161,15 +162,15 @@ function UsersTable({
           </Text>
         </SectionBody>
       )}
-      <SectionTable label="Users" stickyFirstColumn>
+      <SectionTable label={t("Users")} stickyFirstColumn>
         <Table.Header>
           <Table.Row>
-            <Table.Head>Email</Table.Head>
-            <Table.Head>Name</Table.Head>
-            <Table.Head>Role</Table.Head>
-            <Table.Head>Created</Table.Head>
+            <Table.Head>{t("Email")}</Table.Head>
+            <Table.Head>{t("Name")}</Table.Head>
+            <Table.Head>{t("Role")}</Table.Head>
+            <Table.Head>{t("Created")}</Table.Head>
             <Table.Head>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{t("Actions")}</span>
             </Table.Head>
           </Table.Row>
         </Table.Header>
@@ -562,8 +563,8 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
           {created === null ? (
             <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
               {error !== null && <ErrorMessageBanner message={error} newTab />}
-              <Input label="Email" name="email" type="email" autoComplete="off" required />
-              <Input label="Name" name="name" autoComplete="off" required maxLength={100} />
+              <Input label={t("Email")} name="email" type="email" autoComplete="off" required />
+              <Input label={t("Name")} name="name" autoComplete="off" required maxLength={100} />
               <Radio.Group
                 legend="Role"
                 value={role}
@@ -587,14 +588,16 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="Copy it now"
-                description="Appflare stores only a hash. Closing this dialog discards the password."
+                title={t("Copy it now")}
+                description={t(
+                  "Appflare stores only a hash. Closing this dialog discards the password.",
+                )}
               />
               {created.accessPolicy === "updated" && (
                 <Banner
                   variant="secondary"
                   icon={BANNER_ICON.secondary}
-                  title="Added to the Cloudflare Access policy"
+                  title={t("Added to the Cloudflare Access policy")}
                   description={`${created.email} can now sign in through Cloudflare Access with that email.`}
                 />
               )}
@@ -603,7 +606,7 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
                   variant="error"
                   icon={BANNER_ICON.error}
                   role={bannerRole("error")}
-                  title="Not added to the Cloudflare Access policy"
+                  title={t("Not added to the Cloudflare Access policy")}
                   description={`Cloudflare Access will keep ${created.email} out until the policy lists them. Use "Re-sync admins" under Cloudflare Access.`}
                 />
               )}
@@ -612,7 +615,7 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
                   variant="error"
                   icon={BANNER_ICON.error}
                   role={bannerRole("error")}
-                  title="Not added to the Access policy of your protected apps yet"
+                  title={t("Not added to the Access policy of your protected apps yet")}
                   description={
                     created.appAccessPolicy === "missing"
                       ? APP_ACCESS_POLICY_MISSING
@@ -627,11 +630,11 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
           {created === null ? (
             <LayerDialog.Actions.Primary type="submit" form={formId} {...busyActionProps(pending)}>
               <BusyMark pending={pending} />
-              Create user
+              {t("Create user")}
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           )}
         </LayerDialog.Actions>

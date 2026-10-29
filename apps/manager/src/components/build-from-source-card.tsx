@@ -1,6 +1,7 @@
 import { Collapsible, Input, LayerCard, Text } from "@cloudflare/kumo";
 import { GitBranchIcon } from "@phosphor-icons/react";
 import { type FormEvent, useState } from "react";
+import { t } from "../i18n";
 import { startSourceBuild } from "../installs/source-builds.functions";
 import type { SandboxReadiness } from "../sandbox/readiness";
 import { BusyButton } from "./busy-button";
@@ -82,7 +83,7 @@ export function BuildFromSourceCard({
       <LayerCard.Primary className="px-5 py-4">
         <Collapsible.Root open={open} onOpenChange={setOpen}>
           <Collapsible.DefaultTrigger>
-            Advanced: build from source at a commit
+            {t("Advanced: build from source at a commit")}
           </Collapsible.DefaultTrigger>
           <Collapsible.DefaultPanel>
             <form className="grid gap-5 pt-2" onSubmit={onSubmit}>
@@ -93,7 +94,7 @@ export function BuildFromSourceCard({
                 <DocsLink topic="installFromRepository" variant="inline" />
               </Text>
               <Input
-                label="Branch, tag or commit"
+                label={t("Branch, tag or commit")}
                 value={ref}
                 onChange={(e) => setRef(e.currentTarget.value)}
                 placeholder={`The default branch (the catalog's release is ${pinnedRef})`}
@@ -109,7 +110,7 @@ export function BuildFromSourceCard({
               />
               {sandbox.missing !== null ? (
                 <SandboxMissingBanner
-                  title="Sandbox builds are off, and Appflare cannot turn them on"
+                  title={t("Sandbox builds are off, and Appflare cannot turn them on")}
                   missing={sandbox.missing}
                 />
               ) : (

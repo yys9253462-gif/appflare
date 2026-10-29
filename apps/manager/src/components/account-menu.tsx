@@ -17,6 +17,7 @@ import {
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { authClient } from "../auth/client";
+import { t } from "../i18n";
 import { MANAGER_UPDATES_HREF } from "../installs/pending-updates";
 import { managerSiteLink } from "../site-links";
 import { feedbackIssueUrl, REPOSITORY_URL } from "../whats-new/project-links";
@@ -150,7 +151,9 @@ export function AccountMenu({
             Your passkeys
           </DropdownMenu.LinkItem>
           <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger icon={CircleHalfIcon}>Appearance</DropdownMenu.SubTrigger>
+            <DropdownMenu.SubTrigger icon={CircleHalfIcon}>
+              {t("Appearance")}
+            </DropdownMenu.SubTrigger>
             <DropdownMenu.SubContent>
               <DropdownMenu.RadioGroup
                 value={colorMode}
@@ -188,10 +191,10 @@ export function AccountMenu({
             Documentation
           </DropdownMenu.LinkItem>
           <DropdownMenu.LinkItem href={feedbackIssueUrl(version)} icon={LifebuoyIcon} {...EXTERNAL}>
-            Feedback
+            {t("Feedback")}
           </DropdownMenu.LinkItem>
           <DropdownMenu.LinkItem href={REPOSITORY_URL} icon={StarIcon} {...EXTERNAL}>
-            Give us a star
+            {t("Give us a star")}
           </DropdownMenu.LinkItem>
           {collapsed && (
             <>
@@ -208,7 +211,7 @@ export function AccountMenu({
           )}
           <DropdownMenu.Separator />
           <DropdownMenu.Item icon={SignOutIcon} onClick={() => void signOut()}>
-            Sign out
+            {t("Sign out")}
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu>

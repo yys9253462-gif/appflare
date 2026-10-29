@@ -3,6 +3,7 @@ import { Button, cn, LayerCard, Text } from "@cloudflare/kumo";
 import { CaretDownIcon, CaretUpIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { COLLAPSED_CATEGORIES } from "../catalog/storefront";
+import { t } from "../i18n";
 import { CategoryIcon } from "./category-icon";
 
 /**
@@ -73,7 +74,7 @@ export function CategoryCards({
   const shown = expanded || selectedHidden ? categories : collapsed;
   if (categories.length === 0) return null;
   return (
-    <section aria-label="Categories" className="grid grid-cols-1 gap-2">
+    <section aria-label={t("Categories")} className="grid grid-cols-1 gap-2">
       <ul
         // biome-ignore lint/a11y/noRedundantRoles: list styles are removed, and Safari then drops the list role
         role="list"

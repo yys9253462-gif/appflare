@@ -1,5 +1,6 @@
 import { cn, Text } from "@cloudflare/kumo";
 import { Section } from "../../components/section";
+import { t } from "../../i18n";
 import type { UsageEvent } from "../tab";
 import { clock } from "../ui/format";
 import { eventCopy } from "./copy";
@@ -20,11 +21,13 @@ export function RecentActivity({
 }) {
   const shown = events.slice(0, RECENT_EVENTS);
   return (
-    <Section id="activity" title="Recent activity">
+    <Section id="activity" title={t("Recent activity")}>
       <ol className="grid divide-y divide-kumo-hairline">
         {shown.length === 0 && (
           <li className="px-5 py-4">
-            <Text variant="secondary">Nothing yet. Updates, alerts and pauses show up here.</Text>
+            <Text variant="secondary">
+              {t("Nothing yet. Updates, alerts and pauses show up here.")}
+            </Text>
           </li>
         )}
         {shown.map((e) => {

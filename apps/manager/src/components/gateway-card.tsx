@@ -19,6 +19,7 @@ import {
 } from "../gateway/gateway";
 import { checkGatewayZone, setUpGateway, turnOffGateway } from "../gateway/gateway.functions";
 import type { GatewayView } from "../gateway/gateway.server";
+import { t } from "../i18n";
 import { BusyButton } from "./busy-button";
 import { ConfirmDialog } from "./confirm-dialog";
 import { DescriptionItem, DescriptionList } from "./description-list";
@@ -59,14 +60,16 @@ export function GatewayCard({
       titleAction={<DocsLink topic="gateway" />}
       badge={
         "error" in view ? null : gateway === null ? (
-          <Badge variant="neutral">Not set up</Badge>
+          <Badge variant="neutral">{t("Not set up")}</Badge>
         ) : gateway.ready && gateway.check.kind === "ready" ? (
-          <Badge variant="success">Ready</Badge>
+          <Badge variant="success">{t("Ready")}</Badge>
         ) : (
-          <Badge variant="warning">Needs attention</Badge>
+          <Badge variant="warning">{t("Needs attention")}</Badge>
         )
       }
-      description="The gateway that serves apps on hostnames in other people's DNS, set up once on one of your domains."
+      description={t(
+        "The gateway that serves apps on hostnames in other people's DNS, set up once on one of your domains.",
+      )}
       error={"error" in view ? view.error : null}
     >
       {!("error" in view) && <GatewayBody view={view} gateway={gateway} isAdmin={isAdmin} />}
@@ -86,9 +89,9 @@ function GatewayBody({
   return (
     <SectionBody>
       <Text variant="secondary">
-        An external domain is a hostname in DNS you do not manage in this Cloudflare account, such
-        as a customer's or a domain at another registrar. The gateway runs on one domain of this
-        account, which keeps serving its own sites as before.
+        {t(
+          "An external domain is a hostname in DNS you do not manage in this Cloudflare account, such as a customer's or a domain at another registrar. The gateway runs on one domain of this account, which keeps serving its own sites as before.",
+        )}
       </Text>
       {gateway === null ? (
         <ChooseZone zones={view.zones} isAdmin={isAdmin} />
@@ -189,7 +192,7 @@ function ChooseZone({
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="Appflare cannot list the account's domains"
+        title={t("Appflare cannot list the account's domains")}
         description="The token needs Zone: Read, DNS: Edit and Workers Routes: Edit (the custom domain permissions) and SSL and Certificates: Edit on the domain that becomes the gateway. Edit the token in the Cloudflare dashboard to add them."
       />
     );
@@ -199,7 +202,7 @@ function ChooseZone({
       <Banner
         variant="secondary"
         icon={BANNER_ICON.secondary}
-        title="External domains need one domain on Cloudflare in this account"
+        title={t("External domains need one domain on Cloudflare in this account")}
         description="Add a domain you own to this account (the free plan is enough; it means changing its nameservers), or register one with Cloudflare Registrar at cost. Either also lets apps use custom domains, which need no gateway. Until then, apps answer on workers.dev."
       />
     );
@@ -207,7 +210,7 @@ function ChooseZone({
   if (!isAdmin) {
     return (
       <Text variant="secondary" size="sm">
-        Only admins can set up the gateway.
+        {t("Only admins can set up the gateway.")}
       </Text>
     );
   }
@@ -241,8 +244,10 @@ function ChooseZone({
   return (
     <div className="grid gap-4">
       <ZoneCombobox
-        label="Gateway domain"
-        description="A domain of this account with Cloudflare for SaaS on. A domain of its own is tidiest, but one that serves a site works: its own hostnames pass through the gateway to their origin unchanged."
+        label={t("Gateway domain")}
+        description={t(
+          "A domain of this account with Cloudflare for SaaS on. A domain of its own is tidiest, but one that serves a site works: its own hostnames pass through the gateway to their origin unchanged.",
+        )}
         zones={zones}
         value={zoneId}
         onChange={(id) => {
@@ -322,26 +327,26 @@ function GatewayDetails({
   return (
     <>
       <DescriptionList>
-        <DescriptionItem label="Gateway domain">{gateway.zoneName}</DescriptionItem>
-        <DescriptionItem label="CNAME target">
+        <DescriptionItem label={t("Gateway domain")}>{gateway.zoneName}</DescriptionItem>
+        <DescriptionItem label={t("CNAME target")}>
           <InlineCopyText value={gateway.hostname}>{gateway.hostname}</InlineCopyText>
         </DescriptionItem>
-        <DescriptionItem label="Cloudflare for SaaS">
+        <DescriptionItem label={t("Cloudflare for SaaS")}>
           {check.kind === "ready"
             ? `On${check.used !== null ? `, ${check.used} custom hostname${check.used === 1 ? "" : "s"} in use` : ""}`
             : check.kind === "saas-off"
               ? "Off"
               : "Could not be checked"}
         </DescriptionItem>
-        <DescriptionItem label="Gateway Worker">
+        <DescriptionItem label={t("Gateway Worker")}>
           <span className={mono}>{GATEWAY_WORKER_NAME}</span>
           {gateway.answering === true && " answers on its hostname"}
           {gateway.answering === false && " does not answer on its hostname yet"}
         </DescriptionItem>
-        <DescriptionItem label="Set up">
+        <DescriptionItem label={t("Set up")}>
           {gateway.readyAt === null ? "Not finished" : <Timestamp iso={gateway.readyAt} />}
         </DescriptionItem>
-        <DescriptionItem label="External domains">
+        <DescriptionItem label={t("External domains")}>
           {gateway.domains.length === 0
             ? "None yet"
             : gateway.domains.map((d) => d.hostname).join(", ")}
@@ -351,12 +356,12 @@ function GatewayDetails({
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Setting up the gateway did not finish"
+          title={t("Setting up the gateway did not finish")}
           description="Finishing continues where it stopped; nothing is created twice."
           action={
             isAdmin ? (
               <BusyButton pending={finishing} variant="secondary" onClick={onFinish}>
-                Finish setup
+                {t("Finish setup")}
               </BusyButton>
             ) : undefined
           }
@@ -373,7 +378,9 @@ function GatewayDetails({
           variant="alert"
           icon={BANNER_ICON.alert}
           title={`https://${gateway.hostname} did not answer as the gateway`}
-          description="A new route or DNS record can take a minute. If it stays like this, check the Worker's routes on the domain in the Cloudflare dashboard."
+          description={t(
+            "A new route or DNS record can take a minute. If it stays like this, check the Worker's routes on the domain in the Cloudflare dashboard.",
+          )}
           action={
             <BusyButton
               pending={rechecking}
@@ -403,10 +410,10 @@ function TurnOffDialog({ gateway }: { gateway: NonNullable<GatewayView["gateway"
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<TrashIcon />}>
-          Turn off gateway
+          {t("Turn off gateway")}
         </Button>
       )}
-      title="Turn off the gateway"
+      title={t("Turn off the gateway")}
       description={
         blocked ? (
           <MessageText message={externalDomainsInUse(gateway.domains)} newTab />
@@ -414,7 +421,7 @@ function TurnOffDialog({ gateway }: { gateway: NonNullable<GatewayView["gateway"
           `Removes the route, the Worker ${GATEWAY_WORKER_NAME} and its routing table from ${gateway.zoneName}, and the DNS record and fallback origin if Appflare added them. Cloudflare for SaaS stays on for the domain.`
         )
       }
-      actionLabel="Turn off"
+      actionLabel={t("Turn off")}
       disabled={blocked}
       onConfirm={async () => {
         await turnOffGateway();

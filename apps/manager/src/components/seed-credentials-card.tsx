@@ -1,5 +1,6 @@
 import { Banner, ClipboardText, Text } from "@cloudflare/kumo";
 import { useEffect, useState } from "react";
+import { t } from "../i18n";
 import { BANNER_ICON } from "./message-text";
 import { Section, SectionBody } from "./section";
 import { forgetSeedCredentials, peekSeedCredentials } from "./seed-credentials";
@@ -16,13 +17,15 @@ export function SeedCredentialsCard({ jobId }: { jobId: string }) {
   useEffect(() => forgetSeedCredentials(jobId), [jobId]);
   if (credentials.length === 0) return null;
   return (
-    <Section title="First sign-in">
+    <Section title={t("First sign-in")}>
       <SectionBody>
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Copy it now"
-          description="The install uses it once to create the first admin account. Appflare does not keep it, and this page shows it only until you leave."
+          title={t("Copy it now")}
+          description={t(
+            "The install uses it once to create the first admin account. Appflare does not keep it, and this page shows it only until you leave.",
+          )}
         />
         {credentials.map((c) => (
           <div key={c.name} className="grid gap-1.5">

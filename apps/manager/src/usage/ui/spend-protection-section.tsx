@@ -6,6 +6,7 @@ import { DocsLink } from "../../components/docs-link";
 import { BANNER_ICON, bannerRole } from "../../components/message-text";
 import { Section, SectionRow, SectionRows } from "../../components/section";
 import { settingsSection } from "../../components/settings-links";
+import { t } from "../../i18n";
 import { PAID_PLAN_MONTHLY_USD } from "../math";
 import { budgetExemptApps, followingApps, ownTriggerApps, type SpendApp } from "../overview";
 import { checkBudgetAmount, dollarsText, type SetSpendDefaultsInput } from "../spend-defaults";
@@ -175,7 +176,7 @@ function SpendProtectionSettings({
             description={
               <>
                 {SPEND_PROTECTION_COPY.noUsage}{" "}
-                {isAdmin && <Link href={reconnectDialogHref()}>Reconnect Cloudflare</Link>}
+                {isAdmin && <Link href={reconnectDialogHref()}>{t("Reconnect Cloudflare")}</Link>}
               </>
             }
           />
@@ -183,7 +184,7 @@ function SpendProtectionSettings({
       )}
       <SectionRows>
         <SectionRow
-          title="Pause apps automatically"
+          title={t("Pause apps automatically")}
           description={
             defaults.autoPause
               ? SPEND_PROTECTION_COPY.autoPauseOn
@@ -191,14 +192,14 @@ function SpendProtectionSettings({
           }
           action={
             <Switch
-              aria-label="Pause apps automatically"
+              aria-label={t("Pause apps automatically")}
               checked={defaults.autoPause}
               disabled={!isAdmin}
               onCheckedChange={(on: boolean) => change?.({ autoPause: on })}
             />
           }
         />
-        <SectionRow title="What pauses an app" description={SPEND_PROTECTION_COPY.triggers}>
+        <SectionRow title={t("What pauses an app")} description={SPEND_PROTECTION_COPY.triggers}>
           <div className="rounded-lg px-4 py-3 ring-1 ring-kumo-hairline">
             <TriggerRows
               plan={overview.plan}
@@ -231,7 +232,7 @@ function SpendProtectionSettings({
           </div>
           {own.length > 0 && (
             <Text variant="secondary">
-              Set their own: <AppLinks apps={own} />.
+              {t("Set their own:")} <AppLinks apps={own} />.
             </Text>
           )}
         </SectionRow>
@@ -243,7 +244,7 @@ function SpendProtectionSettings({
             onChange={change && ((budget) => change({ budget }))}
           />
         ) : (
-          <SectionRow title="Monthly budget" description={SPEND_PROTECTION_COPY.budgetFree}>
+          <SectionRow title={t("Monthly budget")} description={SPEND_PROTECTION_COPY.budgetFree}>
             {live && overview.bill.projected > 0 && (
               <Text variant="secondary">
                 R2 this month: {usd(overview.bill.now)} so far, on pace for{" "}
@@ -253,11 +254,11 @@ function SpendProtectionSettings({
           </SectionRow>
         )}
         <SectionRow
-          title="Unusual usage alerts"
+          title={t("Unusual usage alerts")}
           description={SPEND_PROTECTION_COPY.unusual}
           action={
             <Select
-              aria-label="Default unusual usage sensitivity"
+              aria-label={t("Default unusual usage sensitivity")}
               className="w-48"
               disabled={!isAdmin}
               value={String(defaults.unusualFactor)}
@@ -330,11 +331,11 @@ function BudgetRow({
 
   return (
     <SectionRow
-      title="Monthly budget"
+      title={t("Monthly budget")}
       description={SPEND_PROTECTION_COPY.budget}
       action={
         <Switch
-          aria-label="Monthly budget"
+          aria-label={t("Monthly budget")}
           checked={budget.on}
           disabled={onChange === undefined}
           onCheckedChange={(on: boolean) => onChange?.({ ...budget, on })}
@@ -344,7 +345,7 @@ function BudgetRow({
       {budget.on && (
         <div className="grid gap-3">
           <span className="flex flex-wrap items-center gap-2">
-            <Text>Keep this month's Appflare usage under</Text>
+            <Text>{t("Keep this month's Appflare usage under")}</Text>
             <InputGroup
               className="w-28"
               disabled={onChange === undefined}
@@ -352,7 +353,7 @@ function BudgetRow({
             >
               <InputGroup.Addon>$</InputGroup.Addon>
               <InputGroup.Input
-                aria-label="Monthly budget in dollars"
+                aria-label={t("Monthly budget in dollars")}
                 name="budget"
                 inputMode="decimal"
                 autoComplete="off"
@@ -371,8 +372,8 @@ function BudgetRow({
           {draftError !== null && <AmountError id={errorId}>{draftError}</AmountError>}
           {exempt.length > 0 && (
             <Text variant="secondary">
-              Never paused for the budget: <AppLinks apps={exempt} />. Their spend still counts, so
-              other apps are paused first.
+              {t("Never paused for the budget:")} <AppLinks apps={exempt} />
+              {t(". Their spend still counts, so other apps are paused first.")}
             </Text>
           )}
           {live && (

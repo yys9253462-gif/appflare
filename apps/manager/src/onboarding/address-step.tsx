@@ -12,6 +12,7 @@ import {
 } from "../components/manager-address-move";
 import { MessageText } from "../components/message-text";
 import type { AddressOptions } from "../domains/manager-address.functions";
+import { t } from "../i18n";
 import { ADDRESS_UNREADABLE_NOTE } from "./wizard";
 
 /**
@@ -78,18 +79,20 @@ export function AddressStep({
         onValueChange={(v) => setChoice(v === "domain" ? "domain" : "keep")}
         appearance="card"
       >
-        <Radio.Legend className="sr-only">Where Appflare lives</Radio.Legend>
+        <Radio.Legend className="sr-only">{t("Where Appflare lives")}</Radio.Legend>
         <Radio.Item
           value="keep"
-          label="Keep the workers.dev address"
+          label={t("Keep the workers.dev address")}
           description={
             here === null ? "Appflare stays where it is now." : `Appflare stays at ${here}.`
           }
         />
         <Radio.Item
           value="domain"
-          label="Use a domain of yours"
-          description="A name in one of your domains on Cloudflare. The workers.dev address then sends visits there, and you sign in again at the new address."
+          label={t("Use a domain of yours")}
+          description={t(
+            "A name in one of your domains on Cloudflare. The workers.dev address then sends visits there, and you sign in again at the new address.",
+          )}
         />
       </Radio.Group>
       {choice === "domain" && (
@@ -111,7 +114,7 @@ export function AddressStep({
           {choice === "domain" ? moveActionLabel(move, "Continue") : "Continue"}
         </BusyButton>
         <Button variant="secondary" className={FULL_WIDTH_ACTION} onClick={onDone}>
-          Later
+          {t("Later")}
         </Button>
       </div>
     </form>

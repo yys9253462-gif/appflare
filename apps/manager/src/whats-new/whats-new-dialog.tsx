@@ -4,6 +4,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import { compareVersions } from "../catalog/versions";
 import { markdownComponents, markdownPlugins } from "../components/markdown";
 import { Timestamp } from "../components/timestamp";
+import { t } from "../i18n";
 import { isUnread, type ReleaseNote } from "./release-notes";
 
 /**
@@ -38,7 +39,7 @@ const releaseComponents: Components = {
 
 function ReleaseBody({ children }: { children: string }) {
   if (children.trim().length === 0) {
-    return <Text variant="secondary">No notes for this release.</Text>;
+    return <Text variant="secondary">{t("No notes for this release.")}</Text>;
   }
   return (
     <div className="grid gap-3">
@@ -72,9 +73,9 @@ function Release({
           <Text variant="heading" as="h3">
             <span id={`release-${note.version}`}>{note.name}</span>
           </Text>
-          {unread && <Badge variant="primary">New</Badge>}
-          {order === 0 && <Badge variant="neutral">Running here</Badge>}
-          {order !== null && order > 0 && <Badge variant="outline">Not installed yet</Badge>}
+          {unread && <Badge variant="primary">{t("New")}</Badge>}
+          {order === 0 && <Badge variant="neutral">{t("Running here")}</Badge>}
+          {order !== null && order > 0 && <Badge variant="outline">{t("Not installed yet")}</Badge>}
         </div>
         <Text size="sm" variant="secondary">
           {note.publishedAt !== null && (
@@ -84,7 +85,7 @@ function Release({
             </>
           )}
           <Link href={note.url} target="_blank" rel="noopener noreferrer">
-            View on GitHub
+            {t("View on GitHub")}
             <Link.ExternalIcon />
           </Link>
         </Text>
@@ -116,7 +117,7 @@ export function WhatsNewDialog({
   return (
     <LayerDialog.Root open={open} onOpenChange={onOpenChange}>
       <LayerDialog.Content size="lg" verticalAlign="top">
-        <LayerDialog.Title>What's new</LayerDialog.Title>
+        <LayerDialog.Title>{t("What's new")}</LayerDialog.Title>
         <LayerDialog.Description>
           The latest Appflare releases. This manager runs Appflare {current}.
         </LayerDialog.Description>
@@ -125,8 +126,8 @@ export function WhatsNewDialog({
             <Empty
               size="sm"
               icon={<SparkleIcon size={32} className="text-kumo-inactive" />}
-              title="No release notes yet"
-              description="Appflare reads its releases every 30 minutes. Check back soon."
+              title={t("No release notes yet")}
+              description={t("Appflare reads its releases every 30 minutes. Check back soon.")}
             />
           ) : (
             <div className="grid gap-8">

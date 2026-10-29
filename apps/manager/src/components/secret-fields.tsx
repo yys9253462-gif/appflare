@@ -14,6 +14,7 @@ import { Badge, Button, Input, InputArea, Label, SensitiveInput } from "@cloudfl
 import { ArrowsClockwiseIcon } from "@phosphor-icons/react";
 import { type ReactNode, useId } from "react";
 import { generateTemporaryPassword } from "../auth/temporary-password";
+import { t } from "../i18n";
 import { GENERATED_SECRET_LENGTH } from "../installs/install-input";
 import { FieldLabel, fieldDescription } from "./field-label";
 import { Tooltip } from "./tooltip";
@@ -387,7 +388,7 @@ function GeneratedSecretField({
       help={help}
       regenerate={regenerate}
       disabled={disabled}
-      badges={isSeedOnly(secret) && <Badge variant="secondary">Used once</Badge>}
+      badges={isSeedOnly(secret) && <Badge variant="secondary">{t("Used once")}</Badge>}
     />
   );
 }
@@ -497,10 +498,10 @@ export function GeneratedBadge({
     // Kumo's Badge takes no data attributes; the wrapper marks it for tests and styles.
     <span data-secret-badge="Generated" className="inline-flex">
       <Badge variant="secondary" className="gap-0 py-0 pr-0.5">
-        <span className="py-0.5">Generated</span>
+        <span className="py-0.5">{t("Generated")}</span>
         <span aria-hidden className="mx-1.5 h-3 w-px bg-current opacity-25" />
         <Tooltip
-          content="Regenerate"
+          content={t("Regenerate")}
           render={
             <Button
               type="button"

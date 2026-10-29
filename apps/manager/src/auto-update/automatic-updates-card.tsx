@@ -5,6 +5,7 @@ import { DocsLink } from "../components/docs-link";
 import { ErrorMessageBanner } from "../components/message-text";
 import { Section, SectionBody } from "../components/section";
 import { settingsSection } from "../components/settings-links";
+import { t } from "../i18n";
 import { AUTO_UPDATE_COPY, type AutoUpdateSettings } from "./auto-update";
 import { setAutoUpdateDefaults } from "./auto-update.functions";
 
@@ -61,7 +62,7 @@ export function AppsAutomaticUpdatesSection({
   return (
     <Section
       {...settingsSection("updates", "apps")}
-      description="Whether apps update on their own when a new version needs nothing from you."
+      description={t("Whether apps update on their own when a new version needs nothing from you.")}
       error={error}
     >
       <SectionBody>

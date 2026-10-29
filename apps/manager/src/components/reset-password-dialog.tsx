@@ -1,6 +1,7 @@
 import { Banner, ClipboardText, LayerDialog, Radio, Text } from "@cloudflare/kumo";
 import { useState } from "react";
 import { serverErrorMessage } from "../auth/sign-in-errors";
+import { t } from "../i18n";
 import { issuePasswordRecoveryCode, sendPasswordResetLink } from "../server/recovery.functions";
 import { BusyMark, busyActionProps } from "./busy-button";
 import { BANNER_ICON, ErrorMessageBanner, StatusRegion, SuccessBanner } from "./message-text";
@@ -96,20 +97,21 @@ export function ResetPasswordDialog({
               >
                 <Radio.Item
                   value="link"
-                  label="Email a reset link"
+                  label={t("Email a reset link")}
                   description={`Sent to ${user.email}. It works for 30 minutes.`}
                 />
                 <Radio.Item
                   value="code"
-                  label="Show a recovery code"
-                  description="You pass it on yourself. It works once, for 30 minutes."
+                  label={t("Show a recovery code")}
+                  description={t("You pass it on yourself. It works once, for 30 minutes.")}
                 />
               </Radio.Group>
             )}
             {outcome === null && !emailReset && (
               <Text variant="secondary">
-                Appflare shows a one-time recovery code for you to pass on. It works once, for 30
-                minutes. Turn on password reset emails below to send a link instead.
+                {t(
+                  "Appflare shows a one-time recovery code for you to pass on. It works once, for 30 minutes. Turn on password reset emails below to send a link instead.",
+                )}
               </Text>
             )}
             {outcome?.kind === "code" && (
@@ -118,8 +120,10 @@ export function ResetPasswordDialog({
                 <Banner
                   variant="alert"
                   icon={BANNER_ICON.alert}
-                  title="Copy it now"
-                  description='On the sign-in page they choose "Forgot your password?", then "I have a recovery code", and enter their email, this code and a new password. It works once, for 30 minutes.'
+                  title={t("Copy it now")}
+                  description={t(
+                    'On the sign-in page they choose "Forgot your password?", then "I have a recovery code", and enter their email, this code and a new password. It works once, for 30 minutes.',
+                  )}
                 />
               </>
             )}
@@ -129,8 +133,10 @@ export function ResetPasswordDialog({
             {outcome?.kind === "link" && (
               <SuccessBanner
                 live={false}
-                title="Reset link sent"
-                description="It works for 30 minutes. If it does not arrive, show a recovery code instead."
+                title={t("Reset link sent")}
+                description={t(
+                  "It works for 30 minutes. If it does not arrive, show a recovery code instead.",
+                )}
               />
             )}
           </StatusRegion>
@@ -143,7 +149,7 @@ export function ResetPasswordDialog({
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           )}
         </LayerDialog.Actions>

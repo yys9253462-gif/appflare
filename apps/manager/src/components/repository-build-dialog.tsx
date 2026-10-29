@@ -2,6 +2,7 @@ import { parseRepositoryInput } from "@appflare/schema";
 import { Input, LayerDialog, Text } from "@cloudflare/kumo";
 import { type FormEvent, type RefObject, useId, useState } from "react";
 import { GITHUB_ACCESS_PLACE } from "../github/tokens";
+import { t } from "../i18n";
 import { NOT_FROM_CATALOG } from "../installs/source-build-input";
 import { startSourceBuild } from "../installs/source-builds.functions";
 import type { SandboxReadiness } from "../sandbox/readiness";
@@ -110,7 +111,7 @@ export function RepositoryBuildDialog({
       dismissDisabled={pending}
     >
       <LayerDialog.Content size="lg">
-        <LayerDialog.Title>Install from a repository</LayerDialog.Title>
+        <LayerDialog.Title>{t("Install from a repository")}</LayerDialog.Title>
         <LayerDialog.Description>
           Any GitHub repository with a wrangler config. It is built in your account first; you
           review what it declares, then install it. {NOT_FROM_CATALOG}: Appflare never updates it on
@@ -119,7 +120,7 @@ export function RepositoryBuildDialog({
         <LayerDialog.Body>
           <form id={formId} className="grid gap-5" onSubmit={onSubmit}>
             <Input
-              label="Repository"
+              label={t("Repository")}
               value={repository}
               onChange={(e) => setRepository(e.currentTarget.value)}
               placeholder="https://github.com/owner/repo"
@@ -136,7 +137,7 @@ export function RepositoryBuildDialog({
               }
             />
             <Input
-              label="Branch, tag or commit"
+              label={t("Branch, tag or commit")}
               value={ref}
               onChange={(e) => setRef(e.currentTarget.value)}
               placeholder={
@@ -155,7 +156,7 @@ export function RepositoryBuildDialog({
             />
             {sandbox.missing !== null ? (
               <SandboxMissingBanner
-                title="Sandbox builds are off, and Appflare cannot turn them on"
+                title={t("Sandbox builds are off, and Appflare cannot turn them on")}
                 missing={sandbox.missing}
               />
             ) : (
@@ -174,14 +175,14 @@ export function RepositoryBuildDialog({
             {error !== null && <ErrorMessageBanner message={error} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             type="submit"
             form={formId}
             {...busyActionProps(pending, !ready)}
           >
             <BusyMark pending={pending} />
-            Build for review
+            {t("Build for review")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>

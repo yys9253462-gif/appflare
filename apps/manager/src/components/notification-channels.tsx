@@ -30,6 +30,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { t } from "../i18n";
 import {
   CHANNEL_KIND_DESCRIPTIONS,
   CHANNEL_KIND_LABELS,
@@ -157,7 +158,7 @@ export function NotificationChannels({ channels }: { channels: ChannelView[] | n
         <SectionBody>
           <SectionEmpty
             icon={<BellSimpleIcon size={48} className="text-kumo-inactive" />}
-            title="No notification channels"
+            title={t("No notification channels")}
             description={NOTIFICATION_COPY.empty}
             contents={<AddChannelDialog button={addButton} />}
           />
@@ -174,7 +175,7 @@ export function NotificationChannels({ channels }: { channels: ChannelView[] | n
 }
 
 function statusBadge(channel: ChannelView) {
-  if (!channel.readable) return <Badge variant="error">Credentials unreadable</Badge>;
+  if (!channel.readable) return <Badge variant="error">{t("Credentials unreadable")}</Badge>;
   if (channel.failureCount > 0) {
     return (
       <Badge variant="warning">
@@ -182,8 +183,8 @@ function statusBadge(channel: ChannelView) {
       </Badge>
     );
   }
-  if (channel.lastSuccessAt !== null) return <Badge variant="success">Delivered</Badge>;
-  return <Badge variant="neutral">Nothing sent yet</Badge>;
+  if (channel.lastSuccessAt !== null) return <Badge variant="success">{t("Delivered")}</Badge>;
+  return <Badge variant="neutral">{t("Nothing sent yet")}</Badge>;
 }
 
 /** The dialogs a channel's menu opens. */
@@ -278,11 +279,11 @@ function ChannelRow({
               {/* Icons go in as components: Kumo sizes and spaces a component
                   icon, but renders an element as it is, flush against the label. */}
               <DropdownMenu.Item icon={PencilSimpleIcon} onClick={() => setDialog("edit")}>
-                Edit
+                {t("Edit")}
               </DropdownMenu.Item>
               {replacesSecret && (
                 <DropdownMenu.Item icon={KeyIcon} onClick={() => setDialog("secret")}>
-                  Replace signing secret
+                  {t("Replace signing secret")}
                 </DropdownMenu.Item>
               )}
               <DropdownMenu.Separator />
@@ -301,7 +302,7 @@ function ChannelRow({
       <div>
         <div className="grid gap-4">
           <div className="grid gap-1.5">
-            <Text bold>Events</Text>
+            <Text bold>{t("Events")}</Text>
             <Text variant="secondary">
               {events.length === 0
                 ? "None: this channel receives nothing until you pick events."
@@ -309,9 +310,9 @@ function ChannelRow({
             </Text>
           </div>
           <div className="grid gap-1.5">
-            <Text bold>Deliveries</Text>
+            <Text bold>{t("Deliveries")}</Text>
             <Text variant="secondary">
-              Last delivered: <Timestamp iso={channel.lastSuccessAt} />.
+              {t("Last delivered:")} <Timestamp iso={channel.lastSuccessAt} />.
               {channel.pending > 0 &&
                 ` ${channel.pending} message${channel.pending === 1 ? " is" : "s are"} waiting to be sent or retried.`}
             </Text>
@@ -324,8 +325,9 @@ function ChannelRow({
             )}
             {!channel.readable && (
               <Text variant="secondary">
-                The stored credentials cannot be read, so nothing is sent. Edit the channel and
-                enter its details again.
+                {t(
+                  "The stored credentials cannot be read, so nothing is sent. Edit the channel and enter its details again.",
+                )}
               </Text>
             )}
           </div>
@@ -334,14 +336,14 @@ function ChannelRow({
               variant="error"
               icon={BANNER_ICON.error}
               role={bannerRole("error")}
-              title="Test message not delivered"
+              title={t("Test message not delivered")}
               description={<MessageText message={test.detail} />}
             />
           )}
         </div>
         {/* Outside the grid, so it adds no gap while empty. */}
         <StatusRegion spacing="mt-4">
-          {test?.ok === true && <SuccessBanner live={false} title="Test message delivered" />}
+          {test?.ok === true && <SuccessBanner live={false} title={t("Test message delivered")} />}
         </StatusRegion>
       </div>
       <ChannelDialog mode={{ kind: "edit", channel }} {...dialogProps("edit")} />
@@ -540,8 +542,10 @@ function ChannelDialog({
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="Copy it now"
-                description="Appflare stores it encrypted and never shows it again. Replace it from the channel's menu if it is lost."
+                title={t("Copy it now")}
+                description={t(
+                  "Appflare stores it encrypted and never shows it again. Replace it from the channel's menu if it is lost.",
+                )}
               />
             </div>
           ) : (
@@ -575,18 +579,18 @@ function ChannelDialog({
                 </Radio.Group>
               )}
               <Input
-                label="Name"
+                label={t("Name")}
                 value={label}
                 onChange={(e) => setLabel(e.currentTarget.value)}
                 autoComplete="off"
                 maxLength={80}
                 error={errors.label}
-                placeholder="Team chat"
+                placeholder={t("Team chat")}
               />
               {kind === "telegram" && (
                 <>
                   <SensitiveInput
-                    label="Bot token"
+                    label={t("Bot token")}
                     autoComplete="off"
                     value={fields.botToken}
                     onValueChange={set("botToken")}
@@ -594,7 +598,7 @@ function ChannelDialog({
                     description={keepHint}
                   />
                   <Input
-                    label="Chat id"
+                    label={t("Chat id")}
                     autoComplete="off"
                     spellCheck={false}
                     value={fields.chatId}
@@ -619,7 +623,7 @@ function ChannelDialog({
               )}
               {kind === "webhook" && (
                 <Input
-                  label="URL"
+                  label={t("URL")}
                   type="url"
                   inputMode="url"
                   autoComplete="off"
@@ -648,7 +652,7 @@ function ChannelDialog({
         <LayerDialog.Actions dismissLabel={secret !== null ? "Close" : "Cancel"}>
           {secret !== null ? (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary type="submit" form={formId} {...busyActionProps(pending)}>
@@ -731,11 +735,11 @@ function SigningSecretDialog({
               {...busyActionProps(pending)}
             >
               <BusyMark pending={pending} />
-              Replace
+              {t("Replace")}
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           )}
         </LayerDialog.Actions>
@@ -762,9 +766,11 @@ function RemoveChannelDialog({
         if (!opened && !done.current) returnFocus.current?.focus();
       }}
       title={`Remove ${channel.label}`}
-      description="Appflare stops sending to this channel and deletes its stored credentials. Messages waiting for a retry are dropped."
+      description={t(
+        "Appflare stops sending to this channel and deletes its stored credentials. Messages waiting for a retry are dropped.",
+      )}
       confirmText={channel.label}
-      actionLabel="Remove channel"
+      actionLabel={t("Remove channel")}
       onConfirm={async () => {
         await deleteNotificationChannel({ data: { id: channel.id } });
         done.current = true;

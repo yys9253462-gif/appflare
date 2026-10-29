@@ -2,6 +2,7 @@ import { AppflareLoader } from "@appflare/brand/loader";
 import { Button, LayerDialog } from "@cloudflare/kumo";
 import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import { t } from "../i18n";
 import { FAILURE_REPORT_COPY, type FailureReportPreview } from "../telemetry/failure-report";
 import { previewJobReport, sendJobReport } from "../telemetry/telemetry.functions";
 import { BusyMark, busyActionProps } from "./busy-button";
@@ -93,7 +94,7 @@ export function SendReportButton({
             {failure !== null && <ErrorMessageBanner message={failure} newTab />}
           </div>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary
             onClick={() => void onSend()}
             {...busyActionProps(pending, blocked)}

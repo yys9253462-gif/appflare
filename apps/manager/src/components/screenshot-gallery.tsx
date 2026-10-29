@@ -1,6 +1,7 @@
 import { Button, Dialog, Text } from "@cloudflare/kumo";
 import { CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react";
 import { type KeyboardEvent, useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { t } from "../i18n";
 import { CatalogImage } from "./catalog-image";
 import {
   LIGHTBOX_CLOSED,
@@ -182,7 +183,7 @@ export function ScreenshotGallery({
               shape="circle"
               size="sm"
               icon={CaretLeftIcon}
-              aria-label="Previous screenshots"
+              aria-label={t("Previous screenshots")}
               disabled={edges.atStart}
               onClick={() => page("previous")}
               className="absolute top-1/2 left-2 hidden -translate-y-1/2 shadow-md disabled:opacity-0 md:inline-flex"
@@ -192,7 +193,7 @@ export function ScreenshotGallery({
               shape="circle"
               size="sm"
               icon={CaretRightIcon}
-              aria-label="Next screenshots"
+              aria-label={t("Next screenshots")}
               disabled={edges.atEnd}
               onClick={() => page("next")}
               className="absolute top-1/2 right-2 hidden -translate-y-1/2 shadow-md disabled:opacity-0 md:inline-flex"
@@ -227,7 +228,13 @@ export function ScreenshotGallery({
             </div>
             <Dialog.Close
               render={(props) => (
-                <Button {...props} variant="ghost" shape="square" icon={XIcon} aria-label="Close" />
+                <Button
+                  {...props}
+                  variant="ghost"
+                  shape="square"
+                  icon={XIcon}
+                  aria-label={t("Close")}
+                />
               )}
             />
           </div>
@@ -258,7 +265,7 @@ export function ScreenshotGallery({
                 Previous
               </Button>
               <Button variant="secondary" onClick={() => dispatch({ type: "next" })}>
-                Next
+                {t("Next")}
                 <CaretRightIcon aria-hidden />
               </Button>
             </div>

@@ -1,5 +1,6 @@
 import { Combobox } from "@cloudflare/kumo";
 import type { ReactNode } from "react";
+import { t } from "../i18n";
 
 /** A zone of the account, as the pickers list them. */
 export interface ZoneChoice {
@@ -48,8 +49,8 @@ export function ZoneCombobox({
       <Combobox.TriggerValue className="w-full" placeholder={placeholder} />
       <Combobox.Content>
         {/* Named by the field's label, as Base UI labels it, like the trigger. */}
-        <Combobox.Input placeholder="Search your domains…" />
-        <Combobox.Empty>No domain matches.</Combobox.Empty>
+        <Combobox.Input placeholder={t("Search your domains…")} />
+        <Combobox.Empty>{t("No domain matches.")}</Combobox.Empty>
         <Combobox.List>
           {(zone: ZoneChoice) => (
             <Combobox.Item key={zone.id} value={zone}>

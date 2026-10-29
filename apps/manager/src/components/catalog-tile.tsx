@@ -3,6 +3,7 @@ import { cn, LinkButton, Text } from "@cloudflare/kumo";
 import { StarIcon } from "@phosphor-icons/react";
 import type { CatalogListItem } from "../catalog/catalog.functions";
 import { primaryAction } from "../catalog/storefront";
+import { t } from "../i18n";
 import { AppIcon } from "./catalog-media";
 import { RouterAnchor } from "./router-anchor";
 import { Tooltip } from "./tooltip";
@@ -63,7 +64,7 @@ export function TileMeta({ app }: { app: Pick<TileApp, "plan" | "popularity"> })
           <span className="inline-flex items-center gap-0.5 tabular-nums">
             <StarIcon aria-hidden weight="fill" size={12} />
             {formatCount(stars)}
-            <span className="sr-only"> stars on GitHub</span>
+            <span className="sr-only"> {t("stars on GitHub")}</span>
           </span>
         </>
       )}

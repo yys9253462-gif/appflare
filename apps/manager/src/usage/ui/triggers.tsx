@@ -1,6 +1,7 @@
 import { Checkbox, cn, InputGroup, Select, Text } from "@cloudflare/kumo";
 import { type ReactNode, useEffect, useId, useState } from "react";
 import type { AccountPlan } from "../../account/plan";
+import { t } from "../../i18n";
 import { LOOP_LEVEL_NAMES, type LoopLevel, PERIODS, type Period } from "../math";
 import { capWatch, type LoopNowAtLevel, loopingNow, type SpendApp } from "../overview";
 import { checkCapAmount, dollarsText } from "../spend-defaults";
@@ -94,7 +95,7 @@ export function TriggerRows({
         <span className="flex flex-wrap items-center gap-2">
           {editable ? (
             <Checkbox
-              label="When it loops"
+              label={t("When it loops")}
               checked={loop.on}
               disabled={disabled}
               onCheckedChange={(on: boolean) => onLoop({ ...loop, on })}
@@ -104,7 +105,7 @@ export function TriggerRows({
           )}
           {editable ? (
             <Select
-              aria-label="Loop sensitivity"
+              aria-label={t("Loop sensitivity")}
               className="w-36"
               disabled={disabled || !loop.on}
               value={loop.level}
@@ -130,7 +131,7 @@ export function TriggerRows({
             {editable ? (
               <>
                 <Checkbox
-                  label="When it spends more than"
+                  label={t("When it spends more than")}
                   checked={cap.on}
                   disabled={disabled}
                   onCheckedChange={(on: boolean) => onCap({ ...cap, on })}
@@ -142,7 +143,7 @@ export function TriggerRows({
                 >
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <InputGroup.Input
-                    aria-label="Spending cap in dollars"
+                    aria-label={t("Spending cap in dollars")}
                     name="cap-amount"
                     inputMode="decimal"
                     autoComplete="off"
@@ -157,7 +158,7 @@ export function TriggerRows({
                   />
                 </InputGroup>
                 <Select
-                  aria-label="Spending cap period"
+                  aria-label={t("Spending cap period")}
                   className="w-36"
                   disabled={disabled || !cap.on}
                   value={cap.period}
@@ -191,7 +192,7 @@ export function TriggerRows({
         <div className="py-3 last:pb-0">
           <Text>
             <span className="text-kumo-warning">
-              Nothing is a trigger, so auto-pause never pauses anything.
+              {t("Nothing is a trigger, so auto-pause never pauses anything.")}
             </span>
           </Text>
         </div>
@@ -241,7 +242,8 @@ export function LoopNow({
   ratio: number | null;
   check: LoopNowAtLevel;
 }) {
-  if (paused) return <Status alarm={false}>Paused, so nothing to check until it resumes.</Status>;
+  if (paused)
+    return <Status alarm={false}>{t("Paused, so nothing to check until it resumes.")}</Status>;
   const normal = ratio === null ? "no normal yet" : `${times(ratio)} its normal`;
   const now =
     plan === "free"

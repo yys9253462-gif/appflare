@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { showRowArrows, tileKeyTarget } from "../catalog/storefront";
+import { t } from "../i18n";
 import { AppTile, TILE_LINK_SELECTOR, TILE_WIDTH_REM, type TileApp } from "./catalog-tile";
 import { useIsNarrow } from "./sidebar-rail";
 
@@ -146,7 +147,7 @@ export function RowHeader({
       <div className="flex shrink-0 items-center gap-1">
         {onSeeAll !== undefined && (
           <Button variant="ghost" size="sm" onClick={onSeeAll} aria-label={`See all: ${title}`}>
-            See all
+            {t("See all")}
           </Button>
         )}
         {arrows !== null && (

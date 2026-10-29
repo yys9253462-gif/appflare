@@ -67,6 +67,7 @@ import { UninstallDialog } from "../../../components/uninstall-dialog";
 import { UpdateBanner } from "../../../components/update-banner";
 import { VersionsSection } from "../../../components/versions-section";
 import { WorkersDevSwitch } from "../../../components/workers-dev-switch";
+import { t } from "../../../i18n";
 import { installAgainLink } from "../../../installs/install-again";
 import {
   getInstallPage,
@@ -144,11 +145,11 @@ function InstallPage() {
   if (install === null) {
     return (
       <>
-        <PageHeader title="App not found" parents={[HOME_CRUMB]} />
+        <PageHeader title={t("App not found")} parents={[HOME_CRUMB]} />
         <Empty
           icon={<PackageIcon size={48} className="text-kumo-inactive" />}
-          title="No such install"
-          description="The link may be wrong, or the install was removed."
+          title={t("No such install")}
+          description={t("The link may be wrong, or the install was removed.")}
         />
       </>
     );
@@ -221,7 +222,7 @@ function OverviewTab({ install, isAdmin }: { install: InstallDetail; isAdmin: bo
       <Details install={install} isAdmin={isAdmin} />
       {!gone && <SourceChangesCard install={install} isAdmin={isAdmin} />}
       {!gone && install.postInstall.length > 0 && (
-        <Section id="next-steps" title="Next steps" className={FLUSH_RING_CLASS}>
+        <Section id="next-steps" title={t("Next steps")} className={FLUSH_RING_CLASS}>
           <SectionBody>
             {install.postInstall.map((content) => (
               <Markdown key={content}>{content}</Markdown>
@@ -268,20 +269,20 @@ function SettingsTab({
       {install.origin === "catalog" ? (
         <InstallAutoUpdateCard install={install} isAdmin={isAdmin} />
       ) : (
-        <Section id="automatic-updates" title="Automatic updates" className={FLUSH_RING_CLASS}>
+        <Section id="automatic-updates" title={t("Automatic updates")} className={FLUSH_RING_CLASS}>
           <SectionBody>
             <Text variant="secondary">
               {install.origin === "repository" ? (
                 <>
                   Never: this app is not from the catalog. Check for changes under{" "}
-                  <Link href={appLink(install.id, "source")}>Source</Link>, then rebuild and review
-                  the update.
+                  <Link href={appLink(install.id, "source")}>{t("Source")}</Link>, then rebuild and
+                  review the update.
                 </>
               ) : (
                 <>
                   Never: this app was built from source at a commit you chose. Update it from the
                   catalog, or rebuild it under{" "}
-                  <Link href={appLink(install.id, "source")}>Source</Link>.
+                  <Link href={appLink(install.id, "source")}>{t("Source")}</Link>.
                 </>
               )}
             </Text>
@@ -301,7 +302,7 @@ function SecretNamesSection({ names }: { names: readonly string[] }) {
   return (
     <Section
       id="secrets"
-      title="Secrets"
+      title={t("Secrets")}
       className={FLUSH_RING_CLASS}
       action={names.length === 0 ? null : <TechnicalNamesSwitch />}
     >
@@ -343,7 +344,7 @@ function DomainsTab({
   return (
     <>
       {isAdmin && install.build.kind !== "self-deploying" && (
-        <Section id="workers-dev" title="workers.dev URL" className={FLUSH_RING_CLASS}>
+        <Section id="workers-dev" title={t("workers.dev URL")} className={FLUSH_RING_CLASS}>
           <WorkersDevSwitch install={install} />
         </Section>
       )}
@@ -358,7 +359,7 @@ function DomainsTab({
         >
           <SectionBody>
             {install.domains.length === 0 ? (
-              <Text variant="secondary">The app is served on its workers.dev URL only.</Text>
+              <Text variant="secondary">{t("The app is served on its workers.dev URL only.")}</Text>
             ) : (
               <DomainNameList domains={install.domains} />
             )}
@@ -368,18 +369,21 @@ function DomainsTab({
       <ExternalDomainsSection install={install} isAdmin={isAdmin} />
       {/* After the addresses: it covers every one of them. */}
       {access !== null && <AppAccessSection install={install} access={access} isAdmin={isAdmin} />}
-      <Section id="email" title="Email" className={FLUSH_RING_CLASS}>
+      <Section id="email" title={t("Email")} className={FLUSH_RING_CLASS}>
         <SectionBody className="gap-3">
           {emailAgain !== null && (
             <Banner
               variant="alert"
               icon={BANNER_ICON.alert}
-              title="Part of the app's email is not set up"
+              title={t("Part of the app's email is not set up")}
               description={
                 <>
                   {emailLeftOutSummary(emailAgain)} An update or a rollback left this out.{" "}
                   {isAdmin ? "Set it up again under" : "An admin can set it up again under"}{" "}
-                  <Link href={appLink(install.id, "email-zone")}>Email in the app's settings</Link>.
+                  <Link href={appLink(install.id, "email-zone")}>
+                    {t("Email in the app's settings")}
+                  </Link>
+                  .
                 </>
               }
             />
@@ -406,7 +410,10 @@ function DomainsTab({
               )}
               <Text variant="secondary" size="sm">
                 To receive email for another domain, change{" "}
-                <Link href={appLink(install.id, "email-zone")}>Email in the app's settings</Link>.
+                <Link href={appLink(install.id, "email-zone")}>
+                  {t("Email in the app's settings")}
+                </Link>
+                .
               </Text>
             </>
           )}
@@ -427,14 +434,14 @@ function ResourcesTab({ install }: { install: InstallDetail }) {
       {kept && (
         <Section
           id="kept-resources"
-          title="Kept in the account"
+          title={t("Kept in the account")}
           className={FLUSH_RING_CLASS}
           description={
             <>
               These were kept when the app was uninstalled. Appflare no longer uses them. When you
               no longer need the data, an admin can delete them from the{" "}
-              <Link href={appLink(install.id, "danger-zone")}>danger zone</Link>, or you can delete
-              them in the Cloudflare dashboard.
+              <Link href={appLink(install.id, "danger-zone")}>{t("danger zone")}</Link>, or you can
+              delete them in the Cloudflare dashboard.
             </>
           }
           action={namesSwitch}
@@ -445,7 +452,7 @@ function ResourcesTab({ install }: { install: InstallDetail }) {
       {!gone && (
         <Section
           id="resources"
-          title="Resources"
+          title={t("Resources")}
           description={
             install.resources.some((r) => r.missing)
               ? "What the install created in this account. A Workflow marked “Not set up” is missing in Cloudflare, or was not updated with the app, so the parts of the app that use it may not work. Appflare tries again on its next scheduled check."
@@ -458,7 +465,7 @@ function ResourcesTab({ install }: { install: InstallDetail }) {
               <SectionEmpty
                 size="sm"
                 icon={<StackIcon size={32} className="text-kumo-inactive" />}
-                title="No resources have been created yet"
+                title={t("No resources have been created yet")}
               />
             ) : null
           }
@@ -467,10 +474,10 @@ function ResourcesTab({ install }: { install: InstallDetail }) {
         </Section>
       )}
       {gone && !kept && (
-        <Section id="resources" title="Resources" className={FLUSH_RING_CLASS}>
+        <Section id="resources" title={t("Resources")} className={FLUSH_RING_CLASS}>
           <SectionBody>
             <Text variant="secondary">
-              The Worker and every resource Appflare created for it are deleted.
+              {t("The Worker and every resource Appflare created for it are deleted.")}
             </Text>
           </SectionBody>
         </Section>
@@ -493,15 +500,15 @@ function JobsTab({
       {install.status !== "uninstalled" && (
         <VersionsSection install={install} snapshots={snapshots} isAdmin={isAdmin} />
       )}
-      <Section id="job-history" title="Job history" className={FLUSH_RING_CLASS}>
-        <SectionTable label="Job history" stickyFirstColumn>
+      <Section id="job-history" title={t("Job history")} className={FLUSH_RING_CLASS}>
+        <SectionTable label={t("Job history")} stickyFirstColumn>
           <Table.Header>
             <Table.Row>
-              <Table.Head>Job</Table.Head>
-              <Table.Head>Status</Table.Head>
-              <Table.Head>Started by</Table.Head>
-              <Table.Head>Started</Table.Head>
-              <Table.Head>Finished</Table.Head>
+              <Table.Head>{t("Job")}</Table.Head>
+              <Table.Head>{t("Status")}</Table.Head>
+              <Table.Head>{t("Started by")}</Table.Head>
+              <Table.Head>{t("Started")}</Table.Head>
+              <Table.Head>{t("Finished")}</Table.Head>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -542,11 +549,11 @@ function DangerZone({ install }: { install: InstallDetail }) {
   const selfDeploying = install.build.kind === "self-deploying";
   const busy = install.activeJobId !== null;
   return (
-    <Section id="danger-zone" title="Danger zone" className={FLUSH_RING_CLASS}>
+    <Section id="danger-zone" title={t("Danger zone")} className={FLUSH_RING_CLASS}>
       <SectionRows>
         {install.uninstall === "start" && (
           <SectionRow
-            title="Uninstall"
+            title={t("Uninstall")}
             description={
               selfDeploying
                 ? "Runs the app's own installer to delete everything it created. Nothing can be kept."
@@ -557,14 +564,16 @@ function DangerZone({ install }: { install: InstallDetail }) {
         )}
         {install.uninstall === "retry" && (
           <SectionRow
-            title="Finish uninstalling"
-            description="Deletes what the last attempt left. You can keep a resource Cloudflare refuses to delete."
+            title={t("Finish uninstalling")}
+            description={t(
+              "Deletes what the last attempt left. You can keep a resource Cloudflare refuses to delete.",
+            )}
             action={<UninstallDialog install={install} mode="retry" />}
           />
         )}
         {kept && (
           <SectionRow
-            title="Kept data"
+            title={t("Kept data")}
             description={
               install.forgotten
                 ? "Delete retained data deletes the resources this app kept, with everything in them. The app was forgotten, so Removed apps no longer lists it."
@@ -586,14 +595,14 @@ function DangerZone({ install }: { install: InstallDetail }) {
 function ResourceTable({ rows, showBindings }: { rows: ResourceView[]; showBindings: boolean }) {
   const managedColumn = rows.some((r) => r.managedByApp);
   return (
-    <SectionTable label="Resources" minWidth={showBindings ? "lg" : "md"}>
+    <SectionTable label={t("Resources")} minWidth={showBindings ? "lg" : "md"}>
       <Table.Header>
         <Table.Row>
-          <Table.Head>Kind</Table.Head>
-          {showBindings && <Table.Head>Binding</Table.Head>}
-          <Table.Head>Name</Table.Head>
-          <Table.Head>ID</Table.Head>
-          {managedColumn && <Table.Head>Managed by</Table.Head>}
+          <Table.Head>{t("Kind")}</Table.Head>
+          {showBindings && <Table.Head>{t("Binding")}</Table.Head>}
+          <Table.Head>{t("Name")}</Table.Head>
+          <Table.Head>{t("ID")}</Table.Head>
+          {managedColumn && <Table.Head>{t("Managed by")}</Table.Head>}
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -609,7 +618,7 @@ function ResourceTable({ rows, showBindings }: { rows: ResourceView[]; showBindi
               <span className={mono}>{r.name}</span>
             </Table.Cell>
             <Table.Cell>
-              {r.missing && <Badge variant="warning">Not set up</Badge>}
+              {r.missing && <Badge variant="warning">{t("Not set up")}</Badge>}
               {r.cfId !== null && (
                 <InlineCopyText
                   labels={{ copyAction: `Copy the ID of ${r.name}`, copied: "ID copied" }}
@@ -620,7 +629,11 @@ function ResourceTable({ rows, showBindings }: { rows: ResourceView[]; showBindi
             </Table.Cell>
             {managedColumn && (
               <Table.Cell>
-                {r.managedByApp ? <Badge variant="outline">The app's installer</Badge> : "Appflare"}
+                {r.managedByApp ? (
+                  <Badge variant="outline">{t("The app's installer")}</Badge>
+                ) : (
+                  "Appflare"
+                )}
               </Table.Cell>
             )}
           </Table.Row>
@@ -649,7 +662,7 @@ function FailedInstallState({ install, isAdmin }: { install: InstallDetail; isAd
       icon={BANNER_ICON.error}
       role={bannerRole("error")}
       className={ACTIONS_UNDER_ON_PHONE}
-      title="The install did not finish"
+      title={t("The install did not finish")}
       description={
         again
           ? `The log shows the step that failed and why. Once that is fixed, Install again removes what this install left in your account and installs ${install.origin === "catalog" ? "the app" : "the same build, or a new build of the same repository if that one is gone,"} with the same choices; you enter its secrets again.`
@@ -668,7 +681,7 @@ function FailedInstallState({ install, isAdmin }: { install: InstallDetail; isAd
           )}
           {againHref !== null && (
             <LinkButton href={againHref} variant="primary" icon={<ArrowCounterClockwiseIcon />}>
-              Install again
+              {t("Install again")}
             </LinkButton>
           )}
         </div>
@@ -684,15 +697,15 @@ function UninstallState({ install }: { install: InstallDetail }) {
       <Banner
         variant="secondary"
         icon={BANNER_ICON.secondary}
-        title="Uninstalled"
+        title={t("Uninstalled")}
         description={
           <>
             Uninstalled <Timestamp iso={install.uninstalledAt} />.{" "}
             {install.retained.length > 0 ? (
               <>
                 The Worker is deleted. The resources listed under{" "}
-                <Link href={appLink(install.id, "kept-resources")}>Kept in the account</Link> are
-                still there.
+                <Link href={appLink(install.id, "kept-resources")}>{t("Kept in the account")}</Link>
+                {t("are still there.")}
               </>
             ) : (
               "The Worker and every resource Appflare created for it are deleted."
@@ -708,7 +721,7 @@ function UninstallState({ install }: { install: InstallDetail }) {
       <Banner
         variant="secondary"
         icon={<AppflareLoader size="sm" aria-hidden />}
-        title="Uninstalling"
+        title={t("Uninstalling")}
         action={
           <LinkButton
             href={`/jobs/${install.activeJobId}`}
@@ -726,12 +739,12 @@ function UninstallState({ install }: { install: InstallDetail }) {
       variant="error"
       icon={BANNER_ICON.error}
       role={bannerRole("error")}
-      title="The uninstall did not finish"
+      title={t("The uninstall did not finish")}
       description={
         <>
           Resources already deleted stay deleted. An admin can finish the uninstall from the{" "}
-          <Link href={appLink(install.id, "danger-zone")}>danger zone</Link>, and keep anything
-          Cloudflare refuses to delete.
+          <Link href={appLink(install.id, "danger-zone")}>{t("danger zone")}</Link>, and keep
+          anything Cloudflare refuses to delete.
         </>
       }
     />
@@ -771,13 +784,13 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
   return (
     <Section
       id="details"
-      title="Details"
+      title={t("Details")}
       className={FLUSH_RING_CLASS}
       badge={
         <span className="flex flex-wrap items-center gap-2">
           <OriginBadge origin={install.origin} />
-          {install.updateAvailable && <Badge variant="info">Update available</Badge>}
-          {install.reinstallNeeded && <Badge variant="warning">Reinstall to update</Badge>}
+          {install.updateAvailable && <Badge variant="info">{t("Update available")}</Badge>}
+          {install.reinstallNeeded && <Badge variant="warning">{t("Reinstall to update")}</Badge>}
           <StatusBadge status={install.status} of="install" />
         </span>
       }
@@ -786,7 +799,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
     >
       <SectionBody>
         <DescriptionList>
-          <DescriptionItem label="App">
+          <DescriptionItem label={t("App")}>
             {install.origin === "repository" ? (
               install.name
             ) : (
@@ -794,19 +807,19 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
             )}
           </DescriptionItem>
           {install.catalogSource !== null && (
-            <DescriptionItem label="Source">
+            <DescriptionItem label={t("Source")}>
               {/* Updates, form revisions and install checks come from this catalog only. */}
               <CatalogSourceBadge source={install.catalogSource} />
             </DescriptionItem>
           )}
-          <DescriptionItem label="Name">
+          <DescriptionItem label={t("Name")}>
             {install.displayName ?? (
               <Text as="span" variant="secondary">
                 None; the app's name is shown
               </Text>
             )}
           </DescriptionItem>
-          <DescriptionItem label="Version">
+          <DescriptionItem label={t("Version")}>
             <span className={mono}>{install.version}</span>
             {(install.updateAvailable || install.reinstallNeeded) &&
               install.latestVersion !== null && (
@@ -816,10 +829,10 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
                 </Text>
               )}
           </DescriptionItem>
-          <DescriptionItem label="Worker">
+          <DescriptionItem label={t("Worker")}>
             <span className={mono}>{install.workerName}</span>
           </DescriptionItem>
-          <DescriptionItem label="URL">
+          <DescriptionItem label={t("URL")}>
             {install.status === "installed" &&
             (install.address !== null || install.domains.length > 0) ? (
               <span className="grid gap-1">
@@ -834,7 +847,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
                 ))}
                 {!install.workersDevEnabled && (
                   <Text as="span" variant="secondary" size="sm">
-                    Not served on workers.dev
+                    {t("Not served on workers.dev")}
                   </Text>
                 )}
               </span>
@@ -845,12 +858,12 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
             )}
           </DescriptionItem>
           {install.otherWorkers.length > 0 && install.status !== "uninstalled" && (
-            <DescriptionItem label="Other Workers">
+            <DescriptionItem label={t("Other Workers")}>
               <OtherWorkers workers={install.otherWorkers} />
             </DescriptionItem>
           )}
           {(install.status === "installed" || install.status === "updating") && (
-            <DescriptionItem id="health" label="Health">
+            <DescriptionItem id="health" label={t("Health")}>
               <InstallHealth
                 installId={install.id}
                 status={install.healthStatus}
@@ -861,7 +874,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
             </DescriptionItem>
           )}
           {showNames && (
-            <DescriptionItem label="Worker version">
+            <DescriptionItem label={t("Worker version")}>
               {install.currentVersionId === null ? (
                 "None yet"
               ) : (
@@ -877,7 +890,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
             </DescriptionItem>
           )}
           {install.build.kind === "self-deploying" ? (
-            <DescriptionItem label="Deployed">
+            <DescriptionItem label={t("Deployed")}>
               <span className="grid gap-1">
                 <span>
                   By the app's own installer
@@ -898,7 +911,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
               </span>
             </DescriptionItem>
           ) : install.build.kind === "sandbox" ? (
-            <DescriptionItem label="Built">
+            <DescriptionItem label={t("Built")}>
               <span className="grid gap-1">
                 <span>
                   {install.source !== null ? (
@@ -925,7 +938,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
             </DescriptionItem>
           ) : (
             install.pinSha !== null && (
-              <DescriptionItem label="Built from">
+              <DescriptionItem label={t("Built from")}>
                 <span className={mono}>{install.pinSha.slice(0, 12)}</span>
                 <Text as="span" variant="secondary">
                   {" "}
@@ -941,7 +954,7 @@ function Details({ install, isAdmin }: { install: InstallDetail; isAdmin: boolea
                 <span className={mono}>{value}</span>
               </DescriptionItem>
             ))}
-          <DescriptionItem label="Last change">
+          <DescriptionItem label={t("Last change")}>
             <Timestamp iso={install.updatedAt} />
           </DescriptionItem>
         </DescriptionList>

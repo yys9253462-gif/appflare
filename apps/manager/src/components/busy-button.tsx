@@ -1,6 +1,7 @@
 import { AppflareLoader } from "@appflare/brand/loader";
 import { Button } from "@cloudflare/kumo";
 import type { ComponentProps } from "react";
+import { t } from "../i18n";
 
 type KumoButtonProps = ComponentProps<typeof Button>;
 type KumoButtonSize = NonNullable<KumoButtonProps["size"]>;
@@ -72,9 +73,7 @@ export function BusyButton({
  *
  * ```tsx
  * <LayerDialog.Actions.Primary type="submit" {...busyActionProps(pending)}>
- *   <BusyMark pending={pending} />
- *   Save
- * </LayerDialog.Actions.Primary>
+ *   <BusyMark pending={pending} />{t("* Save *")} </LayerDialog.Actions.Primary>
  * ```
  *
  * The dialog's primary action is always a primary or destructive button,

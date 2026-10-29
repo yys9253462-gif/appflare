@@ -1,6 +1,7 @@
 import { Banner, Checkbox, Text } from "@cloudflare/kumo";
 import { ArrowCircleUpIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { type FormEvent, useState } from "react";
+import { t } from "../i18n";
 import type { SourceBuildReview, SourceBuildView } from "../installs/source-builds.functions";
 import { updateFromSourceBuild } from "../installs/source-builds.functions";
 import { BusyButton } from "./busy-button";
@@ -79,23 +80,23 @@ export function UpdateFromBuild({
       <SectionBody>
         <form className="grid gap-5" onSubmit={onSubmit}>
           <Text variant="secondary">
-            The update takes a snapshot of the current version and of each D1 database, checks the
-            new version before it serves traffic where Cloudflare allows it, and keeps the current
-            one for a rollback.
+            {t(
+              "The update takes a snapshot of the current version and of each D1 database, checks the new version before it serves traffic where Cloudflare allows it, and keeps the current one for a rollback.",
+            )}
           </Text>
           {review.skipsPreview !== null && (
             <div className="grid gap-3">
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="No preview check for this update"
+                title={t("No preview check for this update")}
                 description={`${review.skipsPreview}.`}
               />
               <Checkbox
                 checked={noPreview}
                 onCheckedChange={(checked: boolean) => setNoPreview(checked)}
                 disabled={pending || !canUpdate}
-                label="Update without checking the new version first"
+                label={t("Update without checking the new version first")}
               />
             </div>
           )}
@@ -103,14 +104,14 @@ export function UpdateFromBuild({
             <Banner
               variant="secondary"
               icon={<EnvelopeSimpleIcon weight="fill" />}
-              title="Email changes with this version"
+              title={t("Email changes with this version")}
               description={review.emailRouting}
             />
           )}
           {review.needsSecrets.length > 0 && (
             <div className="grid gap-4">
               <div className="grid gap-1.5">
-                <Text bold>New secrets</Text>
+                <Text bold>{t("New secrets")}</Text>
                 <Text variant="secondary" size="sm">
                   {review.heldSecrets.length > 0
                     ? "This build needs secrets the app does not have yet, or the value of one it has again."

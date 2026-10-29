@@ -3,6 +3,7 @@ import { ArrowsClockwiseIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import type { HealthStatus } from "../db/schema";
+import { t } from "../i18n";
 import { checkInstallHealth } from "../installs/health.functions";
 import { BusyButton } from "./busy-button";
 import { MessageText } from "./message-text";
@@ -64,7 +65,7 @@ export function HealthBadge({
   if (status === null) {
     return (
       <Badge variant="neutral" appearance="dot">
-        Not checked
+        {t("Not checked")}
       </Badge>
     );
   }

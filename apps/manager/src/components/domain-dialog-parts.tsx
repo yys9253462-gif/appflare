@@ -3,6 +3,7 @@ import { KeyIcon, PlugsConnectedIcon, WarningIcon } from "@phosphor-icons/react"
 import { useId } from "react";
 import { reconnectDialogHref } from "../cloudflare/reconnect-outcome";
 import { accountTokenTemplateUrl } from "../cloudflare/token-template";
+import { t } from "../i18n";
 import type { ConflictingRecord, DomainOptions } from "../installs/custom-domains.server";
 import { ACTIONS_UNDER_ON_PHONE, BannerActions } from "./message-text";
 import { settingsLink } from "./settings-links";
@@ -46,7 +47,7 @@ export function TokenPermissionsBanner({
             these permissions for the domains you want to use, and save. An edited token keeps its
             value, so nothing changes here. Or create a new token and replace the old one in the{" "}
             <Link href={settingsLink("account", "connection")} target="_blank" rel="noopener">
-              Cloudflare connection settings
+              {t("Cloudflare connection settings")}
             </Link>{" "}
             with Change how Appflare connects.
           </span>

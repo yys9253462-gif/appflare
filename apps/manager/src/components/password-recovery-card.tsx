@@ -14,6 +14,7 @@ import { type FormEvent, useState } from "react";
 import type { RecoveryMethod } from "../auth/recovery.server";
 import { RECOVER_COMMAND } from "../auth/recovery-messages";
 import { serverErrorMessage } from "../auth/sign-in-errors";
+import { t } from "../i18n";
 import {
   type PasswordRecoverySettings,
   sendTestPasswordEmail,
@@ -43,7 +44,7 @@ export function PasswordRecoveryCard({ settings }: { settings: PasswordRecoveryS
   return (
     <Section
       {...settingsSection("users", "forgotten-passwords")}
-      description="How someone who forgot their password gets back in."
+      description={t("How someone who forgot their password gets back in.")}
     >
       <SectionRows>
         <SectionBody className="gap-3">
@@ -60,7 +61,7 @@ export function PasswordRecoveryCard({ settings }: { settings: PasswordRecoveryS
           <ClipboardText text={RECOVER_COMMAND} />
           {lastRecovery !== null && (
             <Text variant="secondary" size="sm">
-              Last reset without the old password: <Timestamp iso={lastRecovery.at} />,{" "}
+              {t("Last reset without the old password:")} <Timestamp iso={lastRecovery.at} />,{" "}
               {lastRecovery.email ?? "a user who was deleted since"}, with{" "}
               {METHOD_LABELS[lastRecovery.method]}.
             </Text>
@@ -125,7 +126,7 @@ function PasswordEmailCard({
       title={
         <span className="flex flex-wrap items-center gap-2">
           <EnvelopeSimpleIcon size={18} />
-          Password reset emails
+          {t("Password reset emails")}
           <DocsLink topic="passwordResetEmails" />
           <Badge variant={status.enabled ? "success" : "neutral"}>
             {status.enabled ? "On" : "Off"}
@@ -139,8 +140,8 @@ function PasswordEmailCard({
           variant="secondary"
           // No live region: the toast for the change already says so.
           icon={<AppflareLoader size="sm" aria-hidden />}
-          title="Appflare is restarting with reset emails turned on"
-          description="Reload this page in a few seconds."
+          title={t("Appflare is restarting with reset emails turned on")}
+          description={t("Reload this page in a few seconds.")}
         />
       )}
       {status.enabled ? (
@@ -151,17 +152,19 @@ function PasswordEmailCard({
           {viewerIsOwner && (
             <div className="flex flex-wrap gap-2">
               <BusyButton pending={pending === "test"} variant="secondary" onClick={test}>
-                Send me a test email
+                {t("Send me a test email")}
               </BusyButton>
               <ConfirmDialog
                 trigger={(p) => (
                   <Button {...p} variant="secondary-destructive" disabled={pending !== null}>
-                    Turn off
+                    {t("Turn off")}
                   </Button>
                 )}
-                title="Turn off password reset emails"
-                description="People who forget their password then need a recovery code from an admin, or from whoever manages the Cloudflare account. Appflare restarts without email in a few seconds."
-                actionLabel="Turn off"
+                title={t("Turn off password reset emails")}
+                description={t(
+                  "People who forget their password then need a recovery code from an admin, or from whoever manages the Cloudflare account. Appflare restarts without email in a few seconds.",
+                )}
+                actionLabel={t("Turn off")}
                 onConfirm={async () => {
                   await setPasswordResetEmails({ data: { sender: null } });
                   await router.invalidate();
@@ -173,28 +176,28 @@ function PasswordEmailCard({
       ) : viewerIsOwner && !restarting ? (
         <form className="grid gap-3" onSubmit={turnOn}>
           <Text variant="secondary">
-            Appflare can email reset links through Cloudflare Email Sending. Enter an address on a
-            domain set up for it in this account. Without Workers Paid, emails reach only addresses
-            verified in Email Routing.
+            {t(
+              "Appflare can email reset links through Cloudflare Email Sending. Enter an address on a domain set up for it in this account. Without Workers Paid, emails reach only addresses verified in Email Routing.",
+            )}
           </Text>
           <Input
-            label="Send from"
+            label={t("Send from")}
             name="sender"
             type="email"
-            placeholder="appflare@example.com"
+            placeholder={t("appflare@example.com")}
             autoComplete="off"
             required
             defaultValue={status.sender ?? undefined}
           />
           <SectionFormActions>
             <BusyButton pending={pending === "on"} type="submit" variant="primary">
-              Turn on
+              {t("Turn on")}
             </BusyButton>
           </SectionFormActions>
         </form>
       ) : (
         !restarting && (
-          <Text variant="secondary">Off. Only the owner can turn on reset emails.</Text>
+          <Text variant="secondary">{t("Off. Only the owner can turn on reset emails.")}</Text>
         )
       )}
     </SectionRow>

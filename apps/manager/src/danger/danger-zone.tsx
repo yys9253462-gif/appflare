@@ -9,6 +9,7 @@ import { BANNER_ICON, bannerRole, MessageText } from "../components/message-text
 import { Section, SectionRow, SectionRows } from "../components/section";
 import { settingsSection } from "../components/settings-links";
 import { Timestamp } from "../components/timestamp";
+import { t } from "../i18n";
 import { deletesBuildBucket, REMOVE_PATH, ROTATE_CONFIRMATION, ROTATE_PATH } from "./danger";
 import type { DangerZoneState } from "./danger.functions";
 import { getRemovalReview } from "./danger.functions";
@@ -47,11 +48,11 @@ export function DangerZone({ state }: { state: DangerZoneState }) {
   return (
     <Section
       {...settingsSection("account", "danger-zone")}
-      description="Actions that cannot be undone. Each asks you to type a confirmation first."
+      description={t("Actions that cannot be undone. Each asks you to type a confirmation first.")}
     >
       <SectionRows>
         <SectionRow
-          title="Rotate the auth secret"
+          title={t("Rotate the auth secret")}
           description={
             <>
               Signs everyone out and makes stored notification credentials unreadable until they are
@@ -62,8 +63,10 @@ export function DangerZone({ state }: { state: DangerZoneState }) {
           action={<RotateAuthSecretDialog />}
         />
         <SectionRow
-          title="Remove Appflare from this account"
-          description="Deletes Appflare and everything it runs on. The apps it installed stay and keep running, unmanaged."
+          title={t("Remove Appflare from this account")}
+          description={t(
+            "Deletes Appflare and everything it runs on. The apps it installed stay and keep running, unmanaged.",
+          )}
           action={<RemoveAppflareDialog />}
         />
       </SectionRows>
@@ -76,35 +79,40 @@ function RotateAuthSecretDialog() {
     <ConfirmDialog
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<KeyIcon />}>
-          Rotate auth secret
+          {t("Rotate auth secret")}
         </Button>
       )}
-      title="Rotate the auth secret"
-      description="Appflare gives itself a new random sign-in secret, which deploys a new version of the same code with it."
+      title={t("Rotate the auth secret")}
+      description={t(
+        "Appflare gives itself a new random sign-in secret, which deploys a new version of the same code with it.",
+      )}
       confirmText={ROTATE_CONFIRMATION}
-      actionLabel="Rotate and sign everyone out"
+      actionLabel={t("Rotate and sign everyone out")}
       onConfirm={(typed) => submitForm(ROTATE_PATH, typed)}
     >
       <Banner
         variant="alert"
         icon={BANNER_ICON.alert}
-        title="Everyone is signed out, you included"
-        description="Every session ends at once. Passwords and passkeys stay as they are, so everyone can sign in again."
+        title={t("Everyone is signed out, you included")}
+        description={t(
+          "Every session ends at once. Passwords and passkeys stay as they are, so everyone can sign in again.",
+        )}
       />
       <div className="grid gap-1.5">
-        <Text bold>Notification channels</Text>
+        <Text bold>{t("Notification channels")}</Text>
         <Text variant="secondary">
-          Their credentials are encrypted with a key derived from this secret. After the rotation
-          they show as unreadable, and nothing is sent to them until an admin enters the bot token
-          or webhook URL again.
+          {t(
+            "Their credentials are encrypted with a key derived from this secret. After the rotation they show as unreadable, and nothing is sent to them until an admin enters the bot token or webhook URL again.",
+          )}
         </Text>
       </div>
       <Collapsible.Root>
-        <Collapsible.DefaultTrigger>Technical details</Collapsible.DefaultTrigger>
+        <Collapsible.DefaultTrigger>{t("Technical details")}</Collapsible.DefaultTrigger>
         <Collapsible.DefaultPanel>
           <Text variant="secondary" size="sm">
-            The secret is the <span className="font-mono text-[0.9em]">BETTER_AUTH_SECRET</span>{" "}
-            secret of Appflare's own Worker.
+            {t("The secret is the")}{" "}
+            <span className="font-mono text-[0.9em]">{t("BETTER_AUTH_SECRET")}</span> secret of
+            Appflare's own Worker.
           </Text>
         </Collapsible.DefaultPanel>
       </Collapsible.Root>
@@ -140,13 +148,13 @@ function RemoveAppflareDialog() {
       size="lg"
       trigger={(p) => (
         <Button {...p} variant="secondary-destructive" icon={<TrashIcon />}>
-          Remove Appflare
+          {t("Remove Appflare")}
         </Button>
       )}
-      title="Remove Appflare from this account"
-      description="Review what goes and what stays. This cannot be undone."
+      title={t("Remove Appflare from this account")}
+      description={t("Review what goes and what stays. This cannot be undone.")}
       {...(review !== null && !blocked ? { confirmText: review.targets.accountName } : {})}
-      actionLabel="Remove Appflare"
+      actionLabel={t("Remove Appflare")}
       disabled={blocked}
       onOpen={onOpen}
       onConfirm={(typed) => submitForm(REMOVE_PATH, typed)}
@@ -154,7 +162,7 @@ function RemoveAppflareDialog() {
       {state.kind === "loading" && (
         <div className="flex items-center gap-2">
           <AppflareLoader size="sm" />
-          <Text variant="secondary">Reading the account…</Text>
+          <Text variant="secondary">{t("Reading the account…")}</Text>
         </div>
       )}
       {state.kind === "error" && (
@@ -162,7 +170,7 @@ function RemoveAppflareDialog() {
           variant="error"
           icon={BANNER_ICON.error}
           role={bannerRole("error")}
-          title="Appflare could not read what it would remove"
+          title={t("Appflare could not read what it would remove")}
           description={<MessageText message={state.message} newTab />}
         />
       )}
@@ -199,22 +207,24 @@ function RemovalReviewBody({ review }: { review: RemovalReview }) {
           title={
             activeJobs.length === 1 ? "A job is running" : `${activeJobs.length} jobs are running`
           }
-          description="Appflare cannot be removed while a job is queued or running. Wait for it to finish, then open this dialog again."
+          description={t(
+            "Appflare cannot be removed while a job is queued or running. Wait for it to finish, then open this dialog again.",
+          )}
         />
       )}
       {externalDomains.length > 0 && <ExternalDomainsBanner domains={externalDomains} />}
       <div className="grid gap-1.5">
-        <Text bold>Deleted, in this order</Text>
+        <Text bold>{t("Deleted, in this order")}</Text>
         <ul className="grid list-disc gap-1 pl-5">
           {deletesBuildBucket(sandbox) && (
             <li>
-              The R2 bucket <Mono>appflare-builds</Mono>, emptied first: every build output and
-              build log of the sandbox Worker.
+              {t("The R2 bucket")} <Mono>appflare-builds</Mono>, emptied first: every build output
+              and build log of the sandbox Worker.
             </li>
           )}
           {gateway !== null && (
             <li>
-              The external domains gateway on <Mono>{gateway.zoneName}</Mono>: the route{" "}
+              {t("The external domains gateway on")} <Mono>{gateway.zoneName}</Mono>: the route{" "}
               <Mono>*/*</Mono>, the Worker <Mono>appflare-gateway</Mono>
               {gateway.fallbackSet && ", the zone's fallback origin (Appflare set it)"}
               {gateway.recordCreated && (
@@ -227,7 +237,7 @@ function RemovalReviewBody({ review }: { review: RemovalReview }) {
           )}
           {sandbox.worker === "sandbox" && (
             <li>
-              The sandbox Worker <Mono>appflare-sandbox</Mono>, with the secrets it holds.
+              {t("The sandbox Worker")} <Mono>appflare-sandbox</Mono>, with the secrets it holds.
             </li>
           )}
           {(sandbox.containerApps ?? []).length > 0 && (
@@ -243,26 +253,29 @@ function RemovalReviewBody({ review }: { review: RemovalReview }) {
           )}
           {(targets.appAccessInstalls ?? []).length > 0 && (
             <li>
-              The Cloudflare Access service tokens Appflare's health checks used for protected apps,
-              taken out of their Access applications first.
+              {t(
+                "The Cloudflare Access service tokens Appflare's health checks used for protected apps, taken out of their Access applications first.",
+              )}
             </li>
           )}
           {manager.d1Id !== null && (
             <li>
-              Appflare's D1 database, <Mono>{manager.d1Id}</Mono>: users, passkeys, jobs and their
-              logs, snapshots, notification channels and settings.
+              {t("Appflare's D1 database,")} <Mono>{manager.d1Id}</Mono>: users, passkeys, jobs and
+              their logs, snapshots, notification channels and settings.
             </li>
           )}
           {targets.accessAppIds.length > 0 && (
             <li>
-              The Cloudflare Access applications that protect Appflare, after the database, so a
-              removal that stops earlier leaves Appflare protected.
+              {t(
+                "The Cloudflare Access applications that protect Appflare, after the database, so a removal that stops earlier leaves Appflare protected.",
+              )}
             </li>
           )}
           <li>
-            Last, the Worker <Mono>{manager.workerName}</Mono> itself, with its Workflow, cron
-            trigger and workers.dev address. It deletes itself after the final page has reached your
-            browser.
+            {t("Last, the Worker")} <Mono>{manager.workerName}</Mono>
+            {t(
+              "itself, with its Workflow, cron trigger and workers.dev address. It deletes itself after the final page has reached your browser.",
+            )}
           </li>
         </ul>
       </div>
@@ -271,24 +284,28 @@ function RemovalReviewBody({ review }: { review: RemovalReview }) {
           variant="alert"
           icon={BANNER_ICON.alert}
           title={`${sandbox.appTokens} self-deploying app${sandbox.appTokens === 1 ? "" : "s"} lose${sandbox.appTokens === 1 ? "s" : ""} the installer token`}
-          description="The sandbox Worker keeps the Cloudflare token each self-deploying app's installer runs with. It is deleted with the sandbox Worker. The apps keep running, but nothing can update or destroy them through their installer any more. Revoke those tokens in the Cloudflare dashboard if you no longer need them."
+          description={t(
+            "The sandbox Worker keeps the Cloudflare token each self-deploying app's installer runs with. It is deleted with the sandbox Worker. The apps keep running, but nothing can update or destroy them through their installer any more. Revoke those tokens in the Cloudflare dashboard if you no longer need them.",
+          )}
         />
       )}
       {sandbox.worker === "missing" && sandbox.bucket && (
         <Text variant="secondary">
-          The bucket <Mono>appflare-builds</Mono> stays: the sandbox Worker that used it is already
-          gone, so the bucket was kept on purpose. Delete it in the Cloudflare dashboard if you no
-          longer need its builds.
+          {t("The bucket")} <Mono>appflare-builds</Mono>
+          {t(
+            "stays: the sandbox Worker that used it is already gone, so the bucket was kept on purpose. Delete it in the Cloudflare dashboard if you no longer need its builds.",
+          )}
         </Text>
       )}
       {sandbox.worker === "other" && (
         <Text variant="secondary">
-          A Worker named <Mono>appflare-sandbox</Mono> exists but is not a sandbox Worker, so it is
-          left alone, and so is any bucket named <Mono>appflare-builds</Mono>.
+          {t("A Worker named")} <Mono>appflare-sandbox</Mono>
+          {t("exists but is not a sandbox Worker, so it is left alone, and so is any bucket named")}{" "}
+          <Mono>appflare-builds</Mono>.
         </Text>
       )}
       <div className="grid gap-1.5">
-        <Text bold>Stays in the account</Text>
+        <Text bold>{t("Stays in the account")}</Text>
         <ul className="grid list-disc gap-1 pl-5">
           <li>
             {appCount === 0
@@ -325,30 +342,32 @@ function RemovalReviewBody({ review }: { review: RemovalReview }) {
           )}
           {stays.protectedApps.length === 0 && stays.usersPolicy && (
             <li>
-              The "Appflare users" Cloudflare Access policy, for any Access application that still
-              uses it. Manage or delete it in the Cloudflare dashboard under Zero Trust, Access.
+              {t(
+                'The "Appflare users" Cloudflare Access policy, for any Access application that still uses it. Manage or delete it in the Cloudflare dashboard under Zero Trust, Access.',
+              )}
             </li>
           )}
           {sandbox.worker === "sandbox" && sandbox.containerApps === null && (
             <li>
               The sandbox Worker's container applications,{" "}
-              <MonoList names={SANDBOX_CONTAINERS.map((c) => c.name)} />. Cloudflare keeps them when
-              the Worker is deleted, and Appflare's token lacks Containers: Edit, so it cannot
-              delete them. Afterwards, delete them in the Cloudflare dashboard under Workers,
-              Containers, or add that permission to the token first.
+              <MonoList names={SANDBOX_CONTAINERS.map((c) => c.name)} />
+              {t(
+                ". Cloudflare keeps them when the Worker is deleted, and Appflare's token lacks Containers: Edit, so it cannot delete them. Afterwards, delete them in the Cloudflare dashboard under Workers, Containers, or add that permission to the token first.",
+              )}
             </li>
           )}
           {sandbox.containerAppsLeft.map((app) => (
             <li key={app.id}>
-              The container application <Mono>{app.name}</Mono>: {app.reason}. If it is Appflare's,
-              delete it in the Cloudflare dashboard under Workers, Containers.
+              {t("The container application")} <Mono>{app.name}</Mono>: {app.reason}. If it is
+              Appflare's, delete it in the Cloudflare dashboard under Workers, Containers.
             </li>
           ))}
         </ul>
       </div>
       <Text variant="secondary">
-        The removal runs in this window and shows each step as it finishes. If a step fails, the
-        rest stays, Appflare keeps working, and running the removal again finishes it.
+        {t(
+          "The removal runs in this window and shows each step as it finishes. If a step fails, the rest stays, Appflare keeps working, and running the removal again finishes it.",
+        )}
       </Text>
     </>
   );
@@ -367,7 +386,7 @@ function ExternalDomainsBanner({ domains }: { domains: RemovalReview["externalDo
       variant="error"
       icon={BANNER_ICON.error}
       role={bannerRole("error")}
-      title="Remove these external domains first, or their visitors lose the site"
+      title={t("Remove these external domains first, or their visitors lose the site")}
       description={
         <>
           Visitors of an external domain reach its app only through the gateway, which removing

@@ -11,6 +11,7 @@ import {
 import { ArrowCounterClockwiseIcon, DatabaseIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { type FormEvent, useId, useState } from "react";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import { rollbackDialogCopy } from "../installs/rollback-copy";
 import { restoreDatabase, startRollback } from "../installs/versions.functions";
@@ -57,7 +58,7 @@ export function VersionsSection({
   // Actions need an installed app with no job running.
   const canAct = isAdmin && install.status === "installed" && install.activeJobId === null;
   return (
-    <Section id="versions" title="Versions" className={FLUSH_RING_CLASS}>
+    <Section id="versions" title={t("Versions")} className={FLUSH_RING_CLASS}>
       {install.build.kind === "self-deploying" ? (
         <SectionBody>
           <Text variant="secondary">
@@ -69,19 +70,20 @@ export function VersionsSection({
       ) : snapshots.length === 0 ? (
         <SectionBody>
           <Text variant="secondary">
-            No updates or settings changes yet. Each takes a snapshot first: the Worker version that
-            was serving, its settings, and a Time Travel bookmark of each D1 database.
+            {t(
+              "No updates or settings changes yet. Each takes a snapshot first: the Worker version that was serving, its settings, and a Time Travel bookmark of each D1 database.",
+            )}
           </Text>
         </SectionBody>
       ) : (
         <SectionRows>
-          <SectionTable label="Versions" minWidth="lg" stickyFirstColumn>
+          <SectionTable label={t("Versions")} minWidth="lg" stickyFirstColumn>
             <Table.Header>
               <Table.Row>
-                <Table.Head>Snapshot taken</Table.Head>
-                <Table.Head>Catalog version</Table.Head>
-                <Table.Head>Worker version</Table.Head>
-                <Table.Head>Job</Table.Head>
+                <Table.Head>{t("Snapshot taken")}</Table.Head>
+                <Table.Head>{t("Catalog version")}</Table.Head>
+                <Table.Head>{t("Worker version")}</Table.Head>
+                <Table.Head>{t("Job")}</Table.Head>
                 {canAct && <Table.Head />}
               </Table.Row>
             </Table.Header>
@@ -179,7 +181,7 @@ function RollbackUnavailable({ reason }: { reason: string }) {
   return (
     <div className="grid max-w-64 justify-items-end gap-1">
       <Button size="sm" variant="secondary" icon={<ArrowCounterClockwiseIcon />} disabled>
-        Roll back
+        {t("Roll back")}
       </Button>
       <Text variant="secondary" size="sm">
         <MessageText message={reason} />
@@ -222,8 +224,10 @@ function RollbackDialog({ install, snapshot }: { install: InstallDetail; snapsho
         <Banner
           variant="alert"
           icon={BANNER_ICON.alert}
-          title="Databases are not changed"
-          description="If the newer version changed its data, the older code may not read it. Restore a database from this snapshot separately if you need its data as it was."
+          title={t("Databases are not changed")}
+          description={t(
+            "If the newer version changed its data, the older code may not read it. Restore a database from this snapshot separately if you need its data as it was.",
+          )}
         />
       )}
       {(snapshot.emailNote !== null || install.emailRoutes.length > 0) && (
@@ -242,7 +246,7 @@ function RollbackDialog({ install, snapshot }: { install: InstallDetail; snapsho
         />
       )}
       {!copy.warnData && install.emailRoutes.length === 0 && (
-        <Text variant="secondary">Databases and custom domains are not changed.</Text>
+        <Text variant="secondary">{t("Databases and custom domains are not changed.")}</Text>
       )}
     </ConfirmDialog>
   );
@@ -315,8 +319,9 @@ function RestoreDatabaseDialog({
           {done === null ? `Restore database ${database.name}` : `Restored ${done.databaseName}`}
         </LayerDialog.Title>
         <LayerDialog.Description>
-          Restores <span className={mono}>{database.name}</span> to this point: its state when the
-          snapshot was taken on <Timestamp iso={snapshot.takenAt} />
+          {t("Restores")} <span className={mono}>{database.name}</span>
+          {t("to this point: its state when the snapshot was taken on")}{" "}
+          <Timestamp iso={snapshot.takenAt} />
           {database.bookmark !== null && (
             <>
               {" "}
@@ -331,8 +336,10 @@ function RestoreDatabaseDialog({
               <Banner
                 variant="alert"
                 icon={BANNER_ICON.alert}
-                title="Everything written since then is replaced"
-                description="The Worker is not changed. Cloudflare returns a bookmark of the database as it is now, so this restore can be undone by restoring to that bookmark."
+                title={t("Everything written since then is replaced")}
+                description={t(
+                  "The Worker is not changed. Cloudflare returns a bookmark of the database as it is now, so this restore can be undone by restoring to that bookmark.",
+                )}
               />
               <Input
                 label={
@@ -373,7 +380,7 @@ function RestoreDatabaseDialog({
             <div className="mt-5 grid gap-5">
               {done.previousBookmark !== null && (
                 <div className="grid gap-2">
-                  <Text bold>Bookmark from just before the restore</Text>
+                  <Text bold>{t("Bookmark from just before the restore")}</Text>
                   <ClipboardText text={done.previousBookmark} size="base" />
                   <ClipboardText
                     text={`wrangler d1 time-travel restore ${done.databaseName} --bookmark=${done.previousBookmark}`}
@@ -381,7 +388,7 @@ function RestoreDatabaseDialog({
                   />
                 </div>
               )}
-              <Link href={`/jobs/${done.jobId}`}>View log</Link>
+              <Link href={`/jobs/${done.jobId}`}>{t("View log")}</Link>
             </div>
           )}
         </LayerDialog.Body>
@@ -394,11 +401,11 @@ function RestoreDatabaseDialog({
               {...busyActionProps(pending, !confirmed)}
             >
               <BusyMark pending={pending} />
-              Restore database
+              {t("Restore database")}
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>
-              Done
+              {t("Done")}
             </LayerDialog.Actions.Primary>
           )}
         </LayerDialog.Actions>
