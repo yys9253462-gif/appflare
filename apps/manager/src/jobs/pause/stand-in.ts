@@ -1,5 +1,6 @@
 import type { VersionMetadata, WorkerModule } from "@appflare/cf-api";
 import { durableObjectExports, type WorkerExports } from "@appflare/schema";
+import { t } from "../../i18n";
 import { JobError } from "../errors";
 
 /**
@@ -239,7 +240,7 @@ const PAGE = `<!doctype html>
 <body>
 <main>
 <h1>${PAUSED_MESSAGE}</h1>
-<p>It is not available right now. Try again later.</p>
+<p>${t("It is not available right now. Try again later.")}</p>
 </main>
 </body>
 </html>

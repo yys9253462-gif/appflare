@@ -12,7 +12,7 @@
  *
  *   node scripts/i18n-coverage.mjs [--by-file] [--json]
  */
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
 const ROOT = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
@@ -47,8 +47,19 @@ function looksLikeUiText(text) {
   if (/^[a-z0-9_./:#-]+$/.test(value)) return false;
   if (/^(https?:|\/|\.\/|\.\.\/)/.test(value)) return false;
   if (/^[A-Za-z0-9_-]+$/.test(value) && !/^[A-Z]/.test(value)) return false;
-  // Code-ish: a JSX tag, an expression, an import specifier.
+  // Code-ish: a JSX tag, an expression, an import specifier, an escape.
   if (/[<>{}`$=;()[\]]/.test(value)) return false;
+  if (value.includes("\\")) return false;
+  // A `>...<` run through a generic type, a union, or a comparison.
+  if (/=>|&&|\|\|/.test(value)) return false;
+  if (/^[,:;&|=]/.test(value)) return false;
+  if (
+    /\b(?:Readonly|ReadonlyArray|ReadonlyMap|ReadonlySet|Partial|Omit|Pick|Promise|Awaited|ReturnType)\b/.test(
+      value,
+    )
+  ) {
+    return false;
+  }
   return true;
 }
 
@@ -64,6 +75,8 @@ function walk(dir) {
     if (!/\.(tsx?|mts)$/.test(name)) continue;
     if (/\.(dom\.)?test\.(ts|tsx)$/.test(name)) continue;
     if (name.endsWith(".d.ts")) continue;
+    // The dictionary and its plumbing: English source on the key side.
+    if (/(^|[\\/])i18n[\\/]/.test(full)) continue;
     out.push(full);
   }
   return out;
@@ -85,23 +98,101 @@ function dictionaryKeys() {
   return keys;
 }
 
-/** Every `t("...")` and `t('...')` key in a file, with its line. */
+/**
+ * Every string `t()` is given, with its line: the literal itself, or the arms
+ * of a ternary inside it (`t(condition ? "a" : "b")`).
+ */
 function translatedKeys(text) {
   const found = [];
-  const re = /\bt\(\s*(["'])((?:(?!\1)[^\\]|\\.)+)\1\s*[,)]/g;
-  for (let m = re.exec(text); m !== null; m = re.exec(text)) {
-    const line = text.slice(0, m.index).split("\n").length;
-    found.push({ key: m[2].replace(/\\"/g, '"'), line, index: m.index });
+  const call = /\bt\(/g;
+  for (let m = call.exec(text); m !== null; m = call.exec(text)) {
+    const end = matchingParen(text, m.index);
+    // Only the literals of the call itself: those of a nested call — the
+    // arguments of `settingsLink("account", "danger-zone")` in a placeholder —
+    // are somebody else's.
+    let depth = 0;
+    let quote = null;
+    let start = -1;
+    for (let i = m.index; i <= end; i += 1) {
+      const ch = text[i];
+      if (quote !== null) {
+        if (ch === "\\") {
+          i += 1;
+          continue;
+        }
+        if (ch === quote) {
+          // A string after `:` is an argument's value (`{ count: "x" }`).
+          const isValue = /:\s*$/.test(text.slice(Math.max(0, start - 40), start));
+          if (depth === 1 && start !== -1 && !isValue) {
+            const key = text
+              .slice(start + 1, i)
+              .replace(/\\"/g, '"')
+              .replace(/\\'/g, "'");
+            const line = text.slice(0, start).split("\n").length;
+            found.push({ key, line, index: start });
+          }
+          quote = null;
+          start = -1;
+        }
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") {
+        quote = ch;
+        start = i;
+      } else if (ch === "(") depth += 1;
+      else if (ch === ")") depth -= 1;
+    }
+    call.lastIndex = end + 1;
   }
   return found;
+}
+
+/** The index of the `)` that closes the `(` at `start`, skipping strings. */
+function matchingParen(text, start) {
+  let depth = 0;
+  let quote = null;
+  let i = start;
+  for (; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quote !== null) {
+      if (ch === "\\") i += 1;
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+    else if (ch === "(") depth += 1;
+    else if (ch === ")") {
+      depth -= 1;
+      if (depth === 0) return i;
+    }
+  }
+  return text.length - 1;
 }
 
 /** Literals inside `t()` calls, so they are not also reported as unwrapped. */
 function tCallSpans(text) {
   const spans = [];
   for (const call of translatedKeys(text)) {
-    const close = text.indexOf(")", call.index);
-    spans.push([call.index, close === -1 ? text.length : close]);
+    // Walk to the matching `)` while skipping string contents: a translation
+    // holds HTML, parentheses of its own included.
+    let depth = 0;
+    let quote = null;
+    let i = call.index;
+    for (; i < text.length; i += 1) {
+      const ch = text[i];
+      if (quote !== null) {
+        if (ch === "\\") i += 1;
+        else if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+      else if (ch === "(") depth += 1;
+      else if (ch === ")") {
+        depth -= 1;
+        if (depth === 0) break;
+      }
+    }
+    spans.push([call.index, i]);
   }
   return spans;
 }
@@ -118,6 +209,8 @@ function jsxTextNodes(text, spans) {
     const value = m[1].replace(/\s+/g, " ").trim();
     if (!looksLikeUiText(value)) continue;
     if (inSpan(spans, m.index)) continue;
+    // A JSX tag ends with `>` right after its name, a quote or a brace.
+    if (!/["'}>a-zA-Z0-9_/]/.test(text[m.index - 1] ?? "")) continue;
     const line = text.slice(0, m.index).split("\n").length;
     out.push({ value, line });
   }
@@ -141,14 +234,31 @@ function textProps(text, spans) {
   return out;
 }
 
+/** A key worth reporting: not empty, not an identifier, not SQL. */
+function isReportableKey(key) {
+  if (key.trim() === "") return false;
+  if (/^[a-z0-9_]+$/.test(key)) return false;
+  if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER)\b/.test(key)) return false;
+  return true;
+}
+
+/** `text` with comment characters blanked out, offsets and newlines kept. */
+function stripComments(text) {
+  const blank = (m) => m.replace(/[^\n]/g, " ");
+  let out = text.replace(/\/\*[\s\S]*?\*\//g, blank);
+  out = out.replace(/(^|[^:])\/\/[^\n]*/g, (m, lead) => lead + blank(m.slice(lead.length)));
+  return out;
+}
+
 const keys = dictionaryKeys();
 const files = walk(SRC).sort();
 const report = [];
 for (const file of files) {
   const text = readFileSync(file, "utf8");
+  const scannable = stripComments(text);
   const spans = tCallSpans(text);
-  const unwrapped = [...jsxTextNodes(text, spans), ...textProps(text, spans)];
-  const missing = translatedKeys(text).filter((k) => !keys.has(k.key));
+  const unwrapped = [...jsxTextNodes(scannable, spans), ...textProps(scannable, spans)];
+  const missing = translatedKeys(text).filter((k) => isReportableKey(k.key) && !keys.has(k.key));
   if (unwrapped.length === 0 && missing.length === 0) continue;
   report.push({ file: relative(ROOT, file).split(sep).join("/"), unwrapped, missing });
 }
@@ -165,7 +275,9 @@ if (json) {
     unwrappedTotal += entry.unwrapped.length;
     missingTotal += entry.missing.length;
     if (!byFile) continue;
-    console.log(`${entry.file}: ${entry.unwrapped.length} unwrapped, ${entry.missing.length} missing`);
+    console.log(
+      `${entry.file}: ${entry.unwrapped.length} unwrapped, ${entry.missing.length} missing`,
+    );
     for (const u of entry.unwrapped) console.log(`   not wrapped  ${u.line}: ${u.value}`);
     for (const m of entry.missing) console.log(`   no entry     ${m.line}: ${m.key}`);
   }

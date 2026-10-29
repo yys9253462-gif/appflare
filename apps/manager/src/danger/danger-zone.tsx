@@ -111,8 +111,8 @@ function RotateAuthSecretDialog() {
         <Collapsible.DefaultPanel>
           <Text variant="secondary" size="sm">
             {t("The secret is the")}{" "}
-            <span className="font-mono text-[0.9em]">{t("BETTER_AUTH_SECRET")}</span> secret of
-            Appflare's own Worker.
+            <span className="font-mono text-[0.9em]">{t("BETTER_AUTH_SECRET")}</span>{" "}
+            {t("secret of Appflare's own Worker.")}
           </Text>
         </Collapsible.DefaultPanel>
       </Collapsible.Root>

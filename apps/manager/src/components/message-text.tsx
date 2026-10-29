@@ -1,6 +1,7 @@
 import { Banner, Collapsible, Link, LinkButton } from "@cloudflare/kumo";
 import { CheckCircleIcon, InfoIcon, WarningCircleIcon, WarningIcon } from "@phosphor-icons/react";
 import { Children, type ComponentProps, Fragment, type ReactElement, type ReactNode } from "react";
+import { t } from "../i18n";
 import { messageSegments } from "./message-links";
 
 /** What ends an address: a space, a quote, an angle bracket, a backtick, a closing bracket. */
@@ -227,7 +228,7 @@ export function BannerActions({ children }: { children: ReactNode }) {
  */
 export function TechnicalDetails({
   message,
-  label = "Details",
+  label = t("Details"),
 }: {
   message: string;
   label?: string;

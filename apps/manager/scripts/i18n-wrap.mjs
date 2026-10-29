@@ -16,7 +16,7 @@
  * The dictionary is not touched: every new key falls back to the English until
  * `zh.ts` has it, which is what `i18n-coverage.mjs` then reports.
  */
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
 const ROOT = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");

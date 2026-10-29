@@ -1,5 +1,6 @@
 import { Checkbox, Text } from "@cloudflare/kumo";
 import { ACCOUNT_PLAN_COPY } from "../account/plan";
+import { t } from "../i18n";
 import { MessageText } from "./message-text";
 
 /** The state of one "This account is on Workers Paid" confirmation and its "Remember" option. */
@@ -24,7 +25,7 @@ export interface WorkersPaidConfirmationState {
  */
 export function WorkersPaidConfirmation({
   state,
-  label = "This account is on Workers Paid",
+  label = t("This account is on Workers Paid"),
   description,
 }: {
   state: WorkersPaidConfirmationState;

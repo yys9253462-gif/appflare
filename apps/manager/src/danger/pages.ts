@@ -3,6 +3,7 @@ import { dashboardUrl } from "../cloudflare/dashboard-links";
 import { COLOR_MODE_SCRIPT, COLOR_MODE_SCRIPT_SHA256 } from "../components/color-mode";
 import { messageSegments } from "../components/message-links";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import { managerSiteLink } from "../site-links";
 import type { RemovalStep } from "./removal.server";
 
@@ -92,7 +93,7 @@ export function messageHtml(message: string): string {
 export function errorPage(title: string, message: string): string {
   return `${head(title)}<h1>${escapeHtml(title)}</h1>
 <p>${messageHtml(message)}</p>
-<p><a href="${settingsLink("account", "danger-zone")}">Back to the danger zone</a></p>
+<p><a href="${settingsLink("account", "danger-zone")}">${t("Back to the danger zone")}</a></p>
 ${TAIL}`;
 }
 
@@ -101,27 +102,35 @@ export function rotationPage(result: { rotatedAt: string; channels: number }): s
   const when = new Date(result.rotatedAt).toUTCString();
   const channels =
     result.channels === 0
-      ? "<p>No notification channel is set up, so there are no credentials to enter again.</p>"
-      : `<p>The credentials of ${result.channels === 1 ? "your notification channel" : `your ${result.channels} notification channels`} were encrypted with a key derived from the old secret and can no longer be read. The <a href="${settingsLink("notifications", "channels")}">notification settings</a> show ${result.channels === 1 ? "it" : "them"} as <strong>Credentials unreadable</strong>: edit ${result.channels === 1 ? "it" : "each one"} and enter the bot token or webhook URL again. Until then Appflare sends nothing there.</p>`;
-  return `${head("Auth secret rotated")}<h1>The auth secret was rotated</h1>
-<p class="muted">Rotated on ${escapeHtml(when)}.</p>
-<p>Appflare now runs with a new <code>BETTER_AUTH_SECRET</code>. Everyone is signed out, you included: every session ended, and cookies signed with the old secret no longer work. Passwords and passkeys are unchanged.</p>
-<h2>Notification channels</h2>
+      ? `<p>${t("No notification channel is set up, so there are no credentials to enter again.")}</p>`
+      : `<p>${t(
+          result.channels === 1
+            ? 'Your notification channel\'s credentials were encrypted with a key derived from the old secret and can no longer be read. Open the <a href="{href}">notification settings</a>: it shows <strong>Credentials unreadable</strong>, so edit it and enter the bot token or webhook URL again. Until then Appflare sends nothing there.'
+            : 'The credentials of your {count} notification channels were encrypted with a key derived from the old secret and can no longer be read. Open the <a href="{href}">notification settings</a>: they show <strong>Credentials unreadable</strong>, so edit each one and enter the bot token or webhook URL again. Until then Appflare sends nothing there.',
+          {
+            count: result.channels,
+            href: settingsLink("notifications", "channels"),
+          },
+        )}</p>`;
+  return `${head(t("Auth secret rotated"))}<h1>${t("The auth secret was rotated")}</h1>
+<p class="muted">${t("Rotated on {when}.", { when: escapeHtml(when) })}</p>
+<p>${t("Appflare now runs with a new <code>BETTER_AUTH_SECRET</code>. Everyone is signed out, you included: every session ended, and cookies signed with the old secret no longer work. Passwords and passkeys are unchanged.")}</p>
+<h2>${t("Notification channels")}</h2>
 ${channels}
-<p><a href="/login">Sign in again</a></p>
+<p><a href="/login">${t("Sign in again")}</a></p>
 ${TAIL}`;
 }
 
 /** The start of the removal page, sent before the first step runs. */
 export function removalPageStart(info: { accountName: string; workerName: string }): string {
-  return `${head("Removing Appflare")}<h1>Removing Appflare from ${escapeHtml(info.accountName)}</h1>
-<p class="muted">Each step shows here as it finishes; the manager Worker <code>${escapeHtml(info.workerName)}</code> goes last. Keep this page open until the summary appears at the end.</p>
+  return `${head(t("Removing Appflare"))}<h1>${t("Removing Appflare from {account}", { account: escapeHtml(info.accountName) })}</h1>
+<p class="muted">${t("Each step shows here as it finishes; the manager Worker <code>{worker}</code> goes last. Keep this page open until the summary appears at the end.", { worker: escapeHtml(info.workerName) })}</p>
 <ol class="steps">
 `;
 }
 
 export function removalStepLine(step: RemovalStep): string {
-  const status = { done: "Done", skipped: "Skipped", failed: "Failed" }[step.status];
+  const status = { done: t("Done"), skipped: t("Skipped"), failed: t("Failed") }[step.status];
   return `<li><span class="status ${step.status}">${status}</span><span><strong>${escapeHtml(step.label)}</strong><br><span class="muted">${escapeHtml(step.detail)}</span></span></li>
 `;
 }
@@ -155,15 +164,15 @@ export interface RemovalSummary {
 
 function accessStatus(summary: RemovalSummary): string {
   if (!summary.accessOn) {
-    return "<p>Cloudflare Access protection was off; there was nothing to remove there.</p>";
+    return `<p>${t("Cloudflare Access protection was off; there was nothing to remove there.")}</p>`;
   }
   if (summary.outcome === "failed") {
-    return "<p>Cloudflare Access protection is still on: its applications are removed last, so the manager stays protected until everything else is gone.</p>";
+    return `<p>${t("Cloudflare Access protection is still on: its applications are removed last, so the manager stays protected until everything else is gone.")}</p>`;
   }
   if (summary.accessLeft.length === 0) {
-    return "<p>The Cloudflare Access applications that protected the manager are deleted.</p>";
+    return `<p>${t("The Cloudflare Access applications that protected the manager are deleted.")}</p>`;
   }
-  return `<p>These Cloudflare Access applications could not be deleted: ${summary.accessLeft.map((id) => `<code>${escapeHtml(id)}</code>`).join(", ")}. Delete them under Zero Trust, Access, Applications, or they keep asking for a sign-in on the manager's address.</p>`;
+  return `<p>${t("These Cloudflare Access applications could not be deleted: {apps}. Delete them under Zero Trust, Access, Applications, or they keep asking for a sign-in on the manager's address.", { apps: summary.accessLeft.map((id) => `<code>${escapeHtml(id)}</code>`).join(", ") })}</p>`;
 }
 
 /** The end of the removal page: what happens next, and what stayed. */
@@ -174,39 +183,43 @@ export function removalPageEnd(summary: RemovalSummary): string {
   if (summary.outcome === "failed") {
     return `</ol>
 <div class="box bad">
-<h2>The removal stopped</h2>
-<p>What was deleted stays deleted. The manager Worker <code>${worker}</code>, its database and everything after the failed step are still in the account, so Appflare keeps working and jobs can start again.</p>
+<h2>${t("The removal stopped")}</h2>
+<p>${t("What was deleted stays deleted. The manager Worker <code>{worker}</code>, its database and everything after the failed step are still in the account, so Appflare keeps working and jobs can start again.", { worker })}</p>
 ${accessStatus(summary)}
-<p>Fix the cause if the message names one, then run <strong>Remove Appflare from this account</strong> again from the <a href="${settingsLink("account", "danger-zone")}">danger zone</a>. Steps that are already done are skipped.</p>
+<p>${t('Fix the cause if the message names one, then run <strong>Remove Appflare from this account</strong> again from the <a href="{href}">danger zone</a>. Steps that are already done are skipped.', { href: settingsLink("account", "danger-zone") })}</p>
 </div>
 ${TAIL}`;
   }
   const containers = summary.containersLeft
-    ? `<p>${summary.authorization === true ? "Cloudflare did not let Appflare use Containers with its Cloudflare sign-in" : "Appflare's token cannot use Containers"}, so the sandbox Worker's container applications were not deleted. If they are still listed under Workers, Containers in the dashboard, delete them there.</p>`
+    ? `<p>${t(
+        summary.authorization === true
+          ? "Cloudflare did not let Appflare use Containers with its Cloudflare sign-in, so the sandbox Worker's container applications were not deleted. If they are still listed under Workers, Containers in the dashboard, delete them there."
+          : "Appflare's token cannot use Containers, so the sandbox Worker's container applications were not deleted. If they are still listed under Workers, Containers in the dashboard, delete them there.",
+      )}</p>`
     : "";
   return `</ol>
 <div class="box">
-<h2>Last step: the manager Worker</h2>
-<p>Now that this page has been sent, the Worker <code>${worker}</code> deletes itself, with its Workflow, its cron trigger and its workers.dev address. That takes a few seconds. This page is all that is left of Appflare; there is nothing to reload.</p>
-<p>If <code>${worker}</code> is still listed in the <a href="${escapeHtml(dashboard)}" rel="noreferrer">Cloudflare dashboard</a> in a minute, delete it there.</p>
+<h2>${t("Last step: the manager Worker")}</h2>
+<p>${t("Now that this page has been sent, the Worker <code>{worker}</code> deletes itself, with its Workflow, its cron trigger and its workers.dev address. That takes a few seconds. This page is all that is left of Appflare; there is nothing to reload.", { worker })}</p>
+<p>${t('If <code>{worker}</code> is still listed in the <a href="{href}" rel="noreferrer">Cloudflare dashboard</a> in a minute, delete it there.', { worker, href: escapeHtml(dashboard) })}</p>
 ${accessStatus(summary)}
 ${containers}</div>
 ${
   summary.authorization === true
-    ? `<h2>Appflare's access to your account</h2>
-<p>Appflare connected to Cloudflare with an authorization, not an API token. Right after deleting its Worker it withdraws that authorization, so it ends with nothing that can reach your account. If Appflare is still listed among the applications your Cloudflare profile has authorized, remove it there. Revoke any API tokens you created for apps that you no longer need under <a href="${escapeHtml(tokens)}" rel="noreferrer">Account API tokens</a>.</p>`
-    : `<h2>Revoke the Appflare API token</h2>
-<p>The Cloudflare API token you created for Appflare still works. Nothing uses it any more: revoke it under <a href="${escapeHtml(tokens)}" rel="noreferrer">Account API tokens</a> (or under My Profile, API Tokens if you created a user token), together with any tokens you created for apps that you no longer need.</p>`
+    ? `<h2>${t("Appflare's access to your account")}</h2>
+<p>${t('Appflare connected to Cloudflare with an authorization, not an API token. Right after deleting its Worker it withdraws that authorization, so it ends with nothing that can reach your account. If Appflare is still listed among the applications your Cloudflare profile has authorized, remove it there. Revoke any API tokens you created for apps that you no longer need under <a href="{href}" rel="noreferrer">Account API tokens</a>.', { href: escapeHtml(tokens) })}</p>`
+    : `<h2>${t("Revoke the Appflare API token")}</h2>
+<p>${t('The Cloudflare API token you created for Appflare still works. Nothing uses it any more: revoke it under <a href="{href}" rel="noreferrer">Account API tokens</a> (or under My Profile, API Tokens if you created a user token), together with any tokens you created for apps that you no longer need.', { href: escapeHtml(tokens) })}</p>`
 }
-<h2>What stays</h2>
+<h2>${t("What stays")}</h2>
 <ul>
-<li>Every app Appflare installed, with its Worker, databases, buckets, namespaces and secrets. They keep running, unmanaged: nothing updates them any more.</li>
-<li>Custom domains of apps, which keep serving them.</li>
+<li>${t("Every app Appflare installed, with its Worker, databases, buckets, namespaces and secrets. They keep running, unmanaged: nothing updates them any more.")}</li>
+<li>${t("Custom domains of apps, which keep serving them.")}</li>
 ${
   (summary.protectedApps ?? 0) > 0
-    ? `<li>The Cloudflare Access applications of apps Appflare protected, and the "Appflare users" policy they use, so those apps keep asking for a sign-in. Who can sign in is managed under Zero Trust, Access in the Cloudflare dashboard from now on.</li>`
+    ? `<li>${t('The Cloudflare Access applications of apps Appflare protected, and the "Appflare users" policy they use, so those apps keep asking for a sign-in. Who can sign in is managed under Zero Trust, Access in the Cloudflare dashboard from now on.')}</li>`
     : ""
 }</ul>
-<p>To manage the apps again, reinstall Appflare with the installer from the repository, as <a href="${escapeHtml(managerSiteLink(INSTALL_DOCS_URL, "removedInstallGuide"))}" rel="noreferrer">the install guide</a> describes. It starts empty and does not know the apps already in the account.</p>
+<p>${t('To manage the apps again, reinstall Appflare with the installer from the repository, as <a href="{href}" rel="noreferrer">the install guide</a> describes. It starts empty and does not know the apps already in the account.', { href: escapeHtml(managerSiteLink(INSTALL_DOCS_URL, "removedInstallGuide")) })}</p>
 ${TAIL}`;
 }

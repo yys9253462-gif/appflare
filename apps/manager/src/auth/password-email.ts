@@ -6,6 +6,7 @@
  */
 
 import { safeReturnPath } from "../components/internal-path";
+import { t } from "../i18n";
 
 /** The binding the manager adds to itself when reset emails are turned on. */
 export const AUTH_EMAIL_BINDING = "AUTH_EMAIL";
@@ -59,17 +60,17 @@ export function resetEmail(args: { from: string; to: string; url: string }): Out
   const text = [
     `Someone asked to reset the password of ${args.to} on Appflare (${host}).`,
     "",
-    "To choose a new password, open this link within 30 minutes:",
+    t("To choose a new password, open this link within 30 minutes:"),
     args.url,
     "",
-    "If that was not you, ignore this email. Your password stays the same.",
+    t("If that was not you, ignore this email. Your password stays the same."),
   ].join("\n");
   const html = [
     `<p>Someone asked to reset the password of ${escapeHtml(args.to)} on Appflare (${escapeHtml(host)}).</p>`,
-    `<p><a href="${escapeHtml(args.url)}">Choose a new password</a>. The link works for 30 minutes.</p>`,
-    "<p>If that was not you, ignore this email. Your password stays the same.</p>",
+    `<p><a href="${escapeHtml(args.url)}">${t("Choose a new password")}</a>${t(". The link works for 30 minutes.")}</p>`,
+    `<p>${t("If that was not you, ignore this email. Your password stays the same.")}</p>`,
   ].join("\n");
-  return { from: args.from, to: args.to, subject: "Reset your Appflare password", text, html };
+  return { from: args.from, to: args.to, subject: t("Reset your Appflare password"), text, html };
 }
 
 export function testEmail(args: { from: string; to: string; origin: string }): OutgoingEmail {
@@ -77,10 +78,12 @@ export function testEmail(args: { from: string; to: string; origin: string }): O
   const text = [
     `This is a test from Appflare (${host}).`,
     "",
-    "Password reset emails work: people who forget their password can ask for a reset link on the sign-in page.",
+    t(
+      "Password reset emails work: people who forget their password can ask for a reset link on the sign-in page.",
+    ),
   ].join("\n");
-  const html = `<p>This is a test from Appflare (${escapeHtml(host)}).</p>\n<p>Password reset emails work: people who forget their password can ask for a reset link on the sign-in page.</p>`;
-  return { from: args.from, to: args.to, subject: "Appflare test email", text, html };
+  const html = `<p>This is a test from Appflare (${escapeHtml(host)}).</p>\n<p>${t("Password reset emails work: people who forget their password can ask for a reset link on the sign-in page.")}</p>`;
+  return { from: args.from, to: args.to, subject: t("Appflare test email"), text, html };
 }
 
 /** Plain wording for an error thrown by `SendEmail.send()` (errors carry a `code`). */

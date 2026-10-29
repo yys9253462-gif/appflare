@@ -18,9 +18,9 @@ export function ZoneCombobox({
   zones,
   value,
   onChange,
-  label = "Domain",
+  label = t("Domain"),
   description,
-  placeholder = "Choose a domain",
+  placeholder = t("Choose a domain"),
   disabled = false,
 }: {
   zones: readonly ZoneChoice[];

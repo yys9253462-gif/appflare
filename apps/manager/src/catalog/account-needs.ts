@@ -18,6 +18,7 @@ import {
 import { dashboardLinks } from "../cloudflare/dashboard-links";
 import { resourceKindLabel } from "../components/format";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import {
   type AppPrimitives,
   type PrimitiveId,
@@ -154,7 +155,7 @@ function rowOf(rows: RowsById, id: CapabilityId): CapabilityRow {
 }
 
 /** The link to a row of "What this account can run" on Your account. */
-function seeInYourAccount(id: CapabilityId, label = "See in Your account"): NeedLink {
+function seeInYourAccount(id: CapabilityId, label = t("See in Your account")): NeedLink {
   return { label, href: settingsLink("account", capabilityAnchor(id)) };
 }
 

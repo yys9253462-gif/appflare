@@ -1,7 +1,6 @@
 import { AppflareLoader } from "@appflare/brand/loader";
 import { Button } from "@cloudflare/kumo";
 import type { ComponentProps } from "react";
-import { t } from "../i18n";
 
 type KumoButtonProps = ComponentProps<typeof Button>;
 type KumoButtonSize = NonNullable<KumoButtonProps["size"]>;

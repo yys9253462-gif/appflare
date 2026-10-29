@@ -9,6 +9,7 @@ import { createDb } from "../db/client";
 import { deleteSettings, SETTING, writeSettings } from "../db/settings";
 import { GATEWAY_WORKER_NAME, gatewayHostname } from "../gateway/gateway";
 import type { GatewayState } from "../gateway/gateway.server";
+import { t } from "../i18n";
 import { detachCustomDomain } from "../installs/custom-domains.server";
 import {
   R2_MAX_LOCAL_PAGES_PER_RUN,
@@ -366,7 +367,7 @@ export async function runRemoval(deps: RemovalDeps): Promise<RemovalOutcome> {
   // 5. Cloudflare Access, last: reported, never stopping the removal now.
   const accessLeft: string[] = [];
   for (const appId of targets.accessAppIds) {
-    const label = "Delete a Cloudflare Access application of the manager";
+    const label = t("Delete a Cloudflare Access application of the manager");
     try {
       await show({ label, ...(await deletedOrGone(() => api.access.deleteApp(appId))) });
     } catch (error) {

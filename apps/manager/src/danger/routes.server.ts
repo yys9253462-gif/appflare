@@ -4,6 +4,7 @@ import { type HeldGrant, holdGrantForRemoval, revokeGrant } from "../cloudflare/
 import { CloudflareConnectionError } from "../cloudflare/connection-errors";
 import { settingsPlace } from "../components/settings-links";
 import { createDb } from "../db/client";
+import { t } from "../i18n";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
 import { refuseDuringSelfUpdate } from "../jobs/self-update/guard";
 import { jobUnits, selfUnits } from "../jobs/units/client";
@@ -128,7 +129,7 @@ export async function handleRotateAuthSecret(
   env: DangerEnv,
   deps: DangerDeps,
 ): Promise<Response> {
-  const title = "The auth secret was not rotated";
+  const title = t("The auth secret was not rotated");
   try {
     const typed = await guard(request, env, deps);
     if (typed !== ROTATE_CONFIRMATION) {
@@ -160,7 +161,7 @@ export async function handleRemoveAppflare(
   env: DangerEnv,
   deps: DangerDeps,
 ): Promise<Response> {
-  const title = "Appflare was not removed";
+  const title = t("Appflare was not removed");
   let api: CloudflareClient;
   let targets: Awaited<ReturnType<typeof findRemovalTargets>>;
   let grant: HeldGrant | null;

@@ -228,7 +228,7 @@ function TurnOnDialog({
   install,
   access,
   again,
-  label = "Protect with Cloudflare Access",
+  label = t("Protect with Cloudflare Access"),
 }: {
   install: InstallDetail;
   access: InstallAccessView;
