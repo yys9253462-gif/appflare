@@ -3,6 +3,7 @@ import { ScrollArea } from "@cloudflare/kumo/primitives/scroll-area";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { type KeyboardEvent, useEffect, useState } from "react";
 import { APP_SIGNAL_LABELS } from "../home/attention";
+import { t } from "../i18n";
 import { AppIcon } from "./catalog-media";
 import {
   appItemId,
@@ -79,7 +80,7 @@ export function SidebarAppsGroup({
   }
 
   return (
-    <Sidebar.Group aria-label="Your apps">
+    <Sidebar.Group aria-label={t("Your apps")}>
       <Sidebar.GroupLabel>
         {filtering ? (
           // Room for the field's ring, which the label would clip.
@@ -87,8 +88,8 @@ export function SidebarAppsGroup({
             <Input
               size="sm"
               autoFocus
-              aria-label="Filter your apps"
-              placeholder="Filter apps"
+              aria-label={t("Filter your apps")}
+              placeholder={t("Filter apps")}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={onKeyDown}
@@ -102,14 +103,14 @@ export function SidebarAppsGroup({
           </span>
         ) : (
           <span className="flex min-h-7 items-center justify-between gap-2">
-            <span className="truncate">Your apps</span>
+            <span className="truncate">{t("Your apps")}</span>
             <Button
               variant="ghost"
               size="xs"
               shape="square"
               icon={<MagnifyingGlassIcon />}
-              aria-label="Filter your apps"
-              title="Filter your apps"
+              aria-label={t("Filter your apps")}
+              title={t("Filter your apps")}
               onClick={() => setFiltering(true)}
             />
           </span>
@@ -144,7 +145,7 @@ export function SidebarAppsGroup({
                   tooltip={
                     app.signal === null
                       ? app.label
-                      : `${app.label}: ${APP_SIGNAL_LABELS[app.signal]}`
+                      : `${app.label}: ${t(APP_SIGNAL_LABELS[app.signal])}`
                   }
                   icon={<RowIcon app={app} />}
                 >
@@ -163,7 +164,7 @@ export function SidebarAppsGroup({
             </Sidebar.Menu>
             {shown.length === 0 && (
               <Text as="p" variant="secondary" size="sm" DANGEROUS_className="px-3 py-1.5">
-                No app matches “{query.trim()}”.
+                {t("No app matches “{query}”.", { query: query.trim() })}
               </Text>
             )}
           </ScrollArea.Content>

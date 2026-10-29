@@ -1,5 +1,6 @@
 import { DropdownMenu, Select, Sidebar } from "@cloudflare/kumo";
 import { CheckIcon, GearIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import { currentSettingsPage, isSettingsPath, type SettingsPage } from "./navigation";
 import { RouterAnchor } from "./router-anchor";
 import { useSettingsMenu, useSettingsNavigation } from "./settings-menu";
@@ -33,7 +34,7 @@ export function SettingsNavItem({
             // Highlighted while you are in Settings and the list that would
             // show the page is closed.
             <Sidebar.MenuButton icon={GearIcon} active={onSettings && (!open || current === null)}>
-              Settings
+              {t("Settings")}
               <Sidebar.MenuChevron />
             </Sidebar.MenuButton>
           }
@@ -41,7 +42,7 @@ export function SettingsNavItem({
         <Sidebar.CollapsibleContent>
           {/* Kumo's sub-menu starts right under its parent; a small gap keeps
               the two apart when both are hovered or highlighted. */}
-          <Sidebar.MenuSub aria-label="Settings pages" className="mt-1">
+          <Sidebar.MenuSub aria-label={t("Settings pages")} className="mt-1">
             {pages.map((page) => (
               <Sidebar.MenuSubButton
                 key={page.href}
@@ -49,7 +50,7 @@ export function SettingsNavItem({
                 active={page === current}
                 aria-current={page === current ? "page" : undefined}
               >
-                {page.label}
+                {t(page.label)}
               </Sidebar.MenuSubButton>
             ))}
           </Sidebar.MenuSub>
@@ -77,11 +78,11 @@ function SettingsRailMenu({
             <Sidebar.MenuButton
               icon={GearIcon}
               active={active}
-              aria-label="Settings"
+              aria-label={t("Settings")}
               // Its name under the pointer, like the rail's other items.
-              tooltip="Settings"
+              tooltip={t("Settings")}
             >
-              Settings
+              {t("Settings")}
             </Sidebar.MenuButton>
           }
         />
@@ -89,7 +90,7 @@ function SettingsRailMenu({
             8 px clear of the rail's edge, which is 12 px past the gear. */}
         <DropdownMenu.Content side="right" align="start" sideOffset={20} className="min-w-52">
           <DropdownMenu.Group>
-            <DropdownMenu.Label>Settings</DropdownMenu.Label>
+            <DropdownMenu.Label>{t("Settings")}</DropdownMenu.Label>
             {pages.map((page) => (
               <DropdownMenu.LinkItem
                 key={page.href}
@@ -101,7 +102,7 @@ function SettingsRailMenu({
                 aria-current={page === current ? "page" : undefined}
               >
                 {/* Takes the room, so the tick of the page open sits at the right. */}
-                <span className="flex-1">{page.label}</span>
+                <span className="flex-1">{t(page.label)}</span>
                 {page === current && <CheckIcon aria-hidden className="size-4" />}
               </DropdownMenu.LinkItem>
             ))}
@@ -124,13 +125,13 @@ export function SettingsPageSelect({ href }: { href: string }) {
   return (
     <div className="md:hidden">
       <Select
-        aria-label="Settings page"
+        aria-label={t("Settings page")}
         className="w-full"
         value={href}
         onValueChange={(next) => {
           if (typeof next === "string" && next !== href) navigate(next);
         }}
-        items={pages.map((page) => ({ value: page.href, label: page.label }))}
+        items={pages.map((page) => ({ value: page.href, label: t(page.label) }))}
       />
     </div>
   );

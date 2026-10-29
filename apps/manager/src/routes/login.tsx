@@ -23,6 +23,7 @@ import {
   showsMovedNote,
   signedInHereBefore,
 } from "../domains/moved-note";
+import { t } from "../i18n";
 import { dismissPasskeyOffer, getPasskeyOffer } from "../server/passkeys.functions";
 import { getSetupStatus } from "../server/setup.functions";
 import { loadAppflareVersion } from "../server/version.functions";
@@ -134,8 +135,8 @@ function LoginPage() {
 
   return (
     <AuthLayout
-      title="Sign in to Appflare"
-      description="Use your email and password, or a passkey."
+      title={t("Sign in to Appflare")}
+      description={t("Use your email and password, or a passkey.")}
       version={version}
     >
       <div className="grid gap-5">
@@ -148,10 +149,12 @@ function LoginPage() {
         )}
         {error !== null && <AuthError message={error} />}
         <form className="grid gap-4" onSubmit={onSubmit}>
-          <Input label="Email" name="email" type="email" autoComplete="username" required />
-          <PasswordInput label="Password" name="password" autoComplete="current-password" />
+          <Input label={t("Email")} name="email" type="email" autoComplete="username" required />
+          <PasswordInput label={t("Password")} name="password" autoComplete="current-password" />
           <Text variant="secondary" size="sm" as="p">
-            <Link href={withReturnTo("/forgot-password", returnTo)}>Forgot your password?</Link>
+            <Link href={withReturnTo("/forgot-password", returnTo)}>
+              {t("Forgot your password?")}
+            </Link>
           </Text>
           <BusyButton
             pending={pending === "password"}
@@ -160,7 +163,7 @@ function LoginPage() {
             className={FULL_WIDTH_ACTION}
             disabled={pending === "passkey"}
           >
-            Sign in
+            {t("Sign in")}
           </BusyButton>
         </form>
         <OrDivider />
@@ -172,7 +175,7 @@ function LoginPage() {
           disabled={pending === "password"}
           onClick={onPasskey}
         >
-          Sign in with a passkey
+          {t("Sign in with a passkey")}
         </BusyButton>
       </div>
     </AuthLayout>
@@ -216,7 +219,7 @@ function PasskeyOffer({ onDone }: { onDone: () => Promise<unknown> }) {
         className={FULL_WIDTH_ACTION}
         onClick={onAdd}
       >
-        Add a passkey
+        {t("Add a passkey")}
       </BusyButton>
       <Button
         variant="secondary"
@@ -224,7 +227,7 @@ function PasskeyOffer({ onDone }: { onDone: () => Promise<unknown> }) {
         disabled={adding}
         onClick={() => void end()}
       >
-        Not now
+        {t("Not now")}
       </Button>
     </div>
   );

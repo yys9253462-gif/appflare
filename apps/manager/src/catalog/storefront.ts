@@ -4,6 +4,7 @@ import {
   LICENSE_FILTERS,
   PLAN_WORDS,
 } from "@appflare/schema/catalog-display";
+import { getLocale } from "../i18n";
 import {
   type BrowsableApp,
   type BrowseQuery,
@@ -223,7 +224,12 @@ export function resultsTitle(query: BrowseQuery, addedDates: boolean): string {
   return "Results";
 }
 
-const relative = new Intl.RelativeTimeFormat("en-US", { numeric: "auto" });
+/** Relative days in the reader's language: "3 days ago", "3天前". */
+function relativeDays(): Intl.RelativeTimeFormat {
+  return new Intl.RelativeTimeFormat(getLocale() === "zh" ? "zh-CN" : "en-US", {
+    numeric: "auto",
+  });
+}
 
 /**
  * How long ago `iso` was, in calendar days of the browser's time zone, so
@@ -231,6 +237,7 @@ const relative = new Intl.RelativeTimeFormat("en-US", { numeric: "auto" });
  * "last month".
  */
 export function sinceDay(iso: string, now: Date): string {
+  const relative = relativeDays();
   const startOf = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
   const days = Math.max(0, Math.round((startOf(now) - startOf(new Date(iso))) / DAY_MS));
   if (days < 7) return relative.format(-days, "day");

@@ -1,14 +1,15 @@
 import type { AccountPlan } from "../account/plan";
+import { getLocale, t } from "../i18n";
 import { accountLimitWords } from "./account-limits";
 import { type PauseCause, pauseCauseSentence } from "./attention-cause";
 import {
+  count,
   fullCount,
   OTHER_USAGE,
   otherShareShown,
   PERIOD_ADJECTIVE,
   percent,
   productLabel,
-  productRate,
   times,
   usd,
 } from "./attention-format";
@@ -131,8 +132,8 @@ export function accountLimitAttentionCopy(
   return {
     badge:
       item.share >= 1
-        ? { label: "Limit reached", variant: "error" }
-        : { label: "Near a free limit", variant: "warning" },
+        ? { label: t("Limit reached"), variant: "error" }
+        : { label: t("Near a free limit"), variant: "warning" },
     title: words.title,
     description: words.description,
   };
@@ -151,23 +152,32 @@ export type ClockFormat = (epochMs: number) => string;
 /** "A", "A and B", "A, B and C". */
 export function listWords(items: readonly string[]): string {
   if (items.length <= 1) return items.join("");
+  if (getLocale() === "zh") return `${items.slice(0, -1).join("、")} 和 ${items.at(-1)}`;
   return `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
 }
 
 /** What a used-up free daily limit does, by product. */
 function limitEffect(product: string): string {
-  return product === "workers_requests" ? "every app stops answering" : "apps that need them fail";
+  return t(
+    product === "workers_requests" ? "every app stops answering" : "apps that need them fail",
+  );
 }
 
 /** After a pause by Appflare: what to do before resuming, by its cause. */
 function afterPause(cause: PauseCause | null): string {
   switch (cause?.reason) {
     case "cap":
-      return `Visitors see a "paused" page. Resume it when its cap resets, or change the cap on its Usage tab.`;
+      return t(
+        'Visitors see a "paused" page. Resume it when its cap resets, or change the cap on its Usage tab.',
+      );
     case "budget":
-      return `Visitors see a "paused" page. Resume it when the budget allows, or exempt it from the budget on its Usage tab.`;
+      return t(
+        'Visitors see a "paused" page. Resume it when the budget allows, or exempt it from the budget on its Usage tab.',
+      );
     default:
-      return `Visitors see a "paused" page. Resume when the cause is fixed, for example by undoing the settings change that started it.`;
+      return t(
+        'Visitors see a "paused" page. Resume when the cause is fixed, for example by undoing the settings change that started it.',
+      );
   }
 }
 
@@ -180,91 +190,167 @@ export function usageAttentionCopy(
   switch (item.kind) {
     case "unusual": {
       const normal =
-        item.times !== null ? `${times(item.times)} its normal` : "far above its normal";
+        item.times !== null
+          ? t("{times} its normal", { times: times(item.times) })
+          : t("far above its normal");
       const rate =
         item.product !== null && item.perHour !== null
-          ? `${productRate(item.product, item.perHour)} since ${clock(item.since)}`
+          ? t("{rate} since {time}", {
+              rate: t("{product} at {amount} an hour", {
+                product: t(productLabel(item.product)),
+                amount: count(item.perHour),
+              }),
+              time: clock(item.since),
+            })
           : null;
       const noNormal =
         item.installedRecently === true
-          ? "with no usual week yet to compare with"
-          : "with no usual usage to compare against yet";
+          ? t("with no usual week yet to compare with")
+          : t("with no usual usage to compare against yet");
       const first = item.newApp
         ? rate !== null
-          ? `${rate}, ${noNormal}.`
-          : `Since ${clock(item.since)}, ${noNormal}.`
+          ? t("{rate}, {noNormal}.", { rate, noNormal })
+          : t("Since {time}, {noNormal}.", { time: clock(item.since), noNormal })
         : rate !== null
-          ? `${rate}, ${normal}.`
-          : `Since ${clock(item.since)}, its usage is ${normal}.`;
+          ? t("{rate}, {normal}.", { rate, normal })
+          : t("Since {time}, its usage is {normal}.", {
+              time: clock(item.since),
+              normal,
+            });
       const cost =
         item.plan === "paid" && item.burnPerHour !== null
-          ? ` About ${usd(item.burnPerHour)} an hour at Cloudflare's prices${item.spentToday === null ? "" : `, ${usd(item.spentToday)} so far today`}.`
+          ? t(" About {burn} an hour at Cloudflare's prices{spent}.", {
+              burn: usd(item.burnPerHour),
+              spent:
+                item.spentToday === null
+                  ? ""
+                  : t(", {spent} so far today", { spent: usd(item.spentToday) }),
+            })
           : item.plan === "free" && item.freeShare !== null && item.product !== null
-            ? ` At this pace it uses ${percent(item.freeShare)} of today's free ${productLabel(item.product)}.`
+            ? t(" At this pace it uses {share} of today's free {product}.", {
+                share: percent(item.freeShare),
+                product: t(productLabel(item.product)),
+              })
             : "";
-      const sent = item.sentTo.length > 0 ? ` Sent to ${listWords(item.sentTo)}.` : "";
+      const sent =
+        item.sentTo.length > 0 ? t(" Sent to {to}.", { to: listWords(item.sentTo) }) : "";
       return {
-        badge: { label: "Unusual usage", variant: "error" },
+        badge: { label: t("Unusual usage"), variant: "error" },
         title: item.newApp
           ? item.installedRecently === true
-            ? `${label} is new and already using a lot`
-            : `${label} is already using a lot`
-          : `${label} is using far more than usual`,
+            ? t("{label} is new and already using a lot", { label })
+            : t("{label} is already using a lot", { label })
+          : t("{label} is using far more than usual", { label }),
         description: `${first}${cost}${sent}`,
       };
     }
     case "limit-used-up": {
-      const product = productLabel(item.product);
-      const limit = `${fullCount(item.limit)} free ${product}`;
+      const product = t(productLabel(item.product));
+      const limit = t("{count} free {product}", {
+        count: fullCount(item.limit),
+        product,
+      });
       const other = otherShareShown(item.otherShare);
       const shares =
         item.appShare === null
           ? other === null
             ? ""
-            : `, ${percent(other)} of them by ${OTHER_USAGE}`
-          : `, ${percent(item.appShare)} of them by ${label}${other === null ? "" : ` and ${percent(other)} by ${OTHER_USAGE}`}`;
+            : t(", {share} of them by {other}", {
+                share: percent(other),
+                other: t(OTHER_USAGE),
+              })
+          : t(", {share} of them by {label}{other}", {
+              share: percent(item.appShare),
+              label,
+              other:
+                other === null
+                  ? ""
+                  : t(" and {share} by {other}", {
+                      share: percent(other),
+                      other: t(OTHER_USAGE),
+                    }),
+            });
       const how =
         item.loopSince !== null
-          ? `${label} went into a loop at ${clock(item.loopSince)} and used this account's ${limit} for today.`
-          : `This account used its ${limit} for today${shares}.`;
+          ? t("{label} went into a loop at {time} and used this account's {limit} for today.", {
+              label,
+              time: clock(item.loopSince),
+              limit,
+            })
+          : t("This account used its {limit} for today{shares}.", { limit, shares });
       return {
-        badge: { label: "Limit reached", variant: "error" },
-        title: `Today's free ${product} are used up`,
-        description: `${how} Cloudflare refuses more until 00:00 UTC, so ${limitEffect(item.product)} until then. The Free plan bills nothing; pausing stops it happening again tomorrow.`,
+        badge: { label: t("Limit reached"), variant: "error" },
+        title: t("Today's free {product} are used up", { product }),
+        description: `${how} ${t(
+          "Cloudflare refuses more until 00:00 UTC, so {effect} until then. The Free plan bills nothing; pausing stops it happening again tomorrow.",
+          { effect: limitEffect(item.product) },
+        )}`,
       };
     }
     case "paused": {
       if (item.pausedBy !== null) {
         const after =
           item.loopSince !== null && item.loopSince <= item.pausedAt
-            ? ` after unusual usage that began at ${clock(item.loopSince)}`
+            ? t(" after unusual usage that began at {time}", {
+                time: clock(item.loopSince),
+              })
             : "";
         return {
-          badge: { label: "Paused", variant: "warning" },
-          title: `${label} is paused`,
-          description: `${item.pausedBy} paused it at ${clock(item.pausedAt)}${after}. Visitors see a "paused" page until it is resumed.`,
+          badge: { label: t("Paused"), variant: "warning" },
+          title: t("{label} is paused", { label }),
+          description: t(
+            '{by} paused it at {time}{after}. Visitors see a "paused" page until it is resumed.',
+            { by: item.pausedBy, time: clock(item.pausedAt), after },
+          ),
         };
       }
       const why = item.cause === null ? null : pauseCauseSentence(item.cause);
       return {
-        badge: { label: "Paused", variant: "warning" },
-        title: `Appflare paused ${label}`,
-        description: `${why === null ? "" : `${why} `}Appflare paused it at ${clock(item.pausedAt)}. ${afterPause(item.cause)}`,
+        badge: { label: t("Paused"), variant: "warning" },
+        title: t("Appflare paused {label}", { label }),
+        description: `${why === null ? "" : `${why} `}${t("Appflare paused it at {time}.", {
+          time: clock(item.pausedAt),
+        })} ${afterPause(item.cause)}`,
       };
     }
     case "limit-near": {
-      const product = productLabel(item.product);
+      const product = t(productLabel(item.product));
       const other = otherShareShown(item.otherShare);
       const shares =
         item.appShare === null
           ? other === null
             ? ""
-            : `${percent(other)} of today's ${product} is ${OTHER_USAGE}. `
-          : `${label} is getting ${percent(item.appShare)} of today's ${product}${other === null ? "" : `; ${percent(other)} is ${OTHER_USAGE}`}. `;
+            : `${t("{share} of today's {product} is {other}.", {
+                share: percent(other),
+                product,
+                other: t(OTHER_USAGE),
+              })} `
+          : `${t("{label} is getting {share} of today's {product}{other}.", {
+              label,
+              share: percent(item.appShare),
+              product,
+              other:
+                other === null
+                  ? ""
+                  : t("; {share} is {other}", {
+                      share: percent(other),
+                      other: t(OTHER_USAGE),
+                    }),
+            })} `;
       return {
         badge: null,
-        title: `Free ${product} run out around ${clock(item.runsOutAt)}`,
-        description: `${shares}When the account's ${fullCount(item.limit)} free ${product} for the day are used, ${limitEffect(item.product)} until 00:00 UTC.`,
+        title: t("Free {product} run out around {time}", {
+          product,
+          time: clock(item.runsOutAt),
+        }),
+        description: `${shares}${t(
+          "When the account's {count} free {product} for the day are used, {effect} until 00:00 UTC.",
+          {
+            count: fullCount(item.limit),
+            product,
+            effect: limitEffect(item.product),
+          },
+        )}`,
       };
     }
   }
@@ -281,7 +367,14 @@ export function stillPastCapCopy(
   const spent = cap.spent === null ? "" : `${usd(cap.spent)} of `;
   const resets = cap.period === "day" ? when.clock(cap.resetsAt) : when.dayAndTime(cap.resetsAt);
   return {
-    description: `It's still past its ${PERIOD_ADJECTIVE[cap.period]} cap: ${spent}${usd(cap.amount)}.`,
-    body: `Resumed as it is, auto-pause would pause it again within 5 minutes. Resuming sets the cap aside until it resets at ${resets}; the loop check keeps running.`,
+    description: t("It's still past its {period} cap: {spent}{amount}.", {
+      period: t(PERIOD_ADJECTIVE[cap.period]),
+      spent,
+      amount: usd(cap.amount),
+    }),
+    body: t(
+      "Resumed as it is, auto-pause would pause it again within 5 minutes. Resuming sets the cap aside until it resets at {time}; the loop check keeps running.",
+      { time: resets },
+    ),
   };
 }

@@ -60,7 +60,7 @@ export default defineConfig({
   ssr: { resolve: { conditions } },
   test: {
     ...localWorkerCap,
-    setupFiles: ["./src/test/between-files.ts"],
+    setupFiles: ["./src/test/between-files.ts", "./src/test/i18n-setup.ts"],
     projects: [
       { extends: true, test: { name: "worker", include, exclude: isolated, isolate: false } },
       { extends: true, test: { name: "worker-isolated", include: isolated } },

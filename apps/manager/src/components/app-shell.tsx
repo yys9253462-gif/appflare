@@ -10,6 +10,7 @@ import {
 import { useLocation, useMatches, useRouter } from "@tanstack/react-router";
 import { type MouseEvent, type ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { useHomeClick } from "../home/use-attention";
+import { t } from "../i18n";
 import type { ManagerStatus } from "../installs/pending-updates";
 import type { Viewer } from "../server/session.functions";
 import { AccountMenu } from "./account-menu";
@@ -138,7 +139,7 @@ function ShellHeader() {
       <Sidebar.Header className="justify-center px-[11px]">
         {/* The mark, turning into the sidebar icon under the pointer or keyboard focus. */}
         <Tooltip
-          content="Expand sidebar"
+          content={t("Expand sidebar")}
           side="right"
           className={TRIGGER_CURSOR}
           render={
@@ -172,7 +173,7 @@ function ShellHeader() {
         <Sidebar.Close />
       ) : (
         <Tooltip
-          content="Collapse sidebar"
+          content={t("Collapse sidebar")}
           side="bottom"
           className={TRIGGER_CURSOR}
           render={
@@ -222,11 +223,11 @@ function ShellSidebar({
                   icon={count > 0 ? <CountedIcon icon={item.icon} /> : item.icon}
                   active={isCurrent(pathname, item, appsListed)}
                   // Shown only while folded, when the label is hidden.
-                  tooltip={count > 0 ? `${item.label}: ${badge.label}` : item.label}
+                  tooltip={count > 0 ? `${t(item.label)}: ${t(badge.label)}` : t(item.label)}
                   {...(item.href === "/" ? { onClick: onHomeClick } : {})}
                 >
-                  {item.label}
-                  <CountBadge count={count} label={badge.label} />
+                  {t(item.label)}
+                  <CountBadge count={count} label={t(badge.label)} />
                 </Sidebar.MenuButton>
               );
             })}
@@ -252,7 +253,7 @@ function MobileTopBar() {
   if (!isMobile) return null;
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b border-kumo-line bg-kumo-base px-3">
-      <Sidebar.Trigger aria-label="Open navigation" aria-expanded={openMobile}>
+      <Sidebar.Trigger aria-label={t("Open navigation")} aria-expanded={openMobile}>
         <ListIcon size={20} />
       </Sidebar.Trigger>
       <Link

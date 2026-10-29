@@ -1,5 +1,6 @@
 import { LinkButton } from "@cloudflare/kumo";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 
 /**
  * "Open": the app at its primary address (`appAddress`), at the entry's
@@ -26,10 +27,10 @@ export function OpenAppButton({
       variant={variant}
       {...(size === undefined ? {} : { size })}
       icon={<ArrowSquareOutIcon />}
-      aria-label={`Open ${label}`}
-      title={`Open ${href.replace(/^https:\/\//, "")} in a new tab`}
+      aria-label={t("Open {label}", { label })}
+      title={t("Open {host} in a new tab", { host: href.replace(/^https:\/\//, "") })}
     >
-      Open
+      {t("Open")}
     </LinkButton>
   );
 }

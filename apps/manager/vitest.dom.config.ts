@@ -11,5 +11,7 @@ export default defineConfig({
     name: "dom",
     environment: "happy-dom",
     include: ["src/**/*.dom.test.tsx"],
+    // The tests assert on the English copy; the app itself renders Chinese.
+    setupFiles: ["src/test/i18n-setup.ts"],
   },
 });

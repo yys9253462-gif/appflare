@@ -25,6 +25,7 @@ import type { StartUpdateHandle } from "../components/update-banner";
 import { useOptimisticDismiss } from "../components/use-optimistic-dismiss";
 import { dismissDeployCopy } from "../deploy-button/deploy-copy.functions";
 import { DeployCopySteps } from "../deploy-button/deploy-copy-card";
+import { t } from "../i18n";
 import { checkInstallHealth } from "../installs/health.functions";
 import { MANAGER_UPDATES_HREF } from "../installs/pending-updates";
 import { type UpdateAllOutcome, updateAllSummary } from "../installs/update-all";
@@ -86,13 +87,15 @@ export function NeedsAttention({
       toasts.add({
         title: updateAllSummary(outcome),
         description:
-          outcome.started.length > 0 ? "Each app's page shows its update as it runs." : undefined,
+          outcome.started.length > 0
+            ? t("Each app's page shows its update as it runs.")
+            : undefined,
         variant: outcome.started.length > 0 ? "info" : "warning",
       });
       // The started apps show as updating and leave the list.
       await router.invalidate();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not start the updates.");
+      setError(err instanceof Error ? err.message : t("Could not start the updates."));
     }
     setUpdatingAll(false);
   }
@@ -115,8 +118,8 @@ export function NeedsAttention({
   return (
     <Section
       id="needs-attention"
-      title="Needs attention"
-      description="The most urgent first."
+      title={t("Needs attention")}
+      description={t("The most urgent first.")}
       action={
         isAdmin && targets.length >= UPDATE_ALL_MIN ? (
           <BusyButton
@@ -125,7 +128,7 @@ export function NeedsAttention({
             icon={<ArrowsClockwiseIcon />}
             onClick={() => void onUpdateAll()}
           >
-            Update all
+            {t("Update all")}
           </BusyButton>
         ) : null
       }
@@ -171,7 +174,7 @@ function AttentionRow({
         </LinkButton>
       ) : (
         <LinkButton href={settingsLink("account", "connection")} variant="secondary">
-          Go to Your account
+          {t("Go to Your account")}
         </LinkButton>
       );
       break;
@@ -179,7 +182,7 @@ function AttentionRow({
       action = (
         <>
           <LinkButton href={`/jobs/${item.job.id}`} variant="secondary" icon={<ArrowRightIcon />}>
-            View log
+            {t("View log")}
           </LinkButton>
           {item.againHref !== null && (
             <LinkButton
@@ -187,7 +190,7 @@ function AttentionRow({
               variant="secondary"
               icon={<ArrowCounterClockwiseIcon />}
             >
-              Install again
+              {t("Install again")}
             </LinkButton>
           )}
         </>
@@ -203,7 +206,7 @@ function AttentionRow({
     case "access-required":
       action = isAdmin ? (
         <LinkButton href={appLink(item.installId, "access")} variant="secondary">
-          Turn on
+          {t("Turn on")}
         </LinkButton>
       ) : (
         <ManageLink installId={item.installId} />
@@ -214,7 +217,7 @@ function AttentionRow({
         <ManageLink installId={item.installId} />
       ) : item.needs !== null ? (
         <LinkButton href={`/apps/${item.installId}`} variant="secondary">
-          Review
+          {t("Review")}
         </LinkButton>
       ) : (
         <BusyButton
@@ -223,7 +226,7 @@ function AttentionRow({
           icon={<ArrowCircleUpIcon />}
           onClick={() => update.start({ id: item.installId, label: item.label })}
         >
-          Update
+          {t("Update")}
         </BusyButton>
       );
       break;
@@ -233,7 +236,7 @@ function AttentionRow({
           {/* Never for what every app needs, such as Appflare's own permissions. */}
           {item.row.dismissible && (
             <Button variant="ghost" onClick={() => onDismissAccountRow(item.row)}>
-              Not needed
+              {t("Not needed")}
             </Button>
           )}
           {item.row.reconnect === true ? (
@@ -242,7 +245,7 @@ function AttentionRow({
             </LinkButton>
           ) : (
             <LinkButton href={accountRowLink(item.row)} variant="secondary">
-              Go to Your account
+              {t("Go to Your account")}
             </LinkButton>
           )}
         </>
@@ -251,7 +254,7 @@ function AttentionRow({
     case "downgrade":
       action = (
         <LinkButton href={MANAGER_UPDATES_HREF} variant="secondary">
-          Update Appflare
+          {t("Update Appflare")}
         </LinkButton>
       );
       break;
@@ -304,7 +307,7 @@ function UsageRow({
             variant="secondary"
             icon={usage.kind === "limit-near" ? <ArrowRightIcon /> : undefined}
           >
-            See usage
+            {t("See usage")}
           </LinkButton>
           {control}
         </>
@@ -336,7 +339,7 @@ function AccountUsageRow({ item }: { item: Extract<AttentionItem, { kind: "accou
         // Home has no Usage section to open before an app is installed.
         item.usageShown ? (
           <LinkButton href="/#usage" variant="secondary" icon={<ArrowRightIcon />}>
-            See usage
+            {t("See usage")}
           </LinkButton>
         ) : null
       }
@@ -380,7 +383,7 @@ function AttentionRowLayout({
 function ManageLink({ installId }: { installId: string }) {
   return (
     <LinkButton href={`/apps/${installId}`} variant="secondary">
-      Manage
+      {t("Manage")}
     </LinkButton>
   );
 }
@@ -398,7 +401,7 @@ function CheckAgainButton({ installId }: { installId: string }) {
       await router.invalidate();
     } catch (err) {
       toasts.add({
-        title: err instanceof Error ? err.message : "Could not check the app.",
+        title: err instanceof Error ? err.message : t("Could not check the app."),
         variant: "error",
       });
     }
@@ -412,7 +415,7 @@ function CheckAgainButton({ installId }: { installId: string }) {
       icon={<ArrowsClockwiseIcon />}
       onClick={() => void onCheck()}
     >
-      Check again
+      {t("Check again")}
     </BusyButton>
   );
 }
@@ -431,12 +434,12 @@ function DeployCopyRow({ item }: { item: Extract<AttentionItem, { kind: "deploy-
       description={description}
       actions={
         <Button variant="secondary" icon={<CheckIcon />} onClick={dismiss}>
-          Done
+          {t("Done")}
         </Button>
       }
     >
       <Collapsible.Root>
-        <Collapsible.DefaultTrigger>Show the steps</Collapsible.DefaultTrigger>
+        <Collapsible.DefaultTrigger>{t("Show the steps")}</Collapsible.DefaultTrigger>
         <Collapsible.DefaultPanel>
           <DeployCopySteps cleanup={item.cleanup} />
         </Collapsible.DefaultPanel>

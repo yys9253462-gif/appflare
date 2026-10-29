@@ -5,6 +5,7 @@ import { AddressWatch } from "../components/address-watch";
 import { COLOR_MODE_SCRIPT } from "../components/color-mode";
 import { FAVICON_LINKS, FAVICON_META } from "../components/favicons";
 import { RouterAnchor } from "../components/router-anchor";
+import { htmlLang } from "../i18n";
 import appCss from "../styles.css?url";
 
 declare module "@tanstack/react-router" {
@@ -66,7 +67,7 @@ function RootComponent() {
 function RootDocument({ children }: { children: ReactNode }) {
   return (
     // The head script sets `data-mode` on this element before React hydrates it.
-    <html lang="en" suppressHydrationWarning>
+    <html lang={htmlLang()} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

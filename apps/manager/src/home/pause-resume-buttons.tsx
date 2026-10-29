@@ -4,6 +4,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { BusyButton } from "../components/busy-button";
 import { ConfirmDialog } from "../components/confirm-dialog";
+import { t } from "../i18n";
 import { type StillPastCap, stillPastCapCopy } from "../usage/attention";
 import { pauseAppFn, resumeAppFn } from "../usage/pause.functions";
 import { appSpendHref } from "../usage/ui/format";
@@ -65,14 +66,14 @@ export function PauseAppButton({
           size={size}
           variant={calm ? "secondary" : "destructive"}
           icon={<PauseIcon />}
-          aria-label={`${text}: ${label}`}
+          aria-label={t("{action}: {label}", { action: t(text), label })}
         >
-          {text}
+          {t(text)}
         </Button>
       )}
-      title={`Pause ${label}`}
-      description="It stops using Cloudflare until you resume it."
-      actionLabel={`Pause ${label}`}
+      title={t("Pause {label}", { label })}
+      description={t("It stops using Cloudflare until you resume it.")}
+      actionLabel={t("Pause {label}", { label })}
       onConfirm={async () => {
         await pauseAppFn({ data: { installId } });
         started.current = true;
@@ -81,16 +82,17 @@ export function PauseAppButton({
         if (open || !started.current) return;
         started.current = false;
         toasts.add({
-          title: `Pausing ${label}`,
-          description: "It stops within a few seconds. Resume it when the cause is fixed.",
+          title: t("Pausing {label}", { label }),
+          description: t("It stops within a few seconds. Resume it when the cause is fixed."),
           variant: "info",
         });
         void router.invalidate();
       }}
     >
       <Text>
-        Visitors see a “paused” page and its scheduled work stops. Its data stays as it is. Resume
-        it from Home or its Usage tab.
+        {t(
+          "Visitors see a “paused” page and its scheduled work stops. Its data stays as it is. Resume it from Home or its Usage tab.",
+        )}
       </Text>
     </ConfirmDialog>
   );
@@ -119,10 +121,10 @@ export function ResumeAppButton({
 
   function resumed(capSetAside: boolean) {
     toasts.add({
-      title: `Resuming ${label}`,
+      title: t("Resuming {label}", { label }),
       description: capSetAside
-        ? "Its cap is set aside until it resets. The loop check still runs."
-        : "The loop check still runs: if it loops again, Appflare pauses it again.",
+        ? t("Its cap is set aside until it resets. The loop check still runs.")
+        : t("The loop check still runs: if it loops again, Appflare pauses it again."),
       variant: "info",
     });
     void router.invalidate();
@@ -135,26 +137,29 @@ export function ResumeAppButton({
         size={size}
         variant={variant}
         icon={<PlayIcon />}
-        aria-label={`Resume: ${label}`}
+        aria-label={t("Resume: {label}", { label })}
         onClick={async () => {
           setPending(true);
           try {
             await resumeAppFn({ data: { installId } });
             resumed(false);
           } catch (error) {
-            toasts.add({ title: errorText(error, "Could not resume the app."), variant: "error" });
+            toasts.add({
+              title: errorText(error, t("Could not resume the app.")),
+              variant: "error",
+            });
           }
           setPending(false);
         }}
       >
-        Resume
+        {t("Resume")}
       </BusyButton>
     );
   }
 
   const copy = stillPastCapCopy(stillPastCap, {
     clock: readerClock,
-    dayAndTime: (t) => dayAndTime.format(new Date(t)),
+    dayAndTime: (at) => dayAndTime.format(new Date(at)),
   });
   return (
     <ConfirmDialog
@@ -166,14 +171,14 @@ export function ResumeAppButton({
           size={size}
           variant={variant}
           icon={<PlayIcon />}
-          aria-label={`Resume: ${label}`}
+          aria-label={t("Resume: {label}", { label })}
         >
-          Resume
+          {t("Resume")}
         </Button>
       )}
-      title={`Resume ${label}`}
+      title={t("Resume {label}", { label })}
       description={copy.description}
-      actionLabel="Resume until the cap resets"
+      actionLabel={t("Resume until the cap resets")}
       onConfirm={async () => {
         await resumeAppFn({ data: { installId, untilCapResets: true } });
         started.current = true;
@@ -185,7 +190,8 @@ export function ResumeAppButton({
       }}
     >
       <Text>
-        {copy.body} To keep a cap, <Link href={appSpendHref(installId)}>change it</Link> instead.
+        {copy.body} {t("To keep a cap,")}{" "}
+        <Link href={appSpendHref(installId)}>{t("change it")}</Link> {t("instead.")}
       </Text>
     </ConfirmDialog>
   );

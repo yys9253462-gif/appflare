@@ -1,4 +1,5 @@
 import { sinceDay } from "../catalog/storefront";
+import { t } from "../i18n";
 import type { AppSignal } from "./attention";
 
 /**
@@ -14,20 +15,23 @@ export function appLine(
 ): string {
   switch (app.status) {
     case "installing":
-      return "Installing";
+      return t("Installing");
     case "updating":
-      return "Updating";
+      return t("Updating");
     case "failed":
-      return "Install did not finish";
+      return t("Install did not finish");
     case "uninstalling":
-      return signal === "failed" ? "Removal did not finish" : "Being removed";
+      return t(signal === "failed" ? "Removal did not finish" : "Being removed");
   }
-  if (signal === "unusual-usage") return "Using far more than usual";
-  if (signal === "limit-used-up") return "Used up a free daily limit";
-  if (signal === "paused") return "Paused";
-  if (signal === "not-responding") return "Not responding";
-  if (signal === "failed") return "Last change did not finish";
-  if (signal === "update") return "Update available";
-  if (signal === "reinstall") return "New version takes a reinstall";
-  return `Running · ${app.version} · updated ${sinceDay(app.updatedAt, now)}`;
+  if (signal === "unusual-usage") return t("Using far more than usual");
+  if (signal === "limit-used-up") return t("Used up a free daily limit");
+  if (signal === "paused") return t("Paused");
+  if (signal === "not-responding") return t("Not responding");
+  if (signal === "failed") return t("Last change did not finish");
+  if (signal === "update") return t("Update available");
+  if (signal === "reinstall") return t("New version takes a reinstall");
+  return t("Running · {version} · updated {when}", {
+    version: app.version,
+    when: sinceDay(app.updatedAt, now),
+  });
 }

@@ -1,4 +1,5 @@
 import { RECONNECT_COPY } from "../cloudflare/connection-view";
+import { t } from "../i18n";
 import {
   accountLimitAttentionCopy,
   type ClockFormat,
@@ -18,29 +19,29 @@ export function failedJobTitle(
   label: string,
 ): string {
   if (job.kind === "rollback" && job.restore)
-    return `Restoring the database of ${label} did not finish`;
+    return t("Restoring the database of {label} did not finish", { label });
   if (job.kind === "uninstall" && job.deleteRetained) {
-    return `Deleting the kept data of ${label} did not finish`;
+    return t("Deleting the kept data of {label} did not finish", { label });
   }
   switch (job.kind) {
     case "install":
-      return `Installing ${label} did not finish`;
+      return t("Installing {label} did not finish", { label });
     case "update":
       return job.version === null
-        ? `Updating ${label} did not finish`
-        : `Updating ${label} to ${job.version} did not finish`;
+        ? t("Updating {label} did not finish", { label })
+        : t("Updating {label} to {version} did not finish", { label, version: job.version });
     case "uninstall":
-      return `Removing ${label} did not finish`;
+      return t("Removing {label} did not finish", { label });
     case "rollback":
-      return `Rolling back ${label} did not finish`;
+      return t("Rolling back {label} did not finish", { label });
     case "reconfigure":
-      return `Saving the settings of ${label} did not finish`;
+      return t("Saving the settings of {label} did not finish", { label });
     case "pause":
-      return `Pausing ${label} did not finish`;
+      return t("Pausing {label} did not finish", { label });
     case "resume":
-      return `Resuming ${label} did not finish`;
+      return t("Resuming {label} did not finish", { label });
     default:
-      return `A change to ${label} did not finish`;
+      return t("A change to {label} did not finish", { label });
   }
 }
 
@@ -50,13 +51,17 @@ function failedJobLine(job: FailedJob): string {
     case "update":
     case "reconfigure":
     case "rollback":
-      return "The app keeps running as it was. The log shows the step that failed and why.";
+      return t("The app keeps running as it was. The log shows the step that failed and why.");
     case "pause":
-      return "It may still be running and using Cloudflare. The log shows the step that failed and why.";
+      return t(
+        "It may still be running and using Cloudflare. The log shows the step that failed and why.",
+      );
     case "resume":
-      return "It stays paused; resume it again to carry on. The log shows the step that failed and why.";
+      return t(
+        "It stays paused; resume it again to carry on. The log shows the step that failed and why.",
+      );
     default:
-      return "The log shows the step that failed and why.";
+      return t("The log shows the step that failed and why.");
   }
 }
 
@@ -87,28 +92,34 @@ export function attentionCopy(
       return { title: failedJobTitle(item.job, item.label), description: failedJobLine(item.job) };
     case "not-responding":
       return {
-        title: `${item.label} is not responding`,
+        title: t("{label} is not responding", { label: item.label }),
         description:
           item.health === "unhealthy"
-            ? "It answered its last check with an error."
-            : "It did not answer its last check. It may still have been starting up.",
+            ? t("It answered its last check with an error.")
+            : t("It did not answer its last check. It may still have been starting up."),
       };
     case "access-required":
       return {
-        title: `${item.label} must run behind Cloudflare Access`,
-        description:
+        title: t("{label} must run behind Cloudflare Access", { label: item.label }),
+        description: t(
           "The catalog now says this app must run behind Cloudflare Access. Appflare never protects it on its own, and holds its updates until it is protected.",
+        ),
       };
-    case "update":
+    case "update": {
+      const youHave = t("You have {version}.", { version: item.version });
       return {
         title: item.reinstall
-          ? `${item.label} ${item.latestVersion} takes a reinstall`
-          : `${item.label} ${item.latestVersion} is available`,
-        description:
-          item.needs === null
-            ? `You have ${item.version}.`
-            : `You have ${item.version}. ${item.needs}`,
+          ? t("{label} {version} takes a reinstall", {
+              label: item.label,
+              version: item.latestVersion,
+            })
+          : t("{label} {version} is available", {
+              label: item.label,
+              version: item.latestVersion,
+            }),
+        description: item.needs === null ? youHave : `${youHave} ${item.needs}`,
       };
+    }
     case "account":
       return {
         title: item.row.name,
@@ -116,16 +127,24 @@ export function attentionCopy(
       };
     case "deploy-copy":
       return {
-        title: "Clean up the deploy copy",
-        description:
+        title: t("Clean up the deploy copy"),
+        description: t(
           "The Deploy to Cloudflare button left a copy of Appflare connected to this account. A push to it would put that older Appflare back.",
+        ),
       };
     case "downgrade":
       return {
-        title: `This Appflare (${item.downgrade.version}) is older than its database`,
-        description: `A newer version set up this database, and an older one now runs${
-          item.downgrade.deployButton ? ", perhaps after a push to the deploy copy" : ""
-        }. Appflare keeps working, but what the newer version added is missing until you update again.`,
+        title: t("This Appflare ({version}) is older than its database", {
+          version: item.downgrade.version,
+        }),
+        description: t(
+          "A newer version set up this database, and an older one now runs{after}. Appflare keeps working, but what the newer version added is missing until you update again.",
+          {
+            after: item.downgrade.deployButton
+              ? t(", perhaps after a push to the deploy copy")
+              : "",
+          },
+        ),
       };
   }
 }

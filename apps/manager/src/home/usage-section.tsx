@@ -3,6 +3,7 @@ import { useState } from "react";
 import { reconnectDialogHref } from "../cloudflare/reconnect-outcome";
 import { Section } from "../components/section";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import { type HomeUsageView, productTabLabel } from "../usage/home";
 import { UsageByAppChart } from "../usage/home-charts";
 import { PRODUCTS, type ProductKey } from "../usage/math";
@@ -44,21 +45,21 @@ export function HomeUsageSection({
     return (
       <Section
         id="usage"
-        title="Usage"
-        description={HOME_USAGE_COPY.description}
-        error={HOME_USAGE_COPY.readFailed}
+        title={t("Usage")}
+        description={t(HOME_USAGE_COPY.description)}
+        error={t(HOME_USAGE_COPY.readFailed)}
       />
     );
   }
   if (needsAccess !== null) {
     const oauth = needsAccess.via === "oauth";
     return (
-      <Section id="usage" title="Usage" description={HOME_USAGE_COPY.description}>
+      <Section id="usage" title={t("Usage")} description={t(HOME_USAGE_COPY.description)}>
         <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <Text variant="secondary">
-            {oauth ? HOME_USAGE_COPY.reconnect : HOME_USAGE_COPY.tokenAccess}
+            {t(oauth ? HOME_USAGE_COPY.reconnect : HOME_USAGE_COPY.tokenAccess)}
             {!isAdmin &&
-              ` ${oauth ? HOME_USAGE_COPY.reconnectMember : HOME_USAGE_COPY.tokenAccessMember}`}
+              ` ${t(oauth ? HOME_USAGE_COPY.reconnectMember : HOME_USAGE_COPY.tokenAccessMember)}`}
           </Text>
           {isAdmin && (
             <LinkButton
@@ -66,7 +67,7 @@ export function HomeUsageSection({
               variant="secondary"
               size="sm"
             >
-              {oauth ? "Reconnect Cloudflare" : "Cloudflare connection"}
+              {t(oauth ? "Reconnect Cloudflare" : "Cloudflare connection")}
             </LinkButton>
           )}
         </div>
@@ -74,7 +75,7 @@ export function HomeUsageSection({
     );
   }
   return (
-    <Section id="usage" title="Usage" description={HOME_USAGE_COPY.description}>
+    <Section id="usage" title={t("Usage")} description={t(HOME_USAGE_COPY.description)}>
       <div className="grid grid-cols-1 divide-y divide-kumo-hairline border-b border-kumo-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {view.tiles.map((tile) => (
           <div key={tile.label} className="grid content-start gap-0.5 px-5 py-4">
@@ -104,7 +105,7 @@ function ProductChart({ view }: { view: HomeUsageView }) {
   if (product === null) {
     return (
       <div className="px-5 py-4">
-        <Text variant="secondary">{HOME_USAGE_COPY.noUsage}</Text>
+        <Text variant="secondary">{t(HOME_USAGE_COPY.noUsage)}</Text>
       </div>
     );
   }
@@ -129,7 +130,11 @@ function ProductChart({ view }: { view: HomeUsageView }) {
       <div
         className="min-w-0"
         role="img"
-        aria-label={`${PRODUCTS[product].label} by app, per hour, ${chart.caption.toLowerCase()}: ${chart.series.map((s) => s.name).join(", ")}.`}
+        aria-label={t("{product} by app, per hour, {when}: {apps}.", {
+          product: t(PRODUCTS[product].label),
+          when: t(chart.caption).toLowerCase(),
+          apps: chart.series.map((s) => s.name).join("、"),
+        })}
       >
         <UsageByAppChart chart={chart} />
       </div>

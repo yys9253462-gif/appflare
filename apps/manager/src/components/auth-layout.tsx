@@ -1,6 +1,7 @@
 import { SITE_URL } from "@appflare/schema/links";
 import { cn, LayerCard, Link, Meter, Text } from "@cloudflare/kumo";
 import type { ReactNode } from "react";
+import { t } from "../i18n";
 import { managerSiteLink } from "../site-links";
 import { Logo } from "./logo";
 import { ErrorMessageBanner } from "./message-text";
@@ -22,7 +23,7 @@ export const SETUP_STEP_COUNT = 3;
 export type SetupStep = 1 | 2 | 3 | 4;
 
 export function setupStepLabel(step: SetupStep, count: number = SETUP_STEP_COUNT): string {
-  return `Step ${step} of ${count}`;
+  return t("Step {step} of {count}", { step, count });
 }
 
 /** Makes a Kumo Button span the card, its content centred; 44 px tall on a phone. */
@@ -80,7 +81,7 @@ export function AuthLayout({
           <div className="grid gap-5">
             {step !== undefined && (
               <Meter
-                label="Set up Appflare"
+                label={t("Set up Appflare")}
                 customValue={setupStepLabel(step, stepCount)}
                 value={step}
                 max={stepCount}
@@ -108,7 +109,7 @@ export function AuthLayout({
             variant="plain"
             className="text-kumo-subtle"
           >
-            {version === null ? "Appflare documentation" : `Appflare ${version}`}
+            {version === null ? t("Appflare documentation") : `Appflare ${version}`}
           </Link>
         </Text>
       </footer>
@@ -131,7 +132,7 @@ export function OrDivider() {
     <div className="flex items-center gap-3">
       <span aria-hidden="true" className="h-px flex-1 bg-kumo-hairline" />
       <Text variant="secondary" size="sm" as="span">
-        or
+        {t("or")}
       </Text>
       <span aria-hidden="true" className="h-px flex-1 bg-kumo-hairline" />
     </div>

@@ -4,6 +4,7 @@ import { AppIcon } from "../components/catalog-media";
 import { OpenAppButton } from "../components/open-app-button";
 import { Section } from "../components/section";
 import { StatusDot } from "../components/status-dot";
+import { t } from "../i18n";
 import { installLabel } from "../installs/display-name";
 import { appLine } from "./app-line";
 import type { AppSignal } from "./attention";
@@ -33,7 +34,7 @@ export function YourApps({
 }) {
   const sorted = sortedApps(apps);
   return (
-    <Section id="your-apps" title="Your apps">
+    <Section id="your-apps" title={t("Your apps")}>
       {/* Every tile draws a hairline on its right and bottom; the grid reaches 1 px
           past the card's body on both sides, which hides the lines at its edges. */}
       <Grid variant="3up" gap="none" className="-mr-px -mb-px">
@@ -109,9 +110,9 @@ function AppCard({
           href={`/apps/${app.id}`}
           size="sm"
           variant="secondary"
-          aria-label={`Manage ${name}`}
+          aria-label={t("Manage {name}", { name })}
         >
-          Manage
+          {t("Manage")}
         </LinkButton>
       </div>
     </div>

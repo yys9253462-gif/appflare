@@ -3,6 +3,7 @@ import { PackageIcon, StorefrontIcon } from "@phosphor-icons/react";
 import { useMemo } from "react";
 import { PageHeader } from "../components/page-header";
 import type { StartUpdateHandle } from "../components/update-banner";
+import { t } from "../i18n";
 import { installLabel } from "../installs/display-name";
 import type { UpdateAllOutcome } from "../installs/update-all";
 import type { UsageAttention } from "../usage/attention";
@@ -62,12 +63,12 @@ export function HomeView({
   return (
     <>
       <PageHeader
-        title="Home"
-        description="What needs your attention, and the apps in this Cloudflare account."
+        title={t("Home")}
+        description={t("What needs your attention, and the apps in this Cloudflare account.")}
         actions={
           apps.length > 0 ? (
             <LinkButton href="/catalog" variant="secondary" icon={<StorefrontIcon />}>
-              Catalog
+              {t("Catalog")}
             </LinkButton>
           ) : undefined
         }
@@ -114,11 +115,13 @@ export function HomeView({
       ) : (
         <Empty
           icon={<PackageIcon size={48} className="text-kumo-inactive" />}
-          title="No apps installed yet"
-          description="Install an app from the catalog. It runs in this Cloudflare account, and Appflare keeps it updated."
+          title={t("No apps installed yet")}
+          description={t(
+            "Install an app from the catalog. It runs in this Cloudflare account, and Appflare keeps it updated.",
+          )}
           contents={
             <LinkButton href="/catalog" variant="primary" icon={<StorefrontIcon />}>
-              Browse the catalog
+              {t("Browse the catalog")}
             </LinkButton>
           }
         />

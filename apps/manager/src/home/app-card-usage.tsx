@@ -1,4 +1,5 @@
 import { Text } from "@cloudflare/kumo";
+import { t } from "../i18n";
 import type { StillPastCap } from "../usage/attention";
 import type { CardUsage } from "../usage/home";
 import { CardUsageChart } from "../usage/home-charts";
@@ -18,7 +19,7 @@ export function AppCardUsage({ card, name }: { card: CardUsage; name: string }) 
     return (
       <div className="grid gap-1.5">
         <div className="flex h-12 items-center justify-center rounded-md bg-kumo-recessed px-3 text-center">
-          <span className="text-sm text-kumo-subtle">{FRESH_CARD_NOTE}</span>
+          <span className="text-sm text-kumo-subtle">{t(FRESH_CARD_NOTE)}</span>
         </div>
         <Text as="span" variant="secondary" size="sm">
           {card.line}
@@ -26,16 +27,23 @@ export function AppCardUsage({ card, name }: { card: CardUsage; name: string }) 
       </div>
     );
   }
-  const label = PRODUCTS[card.product].label;
+  const label = t(PRODUCTS[card.product].label);
   const alert = card.tone.kind === "alert";
   return (
     <div className="grid gap-1.5">
-      <div role="img" aria-label={`${name}: ${label}, last 7 days. ${card.line}.`}>
+      <div
+        role="img"
+        aria-label={t("{name}: {product}, last 7 days. {line}.", {
+          name,
+          product: label,
+          line: card.line,
+        })}
+      >
         <CardUsageChart product={card.product} points={card.points} tone={card.tone} />
       </div>
       <Text as="span" variant="secondary" size="sm">
         <span className={alert ? "text-kumo-danger" : undefined}>{card.line}</span>
-        <span className="sr-only"> ({label}, last 7 days)</span>
+        <span className="sr-only"> {t("({product}, last 7 days)", { product: label })}</span>
       </Text>
     </div>
   );

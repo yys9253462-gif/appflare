@@ -1,4 +1,5 @@
 import type { AccountPlan } from "../account/plan";
+import { t } from "../i18n";
 import type { UsageAttention } from "./attention";
 import {
   count,
@@ -324,6 +325,10 @@ const TAB_LABELS: Readonly<Record<string, string>> = {
 
 /** A product's tab name: its short name, else its full one. */
 export function productTabLabel(key: ProductKey): string {
+  return t(productTabLabelSource(key));
+}
+
+function productTabLabelSource(key: ProductKey): string {
   return TAB_LABELS[key] ?? PRODUCTS[key].label;
 }
 
@@ -550,7 +555,7 @@ export function homeUsageView(input: {
     if (first !== undefined) {
       own.push({
         installId: null,
-        name: "Other apps",
+        name: t("Other apps"),
         tone: slotTone("other"),
         points: first.map((p, i) => ({
           ...p,
@@ -562,7 +567,15 @@ export function homeUsageView(input: {
     return {
       product,
       series: own,
-      caption: `Last 7 days${share === null ? "" : ` · ${percent(share.share)} of ${share.of}`}`,
+      caption: t("Last 7 days{share}", {
+        share:
+          share === null
+            ? ""
+            : t(" · {percent} of {of}", {
+                percent: percent(share.share),
+                of: share.of,
+              }),
+      }),
       other: otherLine(data, product),
     };
   };
@@ -574,15 +587,15 @@ export function homeUsageView(input: {
     data.plan === "paid"
       ? [
           {
-            label: "Usage this month",
+            label: t("Usage this month"),
             value: usd(Math.max(0, data.bill.now - PAID_PLAN_MONTHLY_USD)),
-            note: "Appflare's apps, past what the $5 plan includes (estimate)",
+            note: t("Appflare's apps, past what the $5 plan includes (estimate)"),
             bad: false,
           },
           {
-            label: "Projected month",
+            label: t("Projected month"),
             value: usd(data.bill.projected),
-            note: "Appflare's apps and the $5 plan, if the last day's pace holds",
+            note: t("Appflare's apps and the $5 plan, if the last day's pace holds"),
             bad: false,
           },
           burningNow(data, apps, runaway.length > 0),
@@ -594,11 +607,11 @@ export function homeUsageView(input: {
             attention.flatMap((a) => (a.kind === "limit-used-up" ? [a.product] : [])),
           ),
           {
-            label: "Apps needing a look",
+            label: t("Apps needing a look"),
             value: String(
               new Set(attention.map((a) => a.installId).filter((id) => listed.has(id))).size,
             ),
-            note: "Loops, limits and pauses",
+            note: t("Loops, limits and pauses"),
             bad: attention.some((a) => a.kind === "limit-used-up" && listed.has(a.installId)),
           },
         ];
@@ -612,9 +625,11 @@ export function homeUsageView(input: {
  * pause's time is not known.
  */
 function pausedWhen(pausedAt: number | undefined, now: number): string {
-  if (pausedAt === undefined) return "Paused";
+  if (pausedAt === undefined) return t("Paused");
   const sameDay = new Date(pausedAt).toDateString() === new Date(now).toDateString();
-  return sameDay ? `Paused at ${clock(pausedAt)}` : `Paused on ${dateTime(pausedAt)}`;
+  return sameDay
+    ? t("Paused at {time}", { time: clock(pausedAt) })
+    : t("Paused on {time}", { time: dateTime(pausedAt) });
 }
 
 /** Paid: what every app costs an hour now, and which app most of it is when one runs away. */
@@ -627,10 +642,12 @@ function burningNow(
   const burn = new Map(data.apps.map((a) => [a.installId, a.paused ? 0 : a.burnPerHour]));
   const top = [...apps].sort((a, b) => (burn.get(b.id) ?? 0) - (burn.get(a.id) ?? 0))[0];
   return {
-    label: "Burning now",
+    label: t("Burning now"),
     value: `${usd(sum(apps.map((a) => burn.get(a.id) ?? 0)))}/h`,
     note:
-      runaway && top !== undefined ? `Mostly ${top.label}` : "At list price, before included usage",
+      runaway && top !== undefined
+        ? t("Mostly {label}", { label: top.label })
+        : t("At list price, before included usage"),
     bad: runaway,
   };
 }
@@ -639,24 +656,31 @@ function burningNow(
 function canBeBilled(data: HomeUsageData): UsageTile {
   if (data.bill.now > 0) {
     return {
-      label: "Can be billed",
+      label: t("Can be billed"),
       value: `${usd(data.bill.now)} (R2)`,
-      note: `R2 bills past its free amount, even on Free: ${usd(data.bill.projected)} by the month's end at this pace`,
+      note: t(
+        "R2 bills past its free amount, even on Free: {amount} by the month's end at this pace",
+        {
+          amount: usd(data.bill.projected),
+        },
+      ),
       bad: false,
     };
   }
   if (data.bill.projected > 0) {
     return {
-      label: "Can be billed",
-      value: "$0 so far",
-      note: `On pace for ${usd(data.bill.projected)} (R2): R2 bills past its free amount, even on Free`,
+      label: t("Can be billed"),
+      value: t("$0 so far"),
+      note: t("On pace for {amount} (R2): R2 bills past its free amount, even on Free", {
+        amount: usd(data.bill.projected),
+      }),
       bad: false,
     };
   }
   return {
-    label: "Can be billed",
+    label: t("Can be billed"),
     value: "$0",
-    note: "Free plan: Cloudflare stops apps at the daily limits",
+    note: t("Free plan: Cloudflare stops apps at the daily limits"),
     bad: false,
   };
 }
@@ -681,7 +705,11 @@ function otherLine(data: HomeUsageData, key: ProductKey): string | null {
   if (data.plan !== "free" || limit === null || otherShareShown(other / limit) === null) {
     return null;
   }
-  return `Not charted: ${OTHER_USAGE}, ${productAmount(key, other)} today, ${percent(other / limit)} of today's free limit.`;
+  return t("Not charted: {other}, {amount} today, {share} of today's free limit.", {
+    other: t(OTHER_USAGE),
+    amount: productAmount(key, other),
+    share: percent(other / limit),
+  });
 }
 
 /**
@@ -705,12 +733,18 @@ function closestDailyLimit(
   const limit = freePerDay(best.key) ?? 1;
   const other = otherShareShown((account[best.key]?.other ?? 0) / limit);
   return {
-    label: "Closest daily limit",
+    label: t("Closest daily limit"),
     value: percent(best.share),
     note:
       other === null
-        ? `${productLabel(best.key)}, counted for the whole account`
-        : `${productLabel(best.key)}: ${percent(other)} of the limit is ${OTHER_USAGE}`,
+        ? t("{product}, counted for the whole account", {
+            product: t(productLabel(best.key)),
+          })
+        : t("{product}: {share} of the limit is {other}", {
+            product: t(productLabel(best.key)),
+            share: percent(other),
+            other: t(OTHER_USAGE),
+          }),
     bad: false,
   };
 }
