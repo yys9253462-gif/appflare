@@ -249,6 +249,7 @@ export const ZH: Record<string, string> = {
   "{label} is already using a lot": "{label} 的用量已经很高",
   "{label} is using far more than usual": "{label} 的用量远高于平时",
   ", {share} of them by {other}": "，其中 {share} 来自{other}",
+  ", {share} of them by {label}{other}": "，其中 {share} 来自{label}{other}",
   " and {share} by {other}": "，{share} 来自{other}",
   "{label} went into a loop at {time} and used this account's {limit} for today.":
     "{label} 在 {time} 陷入死循环，用光了本账户今日的 {limit}。",
