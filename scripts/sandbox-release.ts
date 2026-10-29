@@ -127,8 +127,8 @@ export function sandboxArtifactProblems(
     `keyId is "${manifest.keyId}", expected "${expected.keyId}"`,
   );
   expect(
-    manifest.catalog.repo === "appflare/appflare",
-    `catalog.repo is "${manifest.catalog.repo}", expected "appflare/appflare"`,
+    manifest.catalog.repo === "yys9253462-gif/appflare",
+    `catalog.repo is "${manifest.catalog.repo}", expected "yys9253462-gif/appflare"`,
   );
   expect(
     same(manifest.catalog.source, { ref: expected.version, sha: expected.sha }),

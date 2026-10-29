@@ -10,7 +10,7 @@
   "name": "Appflare sandbox Worker",
   "summary": "Builds sandbox tier apps from their pinned source inside a Cloudflare Sandbox container in your own account.",
   "tagline": "Builds apps from source in your own account",
-  "repo": "appflare/appflare",
+  "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["developer-tools"],
   "maintainers": ["MendyLanda"],
