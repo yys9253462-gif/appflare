@@ -134,7 +134,7 @@ export function statusLine(
         text: `Installed ${minutesWord(context.now - status.installedAt)} ago. Cloudflare reports a new app's usage after about an hour.`,
       };
     case "empty":
-      return { tone: "muted", text: "No usage recorded for this app in the last 30 days." };
+      return { tone: "muted", text: t("No usage recorded for this app in the last 30 days.") };
     case "paused": {
       const since = `Paused since ${clock(status.pause.pausedAt)}, so no usage since.`;
       if (status.product === null) return { tone: "muted", text: since };

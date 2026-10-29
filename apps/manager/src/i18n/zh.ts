@@ -2107,4 +2107,5 @@ export const ZH: Record<string, string> = {
     "所有开启自动暂停的应用都使用它，除非应用自己设了。",
   "Spending: not a trigger": "花费：不是触发器",
   "Appflare is migrating its database. Retry shortly.": "Appflare 正在迁移数据库。请稍后重试。",
+  "No usage recorded for this app in the last 30 days.": "这个应用最近 30 天没有记录任何用量。",
 };
