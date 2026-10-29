@@ -9,12 +9,13 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { parseJsonc } from "./jsonc.ts";
 import { pack } from "./pack.ts";
 import { verify } from "./verify.ts";
 
-const HERE = path.dirname(new URL(import.meta.url).pathname);
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE = path.resolve(HERE, "..", "fixtures", "hello");
 
 /**

@@ -15,6 +15,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { assetHash } from "@appflare/cf-api";
 import { type ArtifactManifest, artifactD1Files, MAX_WORKER_UPLOAD_BYTES } from "@appflare/schema";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
@@ -24,7 +25,7 @@ import { type PackResult, pack } from "./pack.ts";
 import { verify } from "./verify.ts";
 import { artifactWorkerSize } from "./worker-size.ts";
 
-const HERE = path.dirname(new URL(import.meta.url).pathname);
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE = path.resolve(HERE, "..", "fixtures", "hello");
 const FIXTURE_MANIFEST = path.join(FIXTURE, "appflare.jsonc");
 const SIGN_ENV = "APPFLARE_PACK_TEST_KEY";
