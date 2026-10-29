@@ -1323,6 +1323,10 @@ jobs:
   sandbox-image:
     name: sandbox image
     needs: [sandbox-plan, sandbox-sign]
+    # This fork has no Docker Hub account, and nothing here builds in the
+    # sandbox Worker, so the image is left unbuilt and the release that waits
+    # for it never runs.
+    if: false
     permissions:
       contents: read
     uses: ./.github/workflows/sandbox-image.yml
