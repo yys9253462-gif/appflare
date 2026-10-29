@@ -14,6 +14,7 @@ import { discoverWorkerName } from "../cloudflare/worker-name";
 import { settingsPlace } from "../components/settings-links";
 import { createDb } from "../db/client";
 import { readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 
 /**
  * The Cloudflare token step: verify a pasted
@@ -65,12 +66,14 @@ export class TokenStepError extends Error {
 
 export const TOKEN_STEP_MESSAGES = {
   alreadyConfigured: `A Cloudflare token is already configured. Rotate it in ${settingsPlace("account", "connection", "the Cloudflare connection settings")} instead.`,
-  notConfigured: "No Cloudflare token is configured yet. Finish setup first.",
-  busy: "Another token change is in progress. Try again in a minute.",
-  needsScripts:
+  notConfigured: t("No Cloudflare token is configured yet. Finish setup first."),
+  busy: t("Another token change is in progress. Try again in a minute."),
+  needsScripts: t(
     "This token cannot list Workers scripts, so Appflare cannot store it on itself. Add the Workers Scripts: Edit permission.",
-  otherAccountBeforeOwner:
+  ),
+  otherAccountBeforeOwner: t(
     "Appflare already holds a token for another Cloudflare account. Paste a token for the account Appflare runs in.",
+  ),
 } as const;
 
 /**

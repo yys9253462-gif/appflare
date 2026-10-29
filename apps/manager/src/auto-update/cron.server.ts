@@ -8,6 +8,7 @@ import { connectionProblem } from "../cloudflare/connection.server";
 import { removalInProgress } from "../danger/removal-flag";
 import { createDb } from "../db/client";
 import { installs, type JobStarter } from "../db/schema";
+import { t } from "../i18n";
 import {
   AccessRequiredUpdateError,
   type StartUpdateResult,
@@ -250,7 +251,9 @@ export async function startUnattendedUpdate(
   let found: ListedApp | undefined;
   const trustOf = (app: IndexApp) => {
     if (found?.app !== app) {
-      throw new VersionActionError("The app's catalog listing was not loaded before its manifest.");
+      throw new VersionActionError(
+        t("The app's catalog listing was not loaded before its manifest."),
+      );
     }
     return found.trust;
   };

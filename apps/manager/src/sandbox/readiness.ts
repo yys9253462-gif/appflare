@@ -4,6 +4,7 @@ import type { CapabilitiesView } from "../capabilities/capabilities";
 import type { ConnectionKind } from "../cloudflare/connection-view";
 import { inConnectionWords } from "../cloudflare/sign-in-words";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import {
   NO_CONTAINERS_PERMISSION_REASON,
   NO_R2_PERMISSION_REASON,
@@ -93,7 +94,7 @@ export function withSandboxJobs(base: SandboxReadiness, jobs: SandboxJobState): 
 export const SANDBOX_CAPABILITY_HREF = settingsLink("account", "capability-sandbox");
 
 /** The line an install or build confirmation adds when it turns sandbox builds on first. */
-export const SANDBOX_FIRST_NOTE = "Sandbox builds will be turned on first (about two minutes).";
+export const SANDBOX_FIRST_NOTE = t("Sandbox builds will be turned on first (about two minutes).");
 
 export interface SandboxReadinessInput {
   /**

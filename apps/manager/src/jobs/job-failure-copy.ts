@@ -1,5 +1,6 @@
 import { jobKindLabel } from "../components/format";
 import { failedJobTitle } from "../home/attention-copy";
+import { t } from "../i18n";
 
 /**
  * What a failed job's page says first: a plain sentence about what did not
@@ -21,12 +22,12 @@ export interface FailedJobView {
 
 /** Jobs of Appflare itself, by kind, as the start of the headline. */
 const OWN_JOBS: Record<string, string> = {
-  self_rollback: "Rolling Appflare back",
-  sandbox_enable: "Turning on sandbox builds",
-  sandbox_update: "Updating sandbox builds",
-  sandbox_disable: "Turning off sandbox builds",
-  source_build: "Building for review",
-  move_address: "Moving Appflare to its new address",
+  self_rollback: t("Rolling Appflare back"),
+  sandbox_enable: t("Turning on sandbox builds"),
+  sandbox_update: t("Updating sandbox builds"),
+  sandbox_disable: t("Turning off sandbox builds"),
+  source_build: t("Building for review"),
+  move_address: t("Moving Appflare to its new address"),
 };
 
 /** "Installing Short links did not finish." */
@@ -57,8 +58,8 @@ export function jobFailureHeadline(job: FailedJobView): string {
  */
 function plainCause(error: string | null): string | null {
   if (error === null) return null;
-  if (/->\s*401\b/.test(error)) return "Cloudflare did not accept Appflare's access.";
-  if (/->\s*403\b/.test(error)) return "Cloudflare refused a permission Appflare needs.";
+  if (/->\s*401\b/.test(error)) return t("Cloudflare did not accept Appflare's access.");
+  if (/->\s*403\b/.test(error)) return t("Cloudflare refused a permission Appflare needs.");
   return null;
 }
 
@@ -67,13 +68,13 @@ function whatStays(job: FailedJobView): string | null {
   if (job.install !== null) {
     if (job.kind === "resume") return "The app stays paused; resume it again to carry on.";
     return job.kind === "update" || job.kind === "reconfigure" || job.kind === "rollback"
-      ? "The app keeps running as it was."
+      ? t("The app keeps running as it was.")
       : null;
   }
   if (job.kind === "self_update" || job.kind === "self_rollback") {
     return "Appflare keeps running the version it had.";
   }
-  if (job.kind === "move_address") return "Appflare stays at its current address.";
+  if (job.kind === "move_address") return t("Appflare stays at its current address.");
   return null;
 }
 

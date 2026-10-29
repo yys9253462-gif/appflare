@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 /**
  * `CF_API_BASE_URL` points the Cloudflare API client at a local fake (tests,
  * `scripts/fake-cloudflare-api.mjs`). The account token travels with every call,
@@ -23,7 +25,7 @@ export function apiBaseOverride(env: { CF_API_BASE_URL?: string }): string | und
   const value = env.CF_API_BASE_URL?.trim();
   if (!value) return undefined;
   if (isLoopbackUrl(value)) return value;
-  console.warn("CF_API_BASE_URL ignored: only loopback hosts are allowed");
+  console.warn(t("CF_API_BASE_URL ignored: only loopback hosts are allowed"));
   return undefined;
 }
 

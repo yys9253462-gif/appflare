@@ -1,4 +1,5 @@
 import type { TelemetryValue } from "@appflare/schema";
+import { t } from "../i18n";
 import { type AccountNames, NO_ACCOUNT_NAMES, redactReportText } from "./redact";
 
 /**
@@ -32,7 +33,7 @@ export interface FailureReportEvent {
   properties: Record<string, TelemetryValue>;
 }
 
-/** What the "Send a report" dialog shows before anything is sent. */
+/** What the t("Send a report") dialog shows before anything is sent. */
 export interface FailureReportPreview {
   jobId: string;
   /** When the report was sent (ISO 8601); null while it has not been. */
@@ -143,22 +144,25 @@ export function reportLog(
 
 /** Everything the dialog says, in plain words. */
 export const FAILURE_REPORT_COPY = {
-  action: "Send a report",
-  title: "Send a report to the Appflare team so we can fix this",
-  description:
+  action: t("Send a report"),
+  title: t("Send a report to the Appflare team so we can fix this"),
+  description: t(
     "The report tells us what went wrong. Passwords, keys, tokens, email addresses, your Cloudflare account id, your domains and your Worker names are taken out before it leaves.",
-  summaryTitle: "What the report contains",
-  noteLabel: "Anything to add? (optional)",
-  noteDescription:
+  ),
+  summaryTitle: t("What the report contains"),
+  noteLabel: t("Anything to add? (optional)"),
+  noteDescription: t(
     "What you were trying to do, or anything that looked odd. Please leave out passwords and keys.",
-  usageDataOff:
+  ),
+  usageDataOff: t(
     "The anonymous report is turned off for this manager. This failure report is still sent, because you chose to send it. Nothing else is.",
-  devBuild: "This is a development build of Appflare, which never sends reports.",
-  details: "See exactly what is sent",
+  ),
+  devBuild: t("This is a development build of Appflare, which never sends reports."),
+  details: t("See exactly what is sent"),
   detailsDescription:
     "The report as it leaves this Worker for the Appflare team's PostHog project in the EU. Values shown as [redacted], [email], [account id], [id], [domain] or [worker] were removed.",
   send: "Send",
-  sent: "Thanks, report sent",
-  alreadySent: "This failure was already reported. Thanks.",
-  sendFailed: "The report could not be sent. Try again in a moment.",
+  sent: t("Thanks, report sent"),
+  alreadySent: t("This failure was already reported. Thanks."),
+  sendFailed: t("The report could not be sent. Try again in a moment."),
 } as const;

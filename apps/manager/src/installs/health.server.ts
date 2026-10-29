@@ -3,6 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { type HealthStatus, installs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import {
   healthCheckOfManifest,
   healthColumns,
@@ -74,7 +75,7 @@ export async function checkInstallHealthCore(
     .from(installs)
     .where(eq(installs.id, input.installId))
     .limit(1);
-  if (row === undefined) throw new HealthCheckError("There is no such install.");
+  if (row === undefined) throw new HealthCheckError(t("There is no such install."));
   if (row.status !== "installed") {
     throw new HealthCheckError(`Only an installed app can be checked; this one is ${row.status}.`);
   }
@@ -94,7 +95,7 @@ export async function checkInstallHealthCore(
     settings.account_subdomain,
   );
   if (base === null) {
-    throw new HealthCheckError("The account's workers.dev subdomain is not known yet.");
+    throw new HealthCheckError(t("The account's workers.dev subdomain is not known yet."));
   }
   const check = healthCheckOfManifest(row.manifestJson);
   const url = `${base}${check.path}`;

@@ -145,7 +145,7 @@ export function ResetPasswordDialog({
           {outcome === null ? (
             <LayerDialog.Actions.Primary onClick={run} {...busyActionProps(pending)}>
               <BusyMark pending={pending} />
-              {way === "link" ? "Send reset link" : "Show recovery code"}
+              {way === "link" ? "Send reset link" : t("Show recovery code")}
             </LayerDialog.Actions.Primary>
           ) : (
             <LayerDialog.Actions.Primary onClick={() => onOpenChange(false)}>

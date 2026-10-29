@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ROLES } from "../auth/roles";
+import { t } from "../i18n";
 
 /** Client-safe input schemas shared by forms and server functions. */
 
@@ -37,9 +38,9 @@ export const cfTokenInput = z.object({
   token: z
     .string()
     .trim()
-    .min(1, "Paste the API token.")
-    .max(512, "That is too long to be a Cloudflare API token.")
-    .regex(/^[\x21-\x7e]+$/, "The token contains spaces or unexpected characters."),
+    .min(1, t("Paste the API token."))
+    .max(512, t("That is too long to be a Cloudflare API token."))
+    .regex(/^[\x21-\x7e]+$/, t("The token contains spaces or unexpected characters.")),
 });
 export type CfTokenInput = z.infer<typeof cfTokenInput>;
 
@@ -48,8 +49,8 @@ export const passkeyNameInput = z.object({
   name: z
     .string()
     .trim()
-    .min(1, "Give the passkey a name.")
-    .max(100, "Use at most 100 characters."),
+    .min(1, t("Give the passkey a name."))
+    .max(100, t("Use at most 100 characters.")),
 });
 export type PasskeyNameInput = z.infer<typeof passkeyNameInput>;
 

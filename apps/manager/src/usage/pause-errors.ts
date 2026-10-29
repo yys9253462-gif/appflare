@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 /**
  * What a failed pause or resume tells the pages, in one short sentence:
  * why it failed, never the API's own words (request paths name the account,
@@ -7,7 +9,7 @@
  * Cloudflare. Pure; client-safe.
  */
 
-const DETAILS = "The job log has the details.";
+const DETAILS = t("The job log has the details.");
 
 /** An error from a Cloudflare API request, as the client words it. */
 const FROM_CLOUDFLARE = /Cloudflare API request failed|Cloudflare did not answer|->\s*\d{3}\b/i;

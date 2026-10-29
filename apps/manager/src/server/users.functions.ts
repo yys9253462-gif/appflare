@@ -4,6 +4,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import type { Role } from "../auth/roles";
 import { generateTemporaryPassword } from "../auth/temporary-password";
 import { createDb } from "../db/client";
+import { t } from "../i18n";
 import {
   type AppAccessPolicyOutcome,
   syncAccessAfterAdminChange,
@@ -78,7 +79,7 @@ export const addUser = createServerFn({ method: "POST" })
       });
       created = { email: user.email, role: data.role };
     } catch (error) {
-      throw new Error(authErrorMessage(error, "Could not create the user."));
+      throw new Error(authErrorMessage(error, t("Could not create the user.")));
     }
     // With Cloudflare Access protection on, a new admin must also be in its
     // allow policy, or Access keeps them out before they reach the sign-in page.

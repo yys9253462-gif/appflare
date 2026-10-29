@@ -18,6 +18,7 @@ import {
 import { hasRole } from "../auth/roles";
 import { createDb } from "../db/client";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import {
   type AttemptLimit,
   DEFAULT_ATTEMPT_LIMIT,
@@ -89,10 +90,12 @@ export class ReconnectError extends Error {
 }
 
 export const RECONNECT_MESSAGES = {
-  notConfigured:
+  notConfigured: t(
     "Appflare is not connected to a Cloudflare account yet. Finish setup first, then reconnect here.",
-  badOrigin:
+  ),
+  badOrigin: t(
     "Appflare can only return from Cloudflare to an https address. Open Appflare at its https address and start again.",
+  ),
 } as const;
 
 // --- Small helpers -----------------------------------------------------------
@@ -334,7 +337,7 @@ async function readForm(
     return plain(415, "Appflare expects the form appflare.dev sends.");
   }
   const body = await readBounded(request, MAX_RETURN_BODY);
-  if (body === null) return plain(413, "This form is too large.");
+  if (body === null) return plain(413, t("This form is too large."));
   const form = new URLSearchParams(body);
   const one = (name: string): string | null | undefined => {
     const all = form.getAll(name);

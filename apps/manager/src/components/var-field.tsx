@@ -188,7 +188,7 @@ function DerivedVarField({
       spellCheck={false}
       className="font-mono"
       description={fieldDescription({
-        help: field.help ?? "Appflare sets it for you.",
+        help: field.help ?? t("Appflare sets it for you."),
         note: field.help === undefined ? undefined : "Appflare sets it for you.",
         link: field.link,
       })}

@@ -36,6 +36,7 @@ import {
 } from "../../catalog/revisions.server";
 import type { BuildKind, InstallOrigin } from "../../db/schema";
 import { readSettings, SETTING } from "../../db/settings";
+import { t } from "../../i18n";
 import {
   assetsOnlyBuildFailure,
   assetsOnlyRefusal,
@@ -653,7 +654,9 @@ export async function cleanupSandboxBuildsPhase(
     const binding = sandboxBinding(env);
     if (binding === undefined) {
       log.warn(
-        "Appflare is not connected to the sandbox Worker, so this install's builds stay in its bucket (appflare-builds).",
+        t(
+          "Appflare is not connected to the sandbox Worker, so this install's builds stay in its bucket (appflare-builds).",
+        ),
       );
       return {};
     }

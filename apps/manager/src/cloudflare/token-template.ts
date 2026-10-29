@@ -31,6 +31,7 @@ import {
   type TokenPermissionAccess,
   type TokenPermissionScope,
 } from "@appflare/schema";
+import { t } from "../i18n";
 import { dashboardUrl } from "./dashboard-links";
 
 /** The template's `type`: `purge` selects the one level of Cache Purge. */
@@ -95,7 +96,7 @@ export const EMAIL_ROUTING_FEATURE = "Email Routing";
  * profile and invoices; Appflare only lists the subscriptions, for the plan
  * names.
  */
-export const PLAN_DETECTION_FEATURE = "Workers plan detection";
+export const PLAN_DETECTION_FEATURE = t("Workers plan detection");
 
 /**
  * Settings > Building apps > Build in your account: Appflare deploys,
@@ -113,7 +114,7 @@ export const SANDBOX_BUILDS_FEATURE = "Sandbox builds";
  * admin enters, replaces it when the string changes, and deletes it on
  * uninstall.
  */
-export const DATABASE_ELSEWHERE_FEATURE = "Apps with a database elsewhere";
+export const DATABASE_ELSEWHERE_FEATURE = t("Apps with a database elsewhere");
 
 /**
  * Installing an app that streams events into R2 (its catalog manifest's
@@ -137,7 +138,7 @@ export const TOKEN_PERMISSION_GROUPS = [
   // secrets, cron triggers, workers.dev routes, and static assets.
   { key: "workers_scripts", type: "edit", label: "Workers Scripts" },
   // Create and delete KV namespaces for apps that bind KV.
-  { key: "workers_kv_storage", type: "edit", label: "Workers KV Storage" },
+  { key: "workers_kv_storage", type: "edit", label: t("Workers KV Storage") },
   // Create D1 databases, apply app migrations, Time Travel restore.
   { key: "d1", type: "edit", label: "D1" },
   // Create and delete R2 buckets for apps that bind R2.
@@ -370,8 +371,9 @@ export function r2ApiTokensUrl(accountId: string | null): string {
  * (`APP_TOKEN_PERMISSION_GROUPS`), so this is for a manifest written for a
  * later version with a group added since.
  */
-export const UNMAPPED_PERMISSION_REASON =
-  "Not selected for you: Cloudflare's token link has no way to select it. Add it in the form.";
+export const UNMAPPED_PERMISSION_REASON = t(
+  "Not selected for you: Cloudflare's token link has no way to select it. Add it in the form.",
+);
 
 /** One entry of an app's `tokenPermissions`, with the template group that selects it. */
 export interface AppTokenPermission {

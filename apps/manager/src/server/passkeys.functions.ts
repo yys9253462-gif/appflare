@@ -10,6 +10,7 @@ import {
 } from "../auth/passkeys.server";
 import { readPasskeyHosts } from "../domains/manager-address.server";
 import { passkeyMoveNotice } from "../domains/pending-address.server";
+import { t } from "../i18n";
 import { currentAuth, requireSession } from "./auth.server";
 import { removePasskeyInput } from "./schemas";
 import { authErrorMessage } from "./users.server";
@@ -92,6 +93,6 @@ export const removePasskey = createServerFn({ method: "POST" })
     try {
       await removeOwnPasskey(currentAuth(), getRequest().headers, data.id);
     } catch (error) {
-      throw new Error(authErrorMessage(error, "Could not remove the passkey."));
+      throw new Error(authErrorMessage(error, t("Could not remove the passkey.")));
     }
   });

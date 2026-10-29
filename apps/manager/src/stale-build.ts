@@ -1,3 +1,4 @@
+import { t } from "./i18n";
 /**
  * A tab opened before Appflare was updated still runs the old build. When it
  * opens a page whose code it has not loaded yet, it asks for a file named
@@ -28,9 +29,9 @@ export function isStaleBuildError(error: unknown): boolean {
   const message = error instanceof Error ? error.message : undefined;
   if (message === undefined) return false;
   return [
-    "Failed to fetch dynamically imported module",
+    t("Failed to fetch dynamically imported module"),
     "error loading dynamically imported module",
-    "Importing a module script failed",
-    "Unable to preload CSS for",
+    t("Importing a module script failed"),
+    t("Unable to preload CSS for"),
   ].some((prefix) => message.startsWith(prefix));
 }

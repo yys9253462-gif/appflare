@@ -102,7 +102,7 @@ export function ConfirmDialog({
       await onConfirm(typed.trim());
       setOpen(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Try again.");
+      setError(err instanceof Error ? err.message : t("Something went wrong. Try again."));
     }
     setPending(false);
   }

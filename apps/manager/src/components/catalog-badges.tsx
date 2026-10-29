@@ -54,17 +54,19 @@ export function PlanBadge({ plan }: { plan: Plan }) {
 const TIER_BADGES: Record<InstallTier, { label: string; tooltip: string }> = {
   artifact: {
     label: "Signed release",
-    tooltip: "Built from its pinned commit and signed by the catalog.",
+    tooltip: t("Built from its pinned commit and signed by the catalog."),
   },
   sandbox: {
-    label: "Built in your account",
-    tooltip:
+    label: t("Built in your account"),
+    tooltip: t(
       "No prebuilt release: your sandbox Worker builds the pinned commit on Workers Paid. The build is not signed.",
+    ),
   },
   "self-deploying": {
     label: "Self-deploying",
-    tooltip:
+    tooltip: t(
       "Ships its own installer, which your sandbox Worker runs on Workers Paid with a Cloudflare token you create for the app.",
+    ),
   },
 };
 

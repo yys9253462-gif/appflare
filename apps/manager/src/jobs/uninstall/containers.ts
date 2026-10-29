@@ -3,6 +3,7 @@ import {
   type CloudflareClient,
   UNREADABLE_CONTAINER_APPLICATIONS,
 } from "@appflare/cf-api";
+import { t } from "../../i18n";
 import { isNotFound, type JobSteps } from "../steps";
 
 /**
@@ -107,7 +108,7 @@ export async function findContainersPhase(
       const answered =
         error instanceof CloudflareApiError
           ? `Cloudflare answered ${error.status} when asked for the account's container applications.`
-          : "Cloudflare's answer for the account's container applications held no list.";
+          : t("Cloudflare's answer for the account's container applications held no list.");
       log.warn(
         `${answered} Containers run only on Workers Paid, which this account is not on as far as Appflare knows; if ${DASHBOARD_PLACE} lists one for this app, delete it there.`,
       );
@@ -115,7 +116,9 @@ export async function findContainersPhase(
     }
     if (lookup.kind === "no-containers" && !accountPaid) {
       log.info(
-        "Cloudflare runs containers only on Workers Paid and refuses them to this account, so the app has no container applications.",
+        t(
+          "Cloudflare runs containers only on Workers Paid and refuses them to this account, so the app has no container applications.",
+        ),
       );
       return { apps: none };
     }
@@ -130,7 +133,7 @@ export async function findContainersPhase(
       // only a Durable Object runs one, so the log names the app's classes.
       const classes = (await namespacesOf(api, workers)).map((ns) => ns.class ?? ns.name ?? ns.id);
       if (classes.length === 0) {
-        log.info("The app has no Durable Objects, so no container application runs for it.");
+        log.info(t("The app has no Durable Objects, so no container application runs for it."));
       } else {
         const cause =
           lookup.kind === "refused"
@@ -144,7 +147,7 @@ export async function findContainersPhase(
     }
     log.info(
       lookup.apps.length === 0
-        ? "No container application runs for the app."
+        ? t("No container application runs for the app.")
         : `Container applications of the app: ${lookup.apps.map((a) => a.name).join(", ")}.`,
     );
     return { apps: lookup.apps };

@@ -28,6 +28,7 @@ import {
 } from "./domains/pending-address.server";
 import { handoffHashOf } from "./handoff/handoff-proof";
 import { completeInstallation } from "./handoff/installer-completion.server";
+import { t } from "./i18n";
 import { scheduledSourceBuildExpiry } from "./installs/source-builds-expiry.server";
 import { workflowRepairLog, workflowRepairNeeded } from "./installs/workflow-repair.server";
 import { jobCreator } from "./jobs/create-job.server";
@@ -133,7 +134,7 @@ async function migrated(env: Env, request?: Request): Promise<Response | null> {
       error: error instanceof Error ? error.message : String(error),
     });
     return Response.json(
-      { error: "Appflare is migrating its database. Retry shortly." },
+      { error: t("Appflare is migrating its database. Retry shortly.") },
       {
         status: 503,
         headers: { "retry-after": "5" },

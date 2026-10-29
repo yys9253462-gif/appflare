@@ -14,6 +14,7 @@ import { createDb } from "../db/client";
 import { readSettings, SETTING, type SettingKey } from "../db/settings";
 import { releaseSettingsLock, tryAcquireSettingsLock } from "../db/settings-lock";
 import { gatewayHostname } from "../gateway/gateway";
+import { t } from "../i18n";
 import { checkHostnameInZone } from "../installs/custom-domain-input";
 import {
   attachCheckedDomain,
@@ -99,19 +100,21 @@ const LOCK_KEY = "manager_address_lock";
 const LOCK_TTL_MS = 5 * 60_000;
 
 export const ADDRESS_MESSAGES = {
-  busy: "Appflare's address is already being changed. Try again in a minute.",
-  noWorkerName:
+  busy: t("Appflare's address is already being changed. Try again in a minute."),
+  noWorkerName: t(
     "Appflare does not know its own Worker name yet. Save the Cloudflare token under Your account first.",
+  ),
   alreadyMoved: (hostname: string) =>
     `Appflare already lives at ${hostname}. Use Change to move it to another address.`,
-  notMoved: "Appflare lives at its workers.dev address. Choose a domain to move it there.",
+  notMoved: t("Appflare lives at its workers.dev address. Choose a domain to move it there."),
   sameAddress: (hostname: string) => `Appflare already lives at ${hostname}.`,
   gateway: (hostname: string) =>
     `${hostname} is the external domains gateway's own hostname. Choose another name.`,
   usedByApp: (hostname: string, app: string) =>
     `${hostname} already serves the app ${app}. Remove it from that app first, or choose another name.`,
-  noSubdomain:
+  noSubdomain: t(
     "Appflare could not find this account's workers.dev subdomain, so it cannot tell its workers.dev address.",
+  ),
   moving: (hostname: string, jobId: string) =>
     `Appflare is moving to ${hostname} (job ${jobId}). Wait for it to finish, then try again. Follow it at /jobs/${jobId}.`,
   notStarted: (hostname: string, reason: string) =>
@@ -658,9 +661,9 @@ export function managerVerdict(probe: HealthProbe, version: string): string | nu
   try {
     reported = (JSON.parse(probe.body ?? probe.bodyStart) as { version?: unknown } | null)?.version;
   } catch {
-    return "HTTP 200 from something that is not Appflare";
+    return t("HTTP 200 from something that is not Appflare");
   }
-  if (typeof reported !== "string") return "HTTP 200 from something that is not Appflare";
+  if (typeof reported !== "string") return t("HTTP 200 from something that is not Appflare");
   return reported === version ? null : `Appflare ${reported}, not ${version}`;
 }
 

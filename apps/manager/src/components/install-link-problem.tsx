@@ -15,19 +15,21 @@ export type InstallLinkProblemKind =
 
 const COPY: Record<InstallLinkProblemKind, { title: string; description: string }> = {
   app: {
-    title: "This app is not in your catalogs",
+    title: t("This app is not in your catalogs"),
     description:
       "None of the catalogs this Appflare uses lists it. An admin can add the catalog that has it in Catalog settings.",
   },
   "official-off": {
-    title: "This app is not in your catalogs",
-    description:
+    title: t("This app is not in your catalogs"),
+    description: t(
       "The official catalog is turned off on this Appflare, so its apps are not listed. An admin can turn it back on in Catalog settings.",
+    ),
   },
   repository: {
-    title: "This link does not name a GitHub repository",
-    description:
+    title: t("This link does not name a GitHub repository"),
+    description: t(
       "An install link for a repository looks like /install/github/owner/repo. Check the link, or install from a repository on the catalog page.",
+    ),
   },
 };
 

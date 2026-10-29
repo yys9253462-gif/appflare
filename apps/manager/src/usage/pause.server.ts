@@ -1,5 +1,6 @@
 import { ulid } from "ulidx";
 import type { PauseReason } from "../db/schema";
+import { t } from "../i18n";
 import { type JobWorkflows, jobCreator } from "../jobs/create-job.server";
 import type { PauseJobParams, ResumeJobParams } from "../jobs/pause/params";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
@@ -58,7 +59,7 @@ export interface ResumeRequest {
   untilCapResets?: boolean;
 }
 
-const BUSY = "Another job of this app is queued or running. Wait for it to finish.";
+const BUSY = t("Another job of this app is queued or running. Wait for it to finish.");
 
 interface InstallState {
   status: string;
@@ -78,7 +79,7 @@ async function readState(db: D1Database, installId: string): Promise<InstallStat
     )
     .bind(installId)
     .first<{ status: string; pause_id: string | null; job_status: string | null }>();
-  if (row === null) throw new PauseActionError("There is no such app.");
+  if (row === null) throw new PauseActionError(t("There is no such app."));
   return { status: row.status, pauseId: row.pause_id, pauseJobStatus: row.job_status };
 }
 
@@ -87,7 +88,7 @@ function statusRefusal(status: string, doing: "paused" | "resumed"): string | nu
   if (status === "updating") {
     return "An update, rollback or settings change of this app is running. Wait for it to finish.";
   }
-  if (status === "uninstalled") return "This app is uninstalled.";
+  if (status === "uninstalled") return t("This app is uninstalled.");
   return `Only an installed app can be ${doing}.`;
 }
 
@@ -96,7 +97,7 @@ function pauseRefusal(state: InstallState): string | null {
   const status = statusRefusal(state.status, "paused");
   if (status !== null) return status;
   if (state.pauseId === null) return null;
-  if (state.pauseJobStatus === "succeeded") return "This app is already paused.";
+  if (state.pauseJobStatus === "succeeded") return t("This app is already paused.");
   if (state.pauseJobStatus === "queued" || state.pauseJobStatus === "running") {
     return "This app is being paused.";
   }
@@ -179,7 +180,7 @@ export async function startPause(
   deps: PauseStartDeps = {},
 ): Promise<{ jobId: string }> {
   const cause = pauseCauseSchema.safeParse({ ...(request.detail ?? {}), reason: request.reason });
-  if (!cause.success) throw new PauseActionError("The reason for the pause is not valid.");
+  if (!cause.success) throw new PauseActionError(t("The reason for the pause is not valid."));
   const { reason, ...detail } = cause.data;
   const jobId = (deps.newId ?? ulid)();
   const params: PauseJobParams = {

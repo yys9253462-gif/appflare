@@ -11,6 +11,7 @@ import {
 import { storedAccessProblem } from "../access/app-access";
 import type { CapabilitiesView } from "../capabilities/capabilities";
 import type { ConnectionKind } from "../cloudflare/connection-view";
+import { t } from "../i18n";
 
 /**
  * The Cloudflare primitives an app uses, as the catalog shows them: one icon
@@ -45,7 +46,7 @@ export const PRIMITIVE_LABELS: Record<PrimitiveId, string> = {
   images: "Images",
   containers: "Containers",
   "email-routing": "Email Routing",
-  zone: "Domain and DNS",
+  zone: t("Domain and DNS"),
   access: "Cloudflare Access",
 };
 
@@ -100,21 +101,24 @@ export interface PrimitiveStatus {
 }
 
 const INCLUDED: Partial<Record<PrimitiveId, string>> = {
-  kv: "Included on every Workers plan.",
-  d1: "Included on every Workers plan.",
-  vectorize: "Included on every Workers plan.",
-  queues: "Included on every Workers plan.",
-  workflows: "Included on every Workers plan.",
+  kv: t("Included on every Workers plan."),
+  d1: t("Included on every Workers plan."),
+  vectorize: t("Included on every Workers plan."),
+  queues: t("Included on every Workers plan."),
+  workflows: t("Included on every Workers plan."),
   cron: "Included on every Workers plan; Workers Free allows 5 cron triggers per account.",
-  "workers-ai": "Included on every Workers plan, with a daily free allocation.",
-  "browser-rendering": "Included on every Workers plan, with limited browser time on Workers Free.",
-  images: "Included on every Cloudflare plan, with a monthly free allocation.",
+  "workers-ai": t("Included on every Workers plan, with a daily free allocation."),
+  "browser-rendering": t(
+    "Included on every Workers plan, with limited browser time on Workers Free.",
+  ),
+  images: t("Included on every Cloudflare plan, with a monthly free allocation."),
 };
 
 /** Primitives the admin provides, with what they bring. */
 const PROVIDED: Partial<Record<PrimitiveId, string>> = {
-  hyperdrive:
+  hyperdrive: t(
     "Provided by you: a PostgreSQL or MySQL database outside Cloudflare, whose connection string you enter when you install. Hyperdrive, included on every Workers plan, connects the app to it.",
+  ),
 };
 
 /**
@@ -169,7 +173,11 @@ function zoneStatus(view: CapabilitiesView | null): PrimitiveStatus {
   const id = "zone";
   const state = view?.zone?.state;
   if (state === "available") {
-    return { id, availability: "available", reason: "Detected: this account has an active zone." };
+    return {
+      id,
+      availability: "available",
+      reason: t("Detected: this account has an active zone."),
+    };
   }
   if (state === "none") {
     return {
@@ -215,8 +223,9 @@ function emailRoutingStatus(view: CapabilitiesView | null): PrimitiveStatus {
  * per account, from its page in the dashboard, and the probe reads it again on
  * Check again.
  */
-export const ANALYTICS_ENGINE_FIX =
-  "Turn on Analytics Engine once in the dashboard, then choose Check again on Your account.";
+export const ANALYTICS_ENGINE_FIX = t(
+  "Turn on Analytics Engine once in the dashboard, then choose Check again on Your account.",
+);
 
 /**
  * Analytics Engine, as its probe found it. It is off on an account until
@@ -227,7 +236,7 @@ function analyticsEngineStatus(view: CapabilitiesView | null): PrimitiveStatus {
   const id = "analytics-engine";
   const state = view?.analyticsEngine?.state;
   if (state === "enabled") {
-    return { id, availability: "available", reason: "Detected: Analytics Engine is turned on." };
+    return { id, availability: "available", reason: t("Detected: Analytics Engine is turned on.") };
   }
   if (state === "not-enabled") {
     return {
@@ -310,7 +319,7 @@ export function primitiveStatus(
   if (id === "r2") {
     const state = view?.r2?.state;
     if (state === "enabled") {
-      return { id, availability: "available", reason: "Detected: R2 is enabled." };
+      return { id, availability: "available", reason: t("Detected: R2 is enabled.") };
     }
     if (state === "not-enabled") {
       return {
@@ -319,12 +328,16 @@ export function primitiveStatus(
         reason: "Detected: R2 is not enabled. Enabling it needs a payment method on file.",
       };
     }
-    return { id, availability: "unknown", reason: "Appflare could not check R2 on this account." };
+    return {
+      id,
+      availability: "unknown",
+      reason: t("Appflare could not check R2 on this account."),
+    };
   }
   // Containers: the probe, else the plan they need.
   const state = view?.containers?.state;
   if (state === "available") {
-    return { id, availability: "available", reason: "Detected: Containers are available." };
+    return { id, availability: "available", reason: t("Detected: Containers are available.") };
   }
   if (state === "needs-workers-paid") {
     return {
@@ -361,9 +374,11 @@ export function primitivesNote(
   tier: InstallTier,
 ): string | null {
   if (primitives.complete) return null;
-  if (tier === "sandbox") return "Built in your account, so the rest is known once it is built.";
+  if (tier === "sandbox") return t("Built in your account, so the rest is known once it is built.");
   if (tier === "self-deploying") {
     return "Its own installer creates what it needs; this is what its token allows.";
   }
-  return "Appflare has not read this version's manifest yet, so only its requirements are shown.";
+  return t(
+    "Appflare has not read this version's manifest yet, so only its requirements are shown.",
+  );
 }

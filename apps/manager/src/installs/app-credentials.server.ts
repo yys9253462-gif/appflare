@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createDb } from "../db/client";
 import { installs, resources } from "../db/schema";
+import { t } from "../i18n";
 import { resourceId } from "../jobs/install/phases";
 import { recordedCatalog } from "../jobs/self-deploying/phases";
 import { activeSandboxJob, sandboxBusyMessage } from "../sandbox/busy";
@@ -51,9 +52,9 @@ export async function replaceAppCredentialsCore(
     .from(installs)
     .where(eq(installs.id, input.installId))
     .limit(1);
-  if (install === undefined) throw new AppCredentialsError("There is no such install.");
+  if (install === undefined) throw new AppCredentialsError(t("There is no such install."));
   if (install.buildKind !== "self-deploying") {
-    throw new AppCredentialsError("Only apps that deploy themselves have a token in Appflare.");
+    throw new AppCredentialsError(t("Only apps that deploy themselves have a token in Appflare."));
   }
   if (install.status === "uninstalled") {
     throw new AppCredentialsError("This install is uninstalled.");

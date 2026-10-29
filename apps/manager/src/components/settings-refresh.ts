@@ -1,5 +1,6 @@
 import { useKumoToastManager } from "@cloudflare/kumo";
 import { useCallback, useRef } from "react";
+import { t } from "../i18n";
 import { useJobStarted } from "./job-started";
 
 /** What a domain or workers.dev action did to the app's settings. */
@@ -37,7 +38,7 @@ export function useSettingsRefresh() {
         } else {
           toast.add({
             title,
-            description: "The app's page shows the job while it runs.",
+            description: t("The app's page shows the job while it runs."),
             variant: "info",
           });
         }

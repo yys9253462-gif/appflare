@@ -6,6 +6,7 @@ import {
 } from "@appflare/cf-api";
 import { createDb } from "../db/client";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { apiBaseOption } from "./api-base";
 import { type ConnectionEnv, cloudflareConnection, connectionProblem } from "./connection.server";
 import { type GrantRow, readGrant } from "./grant-store.server";
@@ -23,8 +24,8 @@ export class CfTokenNotConfiguredError extends Error {
   constructor(readonly missing: "token" | "account") {
     super(
       missing === "token"
-        ? "The Cloudflare API token is not configured. Finish setup at /setup."
-        : "The Cloudflare account is not known yet. Finish setup at /setup.",
+        ? t("The Cloudflare API token is not configured. Finish setup at /setup.")
+        : t("The Cloudflare account is not known yet. Finish setup at /setup."),
     );
   }
 }

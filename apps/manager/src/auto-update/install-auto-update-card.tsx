@@ -48,7 +48,7 @@ export function InstallAutoUpdateCard({
       await router.invalidate();
     } catch (err) {
       setChoice(previous);
-      setError(err instanceof Error ? err.message : "Could not save the choice.");
+      setError(err instanceof Error ? err.message : t("Could not save the choice."));
     }
     setPending(false);
   }

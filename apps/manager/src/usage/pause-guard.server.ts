@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * What every job that deploys an app's code checks first: a paused app
  * serves its stand-in, and a new version deployed over it would run the app
@@ -7,7 +8,7 @@
  * is not: it removes the app and closes its pause.
  */
 
-export const PAUSED_REFUSAL = "This app is paused. Resume the app first, then try again.";
+export const PAUSED_REFUSAL = t("This app is paused. Resume the app first, then try again.");
 
 /**
  * A condition for a claim's `INSERT ... SELECT`: the install bound to

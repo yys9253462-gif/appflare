@@ -1,5 +1,6 @@
 import type { IndexApp, IndexJson } from "@appflare/schema";
 import { createDb } from "../db/client";
+import { t } from "../i18n";
 import {
   type CatalogRecord,
   type CatalogTrust,
@@ -138,7 +139,13 @@ async function readOneOrThrow(
         ? await readCachedCatalogIndex(env.KV)
         : (cached.snapshot?.index ?? null);
     return index === null
-      ? { source, trust, ok: false, error: "The catalog has not been loaded yet.", updatedAt: null }
+      ? {
+          source,
+          trust,
+          ok: false,
+          error: t("The catalog has not been loaded yet."),
+          updatedAt: null,
+        }
       : { source, trust, ok: true, index, updatedAt: null, unreadable: 0 };
   }
   const updatedAt = record.refreshedAt?.toISOString() ?? null;
@@ -152,7 +159,7 @@ async function readOneOrThrow(
       source,
       trust,
       ok: false,
-      error: record.refreshError ?? "The catalog has not been loaded yet.",
+      error: record.refreshError ?? t("The catalog has not been loaded yet."),
       updatedAt,
     };
   }

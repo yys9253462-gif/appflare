@@ -50,11 +50,12 @@ const optional = optionalGroupsByFeature();
  */
 const FEATURE_PLACES: Readonly<Record<string, string>> = {
   [ACCESS_FEATURE]: `"Protect with Cloudflare Access" in ${settingsPlace("users", "access", "Cloudflare Access settings")}, and protecting installed apps with Cloudflare Access (Access: Service Tokens is only for apps: Appflare's health checks sign in to each protected app with that app's own service token)`,
-  [CUSTOM_DOMAINS_FEATURE]: "Custom domains, added on each installed app's page",
+  [CUSTOM_DOMAINS_FEATURE]: t("Custom domains, added on each installed app's page"),
   [EXTERNAL_DOMAINS_FEATURE]: `External domains (${settingsPlace("domains", "external-domains", "the domains settings")}, then on each installed app's page)`,
-  [EMAIL_ROUTING_FEATURE]:
+  [EMAIL_ROUTING_FEATURE]: t(
     "Installing an app that receives email (it also needs Zone: Read and DNS: Edit from the custom domains list)",
-  [PLAN_DETECTION_FEATURE]: `Reading this account's Workers plan for ${settingsPlace("account", "capabilities", "What this account can run")}, instead of asking you. Appflare only reads the plan names from the account's subscriptions; it never reads invoices or payment details`,
+  ),
+  [PLAN_DETECTION_FEATURE]: `Reading this account's Workers plan for ${settingsPlace("account", "capabilities", t("What this account can run"))}, instead of asking you. Appflare only reads the plan names from the account's subscriptions; it never reads invoices or payment details`,
   [SANDBOX_BUILDS_FEATURE]: `Enabling, updating and disabling ${settingsPlace("building", "sandbox", "sandbox builds")} (Workers Paid): Appflare creates, rolls out and deletes the sandbox Worker's container applications`,
   [DATABASE_ELSEWHERE_FEATURE]:
     "Installing an app that keeps its data in a PostgreSQL or MySQL database outside Cloudflare: Appflare creates a Hyperdrive configuration from the connection string you enter, replaces it when you change the string, and deletes it on uninstall",
@@ -111,7 +112,7 @@ export function CloudflareTokenForm({
     try {
       setResult(await verifyToken({ data: { token } }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not verify the token.");
+      setError(err instanceof Error ? err.message : t("Could not verify the token."));
     } finally {
       setVerifying(false);
     }
@@ -131,7 +132,7 @@ export function CloudflareTokenForm({
         replacedAuthorization: saved.replacedAuthorization,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save the token.");
+      setError(err instanceof Error ? err.message : t("Could not save the token."));
     } finally {
       setSaving(false);
     }
@@ -431,7 +432,7 @@ export function SetupTokenForm({
       setToken("");
       setConnected({ saved, outcome: tokenOutcome(saved) });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save the token.");
+      setError(err instanceof Error ? err.message : t("Could not save the token."));
     } finally {
       setSaving(false);
     }

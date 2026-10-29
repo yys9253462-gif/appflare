@@ -110,7 +110,7 @@ export function PasskeysSection({
                 </Table.Cell>
                 <Table.Cell>
                   {/* Two kinds, neither of them a state to be glad of or to fix. */}
-                  <Badge variant="neutral">{p.synced ? "Synced" : "This device only"}</Badge>
+                  <Badge variant="neutral">{p.synced ? "Synced" : t("This device only")}</Badge>
                 </Table.Cell>
                 <Table.Cell>
                   <Timestamp iso={p.createdAt} dateOnly fallback="Unknown" />

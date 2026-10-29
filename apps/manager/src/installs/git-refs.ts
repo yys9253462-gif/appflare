@@ -1,5 +1,6 @@
 import type { FetchLike } from "@appflare/cf-api";
 import { isCommitSha } from "@appflare/schema";
+import { t } from "../i18n";
 
 /**
  * The branches and tags of a GitHub repository, read the way `git
@@ -43,13 +44,13 @@ export function parseAdvertisement(body: string): RemoteRefs {
   while (offset < body.length) {
     const size = Number.parseInt(body.slice(offset, offset + 4), 16);
     if (Number.isNaN(size) || !/^[0-9a-f]{4}$/i.test(body.slice(offset, offset + 4))) {
-      throw new GitRefError("GitHub answered with something that is not a list of refs");
+      throw new GitRefError(t("GitHub answered with something that is not a list of refs"));
     }
     if (size === 0) {
       offset += 4;
       continue;
     }
-    if (size < 4) throw new GitRefError("GitHub's list of refs is malformed");
+    if (size < 4) throw new GitRefError(t("GitHub's list of refs is malformed"));
     const line = body.slice(offset + 4, offset + size).replace(/\n$/, "");
     offset += size;
     if (line.startsWith("# service=")) {
@@ -65,7 +66,7 @@ export function parseAdvertisement(body: string): RemoteRefs {
     if (match[2] !== "capabilities^{}") refs.set(match[2], match[1]);
   }
   if (!sawService && refs.size === 0) {
-    throw new GitRefError("GitHub answered with something that is not a list of refs");
+    throw new GitRefError(t("GitHub answered with something that is not a list of refs"));
   }
   return { refs, head };
 }

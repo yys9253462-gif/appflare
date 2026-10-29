@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { type AccessConfig, readAccessConfig } from "./config";
 import { ACCESS_DENIED_CODE, SERVER_FN_HEADER } from "./denied";
 import { renderAccessDeniedPage } from "./denied-page";
@@ -122,27 +123,30 @@ export const accessGate: AccessGate = createAccessGate();
 
 const REASON_TEXT: Record<AccessDenial, { title: string; detail: string }> = {
   missing: {
-    title: "Sign in with Cloudflare Access",
-    detail:
+    title: t("Sign in with Cloudflare Access"),
+    detail: t(
       "This request did not come through Cloudflare Access, so Appflare did not answer it. Open the manager at its address and sign in when Access asks.",
+    ),
   },
   expired: {
-    title: "Your Access sign-in has expired",
-    detail: "Reload the page to sign in with Cloudflare Access again.",
+    title: t("Your Access sign-in has expired"),
+    detail: t("Reload the page to sign in with Cloudflare Access again."),
   },
   "not-yet-valid": {
-    title: "Your Access sign-in is not valid yet",
-    detail: "The sign-in token is dated in the future. Reload the page in a minute.",
+    title: t("Your Access sign-in is not valid yet"),
+    detail: t("The sign-in token is dated in the future. Reload the page in a minute."),
   },
   "wrong-audience": {
-    title: "This Access sign-in is for another application",
-    detail:
+    title: t("This Access sign-in is for another application"),
+    detail: t(
       "The request carried a Cloudflare Access sign-in, but not one for this manager. This happens when the Access application for the manager was deleted or re-created in the Cloudflare dashboard.",
+    ),
   },
   "wrong-issuer": {
-    title: "This Access sign-in is from another team",
-    detail:
+    title: t("This Access sign-in is from another team"),
+    detail: t(
       "The request carried a Cloudflare Access sign-in issued by a different Zero Trust team than the one this manager was set up with.",
+    ),
   },
   "unknown-key": {
     title: "This Access sign-in could not be checked",
@@ -150,25 +154,25 @@ const REASON_TEXT: Record<AccessDenial, { title: string; detail: string }> = {
       "It was signed with a key your Zero Trust team does not publish. Reload the page to sign in again.",
   },
   "bad-signature": {
-    title: "This Access sign-in is not genuine",
-    detail: "Its signature does not match your Zero Trust team's keys.",
+    title: t("This Access sign-in is not genuine"),
+    detail: t("Its signature does not match your Zero Trust team's keys."),
   },
   malformed: {
-    title: "This Access sign-in is not readable",
-    detail: "The Cf-Access-Jwt-Assertion header is not a valid token.",
+    title: t("This Access sign-in is not readable"),
+    detail: t("The Cf-Access-Jwt-Assertion header is not a valid token."),
   },
   "unsupported-algorithm": {
-    title: "This Access sign-in is not readable",
-    detail: "The token is not signed the way Cloudflare Access signs tokens.",
+    title: t("This Access sign-in is not readable"),
+    detail: t("The token is not signed the way Cloudflare Access signs tokens."),
   },
   "keys-unavailable": {
-    title: "Appflare could not check your Access sign-in",
+    title: t("Appflare could not check your Access sign-in"),
     detail:
       "It could not fetch your Zero Trust team's signing keys. Try again in a minute; nothing is served until the check succeeds.",
   },
   "settings-unavailable": {
-    title: "Appflare could not check your Access sign-in",
-    detail: "It could not read its own settings. Try again in a minute.",
+    title: t("Appflare could not check your Access sign-in"),
+    detail: t("It could not read its own settings. Try again in a minute."),
   },
 };
 

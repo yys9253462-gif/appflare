@@ -1,5 +1,6 @@
 import type { FetchLike } from "@appflare/cf-api";
 import { ulid } from "ulidx";
+import { t } from "../i18n";
 import {
   type ChannelKind,
   type ChannelSaved,
@@ -120,7 +121,7 @@ const SELECT_CHANNEL = `SELECT id, kind, label, target, config, events_json, fai
 
 async function readChannel(db: D1Database, id: string): Promise<ChannelRecord> {
   const row = await db.prepare(`${SELECT_CHANNEL} WHERE id = ?1`).bind(id).first<ChannelRecord>();
-  if (row === null) throw new ChannelError("There is no such channel.");
+  if (row === null) throw new ChannelError(t("There is no such channel."));
   return row;
 }
 
@@ -165,7 +166,7 @@ async function key(env: ChannelsEnv): Promise<CryptoKey> {
     return await channelKey(env.BETTER_AUTH_SECRET);
   } catch {
     throw new ChannelError(
-      "This manager has no BETTER_AUTH_SECRET, so it cannot store credentials.",
+      t("This manager has no BETTER_AUTH_SECRET, so it cannot store credentials."),
     );
   }
 }
@@ -313,8 +314,9 @@ export async function sendTest(
   if (config === null) {
     return {
       ok: false,
-      detail:
+      detail: t(
         "The stored credentials cannot be read. Edit the channel and enter its details again.",
+      ),
     };
   }
   const outcome = await sendToChannel(

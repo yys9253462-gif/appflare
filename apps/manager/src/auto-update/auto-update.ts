@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { isUpdateAvailable } from "../catalog/versions";
+import { t } from "../i18n";
 import { tierChanged } from "../installs/tier-change";
 
 /**
@@ -195,12 +196,14 @@ export function planUpdateAll(
 
 /** Why an update waits for an admin, as a sentence shown beside the app's name. */
 export const NEEDS_ADMIN_COPY: Record<NeedsAdminReason, string> = {
-  "reinstall-needed":
+  "reinstall-needed": t(
     "It changed how it is installed, so it cannot be updated in place: uninstall it and install it again to get this version.",
-  "needs-approval":
+  ),
+  "needs-approval": t(
     "It is built in your account or runs its own installer, which you approve each time.",
-  "failed-before": "An update to this version failed before.",
-  "rolled-back": "It was rolled back from this version.",
+  ),
+  "failed-before": t("An update to this version failed before."),
+  "rolled-back": t("It was rolled back from this version."),
 };
 
 export type SelfUpdateSkipReason =
@@ -257,10 +260,10 @@ export const setInstallAutoUpdateInput = z.object({
 export type SetInstallAutoUpdateInput = z.infer<typeof setInstallAutoUpdateInput>;
 
 export const AUTO_UPDATE_COPY = {
-  appsLabel: "Automatically update apps",
+  appsLabel: t("Automatically update apps"),
   appsHelp:
     "Every 30 minutes Appflare checks the catalog. When an app has a new version that needs nothing from you, Appflare updates it the usual way, snapshot and rollback included. An update that needs a new secret, a confirmation, or a build waits for you on the app's page. Each app can follow this setting or override it.",
-  managerLabel: "Automatically update Appflare",
+  managerLabel: t("Automatically update Appflare"),
   managerHelp:
     "Appflare updates itself to a new release when no other job is running, after checking the new version on its preview. If the check fails, the current version keeps serving.",
   devBuild: "This is a development build of Appflare, which never updates itself automatically.",

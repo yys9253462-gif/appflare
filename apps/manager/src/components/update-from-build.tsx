@@ -70,7 +70,7 @@ export function UpdateFromBuild({
       });
       await jobStarted(jobId, "Update started");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not start the update.");
+      setError(err instanceof Error ? err.message : t("Could not start the update."));
       setPending(false);
     }
   }

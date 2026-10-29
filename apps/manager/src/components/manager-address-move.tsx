@@ -191,7 +191,7 @@ export function useAddressMove({
   useEffect(() => {
     if (following === null || job === undefined) return;
     if (job === null) {
-      setError("The move's job could not be found. Reload the page.");
+      setError(t("The move's job could not be found. Reload the page."));
       setFollowing(null);
       return;
     }
@@ -232,7 +232,7 @@ export function useAddressMove({
         setReplace(false);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not move Appflare. Try again.");
+      setError(err instanceof Error ? err.message : t("Could not move Appflare. Try again."));
     } finally {
       setStarting(false);
     }
@@ -267,7 +267,7 @@ export type AddressMoveState = ReturnType<typeof useAddressMove>;
 
 /** The primary button's words for the move's state. */
 export function moveActionLabel(move: AddressMoveState, idle: string): string {
-  if (move.conflict !== null) return "Replace records and move";
+  if (move.conflict !== null) return t("Replace records and move");
   return move.error !== null ? "Try again" : idle;
 }
 
@@ -317,8 +317,10 @@ export function AddressFields({
           replace={move.replace}
           onReplaceChange={move.setReplace}
           disabled={disabled}
-          checkboxLabel="Replace the existing DNS records with the one for Appflare"
-          permanent="Cloudflare deletes them, and Appflare cannot put them back, not even if Appflare later leaves this address."
+          checkboxLabel={t("Replace the existing DNS records with the one for Appflare")}
+          permanent={t(
+            "Cloudflare deletes them, and Appflare cannot put them back, not even if Appflare later leaves this address.",
+          )}
           {...(atRoot ? { site: `Your site at ${zone.name} stops answering.` } : {})}
         />
       )}

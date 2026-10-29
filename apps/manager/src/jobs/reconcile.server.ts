@@ -3,6 +3,7 @@ import { decodeTime } from "ulidx";
 import { settingsPlace } from "../components/settings-links";
 import { createDb, type Database } from "../db/client";
 import { installs, jobs } from "../db/schema";
+import { t } from "../i18n";
 import { appendSelfUpdateHistory } from "./self-update/record";
 import { StepLog } from "./step-log";
 
@@ -61,7 +62,7 @@ export const INSTANCE_GONE = "the job's Workflow instance no longer exists";
  * first step): Cloudflare created no instance that ran, though creating it
  * returned an id, so nothing of the job ran either.
  */
-export const INSTANCE_NEVER_STARTED = "Cloudflare never started the job's Workflow instance";
+export const INSTANCE_NEVER_STARTED = t("Cloudflare never started the job's Workflow instance");
 
 /** Whether the job recorded its start; read from D1 when `row` was read without it. */
 async function recordedStart(db: D1Database, row: ActiveJobRow): Promise<boolean> {

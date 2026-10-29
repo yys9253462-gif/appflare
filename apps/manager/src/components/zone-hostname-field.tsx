@@ -45,7 +45,7 @@ export function ZoneHostnameField({
       : null;
   const description =
     zoneName === null
-      ? "Choose a domain first."
+      ? t("Choose a domain first.")
       : answers !== null
         ? `${answers}${hint === undefined ? "" : ` ${hint}`}`
         : `A name under ${zoneName}, or nothing for ${zoneName} itself.`;

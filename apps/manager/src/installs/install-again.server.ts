@@ -8,6 +8,7 @@ import { z } from "zod";
 import { installAppKey, OFFICIAL_CATALOG_ID } from "../catalog/sources";
 import { createDb } from "../db/client";
 import { installs, jobs, resources, source_builds } from "../db/schema";
+import { t } from "../i18n";
 import { sandboxFetch } from "../sandbox/binding";
 import { installLabel } from "./display-name";
 import { buildIdOfInput, type InstallAgainRecord, type InstallAgainSource } from "./install-again";
@@ -52,25 +53,30 @@ export interface ReplacedInstall {
 
 /** Why a failed install cannot be installed again, in words for the admin. */
 export const INSTALL_AGAIN_REFUSALS = {
-  missing: "There is no such install to install again.",
-  notFailed:
+  missing: t("There is no such install to install again."),
+  notFailed: t(
     "Only an install that did not finish can be installed again. This one finished, or it was removed or installed again already.",
-  notCatalog:
+  ),
+  notCatalog: t(
     "This install was built from a repository or from source, so it is installed again from the review of its build.",
-  fromCatalog:
+  ),
+  fromCatalog: t(
     "This install came from the catalog, so it is installed again from the app's catalog page.",
-  busy: "A job of this install is running. Wait for it to finish, then install it again.",
+  ),
+  busy: t("A job of this install is running. Wait for it to finish, then install it again."),
   otherApp: "Install again installs the same app again; this form is for another one.",
 } as const;
 
 /** Why the build an install from a repository was made from cannot be installed again. */
 export const BUILD_GONE = {
-  unrecorded: "Appflare has no record of the build this install was made from.",
-  noSandbox:
+  unrecorded: t("Appflare has no record of the build this install was made from."),
+  noSandbox: t(
     "Sandbox builds are off, so Appflare cannot read this build. Turning them off deletes every build.",
-  missing: "The build's files are no longer in the sandbox Worker's bucket.",
-  unknown:
+  ),
+  missing: t("The build's files are no longer in the sandbox Worker's bucket."),
+  unknown: t(
     "The sandbox Worker did not answer, so Appflare could not check that the build is still there. Reload the page to try again.",
+  ),
 } as const;
 
 /**
@@ -222,7 +228,7 @@ export async function readReplacedBySource(
 }
 
 /** After a refusal of a build that is gone: where to go on. */
-const BUILD_AGAIN = "Reload the page to build it again.";
+const BUILD_AGAIN = t("Reload the page to build it again.");
 
 /**
  * "Install again" of a failed install from a repository whose build is gone:
@@ -255,7 +261,7 @@ export async function installAgainBuildRequest(
           .limit(1);
   const repo = build?.repo ?? row.source_url?.replace(/^https:\/\/github\.com\//, "") ?? "";
   if (repo.length === 0) {
-    return { ok: false, refusal: "This install does not record the repository it came from." };
+    return { ok: false, refusal: t("This install does not record the repository it came from.") };
   }
   const ref = row.source_ref ?? build?.ref ?? build?.requestedRef ?? undefined;
   const buildCommand = commandOf(build?.command ?? null);

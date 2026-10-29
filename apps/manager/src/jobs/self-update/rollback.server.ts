@@ -14,6 +14,7 @@ import { createDb } from "../../db/client";
 import { readSchemaVersion } from "../../db/migrate";
 import { jobs } from "../../db/schema";
 import { deleteSettings, readSettings, SETTING, writeSettings } from "../../db/settings";
+import { t } from "../../i18n";
 import { reconcileJobs, type WorkflowLookup } from "../reconcile.server";
 import { StepLog } from "../step-log";
 import { activeVersionId, previewUrl } from "../update/plan";
@@ -93,7 +94,7 @@ async function workerName(db: D1Database): Promise<string> {
   const settings = await readSettings(createDb(db), [SETTING.accountId, SETTING.workerName]);
   if (!settings.account_id || !settings.worker_name) {
     throw new ManagerRollbackError(
-      "Appflare does not know its Cloudflare account and Worker yet. Finish setup first.",
+      t("Appflare does not know its Cloudflare account and Worker yet. Finish setup first."),
     );
   }
   return settings.worker_name;
@@ -362,7 +363,9 @@ export async function rollBackManagerCore(
     const defaults = await readAutoUpdateDefaults(orm);
     if (defaults.manager) {
       await writeAutoUpdateDefaults(orm, { manager: false }, at);
-      log.info("Automatic updates of Appflare are now off, so the cron does not update it again.");
+      log.info(
+        t("Automatic updates of Appflare are now off, so the cron does not update it again."),
+      );
     }
     const { manager_version_history: history } = await readSettings(orm, [
       SETTING.managerVersionHistory,

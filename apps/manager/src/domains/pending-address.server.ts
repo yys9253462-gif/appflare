@@ -1,6 +1,7 @@
 import type { CloudflareClient } from "@appflare/cf-api";
 import { createDb } from "../db/client";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { INSTANCE_NEVER_STARTED } from "../jobs/reconcile.server";
 import {
   ADDRESS_MESSAGES,
@@ -245,7 +246,7 @@ async function forgetLostStart(
 /** The error a move that lost a race to another look ends with. */
 function lostRace(error: ManagerAddressError): boolean {
   return (
-    error.message === ADDRESS_MESSAGES.busy || error.message.startsWith("Appflare is moving to ")
+    error.message === ADDRESS_MESSAGES.busy || error.message.startsWith(t("Appflare is moving to "))
   );
 }
 
@@ -379,7 +380,7 @@ export async function passkeyMoveNotice(db: D1Database, host: string): Promise<s
 }
 
 export const PENDING_MESSAGES = {
-  nothingPending: "Appflare is not waiting to move anywhere.",
+  nothingPending: t("Appflare is not waiting to move anywhere."),
 } as const;
 
 /**

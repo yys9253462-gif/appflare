@@ -28,13 +28,16 @@ import { UNUSUAL_FACTOR_ITEMS, unusualFactorOf } from "./unusual-factors";
  */
 
 export const SPEND_PROTECTION_COPY = {
-  description:
+  description: t(
     "What every app in this account follows. An app's Usage tab can change it for that app.",
-  autoPauseOn:
+  ),
+  autoPauseOn: t(
     "On: Appflare pauses an app when one of the triggers below trips, then tells you. You resume it.",
-  autoPauseOff:
+  ),
+  autoPauseOff: t(
     "Off: Appflare alerts you and apps keep running. Each app can still turn it on for itself.",
-  triggers: "Used by every app with auto-pause on, unless the app sets its own.",
+  ),
+  triggers: t("Used by every app with auto-pause on, unless the app sets its own."),
   budget:
     "A budget for this month's Appflare usage: what Appflare's apps use past what the plan includes, plus the $5 plan. When it's on pace to pass the budget, Appflare pauses the apps spending the most until it isn't, even apps with auto-pause off. Other Workers and resources in this Cloudflare account don't count toward it.",
   budgetFree:

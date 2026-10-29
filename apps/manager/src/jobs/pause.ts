@@ -6,6 +6,7 @@ import { requireConnection } from "../cloudflare/connection.server";
 import { createDb } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { emitUsageEvent } from "../notifications/usage-events.server";
 import { type PauseCause, parsePauseCause, pauseCauseSchema } from "../usage/attention-cause";
 import { recordActivity } from "../usage/store/activity.server";
@@ -227,7 +228,9 @@ export async function runPause(ctx: JobContext): Promise<void> {
         if (adopted === null) throw new JobError("the app's pause closed while this one started");
         pause = adopted;
         log.info(
-          "An earlier pause of the app did not finish. This one carries on from what it recorded.",
+          t(
+            "An earlier pause of the app did not finish. This one carries on from what it recorded.",
+          ),
         );
       }
       log.info(

@@ -34,7 +34,7 @@ export function UsageDataCard({ status, isAdmin }: { status: TelemetryStatus; is
       await router.invalidate();
     } catch (err) {
       setEnabled(previous);
-      setError(err instanceof Error ? err.message : "Could not save the choice.");
+      setError(err instanceof Error ? err.message : t("Could not save the choice."));
     }
     setPending(false);
   }
@@ -45,7 +45,7 @@ export function UsageDataCard({ status, isAdmin }: { status: TelemetryStatus; is
     try {
       setPreview(await previewTelemetry());
     } catch (err) {
-      setPreviewFailure(err instanceof Error ? err.message : "Could not build the preview.");
+      setPreviewFailure(err instanceof Error ? err.message : t("Could not build the preview."));
     }
   }
 

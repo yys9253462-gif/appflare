@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import type { Database } from "../db/client";
 import { installs } from "../db/schema";
 import { readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { isDevBuild } from "../telemetry/state.server";
 import {
   type AutoUpdateSettings,
@@ -61,7 +62,7 @@ export async function writeInstallAutoUpdate(
     .from(installs)
     .where(eq(installs.id, input.installId))
     .limit(1);
-  if (row === undefined) throw new AutoUpdateError("There is no such install.");
+  if (row === undefined) throw new AutoUpdateError(t("There is no such install."));
   if (row.status === "uninstalled") throw new AutoUpdateError("This install is uninstalled.");
   await db
     .update(installs)

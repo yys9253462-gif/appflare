@@ -5,6 +5,7 @@ import type { Database } from "../../db/client";
 import { resources } from "../../db/schema";
 import { GATEWAY_SETUP_PLACE, gatewayBindingName, gatewayHostname } from "../../gateway/gateway";
 import { isGatewayReady, readGateway } from "../../gateway/gateway.server";
+import { t } from "../../i18n";
 import type { ExternalDomainStatus } from "../../installs/external-domain-input";
 import {
   claimExternalDomain,
@@ -492,7 +493,7 @@ export function domainLiveMessage(
   hostname: string,
   result: DomainLiveResult,
 ): string {
-  const workersDev = appPlace(installId, "workers-dev", "Serve on workers.dev");
+  const workersDev = appPlace(installId, "workers-dev", t("Serve on workers.dev"));
   if (result.turnedOff) {
     return `Turned off the workers.dev URL: https://${hostname} serves the app. Turn it back on with ${workersDev} on the app's page.`;
   }
@@ -536,7 +537,7 @@ async function domainLivePhase(
   } catch (error) {
     await steps.run(`workers.dev left on for ${domain.hostname}`, async ({ log }) => {
       log.warn(
-        `https://${domain.hostname} serves the app, but the workers.dev URL could not be turned off (${errorMessage(error)}). Turn it off with ${appPlace(request.installId, "workers-dev", "Serve on workers.dev")} on the app's page.`,
+        `https://${domain.hostname} serves the app, but the workers.dev URL could not be turned off (${errorMessage(error)}). Turn it off with ${appPlace(request.installId, "workers-dev", t("Serve on workers.dev"))} on the app's page.`,
       );
       return {};
     });

@@ -12,6 +12,7 @@ import { dashboardLinks } from "../cloudflare/dashboard-links";
 import { reconnectDialogHref } from "../cloudflare/reconnect-outcome";
 import { MANAGER_SCOPE_LABELS } from "../cloudflare/token-template";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import {
   NO_SANDBOX_JOBS,
   type SandboxJobState,
@@ -66,8 +67,8 @@ export const CAPABILITY_STATE_LABELS: Record<CapabilityState, string> = {
   ready: "Ready",
   "needs-action": "Needs action",
   "not-set-up": "Not set up",
-  "paid-only": "Paid plan only",
-  "could-not-check": "Could not check",
+  "paid-only": t("Paid plan only"),
+  "could-not-check": t("Could not check"),
 };
 
 /**
@@ -78,12 +79,12 @@ export const CAPABILITY_STATE_LABELS: Record<CapabilityState, string> = {
  * Cloudflare sign-in that is missing permissions.
  */
 export type CapabilityAction =
-  | { kind: "turn-on"; label: "Turn on in Cloudflare"; href: string }
-  | { kind: "add-domain"; label: "Add a domain in Cloudflare"; href: string }
-  | { kind: "edit-token"; label: "Edit token in Cloudflare"; href: string }
-  | { kind: "choose-plan"; label: "Choose plan" }
-  | { kind: "set-up"; label: "Set up"; href: string }
-  | { kind: "reconnect"; label: "Reconnect Cloudflare"; href: string };
+  | { kind: "turn-on"; label: string; href: string }
+  | { kind: "add-domain"; label: string; href: string }
+  | { kind: "edit-token"; label: string; href: string }
+  | { kind: "choose-plan"; label: string }
+  | { kind: "set-up"; label: string; href: string }
+  | { kind: "reconnect"; label: string; href: string };
 
 /** Where a row's state came from: Appflare's own check, or an admin's statement. */
 export type CapabilitySource = "detected" | "set-by-you";
@@ -173,7 +174,7 @@ const RECONNECT: CapabilityAction = {
 };
 
 /** What a Cloudflare sign-in missing permissions tells the admin to do. */
-const SIGN_IN_AGAIN = "Reconnect Cloudflare and allow every permission Appflare asks for.";
+const SIGN_IN_AGAIN = t("Reconnect Cloudflare and allow every permission Appflare asks for.");
 
 /**
  * The scope Cloudflare sign-in first asked for with usage and spend
@@ -265,7 +266,7 @@ export function installedNeeds(
   return catalogNeeds(apps);
 }
 
-/** "3 catalog apps use it." / "1 catalog app uses it." / "No catalog app uses it yet." */
+/** "3 catalog apps use it." / "1 catalog app uses it." / t("No catalog app uses it yet.") */
 function usedBy(needs: CatalogNeeds | null, pick: (n: CatalogNeeds) => number): string | null {
   if (needs === null) return null;
   const n = pick(needs);
@@ -273,7 +274,7 @@ function usedBy(needs: CatalogNeeds | null, pick: (n: CatalogNeeds) => number): 
   return n === 1 ? "1 catalog app uses it." : `${n} catalog apps use it.`;
 }
 
-const NOT_CHECKED = "Not checked yet.";
+const NOT_CHECKED = t("Not checked yet.");
 
 type Probe = { state: string } | null;
 
@@ -301,12 +302,12 @@ function inUse(input: CapabilityRowsInput, pick: (n: CatalogNeeds) => number): b
 }
 
 function turnOn(href: string): CapabilityAction {
-  return { kind: "turn-on", label: "Turn on in Cloudflare", href };
+  return { kind: "turn-on", label: t("Turn on in Cloudflare"), href };
 }
 
 /** A domain is added, not turned on: the dashboard page where one is added. */
 function addDomain(href: string): CapabilityAction {
-  return { kind: "add-domain", label: "Add a domain in Cloudflare", href };
+  return { kind: "add-domain", label: t("Add a domain in Cloudflare"), href };
 }
 
 const CHOOSE_PLAN: CapabilityAction = { kind: "choose-plan", label: "Choose plan" };
@@ -387,7 +388,7 @@ function planRow(input: CapabilityRowsInput): CapabilityRow {
   const base = {
     id: "workers-plan" as const,
     name: "Workers plan",
-    why: "Some apps need Workers Paid, which lifts the free plan's limits and runs containers.",
+    why: t("Some apps need Workers Paid, which lifts the free plan's limits and runs containers."),
   };
   const used = usedBy(needs, (n) => n.workersPaid);
   const probe = view.workersPlan;
@@ -426,7 +427,7 @@ function planRow(input: CapabilityRowsInput): CapabilityRow {
     state: couldNotCheck ? "could-not-check" : "needs-action",
     action: CHOOSE_PLAN,
     details: details(view, {
-      found: "Not known, treated as Workers Free",
+      found: t("Not known, treated as Workers Free"),
       problem,
       usedBy: used,
     }),
@@ -449,7 +450,7 @@ function workersDevRow(input: CapabilityRowsInput): CapabilityRow {
     (probe) =>
       probe.state === "registered"
         ? { ready: true, found: `${probe.subdomain}.workers.dev` }
-        : { ready: false, found: "No address registered" },
+        : { ready: false, found: t("No address registered") },
     // Without the account id the registration page cannot be reached directly.
     turnOn(input.view.accountId === null ? links.workersAndPages : links.workersOnboarding),
     (probe) => unknownSentence(probe, "workers-dev", connectionKind(input)),
@@ -536,7 +537,9 @@ function emailRoutingRow(input: CapabilityRowsInput): CapabilityRow {
     noDomain ? addDomain(links.domains) : turnOn(links.emailRouting),
     (probe) =>
       view.zone?.state === "unknown"
-        ? "Appflare checks Email Routing on a domain of the account, and could not list the domains."
+        ? t(
+            "Appflare checks Email Routing on a domain of the account, and could not list the domains.",
+          )
         : unknownSentence(probe, "email-routing", connectionKind(input)),
   );
 }
@@ -547,7 +550,7 @@ function analyticsEngineRow(input: CapabilityRowsInput): CapabilityRow {
     {
       id: "analytics-engine",
       name: "Analytics Engine",
-      why: "Stores what apps count and chart, such as page views. Turning it on is free.",
+      why: t("Stores what apps count and chart, such as page views. Turning it on is free."),
       usedBy: usedBy(input.needs, (n) => n.analyticsEngine),
       needed: inUse(input, (n) => n.analyticsEngine),
     },
@@ -602,7 +605,7 @@ function sandboxRow(input: CapabilityRowsInput): CapabilityRow {
   const base = {
     id: "sandbox" as const,
     name: "Sandbox builds",
-    why: "Builds apps that have no ready-made release inside your account.",
+    why: t("Builds apps that have no ready-made release inside your account."),
   };
   const used = usedBy(needs, (n) => n.sandbox);
   const readiness = withSandboxJobs(
@@ -650,7 +653,7 @@ function sandboxRow(input: CapabilityRowsInput): CapabilityRow {
     }
     case "needs-plan":
       return row("paid-only", {
-        found: "Needs Workers Paid",
+        found: t("Needs Workers Paid"),
         problem: "Builds run in Cloudflare Containers, which only Workers Paid includes.",
         // Why the plan could not be told, when Appflare may not use Containers.
         note:
@@ -689,7 +692,7 @@ function sandboxRow(input: CapabilityRowsInput): CapabilityRow {
  */
 const REQUIRED_PERMISSIONS = [
   { probe: "workersDev", name: "Workers Scripts" },
-  { probe: "r2", name: "Workers R2 Storage" },
+  { probe: "r2", name: t("Workers R2 Storage") },
 ] as const satisfies ReadonlyArray<{ probe: keyof CapabilitiesView; name: string }>;
 
 const OPTIONAL_PERMISSIONS = [
@@ -729,7 +732,7 @@ function tokenPermissionsRow(input: CapabilityRowsInput): CapabilityRow {
   };
   const fix: CapabilityAction = {
     kind: "edit-token",
-    label: "Edit token in Cloudflare",
+    label: t("Edit token in Cloudflare"),
     href: dashboardLinks(view.accountId).accountApiTokens,
   };
   if (view.checkedAt === null) {

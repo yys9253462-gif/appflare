@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * The manager's Cloudflare connection as Settings and Home show it.
  * Client-safe (types and words only); `readConnectionState` in
@@ -47,36 +48,36 @@ export interface ConnectionView {
  * reconnecting: one line each. Why it happened is under the card's Details.
  */
 export const RECONNECT_COPY = {
-  title: "Reconnect Appflare to Cloudflare",
+  title: t("Reconnect Appflare to Cloudflare"),
   /** Home's row, for everyone. */
-  description: "Your apps keep running, but none can be installed or changed until then.",
+  description: t("Your apps keep running, but none can be installed or changed until then."),
   /** The card, for an administrator. */
-  adminLine: "Your apps keep running. Reconnect to install or change them again.",
+  adminLine: t("Your apps keep running. Reconnect to install or change them again."),
   /** The card, for a member. */
-  memberLine: "Your apps keep running. An administrator reconnects here.",
+  memberLine: t("Your apps keep running. An administrator reconnects here."),
   /** The action that reconnects, on the connection card and Home. */
   action: "Reconnect Cloudflare",
   /** The same choice while the connection works. */
-  change: "Change how Appflare connects",
+  change: t("Change how Appflare connects"),
 } as const;
 
 /** The connection card's and its dialog's words, one short line each. */
 export const CONNECTION_COPY = {
-  cardDescription: "How Appflare reaches your Cloudflare account.",
+  cardDescription: t("How Appflare reaches your Cloudflare account."),
   /** The value beside "Connected with": what the connection is called, never "OAuth". */
-  kindName: { api_token: "An API token", oauth: "Cloudflare sign-in" } satisfies Record<
+  kindName: { api_token: t("An API token"), oauth: "Cloudflare sign-in" } satisfies Record<
     ConnectionKind,
     string
   >,
-  dialogDescription: "Your apps keep running either way.",
+  dialogDescription: t("Your apps keep running either way."),
   /** The two ways, as the dialog offers them to a manager connected with `kind`. */
   ways: (kind: ConnectionKind) => ({
-    signIn: "Recommended. Nothing to copy or paste.",
-    tokenLabel: kind === "api_token" ? "Use a new API token" : "Use an API token",
+    signIn: t("Recommended. Nothing to copy or paste."),
+    tokenLabel: kind === "api_token" ? t("Use a new API token") : t("Use an API token"),
     token:
       kind === "oauth"
-        ? "Create one in Cloudflare and paste it here. It replaces the sign-in."
-        : "Create one in Cloudflare and paste it here. It replaces the current token.",
+        ? t("Create one in Cloudflare and paste it here. It replaces the sign-in.")
+        : t("Create one in Cloudflare and paste it here. It replaces the current token."),
   }),
   /** What happens after Continue to Cloudflare, for a browser at `host`. */
   signInNext: (host: string | null, kind: ConnectionKind) =>

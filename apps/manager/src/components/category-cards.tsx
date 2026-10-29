@@ -100,7 +100,7 @@ export function CategoryCards({
             aria-expanded={expanded}
             onClick={() => setExpanded((v) => !v)}
           >
-            {expanded ? "Show fewer categories" : `Show all ${categories.length} categories`}
+            {expanded ? t("Show fewer categories") : `Show all ${categories.length} categories`}
           </Button>
         </div>
       )}

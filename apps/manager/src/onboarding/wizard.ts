@@ -2,6 +2,7 @@ import type { CapabilityRowsData } from "../capabilities/capability-rows.server"
 import { returnToSearch } from "../components/return-to";
 import { settingsPlace } from "../components/settings-links";
 import type { AddressOptions } from "../domains/manager-address.server";
+import { t } from "../i18n";
 import type { SetupStep as GateStep } from "../server/gate";
 
 /**
@@ -239,7 +240,7 @@ export function wizardCopy(state: WizardState): WizardCopy {
       };
     case "address":
       return {
-        title: "Where should Appflare live?",
+        title: t("Where should Appflare live?"),
         description: `Appflare answers at its workers.dev address. It can live on a domain of yours instead, now or later in ${settingsPlace("domains", "address", "Domains settings")}.`,
       };
     case "checklist":

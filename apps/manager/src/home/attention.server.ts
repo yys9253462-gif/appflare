@@ -7,6 +7,7 @@ import {
 } from "../auto-update/cron.server";
 import type { AppLookup } from "../catalog/merged.server";
 import { isUpdateAvailable } from "../catalog/versions";
+import { t } from "../i18n";
 import { buildIdOfInput } from "../installs/install-again";
 import type { InstallRecord } from "../installs/install-rows.server";
 import { isDeleteRetainedJob } from "../installs/removed-apps.server";
@@ -86,8 +87,9 @@ function candidateOf(row: InstallRecord): CandidateRow {
 }
 
 /** Why an update the cron already tried is waiting: it found the update needs something. */
-export const WAITING_FOR_INPUT =
-  "It needs something from you first, such as a new setting or a confirmation.";
+export const WAITING_FOR_INPUT = t(
+  "It needs something from you first, such as a new setting or a confirmation.",
+);
 
 /**
  * Why each available update waits for the admin's input, by install id:

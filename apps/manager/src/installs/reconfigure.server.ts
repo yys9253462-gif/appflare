@@ -18,6 +18,7 @@ import { PROTECT_MESSAGES, readInstallProtection } from "../access/protect.serve
 import { effectiveManifest } from "../catalog/revisions.server";
 import { createDb, type Database } from "../db/client";
 import { type BuildKind, installs, resources } from "../db/schema";
+import { t } from "../i18n";
 import { jobCreator } from "../jobs/create-job.server";
 import { entryWorkers, parseStoredManifest } from "../jobs/entry-workers";
 import type { ReconfigureJobParams } from "../jobs/reconfigure";
@@ -281,8 +282,9 @@ async function settingsContext(
   if (install.build_kind === "sandbox" && !sandboxConnected) {
     problem = `This app was built in the account's sandbox Worker, which holds its build, and Appflare is not connected to one. Connect sandbox builds in ${ENABLE_SANDBOX_PLACE} to change its settings.`;
   } else if (path.fullDeploy !== null) {
-    problem =
-      "The Worker lacks Durable Object migrations its version declares. Update or reinstall the app to change its settings.";
+    problem = t(
+      "The Worker lacks Durable Object migrations its version declares. Update or reinstall the app to change its settings.",
+    );
   }
   return {
     catalog: manifest.catalog,
@@ -601,7 +603,9 @@ export async function startEmailAgainCore(
   }
   if (!sameEmailParts(request.parts, parts)) {
     throw new VersionActionError(
-      "What is left out of the app's email changed since this page was loaded. Reload it to see what setting it up again does now.",
+      t(
+        "What is left out of the app's email changed since this page was loaded. Reload it to see what setting it up again does now.",
+      ),
     );
   }
   const jobId = (deps.newId ?? (() => ulid()))();

@@ -41,7 +41,9 @@ const HEALTH: Record<HealthStatus, { variant: BadgeVariant; label: string; hint:
 /** The app page's words for a check Cloudflare Access answered in the app's place. */
 const BEHIND_ACCESS = {
   label: "Behind Cloudflare Access",
-  hint: "Cloudflare Access answered, so Appflare can't check the app itself. Open the app and sign in to check it.",
+  hint: t(
+    "Cloudflare Access answered, so Appflare can't check the app itself. Open the app and sign in to check it.",
+  ),
 };
 
 /**

@@ -3,6 +3,7 @@ import { asc, count, eq, inArray } from "drizzle-orm";
 import { ulid } from "ulidx";
 import { createDb } from "../db/client";
 import { github_tokens } from "../db/schema";
+import { t } from "../i18n";
 import { sandboxBinding, sandboxInfo, usesGithubTokens } from "../sandbox/binding";
 import { activeSandboxJob, sandboxBusyMessage } from "../sandbox/busy";
 import { ENABLE_SANDBOX_PLACE, UPDATE_SANDBOX_HINT } from "../sandbox/connect-copy";
@@ -154,7 +155,7 @@ export async function addGithubTokenCore(
     );
   }
   if (sandbox.info === null) {
-    throw new GithubTokenError("The sandbox Worker did not answer. Try again in a minute.");
+    throw new GithubTokenError(t("The sandbox Worker did not answer. Try again in a minute."));
   }
   if (!usesGithubTokens(sandbox.info)) {
     throw new GithubTokenError(
@@ -233,7 +234,7 @@ export async function deleteGithubTokenCore(deps: GithubTokenDeps, id: string): 
     .from(github_tokens)
     .where(eq(github_tokens.id, id))
     .limit(1);
-  if (row === undefined) throw new GithubTokenError("There is no such token.");
+  if (row === undefined) throw new GithubTokenError(t("There is no such token."));
   const sandbox = await deps.sandbox();
   if (sandbox.connected) {
     await refuseWhileBusy(deps.db);

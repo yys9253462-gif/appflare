@@ -21,6 +21,7 @@ import {
 import { createDb, type Database } from "../db/client";
 import { resources } from "../db/schema";
 import { deleteSettings, readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { isPermissionError, listAccountZones } from "../installs/custom-domains.server";
 import { CUSTOM_HOSTNAME_KIND } from "../installs/resource-kinds";
 import { withCarriedObservability } from "../usage/observability";
@@ -441,7 +442,7 @@ export async function setUpGatewayCore(
 
   // The route first, as a read: a zone that already sends every request to
   // another Worker is refused before anything is created.
-  const routes = await needing("Workers Routes: Edit", zone.name, () =>
+  const routes = await needing(t("Workers Routes: Edit"), zone.name, () =>
     api.zones.listWorkerRoutes(zone.id),
   );
   const catchAll = routes.find((r) => r.pattern === GATEWAY_ROUTE_PATTERN);
@@ -689,7 +690,7 @@ export async function gatewayAnswers(fetchImpl: FetchLike, hostname: string): Pr
   try {
     const response = await fetchImpl(`https://${hostname}/`, {
       signal: AbortSignal.timeout(10_000),
-      headers: { "user-agent": "Appflare gateway check" },
+      headers: { "user-agent": t("Appflare gateway check") },
     });
     if (!response.ok) return false;
     const body = (await response.json()) as { service?: unknown };

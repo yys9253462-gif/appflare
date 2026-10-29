@@ -16,6 +16,7 @@ import { createDb } from "../db/client";
 import { jobs, snapshots } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
 import { releaseTokenOptions, releaseTokenSecret } from "../github/release-access.server";
+import { t } from "../i18n";
 import { MANAGER_SUBDOMAIN } from "../installs/workers-dev";
 import { runningVersion } from "../server/build-version";
 import { fetchWhole, sha256Hex } from "./install/artifact";
@@ -136,7 +137,7 @@ export async function runSelfUpdate(ctx: JobContext): Promise<void> {
       }
       const settings = await readSettings(orm, [SETTING.accountId, SETTING.workerName]);
       if (!settings.account_id) throw new JobError("the Cloudflare account is not known yet");
-      if (!settings.worker_name) throw new JobError("Appflare does not know its own Worker yet");
+      if (!settings.worker_name) throw new JobError(t("Appflare does not know its own Worker yet"));
       // An API token, or a stored grant that does not need reconnecting.
       await requireConnection(env);
       log.info(
@@ -222,7 +223,7 @@ export async function runSelfUpdate(ctx: JobContext): Promise<void> {
       }
       const problems = [...plan.problems];
       if (plan.databaseId === null && problems.length === 0) {
-        problems.push("The running Worker reports no database id for its DB binding.");
+        problems.push(t("The running Worker reports no database id for its DB binding."));
       }
       if (problems.length > 0 || plan.databaseId === null) throw new JobError(problems.join(" "));
       for (const warning of plan.warnings) log.warn(warning);
@@ -348,7 +349,7 @@ export async function runSelfUpdate(ctx: JobContext): Promise<void> {
     await run("enable version previews", async ({ log, cf }) => {
       // Appflare keeps its own workers.dev URL (see MANAGER_SUBDOMAIN).
       await cf().workers.enableSubdomain(workerName, MANAGER_SUBDOMAIN);
-      log.info("Preview URLs are enabled for Appflare's Worker.");
+      log.info(t("Preview URLs are enabled for Appflare's Worker."));
       return {};
     });
     await probeUntilHealthy(steps, step, {

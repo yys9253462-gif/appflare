@@ -75,7 +75,7 @@ import { UNUSED_BUILD_DAYS, UNUSED_BUILD_NOTE } from "../../../installs/source-b
  * same repository (installs/install-again.ts).
  */
 export const Route = createFileRoute("/_app/catalog/source/$buildId")({
-  staticData: { title: "Review a build" },
+  staticData: { title: t("Review a build") },
   // `?again=<install id>`: "Install again" for a failed install from a repository.
   validateSearch: z.object({ again: z.string().min(1).max(64).optional() }),
   loaderDeps: ({ search }) => ({ again: search.again }),
@@ -781,7 +781,7 @@ function Requirements({
           <Banner
             variant="alert"
             icon={BANNER_ICON.alert}
-            title={build.purpose === "update" ? "Before you update" : "Before you install"}
+            title={build.purpose === "update" ? t("Before you update") : "Before you install"}
             description={
               <div className="grid gap-2">
                 <span>{t("Check that this account offers what the app needs:")}</span>

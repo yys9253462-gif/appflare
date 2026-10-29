@@ -3,6 +3,7 @@ import {
   permissionName,
   splitPermissionGroups,
 } from "../cloudflare/token-template";
+import { t } from "../i18n";
 
 /**
  * What Appflare says about Cloudflare Access: the manager's own protection
@@ -19,12 +20,12 @@ const nameOf = (key: string, fallback: string) => {
 
 /** The token permissions protecting with Cloudflare Access needs, as the dashboard names them. */
 export const ACCESS_PERMISSIONS = {
-  apps: nameOf("access", "Access: Apps and Policies: Edit"),
+  apps: nameOf("access", t("Access: Apps and Policies: Edit")),
   organization: nameOf(
     "access_acct",
-    "Access: Organizations, Identity Providers, and Groups: Read",
+    t("Access: Organizations, Identity Providers, and Groups: Read"),
   ),
-  serviceTokens: nameOf("access_service_token", "Access: Service Tokens: Edit"),
+  serviceTokens: nameOf("access_service_token", t("Access: Service Tokens: Edit")),
 } as const;
 
 /** `a`, `a and b`, `a, b and c`. */
@@ -47,13 +48,16 @@ export const ACCESS_MESSAGES = {
   unsupportedHost: (hostname: string) =>
     `Cloudflare Access cannot protect "${hostname}". Open the manager at its workers.dev address or custom domain and try again.`,
   alreadyOn: "Cloudflare Access protection is already on.",
-  busy: "Another Access change is in progress. Try again in a minute.",
-  keysUnreachable:
+  busy: t("Another Access change is in progress. Try again in a minute."),
+  keysUnreachable: t(
     "The Access application was created, but the team's signing keys could not be fetched, so protection was not turned on and the application was removed. Try again in a minute.",
-  policyMissing:
+  ),
+  policyMissing: t(
     "The Access policy for the manager no longer exists. Turn protection off and on again to recreate it.",
-  appMissing:
+  ),
+  appMissing: t(
     "The Cloudflare Access application for the manager no longer exists. Turn protection off and on again to recreate it.",
+  ),
 } as const;
 
 export const INSTALL_ACCESS_MESSAGES = {
@@ -61,15 +65,18 @@ export const INSTALL_ACCESS_MESSAGES = {
   tokensPermission: `The Cloudflare token cannot manage Access service tokens. Add the ${ACCESS_PERMISSIONS.serviceTokens} permission to the token, then rotate it under Cloudflare token.`,
   unchecked: (detail: string) =>
     `Appflare could not ask Cloudflare whether this account and its Cloudflare token can protect apps with Cloudflare Access (${detail}), so nothing was started. Try again in a minute.`,
-  noAuthSecret:
+  noAuthSecret: t(
     "This Worker has no BETTER_AUTH_SECRET, so Appflare cannot keep a service token's secret safely.",
-  noUsers: "There are no Appflare users to allow through Cloudflare Access.",
+  ),
+  noUsers: t("There are no Appflare users to allow through Cloudflare Access."),
   usersPolicyMissing: `The "${USERS_POLICY_NAME}" Access policy was deleted in the Cloudflare dashboard. Appflare makes it again within 30 minutes; each protected app's page then offers "Protect again", which lets people sign in to it again.`,
-  notRecorded: "This app has no Cloudflare Access service token recorded.",
-  tokenMissing:
+  notRecorded: t("This app has no Cloudflare Access service token recorded."),
+  tokenMissing: t(
     "This app's Cloudflare Access service token no longer exists. Protecting the app again makes a new one.",
-  tokenInUse:
+  ),
+  tokenInUse: t(
     "This app's Cloudflare Access service token is still named in an Access policy. Remove the app's Access application (or the token from its policy) first, then try again.",
+  ),
   addressTaken: (other: string, uris: readonly string[]) =>
     `The Cloudflare Access application "${other}" covers ${listOf(uris)} itself, so it decides who reaches this app there and may refuse Appflare's health checks; Appflare's application covers the app's other addresses. Delete "${other}" under Zero Trust, Access, Applications, and Appflare covers ${uris.length === 1 ? "that address" : "those addresses"} again within 30 minutes.`,
 } as const;

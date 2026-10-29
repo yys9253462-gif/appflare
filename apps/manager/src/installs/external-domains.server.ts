@@ -37,6 +37,7 @@ import {
   saasRefusal,
   unbindGatewayService,
 } from "../gateway/gateway.server";
+import { t } from "../i18n";
 import { healthCheckOfManifest, probeHealth, settleHealthProbe } from "../jobs/install/health";
 import { listAccountZones } from "./custom-domains.server";
 import type { ExternalDomainOptions, ExternalDomainStatus } from "./external-domain-input";
@@ -471,7 +472,7 @@ async function readInstall(db: D1Database, installId: string) {
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (row === undefined) throw new ExternalDomainError("There is no such install.");
+  if (row === undefined) throw new ExternalDomainError(t("There is no such install."));
   return row;
 }
 
@@ -499,7 +500,7 @@ async function readDomain(db: D1Database, request: { installId: string; resource
     )
     .limit(1);
   if (row === undefined)
-    throw new ExternalDomainError("That is not an external domain of this app.");
+    throw new ExternalDomainError(t("That is not an external domain of this app."));
   return row;
 }
 
@@ -639,7 +640,7 @@ export function claimRefusal(
       ? `${hostname} is already a domain of this app.`
       : `${hostname} is already a domain of another app. Remove it there first.`;
   }
-  if (claim.kind === "uninstalling") return "The app is being uninstalled.";
+  if (claim.kind === "uninstalling") return t("The app is being uninstalled.");
   return null;
 }
 

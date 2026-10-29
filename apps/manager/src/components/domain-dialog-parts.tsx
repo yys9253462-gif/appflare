@@ -30,7 +30,7 @@ export function TokenPermissionsBanner({
   const permissions = options.missing.join(", ");
   const title = options.noZones
     ? "Appflare cannot see any domain in this account"
-    : "The Cloudflare token cannot manage custom domains yet";
+    : t("The Cloudflare token cannot manage custom domains yet");
   const why = options.noZones
     ? `Either the account has no domain on Cloudflare yet (add one first; it must be active before it can serve an app), or the token lacks the custom domain permissions: ${permissions}.`
     : `The token lacks ${permissions}.`;

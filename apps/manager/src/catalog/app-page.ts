@@ -18,6 +18,7 @@ import {
   PLAN_STATS,
 } from "@appflare/schema/catalog-display";
 import { formatBytes, formatExactDateTime } from "../components/format";
+import { t } from "../i18n";
 import type { InstallVarField } from "../installs/install-vars";
 import { licenseFileHref, licenseHref } from "./license";
 import type { CatalogSource } from "./sources";
@@ -317,7 +318,7 @@ export interface SettingItem {
   key: string;
   label: string;
   name: string;
-  hint: "Required" | "Optional" | "Filled in for you" | "Suggested value filled in";
+  hint: string;
   /** The catalog's help text for it; null when it has none. */
   description: string | null;
 }
@@ -344,7 +345,7 @@ export function settingsToChoose(
       name: secret.name,
       hint:
         secret.generate !== undefined
-          ? "Filled in for you"
+          ? t("Filled in for you")
           : secret.optional === true
             ? "Optional"
             : "Required",
@@ -359,7 +360,7 @@ export function settingsToChoose(
       name: field.name,
       hint:
         field.shownDefault !== ""
-          ? "Suggested value filled in"
+          ? t("Suggested value filled in")
           : field.required
             ? "Required"
             : "Optional",

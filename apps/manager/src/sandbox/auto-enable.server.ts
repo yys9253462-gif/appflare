@@ -7,6 +7,7 @@ import { messageLink } from "../components/message-links";
 import { NO_REMOVAL_IN_PROGRESS_SQL } from "../danger/removal-flag";
 import { createDb } from "../db/client";
 import { jobs } from "../db/schema";
+import { t } from "../i18n";
 import { reconcileJobs, type WorkflowLookup } from "../jobs/reconcile.server";
 import type { SandboxEnableJobParams } from "./enable-job";
 import { SANDBOX_CAPABILITY_HREF, sandboxReadiness } from "./readiness";
@@ -48,13 +49,15 @@ export class SandboxAutoEnableError extends Error {
 }
 
 /** Where a refusal sends the admin. */
-export const SANDBOX_CAPABILITY_POINTER = `See ${messageLink("Sandbox builds in Your account", SANDBOX_CAPABILITY_HREF)}.`;
+export const SANDBOX_CAPABILITY_POINTER = `See ${messageLink(t("Sandbox builds in Your account"), SANDBOX_CAPABILITY_HREF)}.`;
 
-const BUSY =
-  "Sandbox builds are off, and Appflare turns them on first only while no other job is queued or running. Wait for it to finish, then try again.";
+const BUSY = t(
+  "Sandbox builds are off, and Appflare turns them on first only while no other job is queued or running. Wait for it to finish, then try again.",
+);
 
-const CHANGING =
-  "Sandbox builds are being updated or disabled now. Wait for that job to finish, then try again.";
+const CHANGING = t(
+  "Sandbox builds are being updated or disabled now. Wait for that job to finish, then try again.",
+);
 
 /** The job that turns sandbox builds on for another, as its recorded input names it. */
 export interface NeededBy {

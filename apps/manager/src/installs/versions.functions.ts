@@ -4,6 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getAppManifest, getCatalogManifest } from "../catalog/app-manifest.server";
 import { findCatalogApp, type ListedApp } from "../catalog/merged.server";
 import { getCfClient } from "../cloudflare/client.server";
+import { t } from "../i18n";
 import { jobCreator } from "../jobs/create-job.server";
 import { readSandboxConnection } from "../sandbox/connection.server";
 import { requireRole } from "../server/auth.server";
@@ -42,7 +43,7 @@ export const startUpdate = createServerFn({ method: "POST" })
     const trustOf = (app: IndexApp) => {
       if (found?.app !== app) {
         throw new VersionActionError(
-          "The app's catalog listing was not loaded before its manifest.",
+          t("The app's catalog listing was not loaded before its manifest."),
         );
       }
       return found.trust;

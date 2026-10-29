@@ -237,6 +237,8 @@ function textProps(text, spans) {
 /** A key worth reporting: not empty, not an identifier, not SQL. */
 function isReportableKey(key) {
   if (key.trim() === "") return false;
+  // An HTTP method list, not copy.
+  if (/^[A-Z]+(, [A-Z]+)+$/.test(key)) return false;
   if (/^[a-z0-9_]+$/.test(key)) return false;
   if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER)\b/.test(key)) return false;
   return true;
@@ -250,6 +252,31 @@ function stripComments(text) {
   return out;
 }
 
+/**
+ * Sentence-shaped string literals that no `t()` wraps and the dictionary does
+ * not have: labels a module hands to the UI (job step names, section titles),
+ * which the JSX scan above cannot see.
+ */
+function sentenceLiterals(text, spans, keys) {
+  const out = [];
+  const re = /"([^"]{12,200})"/g;
+  for (let m = re.exec(text); m !== null; m = re.exec(text)) {
+    const value = m[1];
+    if (value.includes("\n")) continue;
+    if (value.split(/\s+/).length < 3) continue;
+    if (!/^[A-Z]/.test(value)) continue;
+    if (/[{}[\]<>=|&$`;]/.test(value)) continue;
+    if (inSpan(spans, m.index)) continue;
+    if (keys.has(value)) continue;
+    // SQL and format strings are not copy.
+    if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER)\b/.test(value)) continue;
+    if (/\?\d|::|%s/.test(value)) continue;
+    const line = text.slice(0, m.index).split("\n").length;
+    out.push({ value, line });
+  }
+  return out;
+}
+
 const keys = dictionaryKeys();
 const files = walk(SRC).sort();
 const report = [];
@@ -257,7 +284,11 @@ for (const file of files) {
   const text = readFileSync(file, "utf8");
   const scannable = stripComments(text);
   const spans = tCallSpans(text);
-  const unwrapped = [...jsxTextNodes(scannable, spans), ...textProps(scannable, spans)];
+  const unwrapped = [
+    ...jsxTextNodes(scannable, spans),
+    ...textProps(scannable, spans),
+    ...sentenceLiterals(scannable, spans, keys),
+  ];
   const missing = translatedKeys(text).filter((k) => isReportableKey(k.key) && !keys.has(k.key));
   if (unwrapped.length === 0 && missing.length === 0) continue;
   report.push({ file: relative(ROOT, file).split(sep).join("/"), unwrapped, missing });

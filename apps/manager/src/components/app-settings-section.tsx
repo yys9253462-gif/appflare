@@ -195,9 +195,9 @@ export function AppSettingsSection({
           ...(settings.installer === null ? {} : { buildConfirmed }),
         },
       });
-      await jobStarted(jobId, "Settings change started");
+      await jobStarted(jobId, t("Settings change started"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save the settings.");
+      setError(err instanceof Error ? err.message : t("Could not save the settings."));
       setPending(false);
     }
   }
@@ -789,7 +789,9 @@ function SecretRow({
             disabled={disabled}
             help={
               value.length > 0
-                ? "Generated for you. Copy it now if you need it: it cannot be shown again once saved."
+                ? t(
+                    "Generated for you. Copy it now if you need it: it cannot be shown again once saved.",
+                  )
                 : "The current value stays until the new one is saved."
             }
           />

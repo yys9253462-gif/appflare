@@ -45,7 +45,7 @@ export function AppTokenHelp({
   // R2's own API token (Admin Read & Write) carries R2 storage, R2 Data
   // Catalog and R2 SQL together: the way wrangler's `pipelines setup` sends
   // people, and an alternative for a Pipelines sink's token.
-  const r2Token = resolved.some((p) => p.groupName === "Workers R2 Data Catalog");
+  const r2Token = resolved.some((p) => p.groupName === t("Workers R2 Data Catalog"));
   return (
     <div className="grid gap-2" data-app-token-help="">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">

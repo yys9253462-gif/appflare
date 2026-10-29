@@ -171,7 +171,7 @@ export function TriggerRows({
             ) : (
               <>
                 <Text bold>
-                  {armed !== null ? "When it spends more than" : "Spending: not a trigger"}
+                  {armed !== null ? "When it spends more than" : t("Spending: not a trigger")}
                 </Text>
                 {armed !== null && (
                   <Text>

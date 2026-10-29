@@ -23,6 +23,7 @@ import { appPlace } from "../components/app-links";
 import { createDb, type Database } from "../db/client";
 import { installs, jobs, resources, snapshots } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { emailRoutingChangeNote, emailRoutingOfManifest } from "../installs/email-routing";
 import { type VarsRefreshReason, varsNeedRefresh } from "../installs/install-vars";
 import { ADDRESS_KINDS, HYPERDRIVE_KINDS, QUEUE_CONSUMER_KIND } from "../installs/resource-kinds";
@@ -1097,13 +1098,13 @@ export async function runRollback(ctx: JobContext): Promise<void> {
         }
         if (outcome.missing.length > 0) {
           log.warn(
-            `This version binds a Hyperdrive configuration Appflare has no live record of for ${outcome.missing.join(", ")}; the app may not reach that database. Replace its connection string under ${appPlace(params.installId, "databases", "Databases in the app's settings")}.`,
+            `This version binds a Hyperdrive configuration Appflare has no live record of for ${outcome.missing.join(", ")}; the app may not reach that database. Replace its connection string under ${appPlace(params.installId, "databases", t("Databases in the app's settings"))}.`,
           );
         }
       }
       if (await turnOffAutoUpdate(orm, params.installId)) {
         log.info(
-          `Automatic updates of this app are now off, so the cron does not update it to ${started.fromVersion} again. Turn them back on under ${appPlace(params.installId, "automatic-updates", "Automatic updates on the app's page")} once a fixed version is out.`,
+          `Automatic updates of this app are now off, so the cron does not update it to ${started.fromVersion} again. Turn them back on under ${appPlace(params.installId, "automatic-updates", t("Automatic updates on the app's page"))} once a fixed version is out.`,
         );
       }
       return {};

@@ -29,6 +29,7 @@ import { installAppKey, unsignedTierRefusal } from "../catalog/sources";
 import { settingsPlace } from "../components/settings-links";
 import { createDb, type Database } from "../db/client";
 import { installs, type JobStarter, jobs, resources, snapshots } from "../db/schema";
+import { t } from "../i18n";
 import {
   durableObjectExportsDiffer,
   entryBindings,
@@ -116,8 +117,9 @@ export interface StartJobDeps<P> {
   startedBy?: JobStarter;
 }
 
-const BUSY =
-  "Another job of this install is queued or running, or its state changed. Reload the page.";
+const BUSY = t(
+  "Another job of this install is queued or running, or its state changed. Reload the page.",
+);
 
 export async function readInstall(db: D1Database, installId: string) {
   const [install] = await createDb(db)
@@ -125,7 +127,7 @@ export async function readInstall(db: D1Database, installId: string) {
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (install === undefined) throw new VersionActionError("There is no such install.");
+  if (install === undefined) throw new VersionActionError(t("There is no such install."));
   return install;
 }
 
@@ -768,7 +770,7 @@ export async function startRollbackCore(
     .where(and(eq(snapshots.id, request.snapshotId), eq(snapshots.install_id, install.id)))
     .limit(1);
   if (snapshot === undefined) {
-    throw new VersionActionError("That snapshot does not belong to this install.");
+    throw new VersionActionError(t("That snapshot does not belong to this install."));
   }
   // An app of several Workers may have other Workers on another version
   // while the primary one runs the snapshot's (an update that failed between
@@ -777,7 +779,7 @@ export async function startRollbackCore(
     snapshot.worker_version_id === install.current_version_id &&
     otherWorkersMatch(snapshot.worker_versions_json, install.worker_versions_json)
   ) {
-    throw new VersionActionError("The Worker already runs the version this snapshot recorded.");
+    throw new VersionActionError(t("The Worker already runs the version this snapshot recorded."));
   }
   const currentDoTag = install.do_migration_tag ?? lastDurableObjectTagOf(install.manifest_json);
   if (
@@ -786,7 +788,9 @@ export async function startRollbackCore(
     durableObjectExportsDiffer(snapshot.manifest_json, install.manifest_json, install.worker_name)
   ) {
     throw new VersionActionError(
-      "This update changed the app's Durable Object classes, and Cloudflare refuses to roll a Worker back across such a change.",
+      t(
+        "This update changed the app's Durable Object classes, and Cloudflare refuses to roll a Worker back across such a change.",
+      ),
     );
   }
   // Every Hyperdrive configuration the version binds must still exist. A
@@ -875,7 +879,7 @@ export async function restoreDatabaseCore(
     .where(and(eq(snapshots.id, request.snapshotId), eq(snapshots.install_id, install.id)))
     .limit(1);
   if (snapshot === undefined) {
-    throw new VersionActionError("That snapshot does not belong to this install.");
+    throw new VersionActionError(t("That snapshot does not belong to this install."));
   }
   const [database] = await orm
     .select()

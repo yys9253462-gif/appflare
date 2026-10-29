@@ -13,6 +13,7 @@ import { hasRole } from "../auth/roles";
 import { createDb } from "../db/client";
 import { user } from "../db/schema";
 import { releaseSettingsLock, tryAcquireSettingsLock } from "../db/settings-lock";
+import { t } from "../i18n";
 import {
   type AccessConfig,
   clearAccessConfig,
@@ -99,7 +100,7 @@ export function adminPolicy(emails: readonly string[]): AccessPolicyArgs {
 }
 
 export const HEALTH_POLICY: AccessPolicyArgs = {
-  name: "Appflare health check",
+  name: t("Appflare health check"),
   decision: "bypass",
   include: [{ everyone: {} }],
   precedence: 1,
@@ -146,7 +147,7 @@ function problem(problem: AccessProblem, message: string): AccessProblemResult {
 }
 
 const LOGIN_METHOD_NAMES: Record<string, string> = {
-  onetimepin: "One-time PIN (a code sent by email)",
+  onetimepin: t("One-time PIN (a code sent by email)"),
   cloudflare: "Cloudflare account",
   google: "Google",
   "google-apps": "Google Workspace",
@@ -348,7 +349,7 @@ export async function syncAccessAdmins(
       : await policyEmails(deps.db, deps.actorEmail);
   if (adminEmails.length === 0) {
     // An empty include list would lock everyone out; never write one.
-    throw new AccessToggleError("There are no admins to allow through Cloudflare Access.");
+    throw new AccessToggleError(t("There are no admins to allow through Cloudflare Access."));
   }
   try {
     await deps.client.access.updatePolicy(config.appId, config.policyId, adminPolicy(adminEmails));
@@ -483,7 +484,7 @@ export async function moveAccessApps(
 async function allowList(deps: Pick<AccessToggleDeps, "db">): Promise<string[]> {
   const emails = await listAdminEmails(deps.db);
   if (emails.length === 0) {
-    throw new AccessToggleError("There are no admins to allow through Cloudflare Access.");
+    throw new AccessToggleError(t("There are no admins to allow through Cloudflare Access."));
   }
   return emails;
 }

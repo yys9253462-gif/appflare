@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { RECONNECT_PLACE } from "../cloudflare/connection-errors";
 import type { ConnectionKind } from "../cloudflare/connection-view";
+import { t } from "../i18n";
 
 /**
  * The install form's live check of a custom domain's hostname (a name in one
@@ -79,7 +80,7 @@ export function hostnameStatus(
 ): { tone: "success" | "warning" | "danger" | "pending" | "neutral"; text: string } | null {
   switch (check?.state) {
     case "checking":
-      return { tone: "pending", text: "Checking the name…" };
+      return { tone: "pending", text: t("Checking the name…") };
     case "free":
       return { tone: "success", text: "Available" };
     case "records":
@@ -95,16 +96,19 @@ export function hostnameStatus(
             : "The Cloudflare token cannot add domains to apps yet.",
       };
     case "other-app":
-      return { tone: "danger", text: "Another app here already uses this name. Choose another." };
+      return {
+        tone: "danger",
+        text: t("Another app here already uses this name. Choose another."),
+      };
     case "unknown":
-      return { tone: "neutral", text: "Could not check whether the name is in use." };
+      return { tone: "neutral", text: t("Could not check whether the name is in use.") };
     default:
       return null;
   }
 }
 
 /** The title of the note under the address while the install would leave the name out. */
-export const LEFT_OUT_TITLE = "The install will leave this name out";
+export const LEFT_OUT_TITLE = t("The install will leave this name out");
 
 /**
  * What a name the install would leave out means, and the choices, for the

@@ -13,6 +13,7 @@ import {
 } from "../access/address-sync.server";
 import { createDb, type Database } from "../db/client";
 import { installs, resources } from "../db/schema";
+import { t } from "../i18n";
 import { CustomDomainError, isPermissionError, readZone } from "./custom-domains.server";
 import {
   ADDRESS_KINDS,
@@ -656,7 +657,7 @@ async function readInstall(db: D1Database, installId: string) {
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (row === undefined) throw new WildcardDomainError("There is no such install.");
+  if (row === undefined) throw new WildcardDomainError(t("There is no such install."));
   return row;
 }
 
@@ -824,7 +825,7 @@ export async function removeWildcardDomainCore(
     )
     .limit(1);
   if (domain === undefined) {
-    throw new WildcardDomainError("That is not a wildcard domain of this app.");
+    throw new WildcardDomainError(t("That is not a wildcard domain of this app."));
   }
   // A protected app's public paths come off the base and every name under
   // it before they are released.

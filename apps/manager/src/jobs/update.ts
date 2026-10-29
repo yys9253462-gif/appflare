@@ -27,6 +27,7 @@ import { appPlace } from "../components/app-links";
 import { createDb } from "../db/client";
 import { installs, jobs, resources, source_builds } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { secretsToSet } from "../installs/derived-secrets";
 import { emailRoutingChangeNote, emailRoutingOfManifest } from "../installs/email-routing";
 import { type VarsRefreshReason, varsNeedRefresh } from "../installs/install-vars";
@@ -897,7 +898,9 @@ export async function runUpdate(ctx: JobContext): Promise<void> {
         );
       } else if (path.scriptUpload) {
         log.warn(
-          "This version changes the Durable Object classes its exports declare, so this update deploys the whole Worker at once instead of checking a preview first.",
+          t(
+            "This version changes the Durable Object classes its exports declare, so this update deploys the whole Worker at once instead of checking a preview first.",
+          ),
         );
       }
       log.info(
@@ -1390,7 +1393,7 @@ export async function runUpdate(ctx: JobContext): Promise<void> {
         await run("enable version previews", async ({ log, cf }) => {
           // The workers.dev URL stays as the admin left it; previews are always on.
           await cf().workers.enableSubdomain(workerName, workersDevSubdomain(workersDev));
-          log.info("Preview URLs are enabled for this Worker.");
+          log.info(t("Preview URLs are enabled for this Worker."));
           return {};
         });
         await probeUntilHealthy(steps, step, {

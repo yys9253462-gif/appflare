@@ -11,6 +11,7 @@ import {
 import { and, eq, ne, sql } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { catalogs, installs } from "../db/schema";
+import { t } from "../i18n";
 import { namedInstall, readInstallLabels } from "../installs/install-names.server";
 import {
   ArtifactError,
@@ -120,7 +121,9 @@ export async function checkCatalog(
     throw new CatalogAdminError(
       index.index.apps.length === 0
         ? "The catalog lists no apps yet, so its key cannot be checked. Add it once it has released one."
-        : "The catalog lists no signed release, so its key cannot be checked. Add it once it has released one.",
+        : t(
+            "The catalog lists no signed release, so its key cannot be checked. Add it once it has released one.",
+          ),
     );
   }
   const { app, release } = found;
@@ -200,7 +203,7 @@ function parseInput(input: CatalogInput) {
     throw new CatalogAdminError(label.error.issues[0]?.message ?? "Check the label.");
   }
   const colour = catalogColourSchema.safeParse(input.colour);
-  if (!colour.success) throw new CatalogAdminError("Choose one of the colours.");
+  if (!colour.success) throw new CatalogAdminError(t("Choose one of the colours."));
   return {
     indexUrl: url.data,
     label: label.data,
@@ -292,7 +295,7 @@ export async function addCatalogCore(
 
 async function customRecord(deps: CatalogAdminDeps, id: string) {
   const record = await readCatalogRecord(createDb(deps.db), id);
-  if (record === null) throw new CatalogAdminError("There is no such catalog.");
+  if (record === null) throw new CatalogAdminError(t("There is no such catalog."));
   if (record.kind === "official") {
     throw new CatalogAdminError(
       "The official catalog cannot be changed or removed; turn it off instead.",
@@ -358,7 +361,7 @@ export async function setCatalogEnabledCore(
     .set({ enabled: input.enabled })
     .where(eq(catalogs.id, input.id))
     .returning({ id: catalogs.id });
-  if (result.length === 0) throw new CatalogAdminError("There is no such catalog.");
+  if (result.length === 0) throw new CatalogAdminError(t("There is no such catalog."));
 }
 
 /**

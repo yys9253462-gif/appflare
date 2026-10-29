@@ -3,6 +3,7 @@ import { parseRecoveryCodeSecret, RECOVERY_CODE_SECRET } from "@appflare/schema"
 import { removalInProgress } from "../danger/removal-flag";
 import { createDb } from "../db/client";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
 import { activeSelfJob } from "../jobs/self-update/guard";
 import { activeVersionId } from "../jobs/update/plan";
@@ -50,7 +51,7 @@ export async function cleanUpRecoverySecret(
   if (reason === null) return { outcome: "kept" };
 
   if ((await removalInProgress(deps.d1, deps.now)) !== null) {
-    return { outcome: "skipped", reason: "Appflare is being removed" };
+    return { outcome: "skipped", reason: t("Appflare is being removed") };
   }
   if ((await activeSelfJob(deps.d1, deps.workflows)) !== null) {
     return { outcome: "skipped", reason: "a self-update or rollback of Appflare is running" };

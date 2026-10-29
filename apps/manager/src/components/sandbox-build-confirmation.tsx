@@ -52,7 +52,7 @@ export function SandboxBuildConfirmation({
       <Text bold>
         <span className="inline-flex items-center gap-1.5">
           <ShippingContainerIcon aria-hidden />
-          {installer ? "Deployed by its own installer" : "Built in your account"}
+          {installer ? "Deployed by its own installer" : t("Built in your account")}
         </span>
       </Text>
       <Text variant="secondary" size="sm">

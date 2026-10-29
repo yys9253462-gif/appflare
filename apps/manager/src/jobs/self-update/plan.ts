@@ -9,6 +9,7 @@ import {
   verifyManifestSignature,
 } from "@appflare/schema";
 import { z } from "zod";
+import { t } from "../../i18n";
 import { SANDBOX_BINDING, sandboxBindingKind } from "../../sandbox/binding";
 import { ArtifactError } from "../install/artifact";
 import { PASSTHROUGH_BINDING_TYPES } from "../install/bindings";
@@ -414,7 +415,7 @@ export function classifyManagerCanary(
   if (probe.status === 404) {
     return last
       ? { verdict: "unhealthy", reason: `HTTP 404 after ${attempt} attempts` }
-      : { verdict: "retry", reason: "HTTP 404 (the preview is not live yet)" };
+      : { verdict: "retry", reason: t("HTTP 404 (the preview is not live yet)") };
   }
   let report: { version?: unknown; db?: unknown } | null = null;
   try {

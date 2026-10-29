@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * Client-safe input of the custom domain server functions, and the hostname
@@ -68,7 +69,7 @@ export function checkHostnameInZone(input: string, zoneName: string): HostnameCh
 }
 
 /** What a domain field shows in place of a subdomain that is left empty. */
-export const ROOT_DOMAIN_PLACEHOLDER = "Leave empty for the root domain";
+export const ROOT_DOMAIN_PLACEHOLDER = t("Leave empty for the root domain");
 
 /**
  * The hostname in zone `zoneName` that a domain field means, where the zone
@@ -105,7 +106,7 @@ export function checkSubdomainInZone(input: string, zoneName: string): HostnameC
  * way, so the app's answer is not known yet.
  */
 export const DOMAIN_SETTING_UP = {
-  label: "Being set up",
+  label: t("Being set up"),
   note: (detail: string) =>
     `Cloudflare is still attaching this domain and issuing its certificate, which takes a few minutes (last answer: ${detail}). Appflare checks again on its own.`,
 } as const;

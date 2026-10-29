@@ -5,6 +5,7 @@ import { requireConnection } from "../cloudflare/connection.server";
 import { createDb } from "../db/client";
 import { installs, jobs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { emitUsageEvent } from "../notifications/usage-events.server";
 import { periodEnd } from "../usage/math";
 import { recordActivity } from "../usage/store/activity.server";
@@ -75,7 +76,7 @@ export async function runResume(ctx: JobContext): Promise<void> {
       const workers = Object.keys(recorded.workerVersions);
       log.info(
         workers.length === 0
-          ? "Resuming the app. Its pause recorded no Worker, so no Worker changes."
+          ? t("Resuming the app. Its pause recorded no Worker, so no Worker changes.")
           : `Resuming the app: ${workers.map((w) => `"${w}"`).join(", ")} serve${workers.length === 1 ? "s" : ""} the version${workers.length === 1 ? "" : "s"} recorded before the pause again.`,
       );
       return {

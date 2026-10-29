@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * Renaming an install: sets or clears its display name. Nothing is deployed
  * and nothing changes in the account; only the manager's record changes, so
@@ -19,6 +20,6 @@ export async function renameInstallCore(
     )
     .bind(installId, displayName)
     .run();
-  if (result.meta.changes !== 1) throw new RenameInstallError("There is no such install.");
+  if (result.meta.changes !== 1) throw new RenameInstallError(t("There is no such install."));
   return { displayName };
 }

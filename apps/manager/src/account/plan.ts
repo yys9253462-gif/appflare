@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { messageLink } from "../components/message-links";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 
 /**
  * The account's Workers plan. Client-safe: no server imports.
@@ -34,12 +35,16 @@ export const ACCOUNT_PLAN_COPY = {
   manualLegend: "Which Workers plan is this account on?",
   labels: { free: "Workers Free", paid: "Workers Paid" } satisfies Record<AccountPlan, string>,
   descriptions: {
-    free: "Apps that need Workers Paid ask for a confirmation, and installs count the account's cron triggers.",
-    paid: "Installs and updates skip the Workers Paid confirmations and the count of cron triggers.",
+    free: t(
+      "Apps that need Workers Paid ask for a confirmation, and installs count the account's cron triggers.",
+    ),
+    paid: t(
+      "Installs and updates skip the Workers Paid confirmations and the count of cron triggers.",
+    ),
   } satisfies Record<AccountPlan, string>,
   /** Under the manual choice when the token cannot read the account's subscriptions. */
-  billingHint: "Add Billing: Read to the token and Appflare detects this itself.",
-  remember: "Remember this for the account",
+  billingHint: t("Add Billing: Read to the token and Appflare detects this itself."),
+  remember: t("Remember this for the account"),
   /** A message string (`message-links.ts`): the plan's row on Your account is a link. */
-  rememberDescription: `Records Workers Paid as the ${messageLink("Workers plan on Your account", settingsLink("account", "capability-workers-plan"))}, so installs and updates stop asking while Appflare cannot detect the plan. Change it there if the plan changes.`,
+  rememberDescription: `Records Workers Paid as the ${messageLink(t("Workers plan on Your account"), settingsLink("account", "capability-workers-plan"))}, so installs and updates stop asking while Appflare cannot detect the plan. Change it there if the plan changes.`,
 } as const;

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 import {
   CHANNEL_KINDS,
   type ChannelKind,
@@ -24,9 +25,9 @@ export const CHANNEL_KIND_LABELS: Record<ChannelKind, string> = {
 /** One line under each kind where a new channel's kind is chosen. */
 export const CHANNEL_KIND_DESCRIPTIONS: Record<ChannelKind, string> = {
   telegram: "A bot posts to a chat, a group, or a channel.",
-  slack: "An incoming webhook posts to a channel.",
-  discord: "A channel's webhook posts the messages.",
-  webhook: "Signed JSON posted to a URL you run.",
+  slack: t("An incoming webhook posts to a channel."),
+  discord: t("A channel's webhook posts the messages."),
+  webhook: t("Signed JSON posted to a URL you run."),
 };
 
 export const EVENT_LABELS: Record<NotificationEvent, string> = {
@@ -35,7 +36,7 @@ export const EVENT_LABELS: Record<NotificationEvent, string> = {
   update_failed: "Update failed",
   install_finished: "Install finished",
   uninstall_finished: "Uninstall finished",
-  health_failing: "Health check failing",
+  health_failing: t("Health check failing"),
   usage_unusual: "Unusual usage",
   usage_alert: "Usage alert",
   usage_limit_near: "Free daily limit running out",
@@ -44,7 +45,7 @@ export const EVENT_LABELS: Record<NotificationEvent, string> = {
   app_resumed: "App resumed",
   app_pause_failed: "Pausing an app failed",
   budget_reached: "Monthly budget reached",
-  manager_update_available: "Appflare update available",
+  manager_update_available: t("Appflare update available"),
   domain_active: "Domain active",
   domain_failed: "Domain failed",
   manager_address_lost: "Appflare's address stopped working",
@@ -144,16 +145,16 @@ export function isWebhookUrl(value: string): boolean {
 const trimmed = z.string().trim();
 
 export const telegramSettingsSchema = z.object({
-  botToken: trimmed.regex(TELEGRAM_BOT_TOKEN, "Paste the bot token BotFather gave you."),
-  chatId: trimmed.regex(TELEGRAM_CHAT_ID, "Use a numeric chat id or a public @channel name."),
+  botToken: trimmed.regex(TELEGRAM_BOT_TOKEN, t("Paste the bot token BotFather gave you.")),
+  chatId: trimmed.regex(TELEGRAM_CHAT_ID, t("Use a numeric chat id or a public @channel name.")),
 });
 
 export const slackSettingsSchema = z.object({
-  webhookUrl: trimmed.refine(isSlackWebhookUrl, "Paste a Slack incoming webhook URL."),
+  webhookUrl: trimmed.refine(isSlackWebhookUrl, t("Paste a Slack incoming webhook URL.")),
 });
 
 export const discordSettingsSchema = z.object({
-  webhookUrl: trimmed.refine(isDiscordWebhookUrl, "Paste a Discord webhook URL."),
+  webhookUrl: trimmed.refine(isDiscordWebhookUrl, t("Paste a Discord webhook URL.")),
 });
 
 export const webhookSettingsSchema = z.object({

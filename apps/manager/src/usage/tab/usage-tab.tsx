@@ -24,8 +24,8 @@ import { UsageSection } from "./usage-section";
 
 export const USAGE_TAB_COPY = {
   readFailed: "Usage could not be read just now. Reload the page to try again.",
-  noInstall: "There is no such app.",
-  saveFailed: "Could not save the change.",
+  noInstall: t("There is no such app."),
+  saveFailed: t("Could not save the change."),
 } as const;
 
 function errorText(error: unknown, fallback: string): string {
@@ -128,8 +128,8 @@ export function UsageTab({
     try {
       await setObservabilityFn({ data: { installId, enabled: true } });
       toasts.add({
-        title: "Workers Logs turned on",
-        description: "Usage from logs shows in Cloudflare within a couple of minutes.",
+        title: t("Workers Logs turned on"),
+        description: t("Usage from logs shows in Cloudflare within a couple of minutes."),
         variant: "info",
       });
       await load();

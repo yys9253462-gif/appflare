@@ -6,6 +6,7 @@ import {
 import type { StreamField } from "@appflare/schema";
 import { and, inArray, isNull } from "drizzle-orm";
 import { resources } from "../../db/schema";
+import { t } from "../../i18n";
 import {
   PIPELINE_KIND,
   PIPELINE_SINK_KIND,
@@ -125,7 +126,7 @@ export async function checkPipelinesPhase(
 ): Promise<void> {
   await steps.run("check Pipelines", async ({ log, cf }) => {
     await explainPipelinesRefusal(() => cf().pipelines.probeStreams(), opts.accountPaid);
-    log.info("The API token can use Pipelines on this account.");
+    log.info(t("The API token can use Pipelines on this account."));
     return {};
   });
 }

@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { invalidateScriptsCache } from "../cloudflare/scripts-cache.server";
 import { createDb } from "../db/client";
+import { t } from "../i18n";
 import { requireRole, requireSession } from "../server/auth.server";
 import { type CatalogDetail, readCatalogEntry } from "./catalog-entry.server";
 import { type CatalogList, readCatalogList } from "./catalog-list.server";
@@ -60,7 +61,7 @@ export const refreshCatalog = createServerFn({ method: "POST" }).handler(
       }
     }
     if (records.length > 0 && failed.length === records.length) {
-      throw new Error(errors[0] ?? "No catalog could be refreshed.");
+      throw new Error(errors[0] ?? t("No catalog could be refreshed."));
     }
     return { updatedAt, count, failed };
   },

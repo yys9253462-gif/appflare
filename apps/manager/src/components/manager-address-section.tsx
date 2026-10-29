@@ -58,9 +58,11 @@ function failure(err: unknown, fallback: string): { error: string } {
 /** The section's data: the address and the zones it can move to, read together. */
 export async function loadAddressView(accountId: string | null): Promise<AddressView> {
   const [address, options] = await Promise.all([
-    getManagerAddress().catch((err: unknown) => failure(err, "Could not read Appflare's address.")),
+    getManagerAddress().catch((err: unknown) =>
+      failure(err, t("Could not read Appflare's address.")),
+    ),
     getManagerAddressOptions().catch((err: unknown) =>
-      failure(err, "Could not read the account's domains."),
+      failure(err, t("Could not read the account's domains.")),
     ),
   ]);
   return { address, options, accountId };
@@ -162,10 +164,10 @@ function CurrentAddressRow({
   const current = address.hostname ?? address.workersDevHostname;
   return (
     <SectionRow
-      title={current ?? "Its workers.dev address"}
+      title={current ?? t("Its workers.dev address")}
       description={
         address.hostname === null ? (
-          "Appflare lives at its workers.dev address."
+          t("Appflare lives at its workers.dev address.")
         ) : (
           <>
             A domain of yours since <Timestamp iso={address.movedAt} dateOnly fallback="recently" />
@@ -477,7 +479,7 @@ function MoveAddressContent({
       .catch((err: unknown) => {
         if (live) {
           setLoadError(
-            err instanceof Error ? err.message : "Could not read the account's domains.",
+            err instanceof Error ? err.message : t("Could not read the account's domains."),
           );
         }
       });

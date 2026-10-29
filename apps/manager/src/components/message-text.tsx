@@ -45,7 +45,7 @@ const SHORT_LABEL =
   /^https:\/\/dash\.cloudflare\.com\/\?to=\/(?:[0-9a-f]{32}|:account)\/(workers\/plans|r2\/overview)$/;
 const SHORT_LABELS: Record<string, string> = {
   "workers/plans": "Workers plans",
-  "r2/overview": "R2 in the dashboard",
+  "r2/overview": t("R2 in the dashboard"),
 };
 
 /**

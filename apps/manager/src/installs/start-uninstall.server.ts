@@ -2,6 +2,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import { ulid } from "ulidx";
 import { createDb } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
+import { t } from "../i18n";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
 import { installerRunId } from "../jobs/self-deploying/phases";
 import {
@@ -74,7 +75,7 @@ export async function startUninstallCore(
     .from(installs)
     .where(eq(installs.id, request.installId))
     .limit(1);
-  if (install === undefined) throw new StartUninstallError("There is no such install.");
+  if (install === undefined) throw new StartUninstallError(t("There is no such install."));
   const refusal = retry ? retryRefusal(install.status) : startRefusal(install.status);
   if (refusal !== null) throw new StartUninstallError(refusal);
 
@@ -155,7 +156,7 @@ export async function startUninstallCore(
     const selfUpdate = await activeSelfJob(deps.db);
     if (selfUpdate !== null) throw new StartUninstallError(selfUpdateBusyMessage(selfUpdate));
     throw new StartUninstallError(
-      "Another job of this install is queued or running, or its state changed. Reload the page.",
+      t("Another job of this install is queued or running, or its state changed. Reload the page."),
     );
   }
 
@@ -229,5 +230,5 @@ function startRefusal(status: string): string | null {
 }
 
 function retryRefusal(status: string): string | null {
-  return status === "uninstalling" ? null : "Only an unfinished uninstall can be retried.";
+  return status === "uninstalling" ? null : t("Only an unfinished uninstall can be retried.");
 }

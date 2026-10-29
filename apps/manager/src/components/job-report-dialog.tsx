@@ -46,7 +46,7 @@ export function SendReportButton({
     try {
       setPreview(await previewJobReport({ data: { jobId } }));
     } catch (error) {
-      setFailure(error instanceof Error ? error.message : "Could not prepare the report.");
+      setFailure(error instanceof Error ? error.message : t("Could not prepare the report."));
     }
   }
 

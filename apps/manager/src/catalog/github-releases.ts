@@ -1,4 +1,5 @@
 import type { FetchLike } from "@appflare/cf-api";
+import { t } from "../i18n";
 
 /**
  * GitHub release reads that avoid GitHub's REST API, and what to do when the
@@ -189,7 +190,9 @@ export function rateLimitMessage(
 ): string {
   const why = authenticated
     ? "GitHub is limiting requests made with Appflare's GitHub token right now."
-    : "GitHub is limiting requests from Cloudflare's network right now (Workers share their addresses, and GitHub allows each address 60 requests an hour without a token).";
-  const then = next === "check" ? "Appflare asks again after" : "Try again after";
+    : t(
+        "GitHub is limiting requests from Cloudflare's network right now (Workers share their addresses, and GitHub allows each address 60 requests an hour without a token).",
+      );
+  const then = next === "check" ? t("Appflare asks again after") : t("Try again after");
   return `${why} ${then} ${retryTime(until, now)}.`;
 }

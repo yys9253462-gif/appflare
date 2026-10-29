@@ -7,6 +7,7 @@ import { createDb } from "../db/client";
 import { jobs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
 import { handoffHashOf } from "../handoff/handoff-proof";
+import { t } from "../i18n";
 import { detachMessage } from "../installs/custom-domains.server";
 import type { JobContext, StepConfig, StepRunner } from "../jobs/run-job";
 import { StepLog } from "../jobs/step-log";
@@ -233,7 +234,8 @@ export async function runMoveAddress(ctx: JobContext): Promise<void> {
       async ({ log, orm }) => {
         const settings = await readSettings(orm, [SETTING.accountId, SETTING.workerName]);
         if (!settings.account_id) throw new JobError("the Cloudflare account is not known yet");
-        if (!settings.worker_name) throw new JobError("Appflare does not know its own Worker yet");
+        if (!settings.worker_name)
+          throw new JobError(t("Appflare does not know its own Worker yet"));
         // An API token, or a stored grant that does not need reconnecting.
         await requireConnection(env);
         log.info(MOVE_LINES.start(hostname, params.from?.hostname ?? null));

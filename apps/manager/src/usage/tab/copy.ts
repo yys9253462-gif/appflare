@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { listWords } from "../attention";
 import { pauseCauseSentence } from "../attention-cause";
 import {
@@ -359,7 +360,7 @@ export function eventCopy(
           : `${lot.charAt(0).toUpperCase()}${lot.slice(1)}`
         : event.product !== null && event.times !== null
           ? `${productLabel(event.product)} at about ${times(event.times)} this app's normal.`
-          : "Far above this app's normal.";
+          : t("Far above this app's normal.");
       const sent =
         channels !== null && channels.length > 0 ? ` Sent to ${listWords([...channels])}.` : "";
       return { label: "Unusual usage", description: `${what}${sent}`, alert: true };
@@ -376,7 +377,7 @@ export function eventCopy(
       const product = productLabel(event.product);
       if (event.share >= 1 || event.runsOutAt === null) {
         return {
-          label: "Free limit used up",
+          label: t("Free limit used up"),
           description: `Today's free ${product} ${plural(event.product) ? "are" : "is"} used up.`,
           alert: true,
         };
@@ -391,14 +392,15 @@ export function eventCopy(
       if (event.by !== null) {
         return {
           label: `Paused by ${event.by}`,
-          description: "Visitors see a “paused” page.",
+          description: t("Visitors see a “paused” page."),
           alert: true,
         };
       }
       return {
         label: "Paused automatically",
         description:
-          (event.cause === null ? null : pauseCauseSentence(event.cause)) ?? "Appflare paused it.",
+          (event.cause === null ? null : pauseCauseSentence(event.cause)) ??
+          t("Appflare paused it."),
         alert: true,
       };
     case "resumed":
@@ -424,14 +426,14 @@ export function eventCopy(
       }
       const names = event.changed.map((name) => SETTING_WORDS[name] ?? name);
       return {
-        label: "Spend protection changed",
+        label: t("Spend protection changed"),
         description: `${sentenceCase(listWords(names))}, ${byWho(event.by)}.`,
         alert: false,
       };
     }
     case "cap_set_aside":
       return {
-        label: "Cap set aside",
+        label: t("Cap set aside"),
         description: `Until ${dateTime(event.until)}, ${byWho(event.by)}.`,
         alert: false,
       };

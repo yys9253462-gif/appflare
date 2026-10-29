@@ -14,6 +14,7 @@ import {
 import { and, eq, isNull } from "drizzle-orm";
 import type { Database } from "../../db/client";
 import { resources } from "../../db/schema";
+import { t } from "../../i18n";
 import { entryWorkers, parseStoredManifest } from "../entry-workers";
 import { errorMessage, JobError, type JobSteps } from "../steps";
 import { resourceId } from "./phases";
@@ -439,8 +440,9 @@ export async function unscheduleWorkflowPhase(
     const schedules = schedulesText(existing);
     if (schedules === null) return {};
     const left = `The Workflow "${target.name}" still starts on the schedule ${schedules}, but ${version} does not define it, so each instance it starts fails`;
-    const advice =
-      "Delete the Workflow in the Cloudflare dashboard, or update the app to a version that defines it.";
+    const advice = t(
+      "Delete the Workflow in the Cloudflare dashboard, or update the app to a version that defines it.",
+    );
     try {
       await cf().workflows.putWorkflow(
         target.name,

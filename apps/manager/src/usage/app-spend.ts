@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { AUTO_PAUSE_CHOICES, LOOP_LEVELS, SPEND_PERIODS } from "../db/usage-schema";
+import { t } from "../i18n";
 import { MAX_CAP_USD, SPEND_AMOUNT_ERRORS } from "./spend-defaults";
 import { UNUSUAL_FACTORS } from "./store/spend-settings";
 
@@ -35,12 +36,13 @@ export const appSpendPatch = z
     budgetExempt: z.boolean(),
   })
   .partial()
-  .refine((patch) => Object.keys(patch).length > 0, "Nothing to change.");
+  .refine((patch) => Object.keys(patch).length > 0, t("Nothing to change."));
 export type AppSpendPatch = z.infer<typeof appSpendPatch>;
 
 /** Workers Free bills nothing for Workers, so a dollar cap would never trip. */
-export const FREE_CAP_REFUSAL =
-  "Workers Free can't bill you for Workers, so there's no dollar cap. The loop check still pauses an app.";
+export const FREE_CAP_REFUSAL = t(
+  "Workers Free can't bill you for Workers, so there's no dollar cap. The loop check still pauses an app.",
+);
 
 export const setAppSpendInput = z.strictObject({
   installId: z.string().min(1).max(64),

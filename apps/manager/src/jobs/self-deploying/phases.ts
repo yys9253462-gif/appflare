@@ -29,6 +29,7 @@ import { z } from "zod";
 import { appPlace } from "../../components/app-links";
 import type { Database } from "../../db/client";
 import { job_logs, resources } from "../../db/schema";
+import { t } from "../../i18n";
 import { isVarOption } from "../../installs/install-vars";
 import {
   parseSelfManagedOutcome,
@@ -444,7 +445,7 @@ export async function awaitAppCredentialsPhase(
         throw error;
       }
       if (status.tokenPresent && status.secretsPresent) {
-        log.info("The sandbox Worker holds the app's token and secrets for this install.");
+        log.info(t("The sandbox Worker holds the app's token and secrets for this install."));
         return status;
       }
       const what = !status.tokenPresent ? "the app's token" : "every app secret";
@@ -454,7 +455,7 @@ export async function awaitAppCredentialsPhase(
       }
       if (target.mode === "required") {
         throw new JobError(
-          `the sandbox Worker does not hold ${what} for this install (it was removed, or the sandbox Worker was deleted and enabled again); enter it again under ${appPlace(target.installId, "secrets", "Secrets in the app's settings")}, then retry`,
+          `the sandbox Worker does not hold ${what} for this install (it was removed, or the sandbox Worker was deleted and enabled again); enter it again under ${appPlace(target.installId, "secrets", t("Secrets in the app's settings"))}, then retry`,
         );
       }
       log.warn(`The sandbox Worker does not hold ${what} for this install.`);

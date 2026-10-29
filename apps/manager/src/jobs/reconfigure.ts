@@ -27,6 +27,7 @@ import { appPlace } from "../components/app-links";
 import { createDb, type Database } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { accessRequiredOffRefusal } from "../installs/access-offer";
 import { VARS_REFRESH_REASONS, varsNeedRefresh, varsUseEmailZone } from "../installs/install-vars";
 import { EMAIL_ROUTE_KIND, HYPERDRIVE_KIND } from "../installs/resource-kinds";
@@ -747,7 +748,9 @@ export async function runReconfigure(ctx: JobContext): Promise<void> {
         params.access === undefined
       ) {
         problems.push(
-          "Nothing changes: the settings, secrets, database connections and email zone are as they are.",
+          t(
+            "Nothing changes: the settings, secrets, database connections and email zone are as they are.",
+          ),
         );
       }
       if (problems.length > 0) throw new JobError(problems.join(" "));
@@ -1050,7 +1053,7 @@ export async function runReconfigure(ctx: JobContext): Promise<void> {
         await run("enable version previews", async ({ log, cf }) => {
           // The workers.dev URL stays as the admin left it; previews are always on.
           await cf().workers.enableSubdomain(workerName, workersDevSubdomain(workersDev));
-          log.info("Preview URLs are enabled for this Worker.");
+          log.info(t("Preview URLs are enabled for this Worker."));
           return {};
         });
         await probeUntilHealthy(steps, step, {
@@ -1075,14 +1078,14 @@ export async function runReconfigure(ctx: JobContext): Promise<void> {
             entryContext,
             other,
             started.version,
-            "Appflare: settings change",
+            t("Appflare: settings change"),
           );
           promotedOthers.push(other.worker.scriptName);
         }
         await run("promote version", async ({ log, cf }) => {
           await cf().versions.createDeployment(workerName, {
             versions: [{ version_id: final.versionId, percentage: 100 }],
-            annotations: { "workers/message": "Appflare: settings change" },
+            annotations: { "workers/message": t("Appflare: settings change") },
           });
           log.info(`Version ${final.versionId} now serves all traffic.`);
           return {};
@@ -1100,7 +1103,7 @@ export async function runReconfigure(ctx: JobContext): Promise<void> {
           at: new Date(now()),
           otherVersions: promotedVersions,
         });
-        log.info("Recorded the new settings and secret names on the install.");
+        log.info(t("Recorded the new settings and secret names on the install."));
         return {};
       });
 

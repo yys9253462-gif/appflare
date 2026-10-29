@@ -14,6 +14,7 @@ import { readGrant } from "../cloudflare/grant-store.server";
 import { createDb } from "../db/client";
 import { completeAddressMove } from "../domains/manager-address.server";
 import { recordPendingAddress } from "../domains/pending-address.server";
+import { t } from "../i18n";
 import { selfUnits } from "../jobs/units/client";
 import {
   type AttemptLimit,
@@ -79,13 +80,13 @@ const PREFLIGHT_MAX_AGE_S = 600;
 export const HANDOFF_ATTEMPT_LIMIT: AttemptLimit = DEFAULT_ATTEMPT_LIMIT;
 
 export const HANDOFF_MESSAGES = {
-  forbidden: "This request did not come from the page that installed this Appflare.",
-  otherOrigin: "Requests from this page are not accepted.",
-  done: "Setup is already complete. Sign in instead.",
-  invalid: "This is not a valid handoff request.",
-  tooLarge: "This handoff request is too large.",
-  needsGrant: "The first handoff must carry the Cloudflare authorization and the account.",
-  failed: "Appflare could not finish connecting to Cloudflare. Try again.",
+  forbidden: t("This request did not come from the page that installed this Appflare."),
+  otherOrigin: t("Requests from this page are not accepted."),
+  done: t("Setup is already complete. Sign in instead."),
+  invalid: t("This is not a valid handoff request."),
+  tooLarge: t("This handoff request is too large."),
+  needsGrant: t("The first handoff must carry the Cloudflare authorization and the account."),
+  failed: t("Appflare could not finish connecting to Cloudflare. Try again."),
 } as const;
 
 export interface HandoffEnv {
@@ -196,7 +197,7 @@ export async function handoffResponse(
       return handOff(request, env, deps, { hash, installerOrigin, cors });
     default: {
       const headers = new Headers(cors);
-      headers.set("allow", "GET, HEAD, POST, OPTIONS");
+      headers.set("allow", t("GET, HEAD, POST, OPTIONS"));
       return refusal("method", HANDOFF_MESSAGES.invalid, 405, headers);
     }
   }

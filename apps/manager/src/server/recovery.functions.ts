@@ -27,6 +27,7 @@ import { CfTokenNotConfiguredError, getCfClient } from "../cloudflare/client.ser
 import { createDb } from "../db/client";
 import { user } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { refuseDuringSelfUpdate } from "../jobs/self-update/guard";
 import { currentAuth, requireRole } from "./auth.server";
 import { userIdInput } from "./schemas";
@@ -123,9 +124,10 @@ export const setPasswordResetEmails = createServerFn({ method: "POST" })
     }
   });
 
-export const EMAIL_NOT_READY =
-  "Appflare is still restarting with reset emails turned on. Try again in a few seconds.";
-export const EMAIL_OFF = "Password reset emails are off. Turn them on first.";
+export const EMAIL_NOT_READY = t(
+  "Appflare is still restarting with reset emails turned on. Try again in a few seconds.",
+);
+export const EMAIL_OFF = t("Password reset emails are off. Turn them on first.");
 
 /** Owner only: sends a test email to the owner's own address. */
 export const sendTestPasswordEmail = createServerFn({ method: "POST" }).handler(

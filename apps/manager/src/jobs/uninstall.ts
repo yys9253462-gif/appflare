@@ -17,6 +17,7 @@ import {
   saasRefusal,
   unbindGatewayService,
 } from "../gateway/gateway.server";
+import { t } from "../i18n";
 import {
   type DetachOutcome,
   detachCustomDomain,
@@ -469,7 +470,8 @@ export async function runUninstall(ctx: JobContext): Promise<void> {
             params.installId,
           ),
         );
-        if (removed.removed) log.info("Deleted the Access application of the app's public paths.");
+        if (removed.removed)
+          log.info(t("Deleted the Access application of the app's public paths."));
         return {};
       });
     }
@@ -517,7 +519,7 @@ export async function runUninstall(ctx: JobContext): Promise<void> {
       await run(`remove gateway binding ${binding}`, async ({ log, cf, orm }) => {
         const gateway = await readGateway(orm);
         if (!isGatewayReady(gateway)) {
-          log.info("The external domains gateway is gone, and its bindings with it.");
+          log.info(t("The external domains gateway is gone, and its bindings with it."));
           return {};
         }
         const outcome = await unbindGatewayService(cf(), gateway, binding);
@@ -573,7 +575,7 @@ export async function runUninstall(ctx: JobContext): Promise<void> {
               "wildcard domain",
               `*.${domain.hostname}`,
               errorMessage(error),
-              "Workers Routes: Edit and DNS: Edit",
+              t("Workers Routes: Edit and DNS: Edit"),
               "its zone",
             ),
           );
@@ -660,8 +662,8 @@ export async function runUninstall(ctx: JobContext): Promise<void> {
           );
           log.info(
             removed.removed
-              ? "Removed the app's Cloudflare Access application and its service token."
-              : "The app's Cloudflare Access protection was already removed.",
+              ? t("Removed the app's Cloudflare Access application and its service token.")
+              : t("The app's Cloudflare Access protection was already removed."),
           );
         } catch (error) {
           log.warn(
@@ -808,7 +810,8 @@ export async function deleteDataResourcesPhase(
   mode: "uninstall" | "retained",
 ): Promise<void> {
   const { run, now } = steps;
-  const again = mode === "uninstall" ? "Retry the uninstall" : "Run Delete retained data again";
+  const again =
+    mode === "uninstall" ? t("Retry the uninstall") : t("Run Delete retained data again");
   /** R2 pages this run deleted, and the objects on them. */
   let r2Pages = 0;
   let r2Deleted = 0;

@@ -29,6 +29,7 @@ import { z } from "zod";
 import { isUpdateAvailable } from "../../catalog/versions";
 import { appPlace } from "../../components/app-links";
 import type { BuildKind, InstallOrigin, snapshots } from "../../db/schema";
+import { t } from "../../i18n";
 import {
   PIPELINE_KIND,
   PIPELINE_SINK_KIND,
@@ -857,8 +858,9 @@ export const NO_PREVIEW_REASON =
  * answered: Cloudflare Access answered it in the Worker's place (logged; the
  * job goes on, as it does without a preview).
  */
-export const ACCESS_PREVIEW_REASON =
-  "Cloudflare Access answered the preview URL with its sign-in page, so the new version was not checked before it serves traffic";
+export const ACCESS_PREVIEW_REASON = t(
+  "Cloudflare Access answered the preview URL with its sign-in page, so the new version was not checked before it serves traffic",
+);
 
 export const FULL_DEPLOY_REASON =
   "This version changes Durable Object classes (migrations), which Cloudflare applies only when the whole Worker is deployed at once. The update deploys it directly, without a preview check, and the change to the classes cannot be undone";
@@ -1134,7 +1136,7 @@ export function hyperdriveRollbackRefusal(
 ): string | null {
   const gone = Object.entries(bound).filter(([, id]) => !live.has(id));
   if (gone.length === 0) return null;
-  return `The version this snapshot recorded connects ${gone.map(([binding]) => binding).join(" and ")} through a Hyperdrive configuration that has since been deleted, so rolling back to it would leave the app without its database. Roll back to a later snapshot, or replace the connection string under ${appPlace(installId, "databases", "Databases in the app's settings")} instead.`;
+  return `The version this snapshot recorded connects ${gone.map(([binding]) => binding).join(" and ")} through a Hyperdrive configuration that has since been deleted, so rolling back to it would leave the app without its database. Roll back to a later snapshot, or replace the connection string under ${appPlace(installId, "databases", t("Databases in the app's settings"))} instead.`;
 }
 
 /** The `snapshots` row an update or a settings change inserts before it changes anything. */

@@ -8,6 +8,7 @@ import { NO_REMOVAL_IN_PROGRESS_SQL } from "../danger/removal-flag";
 import { createDb } from "../db/client";
 import { job_logs, jobs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { reconcileJobs, type WorkflowLookup } from "../jobs/reconcile.server";
 import { refuseDuringSelfUpdate } from "../jobs/self-update/guard";
 import { installsNeedingSandbox, sandboxInUseMessage } from "./blockers";
@@ -67,7 +68,9 @@ export async function startSandboxJobCore(
   const orm = createDb(deps.db);
   const settings = await readSettings(orm, [SETTING.accountId, SETTING.workerName]);
   if (!settings.account_id || !settings.worker_name) {
-    throw fail("Appflare does not know its Cloudflare account and Worker yet. Finish setup first.");
+    throw fail(
+      t("Appflare does not know its Cloudflare account and Worker yet. Finish setup first."),
+    );
   }
 
   const disable = request.action === "disable";

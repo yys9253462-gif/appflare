@@ -1,4 +1,5 @@
 import type { CloudflareClient } from "@appflare/cf-api";
+import { t } from "../i18n";
 import { JOB_UNITS_ENTRYPOINT, SELF_BINDING } from "../jobs/units/units";
 
 /**
@@ -15,7 +16,7 @@ import { JOB_UNITS_ENTRYPOINT, SELF_BINDING } from "../jobs/units/units";
  * is logged and never fails setup.
  */
 
-export const SELF_BINDING_MESSAGE = "Appflare: add the service binding to its own job units";
+export const SELF_BINDING_MESSAGE = t("Appflare: add the service binding to its own job units");
 
 export type SelfBindingOutcome =
   | { added: true; versionId: string }

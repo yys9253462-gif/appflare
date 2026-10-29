@@ -17,6 +17,7 @@ import { readSettings, SETTING } from "../db/settings";
 import { movedHere } from "../domains/moved-note";
 import { completeInstallation } from "../handoff/installer-completion.server";
 import { OWNER_CLAIM_FORMAT } from "../handoff/owner-claim";
+import { t } from "../i18n";
 import { selfUnits } from "../jobs/units/client";
 import { recordSetupFinished } from "../telemetry/state.server";
 import { syncAppAccessAfterUserChange } from "./access.server";
@@ -235,7 +236,7 @@ export const createOwner = createServerFn({ method: "POST" })
       });
     } catch (error) {
       if (error instanceof SetupError) throw new Error(error.message);
-      throw new Error(authErrorMessage(error, "Could not create the owner account."));
+      throw new Error(authErrorMessage(error, t("Could not create the owner account.")));
     }
     deleteCookie(SETUP_CLAIM_COOKIE, { path: "/" });
     // Like every other new user. Nothing can be protected before the owner

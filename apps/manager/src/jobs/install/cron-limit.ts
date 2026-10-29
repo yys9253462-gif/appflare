@@ -6,6 +6,7 @@ import {
 } from "../../catalog/cron-triggers";
 import { messageLink } from "../../components/message-links";
 import { settingsLink } from "../../components/settings-links";
+import { t } from "../../i18n";
 import { errorMessage, isNotFound, JobError } from "../errors";
 import type { JobSteps } from "../steps";
 import { settleUnit } from "../units/result";
@@ -142,7 +143,7 @@ export interface CronLimitCheck {
  * knows the app's triggers, which a sandbox tier app's page does not before
  * the build.
  */
-export const PAID_ALREADY = `If it is already on Workers Paid, choose that plan under ${messageLink("Workers plan in Your account", settingsLink("account", "capability-workers-plan"))}.`;
+export const PAID_ALREADY = `If it is already on Workers Paid, choose that plan under ${messageLink(t("Workers plan in Your account"), settingsLink("account", "capability-workers-plan"))}.`;
 
 /**
  * Why the triggers would not fit a Workers Free account, or null when they

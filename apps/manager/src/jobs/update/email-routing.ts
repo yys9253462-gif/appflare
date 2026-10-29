@@ -3,6 +3,7 @@ import { and, eq, isNull, sql } from "drizzle-orm";
 import { TOKEN_REFUSALS } from "../../cloudflare/token-refusals";
 import { appPlace } from "../../components/app-links";
 import { resources } from "../../db/schema";
+import { t } from "../../i18n";
 import {
   EMAIL_ROUTING_ADDRESS_MAX_LENGTH,
   EMAIL_ROUTING_PERMISSION,
@@ -271,7 +272,7 @@ export function describeEmailRoutingChange(change: EmailRoutingChange): string {
  * or a rollback).
  */
 function later(installId: string, again: boolean): string {
-  const next = "The next update or rollback of the app sets it up once that is resolved";
+  const next = t("The next update or rollback of the app sets it up once that is resolved");
   return again
     ? `${next}; to set it up sooner, select Set up email again under ${settingsPlace(installId)}.`
     : `${next}.`;
@@ -530,9 +531,9 @@ export async function changeEmailRoutingPhase(
     }
   } catch (error) {
     await steps
-      .run("Email Routing not finished", async ({ log }) => {
+      .run(t("Email Routing not finished"), async ({ log }) => {
         log.warn(
-          `Appflare could not finish changing the app's Email Routing (${errorMessage(error)}). The version serves all the same, and what was set up or removed so far is recorded; the next update or rollback of the app finishes the rest. ${request.target === null ? "To finish it sooner, make the change in the Cloudflare dashboard (Email Service, Email Routing)." : `To finish it sooner, select Set up email again under ${settingsPlace(request.installId)} if the app's settings offer it.`}`,
+          `Appflare could not finish changing the app's Email Routing (${errorMessage(error)}). The version serves all the same, and what was set up or removed so far is recorded; the next update or rollback of the app finishes the rest. ${request.target === null ? t("To finish it sooner, make the change in the Cloudflare dashboard (Email Service, Email Routing).") : `To finish it sooner, select Set up email again under ${settingsPlace(request.installId)} if the app's settings offer it.`}`,
         );
         return {};
       })

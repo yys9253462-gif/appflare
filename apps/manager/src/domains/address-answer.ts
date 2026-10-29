@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { ACCESS_CHALLENGE_DETAIL } from "../jobs/install/health";
 
 /**
@@ -36,7 +37,7 @@ const NOT_ATTACHED_CODES: ReadonlySet<string> = new Set(["1001", "1016", "1018",
 export function addressAnswerOf(last: string): AddressAnswer {
   if (last.startsWith("no connection")) return "address_no_connection";
   if (last === ACCESS_CHALLENGE_DETAIL) return "address_access_sign_in";
-  if (last === "HTTP 200 from something that is not Appflare") return "address_not_appflare";
+  if (last === t("HTTP 200 from something that is not Appflare")) return "address_not_appflare";
   if (last.startsWith("another Appflare")) return "address_other_appflare";
   if (/^Appflare \S+, not \S+$/.test(last)) return "address_other_version";
   const http = /^HTTP (\d{3})(?:, error code (\d+))?$/.exec(last);

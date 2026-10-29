@@ -1,5 +1,6 @@
 import { useKumoToastManager } from "@cloudflare/kumo";
 import { useRouter } from "@tanstack/react-router";
+import { t } from "../i18n";
 
 /**
  * After a server function started a job: a Kumo toast saying so, then the
@@ -12,7 +13,7 @@ export function useJobStarted(): (jobId: string, title: string) => Promise<void>
   return async (jobId, title) => {
     toasts.add({
       title,
-      description: "Its log shows each step as it runs.",
+      description: t("Its log shows each step as it runs."),
       variant: "info",
     });
     await router.navigate({ to: "/jobs/$jobId", params: { jobId } });

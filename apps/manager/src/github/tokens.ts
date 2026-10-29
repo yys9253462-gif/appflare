@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { settingsPlace } from "../components/settings-links";
+import { t } from "../i18n";
 
 /**
  * GitHub access tokens, the client-safe part: what the "Add token" form
@@ -16,7 +17,7 @@ const REPOSITORY_PATTERN = /^(?:\*|[a-z0-9][a-z0-9-]{0,38}(?:\/(?:\*|[a-z0-9._-]
 
 export const addGithubTokenInput = z
   .object({
-    label: z.string().trim().min(1, "Give the token a label.").max(100),
+    label: z.string().trim().min(1, t("Give the token a label.")).max(100),
     /**
      * The repositories it covers, as the admin describes them. Optional: it
      * only orders the tokens tried for a build (see {@link storedRepositories}).
@@ -47,7 +48,7 @@ export const addGithubTokenInput = z
     forReleases: z.boolean().default(false),
   })
   .refine((input) => input.forBuilds || input.forReleases, {
-    message: "Choose what Appflare uses the token for.",
+    message: t("Choose what Appflare uses the token for."),
     path: ["forBuilds"],
   });
 export type AddGithubTokenInput = z.input<typeof addGithubTokenInput>;
@@ -231,7 +232,7 @@ export function newTokenUrl(
     "description",
     releasesOnly
       ? "Appflare: read-only access to download its releases"
-      : "Appflare: read-only access to build private repositories",
+      : t("Appflare: read-only access to build private repositories"),
   );
   const named = releasesOnly
     ? [APPFLARE_REPOSITORY]

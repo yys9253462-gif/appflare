@@ -27,19 +27,26 @@ import { editableRule, newRule, RuleEditor, RuleItem } from "./alert-rule-rows";
 export const SPEND_DEFAULTS_HREF = settingsLink("account", "spend-protection");
 
 export const SPEND_COPY = {
-  unusual:
+  unusual: t(
     "Alert when an hour of usage is far above this app's usual hour over the past week. This is what catches a loop early.",
-  alertsPaid:
+  ),
+  alertsPaid: t(
     "Get told when this app passes an amount, or is on pace to pass it before the day, week or month ends.",
-  alertsFree: "Get told when this app uses, or is on pace to use, a share of a free daily limit.",
-  autoOn: "Appflare pauses the app when a trigger below trips, then tells you. You resume it.",
-  autoOffPaid:
+  ),
+  alertsFree: t(
+    "Get told when this app uses, or is on pace to use, a share of a free daily limit.",
+  ),
+  autoOn: t("Appflare pauses the app when a trigger below trips, then tells you. You resume it."),
+  autoOffPaid: t(
     "Off: Appflare only alerts you and the app keeps running. Turn it on to pause the app when it loops or passes a spending cap.",
-  autoOffFree:
+  ),
+  autoOffFree: t(
     "Off: Appflare only alerts you and the app keeps running. Turn it on to pause the app when it loops.",
-  budgetExempt:
+  ),
+  budgetExempt: t(
     "Its spend still counts toward the budget, so Appflare pauses other apps first, and alerts you if that isn't enough.",
-  membersOnly: "Only admins can change these.",
+  ),
+  membersOnly: t("Only admins can change these."),
 } as const;
 
 export interface SpendActions {
@@ -60,7 +67,7 @@ function AlertsGoTo({ channels }: { channels: string[] | null }) {
     <>
       {channels.length > 0
         ? `Alerts go to ${listWords(channels)}, and to Home.`
-        : "Alerts go to Home."}{" "}
+        : t("Alerts go to Home.")}{" "}
       <Link href={settingsLink("notifications")}>{t("Notification channels")}</Link>
     </>
   );
@@ -215,7 +222,7 @@ export function SpendProtectionSection({
                   label: `Account default (${defaults.autoPause ? "on" : "off"})`,
                 },
                 { value: "on", label: "On for this app" },
-                { value: "off", label: "Off for this app" },
+                { value: "off", label: t("Off for this app") },
               ]}
             />
           }
@@ -303,7 +310,7 @@ function PauseTriggers({
                   )
             }
           >
-            {own ? "Use the account's triggers" : "Customize for this app"}
+            {own ? "Use the account's triggers" : t("Customize for this app")}
           </Button>
         )}
       </div>

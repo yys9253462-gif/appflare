@@ -1,5 +1,6 @@
 import { buildCommandChoiceSchema, MAX_CONNECTION_STRING_LENGTH } from "@appflare/schema";
 import { z } from "zod";
+import { t } from "../i18n";
 import { startInstallInput } from "./install-input";
 
 /**
@@ -63,7 +64,7 @@ export const updateFromSourceBuildInput = z.object({
 export type UpdateFromSourceBuildInput = z.infer<typeof updateFromSourceBuildInput>;
 
 /** How the review and the app page call where an install's code comes from. Client-safe. */
-export const NOT_FROM_CATALOG = "Not from the catalog, not checked";
+export const NOT_FROM_CATALOG = t("Not from the catalog, not checked");
 
 /** The same for a catalog app built from source at another commit. */
-export const BUILT_FROM_SOURCE = "Built from source, not checked";
+export const BUILT_FROM_SOURCE = t("Built from source, not checked");

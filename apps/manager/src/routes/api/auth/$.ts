@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { mayUseSessionCopy, withoutSessionCopy } from "../../../auth/session-cookie";
+import { t } from "../../../i18n";
 import { authFor, authSecretBound } from "../../../server/auth.server";
 
 /**
@@ -10,7 +11,7 @@ import { authFor, authSecretBound } from "../../../server/auth.server";
 function handle(request: Request): Response | Promise<Response> {
   if (!authSecretBound()) {
     return Response.json(
-      { message: "Appflare is not set up yet. Open it to finish setup." },
+      { message: t("Appflare is not set up yet. Open it to finish setup.") },
       { status: 503, headers: { "retry-after": "5" } },
     );
   }

@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * Sealing the stored Cloudflare grant. The refresh token and the access
  * token are encrypted with AES-256-GCM under the manager's own key: 32 random
@@ -92,7 +93,9 @@ export async function openValue(key: CryptoKey, sealed: string, context: string)
   const iv = ivText === undefined ? null : fromBase64url(ivText);
   const data = dataText === undefined ? null : fromBase64url(dataText);
   if (prefix !== SEALED_PREFIX || rest.length > 0 || iv?.length !== IV_BYTES || data === null) {
-    throw new GrantSealError("The stored Cloudflare connection is not in a format Appflare reads.");
+    throw new GrantSealError(
+      t("The stored Cloudflare connection is not in a format Appflare reads."),
+    );
   }
   try {
     const plain = await crypto.subtle.decrypt(

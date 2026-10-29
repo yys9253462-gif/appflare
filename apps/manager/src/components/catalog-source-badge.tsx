@@ -1,6 +1,7 @@
 import { Badge } from "@cloudflare/kumo";
 import { BookOpenIcon } from "@phosphor-icons/react";
 import type { CatalogSource } from "../catalog/sources";
+import { t } from "../i18n";
 import { Tooltip } from "./tooltip";
 
 /**
@@ -13,7 +14,7 @@ export function CatalogSourceBadge({ source }: { source: CatalogSource }) {
     <Tooltip
       content={
         source.official
-          ? "From the official Appflare catalog, verified with the keys built into Appflare."
+          ? t("From the official Appflare catalog, verified with the keys built into Appflare.")
           : `From ${source.label}, a catalog an admin added. Its releases are verified with the key pinned for it in the catalog settings.`
       }
     >

@@ -106,7 +106,7 @@ async function guard(request: Request, env: DangerEnv, deps: DangerDeps): Promis
     );
   }
   const userId = await deps.userId(request);
-  if (userId === null) throw new DangerError("Sign in as the owner, then try again.", 403);
+  if (userId === null) throw new DangerError(t("Sign in as the owner, then try again."), 403);
   const orm = createDb(env.DB);
   await ensureOwner(orm);
   if (!(await isOwner(orm, userId))) throw new DangerError(OWNER_ONLY, 403);
@@ -181,7 +181,7 @@ export async function handleRemoveAppflare(
     grant = await holdGrantForRemoval(env, REMOVAL_ACCESS_MS, connectionDeps(deps));
     if ((await removalInProgress(env.DB)) !== null) {
       throw new DangerError(
-        "A removal of Appflare is already running. Wait for its page to finish.",
+        t("A removal of Appflare is already running. Wait for its page to finish."),
         409,
       );
     }

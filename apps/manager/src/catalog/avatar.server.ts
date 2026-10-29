@@ -1,4 +1,5 @@
 import type { FetchLike } from "@appflare/cf-api";
+import { t } from "../i18n";
 import {
   AVATAR_CONTENT_TYPES,
   avatarRedirectTarget,
@@ -87,6 +88,6 @@ export async function authorAvatarRoute(
   signedIn: () => Promise<boolean>,
   opts: { fetch?: FetchLike } = {},
 ): Promise<Response> {
-  if (!(await signedIn())) return refuse(401, "Sign in first.");
+  if (!(await signedIn())) return refuse(401, t("Sign in first."));
   return serveAuthorAvatar(env, handle, opts);
 }

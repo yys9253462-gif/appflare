@@ -2,6 +2,7 @@ import type { CloudflareClient } from "@appflare/cf-api";
 import { eq } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { installs } from "../db/schema";
+import { t } from "../i18n";
 import {
   acceptedOf,
   pendingOf,
@@ -31,7 +32,7 @@ export async function makePublicPathsCore(
 ): Promise<{ problem: string | null; accepted: string[]; pending: string[] }> {
   if ((await readInstallProtection(deps.db, installId)) === null) {
     throw new AccessToggleError(
-      "This app is not protected with Cloudflare Access, so every path of it is public already.",
+      t("This app is not protected with Cloudflare Access, so every path of it is public already."),
     );
   }
   const { accepted, pending } = await withAccessLock(deps.db, async () => {
@@ -41,7 +42,7 @@ export async function makePublicPathsCore(
       .from(installs)
       .where(eq(installs.id, installId))
       .limit(1);
-    if (install === undefined) throw new AccessToggleError("This app no longer exists.");
+    if (install === undefined) throw new AccessToggleError(t("This app no longer exists."));
     const listed = await storedBypassPaths(orm, install);
     const before = await readAcceptedBypass(orm, installId);
     const now = acceptedOf(listed, [...before, ...shown]);

@@ -1,5 +1,6 @@
 import { createDb } from "../db/client";
 import { deleteSettings, readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 
 /**
  * While Appflare is being removed from the account, no job may start: a job
@@ -20,8 +21,9 @@ export const REMOVAL_STALE_MS = 15 * 60 * 1000;
 /** SQL condition that holds while Appflare is not being removed. */
 export const NO_REMOVAL_IN_PROGRESS_SQL = `NOT EXISTS (SELECT 1 FROM settings WHERE key = '${SETTING.removalInProgress}' AND updated_at > CAST(unixepoch('subsecond') * 1000 AS INTEGER) - ${REMOVAL_STALE_MS})`;
 
-export const REMOVAL_IN_PROGRESS_MESSAGE =
-  "Appflare is being removed from this account, so no job can start.";
+export const REMOVAL_IN_PROGRESS_MESSAGE = t(
+  "Appflare is being removed from this account, so no job can start.",
+);
 
 /** ISO 8601 time the running removal started, or null when none is running. */
 export async function removalInProgress(

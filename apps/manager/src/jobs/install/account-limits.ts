@@ -1,5 +1,6 @@
 import { CloudflareApiError, type CloudflareClient } from "@appflare/cf-api";
 import { KIND_LIMITS, type KindLimit, type LimitedKind } from "../../catalog/account-limits";
+import { t } from "../../i18n";
 import { errorMessage, JobError } from "../errors";
 import type { JobSteps } from "../steps";
 import { PAID_ALREADY } from "./cron-limit";
@@ -27,20 +28,23 @@ interface KindCheck extends KindLimit {
 export const ACCOUNT_LIMITS: Record<LimitedKind, KindCheck> = {
   d1: {
     ...KIND_LIMITS.d1,
-    remove:
+    remove: t(
       "Delete D1 databases the account no longer uses (for example by uninstalling an app that has one without keeping its data)",
+    ),
     step: "check D1 database limit",
   },
   hyperdrive: {
     ...KIND_LIMITS.hyperdrive,
-    remove:
+    remove: t(
       "Delete Hyperdrive configurations the account no longer uses (for example by uninstalling an app that connects to a database)",
+    ),
     step: "check Hyperdrive configuration limit",
   },
   vectorize: {
     ...KIND_LIMITS.vectorize,
-    remove:
+    remove: t(
       "Delete Vectorize indexes the account no longer uses (for example by uninstalling an app that has one without keeping its data)",
+    ),
     step: "check Vectorize index limit",
   },
 };

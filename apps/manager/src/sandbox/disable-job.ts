@@ -7,6 +7,7 @@ import { requireConnection } from "../cloudflare/connection.server";
 import { createDb } from "../db/client";
 import { github_tokens, jobs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { lookupSubdomainPhase } from "../jobs/install/phases";
 import type { JobContext } from "../jobs/run-job";
 import { StepLog } from "../jobs/step-log";
@@ -85,7 +86,7 @@ export async function runSandboxDisable(ctx: JobContext): Promise<void> {
     const started = await steps.start(async ({ log, orm, cf }) => {
       const settings = await readSettings(orm, [SETTING.accountId, SETTING.workerName]);
       if (!settings.account_id) throw new JobError("the Cloudflare account is not known yet");
-      if (!settings.worker_name) throw new JobError("Appflare does not know its own Worker yet");
+      if (!settings.worker_name) throw new JobError(t("Appflare does not know its own Worker yet"));
       // An API token, or a stored grant that does not need reconnecting.
       await requireConnection(env);
       requireSelf(steps.units.remote);
@@ -117,7 +118,7 @@ export async function runSandboxDisable(ctx: JobContext): Promise<void> {
         const found = await findSandboxContainerApps(cf());
         log.info(
           found.apps.length === 0
-            ? "There are no container applications of the sandbox Worker."
+            ? t("There are no container applications of the sandbox Worker.")
             : `Container applications of the sandbox Worker: ${found.apps.map((a) => a.name).join(", ")}.`,
         );
         for (const app of found.left) {

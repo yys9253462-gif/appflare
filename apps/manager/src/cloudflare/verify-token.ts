@@ -9,6 +9,7 @@ import {
   type TokenVerifyResult,
   type WorkerScript,
 } from "@appflare/cf-api";
+import { t } from "../i18n";
 import {
   DEFAULT_WORKER_NAME,
   discoverWorkerName,
@@ -84,14 +85,18 @@ export interface VerifyTokenOutcome {
 }
 
 export const MESSAGES = {
-  rejected:
+  rejected: t(
     "Cloudflare rejected this token. Check that you copied the whole value and that the token is active.",
-  rejectedOrNoAccount:
+  ),
+  rejectedOrNoAccount: t(
     "Cloudflare rejected this token, or it lacks the Account Settings: Read permission Appflare needs to find its account.",
-  noAccount:
+  ),
+  noAccount: t(
     "This token cannot see any Cloudflare account. Add the Account Settings: Read permission.",
-  otherAccount:
+  ),
+  otherAccount: t(
     "This token is not valid for the Cloudflare account Appflare runs in. Create it in that account.",
+  ),
   wrongAccount: (account: string, subdomain: string) =>
     `This token belongs to account ${account}, but this manager runs in the account with workers.dev subdomain "${subdomain}". Create the token in that account.`,
   subdomainUnreadable: (account: string) =>
@@ -108,10 +113,11 @@ export const MESSAGES = {
     `None of the ${n} accounts this token can access runs this Appflare. Create the token in the account Appflare is installed in.`,
   workersUnreadable: (account: string) =>
     `Appflare could not list the Workers of account ${account} to confirm it runs there. The token needs the Workers Scripts: Edit permission.`,
-  cannotVerifyAccount:
+  cannotVerifyAccount: t(
     "This manager cannot verify which Cloudflare account it runs in, so it cannot accept a token here. Update it or reinstall it, or open it at its workers.dev address.",
+  ),
   inactive: (status: string) => `This token is ${status}. Use an active token.`,
-  unreachable: "Could not reach the Cloudflare API. Try again.",
+  unreachable: t("Could not reach the Cloudflare API. Try again."),
 } as const;
 
 /**
@@ -120,7 +126,7 @@ export const MESSAGES = {
  * on itself without it); the others only add warnings. A list call proves read
  * access; the groups are named as the template requests them.
  */
-const SCRIPTS_PERMISSION = "Workers Scripts: Edit";
+const SCRIPTS_PERMISSION = t("Workers Scripts: Edit");
 
 interface Probe {
   /** Dashboard permission group name, shown when the probe fails. */
@@ -129,7 +135,7 @@ interface Probe {
 }
 
 const OPTIONAL_PROBES: readonly Probe[] = [
-  { missing: "Workers KV Storage: Edit", run: (c) => c.kv.listNamespaces() },
+  { missing: t("Workers KV Storage: Edit"), run: (c) => c.kv.listNamespaces() },
   { missing: "D1: Edit", run: (c) => c.d1.listDatabases() },
 ];
 
@@ -364,8 +370,9 @@ async function pickAccount(
 }
 
 export const GRANT_MESSAGES = {
-  workersUnreadable:
+  workersUnreadable: t(
     "This Cloudflare authorization cannot list the account's Workers, so Appflare cannot confirm it runs there. Connect again and allow every permission Appflare asks for.",
+  ),
   notThisAccount: (account: string) =>
     `This Cloudflare authorization is for account ${account}, but this Appflare does not run in that account. Connect the account Appflare is installed in.`,
   cannotVerifyAccount: MESSAGES.cannotVerifyAccount,

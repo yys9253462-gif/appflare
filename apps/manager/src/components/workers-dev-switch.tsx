@@ -1,6 +1,7 @@
 import { Switch, Text } from "@cloudflare/kumo";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { t } from "../i18n";
 import type { InstallDetail } from "../installs/installs.functions";
 import { WORKERS_DEV_COPY } from "../installs/workers-dev";
 import { setWorkersDev } from "../installs/workers-dev.functions";
@@ -35,7 +36,7 @@ export function WorkersDevSwitch({ install }: { install: InstallDetail }) {
       await settingsRefresh(changed, NEW_ADDRESS_SETTINGS);
     } catch (err) {
       setEnabled(previous);
-      setError(err instanceof Error ? err.message : "Could not change the workers.dev URL.");
+      setError(err instanceof Error ? err.message : t("Could not change the workers.dev URL."));
     }
     setPending(false);
   }

@@ -230,7 +230,7 @@ export function CatalogSearch({
   onClear: () => void;
 }) {
   const last = pills.at(-1);
-  const clearLabel = pills.length > 0 ? "Clear search and filters" : "Clear search";
+  const clearLabel = pills.length > 0 ? t("Clear search and filters") : "Clear search";
   return (
     <InputGroup size="lg" className="w-full">
       <InputGroup.Addon className="min-w-0 max-w-[65%] shrink">

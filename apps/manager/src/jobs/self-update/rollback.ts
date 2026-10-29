@@ -1,5 +1,6 @@
 import { CloudflareApiError, type WorkerVersion } from "@appflare/cf-api";
 import { schemaDowngrade } from "../../db/migrate";
+import { t } from "../../i18n";
 import { VERSION_BINDING } from "./plan";
 
 /**
@@ -161,7 +162,7 @@ export function changedSecretsOf(error: unknown): string[] | null {
   if (!(error instanceof CloudflareApiError)) return null;
   const refusal = error.errors.find((e) => e.code === SECRETS_CHANGED_CODE);
   if (refusal === undefined) return null;
-  const marker = "The following secrets have changed:";
+  const marker = t("The following secrets have changed:");
   const at = refusal.message.indexOf(marker);
   if (at < 0) return [];
   return refusal.message

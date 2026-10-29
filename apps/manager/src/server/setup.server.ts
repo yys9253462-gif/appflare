@@ -14,6 +14,7 @@ import {
 } from "../db/settings";
 import { releaseSettingsLock, tryAcquireSettingsLock } from "../db/settings-lock";
 import { forgetHandedGrant } from "../handoff/handoff-state.server";
+import { t } from "../i18n";
 import { type AttemptLimit, DEFAULT_ATTEMPT_LIMIT, takeAttempt } from "./attempt-limit.server";
 import { ensureSelfBinding, type SelfBindingOutcome } from "./self-binding.server";
 import { type SaveTokenResult, saveTokenStep, type TokenFlowDeps } from "./token.server";
@@ -81,15 +82,16 @@ const OWNER_LOCK_KEY = "setup_first_admin_lock";
 const LOCK_TTL_MS = 60_000;
 
 export const SETUP_MESSAGES = {
-  alreadyDone: "Setup is already complete. Sign in instead.",
-  rateLimited: "Too many attempts from this network. Wait ten minutes, then try again.",
+  alreadyDone: t("Setup is already complete. Sign in instead."),
+  rateLimited: t("Too many attempts from this network. Wait ten minutes, then try again."),
   inProgress: (minutes: number) =>
     `Setup is being finished in another browser. Continue there, or paste the token here again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`,
   connectFirst:
     "This browser has not connected Cloudflare, or it did so more than 30 minutes ago. Paste the API token again.",
-  busy: "Setup is already in progress. Try again in a minute.",
-  redeploying:
+  busy: t("Setup is already in progress. Try again in a minute."),
+  redeploying: t(
     "Appflare is still redeploying itself with its new secrets. Try again in a few seconds.",
+  ),
 } as const;
 
 /** A refused setup call; its message is shown as is. */

@@ -1,4 +1,5 @@
 import { CloudflareApiError, type CloudflareError } from "@appflare/cf-api";
+import { t } from "../../i18n";
 import { JobError } from "../steps";
 
 /**
@@ -32,9 +33,11 @@ export function isR2NotEnabled(error: unknown): boolean {
 export function r2NotEnabledMessage(bucket: string): string {
   return (
     `R2 is not enabled on this Cloudflare account, so the R2 bucket ${bucket} cannot be created. ` +
-    "Enable R2 in the Cloudflare dashboard under R2 Object Storage. Cloudflare asks for a payment " +
+    t(
+      "Enable R2 in the Cloudflare dashboard under R2 Object Storage. Cloudflare asks for a payment ",
+    ) +
     "method on file before enabling R2, even though its free tier costs nothing. " +
-    "Then try again."
+    t("Then try again.")
   );
 }
 

@@ -1,5 +1,6 @@
 import type { TelemetryLock } from "@appflare/schema";
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * Anonymous usage data: what Settings, Anonymous report shows. Client-safe (no bindings).
@@ -33,13 +34,15 @@ export const setTelemetryInput = z.object({ enabled: z.boolean() });
  */
 export const TELEMETRY_COPY = {
   title: "Anonymous report",
-  benefitsIntro: "Leaving this on helps everyone who runs Appflare. It lets the maintainers:",
+  benefitsIntro: t("Leaving this on helps everyone who runs Appflare. It lets the maintainers:"),
   benefits: [
     "see which versions are in use, so they know which ones to keep supporting and test updates against;",
     "learn which install paths and apps fail, so fixes land sooner and updates break less often;",
     "know which features people use, so work goes where it matters.",
   ],
-  sent: "What is sent: one small report a day with counts, versions, settings such as whether passkeys are on, and error categories, plus how each install and update went.",
+  sent: t(
+    "What is sent: one small report a day with counts, versions, settings such as whether passkeys are on, and error categories, plus how each install and update went.",
+  ),
   neverSent:
     "Never sent: your Cloudflare account, email addresses, names, domains, secrets or tokens. Reports go from this Worker, not your browser, to PostHog's EU region, where the project is set to discard IP addresses.",
   switchLabel: "Send the anonymous report",

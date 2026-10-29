@@ -75,7 +75,7 @@ export function installFormNotice(
   blockedLink: { href: string; label: string } | null = null,
 ): { title: string; link: { href: string; label: string } | null } | null {
   if (blockedReason !== null) return { title: blockedReason, link: blockedLink };
-  if (!canInstall) return { title: "Only admins can install apps", link: null };
+  if (!canInstall) return { title: t("Only admins can install apps"), link: null };
   return null;
 }
 
@@ -415,7 +415,7 @@ export function InstallForm({
       holdSeedCredentials(jobId, generatedSeedCredentials(catalog.secrets, secrets));
       await jobStarted(jobId, prefill === null ? "Install started" : "Installing again");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not start the install.");
+      setError(err instanceof Error ? err.message : t("Could not start the install."));
       setPending(false);
     }
   }

@@ -22,6 +22,7 @@ import { appPlace } from "../../components/app-links";
 import type { Database } from "../../db/client";
 import { type RESOURCE_KINDS, resources } from "../../db/schema";
 import { readSettings, SETTING, writeSettings } from "../../db/settings";
+import { t } from "../../i18n";
 import type { StepRunner } from "../run-job";
 import { errorMessage, JobError, type JobSteps } from "../steps";
 import { failureError, settleUnit } from "../units/result";
@@ -662,7 +663,7 @@ export async function uploadAssetsPhase(
   if (session.buckets.length === 0) completion = session.jwt;
   if (completion === null) {
     steps.current = "upload assets";
-    throw new JobError("Cloudflare did not return an assets completion token");
+    throw new JobError(t("Cloudflare did not return an assets completion token"));
   }
   return completion;
 }
@@ -1158,7 +1159,7 @@ export async function checkLiveHealthPhase(
     installId?: string;
     /**
      * The job just turned the app's Cloudflare Access protection on or off,
-     * which the warnings say instead of "Everything was created". Off also
+     * which the warnings say instead of t("Everything was created"). Off also
      * waits out Access's sign-in while the removal takes effect.
      */
     access?: "on" | "off";
@@ -1194,12 +1195,12 @@ async function liveHealthLoop(
   // neither that everything was created nor that the route may be going live.
   const done =
     opts.access === "on"
-      ? "The app is protected now"
+      ? t("The app is protected now")
       : opts.access === "off"
-        ? "The protection is removed"
+        ? t("The protection is removed")
         : opts.routeWasLive === true
-          ? "The new settings are in place"
-          : "Everything was created";
+          ? t("The new settings are in place")
+          : t("Everything was created");
   const notVerified =
     opts.routeWasLive === true ? `${done}.` : `${done}; the route may still be going live.`;
   let firstProbeAt: number | null = null;

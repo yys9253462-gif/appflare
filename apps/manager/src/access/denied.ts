@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * How the app recognises a request the Cloudflare Access check refused.
  * Client-safe: no server imports.
@@ -12,8 +13,9 @@
 export const ACCESS_DENIED_CODE = "access_denied";
 
 /** Shown by the route error screen instead of the raw error. */
-export const ACCESS_DENIED_MESSAGE =
-  "Cloudflare Access refused this request. Sign in through Access and try again.";
+export const ACCESS_DENIED_MESSAGE = t(
+  "Cloudflare Access refused this request. Sign in through Access and try again.",
+);
 
 /** The header TanStack Start's client sends with every server function call. */
 export const SERVER_FN_HEADER = "x-tsr-serverfn";

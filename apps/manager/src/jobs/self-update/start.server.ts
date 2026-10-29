@@ -12,6 +12,7 @@ import {
 import { createDb } from "../../db/client";
 import { type JobStarter, jobs } from "../../db/schema";
 import { readSettings, SETTING } from "../../db/settings";
+import { t } from "../../i18n";
 import { reconcileJobs, type WorkflowLookup } from "../reconcile.server";
 import type { SelfUpdateJobParams } from "../self-update";
 
@@ -59,7 +60,7 @@ export async function startSelfUpdateCore(
     throw new SelfUpdateError(REMOVAL_IN_PROGRESS_MESSAGE);
   }
   if (latest === null) {
-    throw new SelfUpdateError("No Appflare release is known yet. Check for updates first.");
+    throw new SelfUpdateError(t("No Appflare release is known yet. Check for updates first."));
   }
   if (request.version !== latest.version) {
     throw new SelfUpdateError(
@@ -76,7 +77,7 @@ export async function startSelfUpdateCore(
   if (deps.hasToken && deps.connectionProblem) throw new SelfUpdateError(deps.connectionProblem);
   if (!settings.account_id || !settings.worker_name || !deps.hasToken) {
     throw new SelfUpdateError(
-      "Appflare does not know its Cloudflare account and Worker yet. Finish setup first.",
+      t("Appflare does not know its Cloudflare account and Worker yet. Finish setup first."),
     );
   }
 

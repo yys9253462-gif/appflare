@@ -3,6 +3,7 @@ import type { CapabilitiesView } from "../capabilities/capabilities";
 import { capabilityAnchor } from "../capabilities/capability-rows";
 import { inConnectionWords } from "../cloudflare/sign-in-words";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import { ACCESS_MESSAGES, INSTALL_ACCESS_MESSAGES } from "./messages";
 
 /**
@@ -98,15 +99,16 @@ export type AccessRepair =
 
 /** One line on why "Protect again" is offered. */
 export const ACCESS_REPAIR_REASONS: Record<AccessRepair, string> = {
-  "app-deleted":
+  "app-deleted": t(
     "The Access application was deleted in Cloudflare, so the app's addresses no longer ask for a sign-in. Protect it again.",
+  ),
   "users-policy-replaced":
     'The "Appflare users" policy was made again after it was deleted in the Zero Trust dashboard. This app still names the old one, so nobody can sign in until it is protected again.',
   "users-policy-missing":
     'Appflare has no "Appflare users" policy on record, so nobody can sign in to this app until it is protected again.',
   incomplete:
     "Appflare's record of this app's Access application is incomplete; protecting it again reads it back.",
-  "sync-failed": "Protecting it again brings its Access applications in step now.",
+  "sync-failed": t("Protecting it again brings its Access applications in step now."),
 };
 
 /**
@@ -188,7 +190,7 @@ export function zeroTrustUsersNote(users: number | null): string | null {
 
 /** "Only Appflare's users get in: 3 people, members included." */
 export function whoGetsIn(users: number | null): string {
-  if (users === null) return "Only Appflare's users get in, members included.";
+  if (users === null) return t("Only Appflare's users get in, members included.");
   return `Only Appflare's users get in: ${users === 1 ? "1 person" : `${users} people`}, members included.`;
 }
 
@@ -208,7 +210,9 @@ export function signInNote(check: Pick<AppAccessCheck, "loginMethods" | "oneTime
 /** What stays public on the app's addresses while it is protected. */
 export function publicPathsLine(paths: readonly string[]): string {
   if (paths.length === 0) {
-    return "Everything at the app's addresses asks for a sign-in, links you share with others included.";
+    return t(
+      "Everything at the app's addresses asks for a sign-in, links you share with others included.",
+    );
   }
   return `Stays public: ${paths.join(", ")}`;
 }

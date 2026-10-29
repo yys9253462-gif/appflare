@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import type { AccountPlan } from "../account/plan";
 import { type Read, read } from "../db/batch";
 import type { Database } from "../db/client";
+import { t } from "../i18n";
 import type { AppResources, CollectedHour, CollectSource } from "./collect";
 import type { HourlyUsage } from "./store/series.server";
 
@@ -132,7 +133,7 @@ function status(error: unknown): number | null {
 
 /** What {@link addAccountResources} could not list: its name, the sources it leaves unread, and why. */
 export interface AccountResourcesUnread {
-  what: "Durable Object namespaces" | "container applications";
+  what: string;
   unread: CollectSource[];
   error: unknown;
 }
@@ -159,7 +160,7 @@ export async function addAccountResources(
     namespaces = await api.workers.listDurableObjectNamespaces();
   } catch (error) {
     return {
-      what: "Durable Object namespaces",
+      what: t("Durable Object namespaces"),
       unread: ["durableObjects", "containers", "alarms"],
       error,
     };

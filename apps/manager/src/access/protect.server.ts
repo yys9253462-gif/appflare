@@ -15,6 +15,7 @@ import { and, eq, inArray, isNotNull, isNull, or, sql } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { install_access, installs, resources } from "../db/schema";
 import { readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { installLabel } from "../installs/display-name";
 import { recordedName } from "../installs/install-names.server";
 import {
@@ -219,11 +220,11 @@ export interface InstallProtection {
 }
 
 export const PROTECT_MESSAGES = {
-  noInstall: "This app is not installed.",
-  removing: "This app is being uninstalled, so it cannot be protected.",
+  noInstall: t("This app is not installed."),
+  removing: t("This app is being uninstalled, so it cannot be protected."),
   selfDeploying: (name: string) =>
     `${name} is deployed by its own installer, which decides its Workers and addresses, so Appflare cannot protect it with Cloudflare Access yet. Add an Access application for it under Zero Trust, Access, Applications instead.`,
-  noWorkers: "This app has no Worker yet, so there is nothing to protect.",
+  noWorkers: t("This app has no Worker yet, so there is nothing to protect."),
   workerMissing: (name: string) =>
     `The Worker "${name}" of this app is not in the Cloudflare account, so its addresses cannot be covered.`,
   noSubdomain:
@@ -241,8 +242,9 @@ export const PROTECT_MESSAGES = {
     `Cloudflare allows ${MAX_ACCESS_APP_DESTINATIONS} destinations on one Access application, so Appflare's application leaves out ${listOf(hosts)}; the app's Worker is still covered there through its own destination, and Appflare names one of them once another Access application comes to cover it.`,
   tooManyDestinations: (count: number) =>
     `Appflare's Cloudflare Access application for this app would need ${count} destinations (one per Worker and per external domain, and one per address another Access application also covers), more than the ${MAX_ACCESS_APP_DESTINATIONS} Cloudflare allows on one application. Remove some of the app's domains, or the other Access applications that cover them, then try again.`,
-  appMissing:
+  appMissing: t(
     "This app's Cloudflare Access application no longer exists. Protect the app again to make a new one.",
+  ),
 } as const;
 
 /** The application's name: says it is Appflare's, and which app and Worker it protects. */

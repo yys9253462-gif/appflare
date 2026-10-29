@@ -1,4 +1,5 @@
 import type { Role } from "../auth/roles";
+import { t } from "../i18n";
 
 /**
  * What the Users table offers on a row. Client-safe. The server checks the
@@ -56,6 +57,6 @@ export function userActions(viewer: UserActionViewer, target: UserActionTarget):
 /** The note above the table for someone who cannot change users. */
 export function readOnlyNote(owner: { name: string; email: string } | undefined): string {
   return owner === undefined
-    ? "Only the owner can change roles or delete users."
+    ? t("Only the owner can change roles or delete users.")
     : `Only the owner, ${owner.name} (${owner.email}), can change roles or delete users.`;
 }

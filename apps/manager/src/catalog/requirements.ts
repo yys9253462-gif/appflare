@@ -7,6 +7,7 @@ import {
   type Requirement,
 } from "@appflare/schema";
 import type { DocsTopic } from "../docs-topics";
+import { t } from "../i18n";
 
 /**
  * What each catalog `requires` value asks of the Cloudflare account, as shown
@@ -31,8 +32,9 @@ export const REQUIREMENTS: Record<
   },
   "email-routing": {
     label: "Email Routing",
-    sentence:
+    sentence: t(
       "Email Routing must be enabled on a zone in the account so that email can be delivered to the app's Worker.",
+    ),
   },
   "workers-ai": {
     label: "Workers AI",
@@ -41,8 +43,9 @@ export const REQUIREMENTS: Record<
   },
   "browser-rendering": {
     label: "Browser Rendering",
-    sentence:
+    sentence: t(
       "The app drives a headless browser with Browser Rendering, whose free plan allows limited browser time a day.",
+    ),
   },
   containers: {
     label: "Containers",
@@ -76,10 +79,12 @@ const TIER_SENTENCES: Record<
       "The app is built in a container in this account, which needs the Workers Paid plan.",
   },
   "self-deploying": {
-    containers:
+    containers: t(
       "The app's installer runs in a container in this account, which needs the Workers Paid plan.",
-    "email-routing":
+    ),
+    "email-routing": t(
       "Email Routing must be enabled on a zone in the account so that email can be delivered to the app. Appflare does not set Email Routing up for an app that deploys itself.",
+    ),
   },
 };
 

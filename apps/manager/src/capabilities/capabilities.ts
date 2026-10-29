@@ -18,6 +18,7 @@ import { z } from "zod";
 import { type AccountPlan, parseAccountPlan } from "../account/plan";
 import { isUpdateAvailable } from "../catalog/versions";
 import type { ConnectionKind } from "../cloudflare/connection-view";
+import { t } from "../i18n";
 
 /**
  * Account capabilities as the manager keeps them: what the probes in
@@ -277,9 +278,12 @@ export const SOURCE_LABELS = {
  * Containers answer, which only Workers Paid has.
  */
 export const SIGN_IN_PLAN_COPY = {
-  ask: "Cloudflare sign-in cannot share the account's Workers plan with Appflare, so choose it once here. If the account can use Containers, Appflare counts it as Workers Paid by itself.",
-  chosen:
+  ask: t(
+    "Cloudflare sign-in cannot share the account's Workers plan with Appflare, so choose it once here. If the account can use Containers, Appflare counts it as Workers Paid by itself.",
+  ),
+  chosen: t(
     "Cloudflare sign-in cannot share the account's Workers plan with Appflare, so Appflare uses the one you chose. If the account can use Containers, Appflare counts it as Workers Paid by itself.",
+  ),
 } as const;
 
 /** Why a probe could not tell, in one sentence. */
@@ -306,8 +310,9 @@ export function unknownSentence(
   }
   if (value.reason === "no-permission") {
     return {
-      "workers-dev":
+      "workers-dev": t(
         "The token cannot read the account's workers.dev subdomain (Workers Scripts permission).",
+      ),
       "zero-trust":
         'The token cannot read the Zero Trust organization. Add the optional "Access: Organizations, Identity Providers, and Groups" permission.',
       r2: "The token cannot list R2 buckets (Workers R2 Storage).",
@@ -317,12 +322,15 @@ export function unknownSentence(
       zone: 'The token cannot list the account\'s domains. Add the optional "Zone: Read" permission.',
       "email-routing":
         'The token cannot read Email Routing on the account\'s domain. Add the optional "Zone Settings" permission.',
-      "analytics-engine":
+      "analytics-engine": t(
         "Cloudflare refused the token's Analytics Engine query, so Appflare cannot tell whether it is on.",
+      ),
     }[what];
   }
   if (value.reason === "unrecognised") {
-    return "Cloudflare's answer did not say which Workers plan applies (for example a contract plan).";
+    return t(
+      "Cloudflare's answer did not say which Workers plan applies (for example a contract plan).",
+    );
   }
   return `The check failed: ${value.detail}`;
 }

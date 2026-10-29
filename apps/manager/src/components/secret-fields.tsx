@@ -48,8 +48,9 @@ export const SEED_ONLY_SECRET_NOTE =
   "Used once to create the first admin account. Appflare does not keep it; copy it before you install.";
 
 /** What the field of a seed-only var says. */
-export const SEED_ONLY_VAR_NOTE =
-  "Used once to create the first admin account. Appflare does not keep it.";
+export const SEED_ONLY_VAR_NOTE = t(
+  "Used once to create the first admin account. Appflare does not keep it.",
+);
 
 /**
  * A fresh value for a secret the catalog generates: a random password for
@@ -86,8 +87,12 @@ export function initialSecretValues(
 /** What the field of a secret the Worker already has says, asked for again by an update. */
 export function heldSecretNote(secret: Pick<CatalogSecret, "generate">): string {
   return secret.generate === "vapid-private-key"
-    ? "The app already has this key. Paste it to keep existing push subscriptions, or generate a new one (subscribers must subscribe again)."
-    : "The app already has this secret. Enter its current value to keep it, or a new one to replace it.";
+    ? t(
+        "The app already has this key. Paste it to keep existing push subscriptions, or generate a new one (subscribers must subscribe again).",
+      )
+    : t(
+        "The app already has this secret. Enter its current value to keep it, or a new one to replace it.",
+      );
 }
 
 /** `values` with one secret's new value; undefined drops it (an optional secret left unset). */
@@ -266,7 +271,7 @@ export function MultilineSecretInput({
 }
 
 /** What the field of a multi-line secret says after its help. */
-export const MULTILINE_SECRET_NOTE = "Paste it with its line breaks. It is hidden once saved.";
+export const MULTILINE_SECRET_NOTE = t("Paste it with its line breaks. It is hidden once saved.");
 
 /** The value field of one secret: generated (copy now, regenerate), multi-line, or a password field. */
 function SecretField({

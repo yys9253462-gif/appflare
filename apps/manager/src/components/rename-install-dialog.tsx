@@ -58,7 +58,7 @@ export function RenameInstallDialog({
       await router.invalidate();
       setOpen(false);
     } catch (error) {
-      setFailure(error instanceof Error ? error.message : "Could not rename the app.");
+      setFailure(error instanceof Error ? error.message : t("Could not rename the app."));
     } finally {
       setPending(false);
     }

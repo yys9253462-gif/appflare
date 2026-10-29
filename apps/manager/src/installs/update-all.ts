@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * "Update all" on the home page: starts every listed app update that needs
@@ -36,6 +37,6 @@ export function updateAllSummary(outcome: UpdateAllOutcome): string {
   const started = outcome.started.length;
   const left = outcome.needsInput.length + outcome.notStarted.length;
   const startedText =
-    started === 0 ? "No update started" : `${started} update${started === 1 ? "" : "s"} started`;
+    started === 0 ? t("No update started") : `${started} update${started === 1 ? "" : "s"} started`;
   return left === 0 ? startedText : `${startedText}, ${left} left for you`;
 }

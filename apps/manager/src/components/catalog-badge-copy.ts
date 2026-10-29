@@ -1,4 +1,5 @@
 import type { Plan } from "@appflare/schema";
+import { t } from "../i18n";
 import { formatDate, formatExactDateTime } from "./format";
 
 /**
@@ -32,7 +33,7 @@ export function installCheckBadgeCopy(lastVerified: string | null): InstallCheck
   if (lastVerified === null) {
     return {
       checked: false,
-      label: "Not checked yet",
+      label: t("Not checked yet"),
       tooltip: "Not yet installed in a test account by the catalog's nightly check.",
     };
   }

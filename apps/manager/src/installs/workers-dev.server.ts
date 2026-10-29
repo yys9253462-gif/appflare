@@ -5,6 +5,7 @@ import { z } from "zod";
 import type { AccessAddressSync } from "../access/address-sync.server";
 import { createDb, type Database } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
+import { t } from "../i18n";
 import {
   type HealthMode,
   type HealthProbe,
@@ -132,7 +133,7 @@ async function readInstall(orm: Database, installId: string) {
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (install === undefined) throw new WorkersDevError("There is no such install.");
+  if (install === undefined) throw new WorkersDevError(t("There is no such install."));
   return install;
 }
 
@@ -171,7 +172,7 @@ export async function setWorkersDevCore(
   const install = await readInstall(orm, input.installId);
   if (install.buildKind === "self-deploying") {
     throw new WorkersDevError(
-      "The app's own installer decides whether its Worker answers on workers.dev.",
+      t("The app's own installer decides whether its Worker answers on workers.dev."),
     );
   }
   // A job reads the stored value when it starts; changing it under one would
@@ -205,7 +206,9 @@ export async function setWorkersDevCore(
     const hostnames = domainHostnames(rows);
     if (hostnames.length === 0) {
       throw new WorkersDevError(
-        "This app has no custom or external domain, so workers.dev is its only address. Add one first.",
+        t(
+          "This app has no custom or external domain, so workers.dev is its only address. Add one first.",
+        ),
       );
     }
     const check = healthCheckOfManifest(install.manifestJson);

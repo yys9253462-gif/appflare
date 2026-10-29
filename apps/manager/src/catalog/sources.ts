@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * The catalogs an app can come from, as the pages name them. Client-safe.
@@ -90,7 +91,7 @@ export const catalogColourSchema = z.enum(CATALOG_COLOURS);
 export const catalogIndexUrlSchema = z
   .string()
   .trim()
-  .max(500, "Use a shorter URL.")
+  .max(500, t("Use a shorter URL."))
   .refine((value) => {
     try {
       const url = new URL(value);

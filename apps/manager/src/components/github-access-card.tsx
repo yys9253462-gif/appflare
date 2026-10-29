@@ -58,7 +58,7 @@ export function GithubAccessCard({ isAdmin }: { isAdmin: boolean }) {
       setAccess(await getGithubAccess());
       setLoadError(null);
     } catch (error) {
-      setLoadError(error instanceof Error ? error.message : "Could not load the tokens.");
+      setLoadError(error instanceof Error ? error.message : t("Could not load the tokens."));
     }
   }, []);
 

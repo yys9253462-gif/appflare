@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ACCOUNT_PLANS } from "../account/plan";
 import { appLink, appTabLink } from "../components/app-links";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import { managerSiteLink } from "../site-links";
 import { accountLimitWords } from "../usage/account-limits";
 import { pauseCauseSchema, pauseCauseSentence } from "../usage/attention-cause";
@@ -381,7 +382,7 @@ export function renderMessage(facts: NotificationFacts, managerUrl: string | nul
       };
     case "manager_address_lost":
       return {
-        title: "Appflare's address stopped working",
+        title: t("Appflare's address stopped working"),
         lines: [
           `${facts.hostname} no longer serves Appflare, so Appflare is back at its workers.dev address. Sign in there with your password; passkeys added at ${facts.hostname} do not work there.`,
           ...(facts.accessLeftBehind === true
@@ -419,7 +420,7 @@ export function renderMessage(facts: NotificationFacts, managerUrl: string | nul
           };
     case "test":
       return {
-        title: "Test message from Appflare",
+        title: t("Test message from Appflare"),
         lines: ["This channel works. Appflare sends the events you picked for it here."],
         url: managerLink(managerUrl, settingsLink("notifications", "channels")),
       };
@@ -442,7 +443,7 @@ type UsageFacts = Extract<
 >;
 
 /** "Pause it ..." and "Resume it ..." point at the two places that do it. */
-const PAUSE_HINT = "Pause it from Home or its Usage tab if this is not expected.";
+const PAUSE_HINT = t("Pause it from Home or its Usage tab if this is not expected.");
 const PAUSED_PAGE =
   'Visitors see a "paused" page and its scheduled work stops; its data stays as it is. Resume it from Home or its Usage tab.';
 
@@ -577,7 +578,9 @@ function usageMessage(facts: UsageFacts, managerUrl: string | null): Message {
         title: "Monthly budget reached",
         lines: [
           `This month's Appflare usage, including the $5 plan, is on pace for about ${usd(facts.projected)} at Cloudflare's prices, past the ${usd(facts.budget)} budget. It counts Appflare's apps only, not other Workers and resources in the account.`,
-          "Appflare pauses apps, the one with the largest share of this month's usage first, until it fits the budget. Apps set to never pause for the budget keep running.",
+          t(
+            "Appflare pauses apps, the one with the largest share of this month's usage first, until it fits the budget. Apps set to never pause for the budget keep running.",
+          ),
         ],
         url: managerLink(managerUrl, settingsLink("account")),
       };

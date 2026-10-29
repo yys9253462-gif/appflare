@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * Words and inputs of an app's Workers Logs switch (Cloudflare's Workers
@@ -15,11 +16,12 @@ export const readObservabilityInput = z.object({ installId: z.string().min(1) })
 
 export const OBSERVABILITY_MESSAGES = {
   /** Cloudflare refused to read or change the setting (an API token's words). */
-  permission:
+  permission: t(
     "Cloudflare refused the Workers Logs settings: the token needs Workers Scripts: Edit. Add it to the token in the Cloudflare dashboard, then try again.",
-  noInstall: "There is no such app.",
-  notInstalled: "Workers Logs can be turned on or off once the app is installed.",
-  jobRunning: "Wait for the running job to finish, then try again.",
+  ),
+  noInstall: t("There is no such app."),
+  notInstalled: t("Workers Logs can be turned on or off once the app is installed."),
+  jobRunning: t("Wait for the running job to finish, then try again."),
   /** Some Workers were changed before a refusal. */
   partlyChanged: (done: readonly string[]) =>
     `Workers Logs are changed for ${done.join(", ")} already.`,

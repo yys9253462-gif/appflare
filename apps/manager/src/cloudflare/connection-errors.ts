@@ -1,4 +1,5 @@
 import { settingsPlace } from "../components/settings-links";
+import { t } from "../i18n";
 
 /**
  * Why the manager cannot reach Cloudflare right now, in words for the people
@@ -29,11 +30,15 @@ export const CONNECTION_MESSAGES = {
   notConfigured: "the Cloudflare API token is not configured; finish setup first",
   needsReconnect: `Cloudflare no longer accepts Appflare's connection to your account, so Appflare cannot change anything there. An administrator must reconnect Cloudflare in ${RECONNECT_PLACE}. Your apps keep running.`,
   keyLost: `This version of Appflare cannot read its saved connection to Cloudflare. An administrator must reconnect Cloudflare in ${RECONNECT_PLACE}. Your apps keep running.`,
-  redeploying:
+  redeploying: t(
     "Appflare is still redeploying itself with its new Cloudflare connection. Try again in a few seconds.",
-  temporary:
+  ),
+  temporary: t(
     "Appflare could not renew its access to Cloudflare just now: Cloudflare did not answer or was busy. Try again in a minute.",
-  busy: "Appflare is renewing its access to Cloudflare in another request. Try again in a minute.",
+  ),
+  busy: t(
+    "Appflare is renewing its access to Cloudflare in another request. Try again in a minute.",
+  ),
   refused: (code: string) =>
     `Cloudflare refused to renew Appflare's access (${code}). If it keeps happening, an administrator can reconnect Cloudflare in ${RECONNECT_PLACE}. Your apps keep running.`,
 } as const;

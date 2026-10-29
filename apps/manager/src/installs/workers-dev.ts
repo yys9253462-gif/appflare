@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * An install's workers.dev URL (`<worker>.<subdomain>.workers.dev`): on for
  * a new install, turned off by Appflare once a custom or external domain
  * serves the app (see `WORKERS_DEV_CHOICES`), and switchable on the app page
- * ("Serve on workers.dev") while a domain serves it. Client-safe (no bindings).
+ * (t("Serve on workers.dev")) while a domain serves it. Client-safe (no bindings).
  *
  * Every call that deploys an app's Worker also sends
  * `POST /workers/scripts/{name}/subdomain`, and Cloudflare applies exactly
@@ -21,8 +22,9 @@ import { z } from "zod";
  * but Access answers before the request reaches the app, so the app itself
  * was not checked.
  */
-export const ACCESS_DOMAIN_NOTE =
-  "Live behind Cloudflare Access. Access answered with its sign-in page, so Appflare can't check the app itself through this domain.";
+export const ACCESS_DOMAIN_NOTE = t(
+  "Live behind Cloudflare Access. Access answered with its sign-in page, so Appflare can't check the app itself through this domain.",
+);
 
 /** The body of the subdomain call for an app's Worker. */
 export function workersDevSubdomain(enabled: boolean): {
@@ -183,10 +185,11 @@ export const setWorkersDevInput = z.object({
 export type SetWorkersDevInput = z.infer<typeof setWorkersDevInput>;
 
 export const WORKERS_DEV_COPY = {
-  label: "Serve on workers.dev",
+  label: t("Serve on workers.dev"),
   onHelp: (url: string) => `The app also answers at ${url}.`,
-  offHelp:
+  offHelp: t(
     "The app answers only on its custom and external domains. Update checks still use the Worker's preview URLs.",
+  ),
   /** The one-line note while Appflare turned it off. */
   autoOff: "workers.dev turned off because a domain is live",
   /** Why a live domain left it on: the Worker's settings hold the URL. */

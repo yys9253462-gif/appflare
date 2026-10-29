@@ -3,6 +3,7 @@ import { ulid } from "ulidx";
 import { installAppKey } from "../catalog/sources";
 import { createDb } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
+import { t } from "../i18n";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
 import {
   activeSelfJob,
@@ -213,7 +214,7 @@ export async function forgetRemovedAppCore(
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (install === undefined) throw new RemovedAppsError("There is no such install.");
+  if (install === undefined) throw new RemovedAppsError(t("There is no such install."));
   if (install.status !== "uninstalled") {
     throw new RemovedAppsError("Only an uninstalled app can be forgotten.");
   }
@@ -230,7 +231,7 @@ export async function forgetRemovedAppCore(
     .run();
   if (result.meta.changes !== 1) {
     throw new RemovedAppsError(
-      "A job of this install is queued or running. Wait for it to finish, then try again.",
+      t("A job of this install is queued or running. Wait for it to finish, then try again."),
     );
   }
 }
@@ -265,7 +266,7 @@ export async function startDeleteRetainedCore(
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (install === undefined) throw new RemovedAppsError("There is no such install.");
+  if (install === undefined) throw new RemovedAppsError(t("There is no such install."));
   if (install.status !== "uninstalled") {
     throw new RemovedAppsError(
       "Only an uninstalled app's kept data is deleted here; uninstall the app instead.",
@@ -319,7 +320,7 @@ export async function startDeleteRetainedCore(
     const selfUpdate = await activeSelfJob(deps.db);
     if (selfUpdate !== null) throw new RemovedAppsError(selfUpdateBusyMessage(selfUpdate));
     throw new RemovedAppsError(
-      "Another job of this install is queued or running, or its state changed. Reload the page.",
+      t("Another job of this install is queued or running, or its state changed. Reload the page."),
     );
   }
 

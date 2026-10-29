@@ -15,7 +15,7 @@ import { useOptimisticDismiss } from "./use-optimistic-dismiss";
  * takes it away at once and saves that for this user in the background.
  */
 
-const DISCLOSURE = "Sponsors pay for this spot, which helps fund Appflare.";
+const DISCLOSURE = t("Sponsors pay for this spot, which helps fund Appflare.");
 
 /** `rel` for every link to sponsor content. */
 const SPONSORED_REL = "sponsored noopener noreferrer";

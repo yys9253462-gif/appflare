@@ -1,4 +1,5 @@
 import { settingsPlace } from "../components/settings-links";
+import { t } from "../i18n";
 
 /**
  * What the job that moves Appflare's address says, shared by the job and the
@@ -18,10 +19,10 @@ export const MOVE_LONG_WAIT_MS = MOVE_LONG_WAIT_MINUTES * 60_000;
 
 /** The job's steps, as its log and its failure messages name them. */
 export const MOVE_STEPS = {
-  wait: "Waiting for the certificate and the new address",
-  access: "Moving Cloudflare Access",
-  switch: "Switching the address",
-  detach: "Detaching the old domain",
+  wait: t("Waiting for the certificate and the new address"),
+  access: t("Moving Cloudflare Access"),
+  switch: t("Switching the address"),
+  detach: t("Detaching the old domain"),
 } as const;
 
 /** Where a move is started again. */
@@ -72,7 +73,9 @@ export const MOVE_FAILURES = {
     `${hostname} never answered as this Appflare within ${wait.minutes} minutes (last answer: ${last}), so Appflare stays at its current address. ${staysAttached(hostname, replacedRecords)} ${
       wait.stillComing
         ? "A new domain's certificate sometimes takes longer; a new move waits again."
-        : "Waiting longer would not change that answer: see what serves the name, then start the move again."
+        : t(
+            "Waiting longer would not change that answer: see what serves the name, then start the move again.",
+          )
     }`,
   /** A step failed before the switch. */
   stopped: (step: string, message: string, hostname: string, replacedRecords: boolean) =>

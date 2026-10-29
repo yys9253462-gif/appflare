@@ -170,8 +170,9 @@ export function VersionsSection({
  * Cloudflare refuses to roll a Worker back across a Durable Object class
  * change, and the change itself (deleted or renamed classes) cannot be undone.
  */
-const DO_MIGRATION_REASON =
-  "Not available: this update changed the app's Durable Object classes, and Cloudflare refuses to roll a Worker back across such a change.";
+const DO_MIGRATION_REASON = t(
+  "Not available: this update changed the app's Durable Object classes, and Cloudflare refuses to roll a Worker back across such a change.",
+);
 
 /**
  * A disabled rollback with the reason: a Durable Object class change, or a
@@ -235,7 +236,9 @@ function RollbackDialog({ install, snapshot }: { install: InstallDetail; snapsho
           variant="secondary"
           icon={<EnvelopeSimpleIcon weight="fill" />}
           title={
-            snapshot.emailNote !== null ? "Email changes with this version" : "Email stays as it is"
+            snapshot.emailNote !== null
+              ? "Email changes with this version"
+              : t("Email stays as it is")
           }
           description={
             <MessageText

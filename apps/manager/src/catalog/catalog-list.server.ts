@@ -10,6 +10,7 @@ import type { CapabilitiesView } from "../capabilities/capabilities";
 import { readCapabilitiesView } from "../capabilities/capabilities.server";
 import { settingsPlace } from "../components/settings-links";
 import { createDb } from "../db/client";
+import { t } from "../i18n";
 import { type SandboxReadiness, sandboxReadinessOf } from "../sandbox/readiness";
 import { sandboxBound } from "../sandbox/worker-deleted";
 import { appFacts } from "./app-facts";
@@ -137,7 +138,7 @@ export async function readCatalogList(session: AuthSession): Promise<CatalogList
       error:
         reads.length === 0
           ? `Every catalog is turned off. Turn one on in ${settingsPlace("catalogs", "catalogs", "the catalog settings")}.`
-          : (failed[0]?.error ?? "The catalog is unavailable."),
+          : (failed[0]?.error ?? t("The catalog is unavailable.")),
       unreadable: 0,
       featured: null,
       statsGeneratedAt: null,

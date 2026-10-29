@@ -10,6 +10,7 @@
  */
 
 import { settingsPlace } from "../components/settings-links";
+import { t } from "../i18n";
 
 export interface PasskeyError {
   code?: string | undefined;
@@ -27,14 +28,15 @@ export const PASSKEY_MESSAGES = {
   noPasskeyUsed: `No passkey was used. This device may not have a passkey for this manager, or the prompt was closed. Sign in with your email and password, then add a passkey in ${settingsPlace("users", "passkeys", "your passkey settings")}.`,
   unknownPasskey:
     "That passkey is not registered with this manager; it may have been removed. Sign in with your email and password.",
-  expired: "The passkey prompt timed out. Try again.",
-  wrongAddress:
+  expired: t("The passkey prompt timed out. Try again."),
+  wrongAddress: t(
     "Passkeys cannot be used at this address. Open the manager at its own address and try again.",
-  rateLimited: "Too many sign-in attempts. Wait a minute, then try again.",
-  signInFailed: "Passkey sign-in failed. Try again, or sign in with your email and password.",
-  registerUnsupported: "This browser does not support passkeys",
-  alreadyRegistered: "This device already has a passkey for your account.",
-  registerCancelled: "The passkey prompt was closed before a passkey was created.",
+  ),
+  rateLimited: t("Too many sign-in attempts. Wait a minute, then try again."),
+  signInFailed: t("Passkey sign-in failed. Try again, or sign in with your email and password."),
+  registerUnsupported: t("This browser does not support passkeys"),
+  alreadyRegistered: t("This device already has a passkey for your account."),
+  registerCancelled: t("The passkey prompt was closed before a passkey was created."),
   staleSession:
     "Adding a passkey needs a sign-in from the last 24 hours. Sign out, sign in again, then add the passkey.",
   registerFailed: "Could not add the passkey. Try again.",

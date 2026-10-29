@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { ACC, TOKEN } from "../../test/fake-account";
 
 /**
@@ -203,7 +204,7 @@ export function fakePauseAccount(over: Partial<PauseWorld> = {}) {
     if (m?.[2] !== undefined) {
       const name = m[2];
       const script = world.scripts.get(name);
-      if (script === undefined) return fail(404, "This Worker does not exist on your account.");
+      if (script === undefined) return fail(404, t("This Worker does not exist on your account."));
       if (m[3] === "script-settings") return ok({ observability: script.observability });
       if (key.startsWith("GET") && m[3] === "deployments") {
         return ok({ deployments: script.deployments });

@@ -103,7 +103,7 @@ export function workersDevStatus(
   }
   switch (check?.state) {
     case "checking":
-      return { tone: "pending", text: "Checking the name…" };
+      return { tone: "pending", text: t("Checking the name…") };
     case "free":
       return { tone: "success", text: "Available" };
     case "taken":
@@ -277,7 +277,7 @@ export function InstallAddressField({
     if (!withDomains) return;
     let live = true;
     const fail = (set: (message: string) => void) => (err: unknown) => {
-      if (live) set(err instanceof Error ? err.message : "Could not read the domains.");
+      if (live) set(err instanceof Error ? err.message : t("Could not read the domains."));
     };
     getDomainOptions().then((o) => live && setZones(o), fail(setZonesError));
     // A wildcard app cannot use another domain; its options are not needed.

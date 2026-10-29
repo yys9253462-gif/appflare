@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { migrations as MIGRATIONS } from "./migrations/index";
 import {
   releaseSettingsLock,
@@ -154,7 +155,7 @@ export function createMigrator(migrations: readonly Migration[], options: Migrat
         }
       }
       if (now() >= deadline) {
-        throw new MigrationError("Timed out waiting for another isolate to finish migrating");
+        throw new MigrationError(t("Timed out waiting for another isolate to finish migrating"));
       }
       await sleep(retryDelayMs);
       version = await readSchemaVersion(db);

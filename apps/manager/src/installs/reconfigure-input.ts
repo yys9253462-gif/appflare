@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 import {
   connectionChangesSchema,
   MAX_NAME_LENGTH,
@@ -24,7 +25,7 @@ export const startReconfigureInput = z.object({
   hyperdrive: connectionChangesSchema.optional(),
   /** For an app that receives email: the zone to receive it for instead of the current one. */
   emailRouting: z
-    .object({ zoneId: z.string().regex(/^[A-Za-z0-9_-]{1,64}$/, "Choose a zone.") })
+    .object({ zoneId: z.string().regex(/^[A-Za-z0-9_-]{1,64}$/, t("Choose a zone.")) })
     .optional(),
   /** The admin accepted that the new settings cannot be checked on a preview first. */
   confirmNoPreview: z.boolean().optional(),

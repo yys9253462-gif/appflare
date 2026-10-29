@@ -8,6 +8,7 @@ import {
   rowsNeedingAction,
 } from "../capabilities/capability-rows";
 import { settingsLink } from "../components/settings-links";
+import { t } from "../i18n";
 import type { AccountAttentionRow } from "./attention";
 
 /**
@@ -42,8 +43,8 @@ export interface InstallNeeds {
 
 /** The sign-in row's words when all it lacks is what usage and spend protection added. */
 export const USAGE_RECONNECT = {
-  found: "New permission for usage",
-  why: "Reconnect to Cloudflare to see each app's usage and turn on spend protection.",
+  found: t("New permission for usage"),
+  why: t("Reconnect to Cloudflare to see each app's usage and turn on spend protection."),
 } as const;
 
 export function accountAttentionRows(

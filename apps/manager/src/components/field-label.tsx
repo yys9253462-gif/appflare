@@ -1,6 +1,7 @@
 import type { CatalogFieldLink } from "@appflare/schema";
 import { Button, Link, Switch } from "@cloudflare/kumo";
 import { createContext, type ReactNode, useContext, useState } from "react";
+import { t } from "../i18n";
 import { localChoice } from "./local-choice";
 import { MessageText } from "./message-text";
 import { Tooltip } from "./tooltip";
@@ -8,7 +9,7 @@ import { Tooltip } from "./tooltip";
 /**
  * Labels of the install and settings forms: the catalog's human label only.
  * The variable or secret name the app reads is technical detail, shown on
- * hover and, with the form's "Show technical names" switch on, inline after
+ * hover and, with the form's t("Show technical names") switch on, inline after
  * the label in muted monospace. A field's help is plain text; the catalog's
  * `link` for the field (where to get the value) follows it.
  */
@@ -24,7 +25,7 @@ export function useTechnicalNames(): boolean {
 }
 
 /** What the switch at the top of a form says. */
-export const TECHNICAL_NAMES_LABEL = "Show technical names";
+export const TECHNICAL_NAMES_LABEL = t("Show technical names");
 
 /** Where the browser remembers whether technical names are shown. */
 export const TECHNICAL_NAMES_KEY = "appflare:technical-names";
@@ -40,7 +41,7 @@ const technicalNames = localChoice(TECHNICAL_NAMES_KEY, parseTechnicalNames);
 
 /**
  * Whether technical names are shown, and a setter: one choice for every
- * "Show technical names" switch, remembered per browser (`local-choice.ts`),
+ * t("Show technical names") switch, remembered per browser (`local-choice.ts`),
  * so turning it on in one place shows them everywhere, on every page.
  */
 export function useShowTechnicalNames(): [boolean, (show: boolean) => void] {

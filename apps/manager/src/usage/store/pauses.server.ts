@@ -4,6 +4,7 @@ import { z } from "zod";
 import { type Read, read, runRead } from "../../db/batch";
 import type { Database } from "../../db/client";
 import { app_pauses, type PauseReason } from "../../db/schema";
+import { t } from "../../i18n";
 
 /**
  * Pauses of installs. A pause is open from the moment it is recorded until
@@ -19,7 +20,7 @@ import { app_pauses, type PauseReason } from "../../db/schema";
  */
 export const pauseWorkerVersionsSchema = z
   .record(z.string().min(1), z.string().min(1))
-  .refine((v) => Object.keys(v).length > 0, "At least one Worker's version is needed");
+  .refine((v) => Object.keys(v).length > 0, t("At least one Worker's version is needed"));
 export type PauseWorkerVersions = z.infer<typeof pauseWorkerVersionsSchema>;
 
 /** A stored value that does not parse reads as not recorded. */
@@ -132,7 +133,7 @@ export async function openPause(
     .returning();
   if (row) return { opened: true, pause: fromRow(row) };
   const open = await findOpenPause(db, input.installId);
-  if (!open) throw new Error("The pause was neither stored nor found open");
+  if (!open) throw new Error(t("The pause was neither stored nor found open"));
   return { opened: false, pause: open };
 }
 

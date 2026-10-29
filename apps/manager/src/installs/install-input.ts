@@ -1,6 +1,7 @@
 import { MAX_CONNECTION_STRING_LENGTH } from "@appflare/schema";
 import { z } from "zod";
 import { VALIDATION_METHODS } from "../gateway/gateway";
+import { t } from "../i18n";
 import { displayNameInput } from "./display-name";
 
 /**
@@ -106,7 +107,7 @@ export const startInstallInput = z.object({
    * `install.emailRouting`; refused for any other app.
    */
   emailRouting: z
-    .object({ zoneId: z.string().regex(/^[A-Za-z0-9_-]{1,64}$/, "Choose a zone.") })
+    .object({ zoneId: z.string().regex(/^[A-Za-z0-9_-]{1,64}$/, t("Choose a zone.")) })
     .optional(),
   /** A custom or external domain the install job adds once the Worker serves. */
   domain: installDomainInput.optional(),

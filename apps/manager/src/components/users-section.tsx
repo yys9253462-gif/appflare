@@ -299,8 +299,9 @@ const ACCESS_NOT_UPDATED =
   'The Cloudflare Access policy was not updated. Use "Re-sync admins" under Cloudflare Access.';
 
 /** When "Appflare users", the policy of apps protected with Cloudflare Access, missed a change. */
-const APP_ACCESS_NOT_UPDATED =
-  "The Cloudflare Access policy of your protected apps was not updated. Appflare tries again within 30 minutes.";
+const APP_ACCESS_NOT_UPDATED = t(
+  "The Cloudflare Access policy of your protected apps was not updated. Appflare tries again within 30 minutes.",
+);
 
 /** When "Appflare users" was deleted in the Cloudflare dashboard. */
 const APP_ACCESS_POLICY_MISSING = `The Cloudflare Access policy of your protected apps ("Appflare users") was deleted in the Cloudflare dashboard. Appflare makes it again within 30 minutes; each protected app's page then offers "Protect again", which lets people sign in to it again.`;
@@ -528,7 +529,7 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
       });
       await router.invalidate();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create the user.");
+      setError(err instanceof Error ? err.message : t("Could not create the user."));
     } finally {
       setPending(false);
     }
@@ -556,7 +557,7 @@ export function AddUserDialog({ button }: { button: RefObject<HTMLButtonElement 
         <LayerDialog.Title>{created === null ? "Add user" : "User created"}</LayerDialog.Title>
         <LayerDialog.Description>
           {created === null
-            ? "Appflare has no email provider, so you share a temporary password with them."
+            ? t("Appflare has no email provider, so you share a temporary password with them.")
             : `Give ${created.email} this temporary password. It is shown only once.`}
         </LayerDialog.Description>
         <LayerDialog.Body>

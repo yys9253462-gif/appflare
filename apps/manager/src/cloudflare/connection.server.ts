@@ -10,6 +10,7 @@ import {
 import { createDb } from "../db/client";
 import { readSettings, SETTING } from "../db/settings";
 import { releaseSettingsLock, tryAcquireSettingsLock } from "../db/settings-lock";
+import { t } from "../i18n";
 import {
   CloudflareConnectionError,
   CONNECTION_MESSAGES,
@@ -111,12 +112,14 @@ const REJECTION_RENEWAL_GAP_MS = 5 * 60_000;
 
 /** Plain words stored with the grant, shown on Settings. */
 export const GRANT_PROBLEMS = {
-  revoked:
+  revoked: t(
     "Cloudflare no longer accepts this connection: it was withdrawn in Cloudflare, it expired, or it was used somewhere else.",
-  unreachable:
+  ),
+  unreachable: t(
     "Cloudflare did not answer when Appflare renewed its access. Appflare tries again by itself.",
+  ),
   refused: (code: string) => `Cloudflare refused to renew Appflare's access (${code}).`,
-  keyLost: "This version of Appflare cannot read its saved connection to Cloudflare.",
+  keyLost: t("This version of Appflare cannot read its saved connection to Cloudflare."),
 } as const;
 
 /** What the connection reads of the Worker's environment. */

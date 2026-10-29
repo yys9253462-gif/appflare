@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { LOOP_LEVELS, SPEND_PERIODS } from "../db/usage-schema";
+import { t } from "../i18n";
 import { PAID_PLAN_MONTHLY_USD } from "./math";
 import { UNUSUAL_FACTORS } from "./store/spend-settings";
 
@@ -38,7 +39,7 @@ export const setSpendDefaultsInput = z
     unusualFactor: z.literal(UNUSUAL_FACTORS),
   })
   .partial()
-  .refine((patch) => Object.keys(patch).length > 0, "Nothing to change.");
+  .refine((patch) => Object.keys(patch).length > 0, t("Nothing to change."));
 export type SetSpendDefaultsInput = z.infer<typeof setSpendDefaultsInput>;
 
 /**

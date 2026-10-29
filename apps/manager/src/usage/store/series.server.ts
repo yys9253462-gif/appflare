@@ -3,6 +3,7 @@ import type { BatchItem } from "drizzle-orm/batch";
 import { type Read, read, runRead } from "../../db/batch";
 import type { Database } from "../../db/client";
 import { usage_daily, usage_hourly } from "../../db/schema";
+import { t } from "../../i18n";
 import {
   chunk,
   DAY_SECONDS,
@@ -65,7 +66,7 @@ async function runInBatches(db: Database, items: readonly BatchItem<"sqlite">[])
 
 function checkRow(row: HourlyUsage): void {
   if (!row.installId || !row.product) {
-    throw new UsageStoreError("A usage row needs an install id and a product");
+    throw new UsageStoreError(t("A usage row needs an install id and a product"));
   }
   if (!Number.isInteger(row.hour) || row.hour % HOUR_SECONDS !== 0) {
     throw new UsageStoreError(`Usage hour ${row.hour} is not the start of a UTC hour`);

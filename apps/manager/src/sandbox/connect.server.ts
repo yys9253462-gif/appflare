@@ -3,6 +3,7 @@ import { SANDBOX_ENTRYPOINT, SANDBOX_WORKER_NAME, type SandboxInfo } from "@appf
 import { settingsPlace } from "../components/settings-links";
 import { createDb } from "../db/client";
 import { readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { MANAGER_SUBDOMAIN } from "../installs/workers-dev";
 import { probeHealth } from "../jobs/install/health";
 import type { WorkflowLookup } from "../jobs/reconcile.server";
@@ -203,9 +204,9 @@ export const CONNECT_PROBE_ATTEMPTS = 8;
 const PROBE_DELAY_MS = 2000;
 
 /** The message of every version a connect attempt creates; never change it. */
-export const CONNECT_MESSAGE = "Appflare: connect sandbox builds";
+export const CONNECT_MESSAGE = t("Appflare: connect sandbox builds");
 /** The message of every version a disconnect attempt creates; never change it. */
-export const DISCONNECT_MESSAGE = "Appflare: disconnect sandbox builds";
+export const DISCONNECT_MESSAGE = t("Appflare: disconnect sandbox builds");
 
 /**
  * Whether `version` is an earlier connect (or disconnect) attempt made from
@@ -280,7 +281,9 @@ export async function planSandboxBindingChange(
   const found = await servingSandboxBinding(api, workerName);
   if (found === null) {
     throw fail(
-      "No single version serves all of Appflare's traffic (a gradual deployment is in progress). Finish or undo it in the Cloudflare dashboard first.",
+      t(
+        "No single version serves all of Appflare's traffic (a gradual deployment is in progress). Finish or undo it in the Cloudflare dashboard first.",
+      ),
     );
   }
   const { serving, binding: current } = found;
@@ -391,7 +394,9 @@ export async function connectSandboxCore(deps: ConnectSandboxDeps): Promise<Conn
   const settings = await readSettings(orm, [SETTING.workerName, SETTING.accountSubdomain]);
   const workerName = settings.worker_name;
   if (!workerName) {
-    throw new SandboxConnectError("Appflare does not know its own Worker yet. Finish setup first.");
+    throw new SandboxConnectError(
+      t("Appflare does not know its own Worker yet. Finish setup first."),
+    );
   }
   const result = await changeSandboxBinding(
     {

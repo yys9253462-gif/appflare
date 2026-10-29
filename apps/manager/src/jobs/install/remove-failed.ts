@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { startUninstallCore } from "../../installs/start-uninstall.server";
 import { jobCreator } from "../create-job.server";
 import type { JobEnv, StepRunner } from "../run-job";
@@ -9,7 +10,7 @@ import { errorMessage } from "../steps";
  * Worker: the install removes what it created (see
  * {@link removeFailedInstallPhase}).
  */
-export const CRON_REFUSED_UNDO = "Appflare removes what this install created.";
+export const CRON_REFUSED_UNDO = t("Appflare removes what this install created.");
 
 /**
  * How the admin goes on once there is room: the removed install has no

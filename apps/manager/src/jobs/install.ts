@@ -34,6 +34,7 @@ import { connectionKindOf, requireConnection } from "../cloudflare/connection.se
 import { createDb, type Database } from "../db/client";
 import { installs, jobs, resources } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
+import { t } from "../i18n";
 import { accessRequiredRefusal } from "../installs/access-offer";
 import { installDomainInput, workerNameSchema } from "../installs/install-input";
 import { varsUseWorkerUrl } from "../installs/install-vars";
@@ -371,7 +372,7 @@ export async function runInstall(ctx: JobContext): Promise<void> {
           );
         }
         if (toConfirm.length > 0 && params.requirementsConfirmed === true) {
-          log.info("The admin confirmed this account meets these requirements.");
+          log.info(t("The admin confirmed this account meets these requirements."));
         }
       }
       const problems = [
@@ -393,7 +394,7 @@ export async function runInstall(ctx: JobContext): Promise<void> {
       for (const w of workers) {
         const tooBig = workerUploadProblem(
           w.manifest.worker.modules,
-          w.primary ? "This app version" : `The Worker "${w.name}" of this app version`,
+          w.primary ? t("This app version") : `The Worker "${w.name}" of this app version`,
         );
         if (tooBig !== null) throw new InstallError(tooBig);
       }

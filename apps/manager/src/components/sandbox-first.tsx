@@ -1,5 +1,6 @@
 import { Banner, Link, Text } from "@cloudflare/kumo";
 import { PowerIcon } from "@phosphor-icons/react";
+import { t } from "../i18n";
 import { SANDBOX_CAPABILITY_HREF, SANDBOX_FIRST_NOTE } from "../sandbox/readiness";
 import { BANNER_ICON, MessageText } from "./message-text";
 
@@ -12,7 +13,7 @@ import { BANNER_ICON, MessageText } from "./message-text";
  */
 
 /** The label of every link to that row. */
-export const SANDBOX_CAPABILITY_LINK_LABEL = "Sandbox builds in Your account";
+export const SANDBOX_CAPABILITY_LINK_LABEL = t("Sandbox builds in Your account");
 
 export function SandboxFirstNote() {
   return (

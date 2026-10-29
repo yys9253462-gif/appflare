@@ -23,6 +23,7 @@ import {
 } from "../cloudflare/token-template";
 import { createDb } from "../db/client";
 import { type HealthStatus, installs, resources } from "../db/schema";
+import { t } from "../i18n";
 import {
   type HealthProbe,
   type HealthSettlement,
@@ -263,7 +264,7 @@ export async function addCustomDomainCore(
   // Such an app answers on every name under a base; one exact name would not do.
   if (wildcardOfManifest(install.manifestJson) !== null) {
     throw new CustomDomainError(
-      "This app needs every name under its hostname. Add a wildcard domain instead.",
+      t("This app needs every name under its hostname. Add a wildcard domain instead."),
     );
   }
 
@@ -566,7 +567,7 @@ async function readInstall(db: D1Database, installId: string): Promise<InstallRo
     .from(installs)
     .where(eq(installs.id, installId))
     .limit(1);
-  if (row === undefined) throw new CustomDomainError("There is no such install.");
+  if (row === undefined) throw new CustomDomainError(t("There is no such install."));
   return row;
 }
 
@@ -593,7 +594,7 @@ async function readDomain(
       ),
     )
     .limit(1);
-  if (row === undefined) throw new CustomDomainError("That is not a custom domain of this app.");
+  if (row === undefined) throw new CustomDomainError(t("That is not a custom domain of this app."));
   return row;
 }
 

@@ -9,16 +9,18 @@
  * wording below instead and never the raw text.
  */
 
+import { t } from "../i18n";
 import { PASSKEY_MESSAGES, type PasskeyError } from "./passkey-errors";
 
 export const SIGN_IN_MESSAGES = {
-  wrongCredentials: "The email or password is not correct. Check both and try again.",
-  invalidEmail: "Enter a valid email address.",
+  wrongCredentials: t("The email or password is not correct. Check both and try again."),
+  invalidEmail: t("Enter a valid email address."),
   rateLimited: PASSKEY_MESSAGES.rateLimited,
-  refused:
+  refused: t(
     "Appflare refused the sign-in from this address. Open the manager at its own address and try again.",
-  failed: "Could not sign you in. Try again in a moment.",
-  unreachable: "Could not reach Appflare. Check your connection and try again.",
+  ),
+  failed: t("Could not sign you in. Try again in a moment."),
+  unreachable: t("Could not reach Appflare. Check your connection and try again."),
 } as const;
 
 export function passwordSignInErrorMessage(error: PasskeyError): string {

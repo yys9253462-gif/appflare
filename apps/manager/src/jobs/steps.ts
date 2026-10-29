@@ -7,6 +7,7 @@ import { type CloudflareConnection, cloudflareConnection } from "../cloudflare/c
 import { inConnectionWordsOf } from "../cloudflare/sign-in-words.server";
 import { createDb, type Database } from "../db/client";
 import { jobs } from "../db/schema";
+import { t } from "../i18n";
 import { errorMessage, JobError, toStepError } from "./errors";
 import { isSubrequestLimitError } from "./install/budget";
 import type { InstallProbeHeaders } from "./install/health";
@@ -120,15 +121,17 @@ export interface JobSteps {
  * Added to the failure of a step that used up the job's own invocation (not
  * a unit's), which a job that spreads runs once more in a fresh one.
  */
-export const OWN_LIMIT_NOTE = "The job's own requests used up what this run of it may make.";
+export const OWN_LIMIT_NOTE = t("The job's own requests used up what this run of it may make.");
 
 /** The job log's line when a job had already ended before its instance started. */
-export const JOB_ALREADY_ENDED_LINE =
-  "This job had already ended before Cloudflare started it, so it stops here and changes nothing.";
+export const JOB_ALREADY_ENDED_LINE = t(
+  "This job had already ended before Cloudflare started it, so it stops here and changes nothing.",
+);
 
 /** The job log's line when a job waits for a fresh invocation. */
-export const FRESH_INVOCATION_NOTE =
-  "Waiting 5 minutes before the next step: on Workers Free, Cloudflare lets a job make 50 requests at a time, and this app's Workers need more. The job carries on by itself with a fresh allowance.";
+export const FRESH_INVOCATION_NOTE = t(
+  "Waiting 5 minutes before the next step: on Workers Free, Cloudflare lets a job make 50 requests at a time, and this app's Workers need more. The job carries on by itself with a fresh allowance.",
+);
 
 /** What the start step returns for a job that had already ended. */
 const ENDED_MARK = "jobAlreadyEnded";

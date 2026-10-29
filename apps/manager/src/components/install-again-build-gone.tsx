@@ -2,6 +2,7 @@ import { Banner, Text, useKumoToastManager } from "@cloudflare/kumo";
 import { GitBranchIcon, WarningIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
+import { t } from "../i18n";
 import type { InstallAgainRecord, InstallAgainSource } from "../installs/install-again";
 import { buildForInstallAgain } from "../installs/source-builds.functions";
 import { BusyButton } from "./busy-button";
@@ -48,7 +49,7 @@ export function InstallAgainBuildGone({
       });
       toasts.add({
         title: "Build started",
-        description: "Its review opens with the choices from last time once it is built.",
+        description: t("Its review opens with the choices from last time once it is built."),
         variant: "info",
       });
       await router.navigate({

@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 /**
  * Cloudflare's refusals as Appflare words them for an API token: which
  * permission the token lacks and how to add it. The modules that meet a
@@ -14,10 +15,11 @@ export const TOKEN_REFUSALS = {
   zoneHidden: (permissions: string) =>
     `The Cloudflare token cannot see that zone. It needs ${permissions} on it.`,
   /** Reading a zone for Email Routing. */
-  emailZoneHidden: "The Cloudflare token cannot see that zone.",
+  emailZoneHidden: t("The Cloudflare token cannot see that zone."),
   /** Reading the zone of the external domains gateway. */
-  gatewayZoneHidden:
+  gatewayZoneHidden: t(
     "The Cloudflare token cannot see that domain. It needs Zone: Read, DNS: Edit and Workers Routes: Edit on it.",
+  ),
   /** The domain an app receives email for, out of sight when a job sets the app's email up. */
   emailZoneGone: (zoneName: string, permissions: string) =>
     `Appflare cannot see ${zoneName}, the domain the app receives email for: it may have been removed from Cloudflare, or the token lacks ${permissions}.`,

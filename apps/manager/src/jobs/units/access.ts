@@ -16,6 +16,7 @@ import {
   unprotectInstall,
 } from "../../access/protect.server";
 import { ACCESS_MESSAGES, AccessToggleError } from "../../access/toggle.server";
+import { t } from "../../i18n";
 import { JobError } from "../errors";
 import { runUnit, type UnitDeps, type UnitEnv, type UnitResult } from "./result";
 
@@ -284,8 +285,10 @@ export function runUnprotectInstall(
       const result = await unprotectInstall(accessDeps(env, deps, cf), input.installId);
       log.info(
         result.removed
-          ? "Deleted the app's Cloudflare Access application, its public paths and its service token."
-          : "The app had no Cloudflare Access protection to remove.",
+          ? t(
+              "Deleted the app's Cloudflare Access application, its public paths and its service token.",
+            )
+          : t("The app had no Cloudflare Access protection to remove."),
       );
       if (result.usersPolicy === "removed") {
         log.info(

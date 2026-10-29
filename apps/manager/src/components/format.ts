@@ -104,7 +104,7 @@ export function jobKindLabel(job: {
   accessChange?: boolean;
 }): string {
   if (job.restore === true) return "Database restore";
-  if (job.accessChange === true) return "Cloudflare Access change";
+  if (job.accessChange === true) return t("Cloudflare Access change");
   if (job.deleteRetained === true) return "Delete retained data";
   return JOB_KIND_LABELS[job.kind] ?? job.kind;
 }

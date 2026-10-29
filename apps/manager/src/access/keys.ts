@@ -1,4 +1,5 @@
 import { type AccessJwk, type FetchLike, fetchAccessCerts } from "@appflare/cf-api";
+import { t } from "../i18n";
 import type { AccessKeyLookup } from "./jwt";
 
 /**
@@ -96,7 +97,7 @@ export function createAccessKeyStore(options: AccessKeyStoreOptions = {}): Acces
         let entry = teams.get(teamDomain);
         const failedAt = coldFailures.get(teamDomain);
         if (entry === undefined && failedAt !== undefined && now() - failedAt < coldFailureMs) {
-          throw new Error("The Access team's signing keys could not be fetched recently");
+          throw new Error(t("The Access team's signing keys could not be fetched recently"));
         }
         const canRetry = entry === undefined || now() - entry.attemptedAt >= minRefreshMs;
         if (entry === undefined || (now() - entry.fetchedAt >= ttlMs && canRetry)) {

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { returnToSearchSchema } from "../components/return-to";
+import { t } from "../i18n";
 
 /**
  * The sign-in page right after Appflare changed its address: the move sends
@@ -24,7 +25,7 @@ export function pendingAddressNote(hostname: string): string {
 
 /** Domains settings' row for the domain the install chose, while Appflare waits to move there. */
 export const PENDING_ROW = {
-  waiting: "Appflare moves here once it is ready.",
+  waiting: t("Appflare moves here once it is ready."),
   failed: (hostname: string) => `Couldn't move to ${hostname}.`,
 } as const;
 
@@ -34,7 +35,9 @@ export function passkeysAfterMoveLine(hostname: string): string {
 }
 
 /** The sign-in page's line once Appflare moved here by itself or by an admin. */
-export const MOVED_HERE_NOTE = "Appflare moved to this address. Sign in again with your password.";
+export const MOVED_HERE_NOTE = t(
+  "Appflare moved to this address. Sign in again with your password.",
+);
 
 /** How long after a move the sign-in page says Appflare moved here. */
 export const MOVED_HERE_DAYS = 14;
@@ -95,7 +98,7 @@ export function rememberSignedInHere(storage: Storage | null = browserStorage())
 /** The passkey offered right after signing in at Appflare's new address. */
 export const PASSKEY_OFFER = {
   title: (host: string) => `Add a passkey for ${host}?`,
-  description: "Next time, sign in with your fingerprint, face or screen lock.",
+  description: t("Next time, sign in with your fingerprint, face or screen lock."),
   /** The name the passkey gets; it can be told apart from others by when it was added. */
   name: "This device",
 } as const;

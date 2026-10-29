@@ -72,8 +72,8 @@ export function CustomDomainsSection({ install }: { install: InstallDetail }) {
             {wildcard !== null
               ? `No wildcard domain. The app is served on its workers.dev URL only, and needs a hostname with every name under it. ${wildcard.reason}`.trim()
               : install.externalDomains.length === 0
-                ? "No custom domains. The app is served on its workers.dev URL only."
-                : "No custom domains."}
+                ? t("No custom domains. The app is served on its workers.dev URL only.")
+                : t("No custom domains.")}
           </Text>
         ) : null
       }
@@ -143,7 +143,7 @@ function CustomDomainRow({
       setError(null);
       return next;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not check the domain.");
+      setError(err instanceof Error ? err.message : t("Could not check the domain."));
       return null;
     } finally {
       setPending(false);
@@ -300,7 +300,9 @@ function AddDomainDialog({ install }: { install: InstallDetail }) {
         if (loaded.zones.length === 1 && only !== undefined) setZoneId(only.id);
       })
       .catch((err: unknown) =>
-        setLoadError(err instanceof Error ? err.message : "Could not read the account's domains."),
+        setLoadError(
+          err instanceof Error ? err.message : t("Could not read the account's domains."),
+        ),
       );
   }
 
@@ -338,7 +340,7 @@ function AddDomainDialog({ install }: { install: InstallDetail }) {
         setReplace(false);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add the domain.");
+      setError(err instanceof Error ? err.message : t("Could not add the domain."));
     }
     setPending(false);
   }
@@ -469,7 +471,9 @@ function RemoveDomainDialog({
       description={
         domain.wildcard
           ? `The app stops answering on ${domain.hostname} and every name under it; Appflare deletes the DNS records and Workers routes it added. If this is its last live domain while workers.dev is off, Appflare turns workers.dev back on first, unless an admin turned it off.`
-          : "The app stops answering on this hostname. If this is its last live domain while workers.dev is off, Appflare turns workers.dev back on first, unless an admin turned it off."
+          : t(
+              "The app stops answering on this hostname. If this is its last live domain while workers.dev is off, Appflare turns workers.dev back on first, unless an admin turned it off.",
+            )
       }
       actionLabel={t("Remove domain")}
       onConfirm={async () => {
@@ -529,7 +533,9 @@ function AddWildcardDomainDialog({ install, reason }: { install: InstallDetail; 
         if (loaded.zones.length === 1 && only !== undefined) setZoneId(only.id);
       })
       .catch((err: unknown) =>
-        setLoadError(err instanceof Error ? err.message : "Could not read the account's domains."),
+        setLoadError(
+          err instanceof Error ? err.message : t("Could not read the account's domains."),
+        ),
       );
   }
 
@@ -558,7 +564,7 @@ function AddWildcardDomainDialog({ install, reason }: { install: InstallDetail; 
       await router.invalidate();
       await settingsRefresh(added, NEW_HOSTNAME_SETTINGS);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add the domain.");
+      setError(err instanceof Error ? err.message : t("Could not add the domain."));
     }
     setPending(false);
   }

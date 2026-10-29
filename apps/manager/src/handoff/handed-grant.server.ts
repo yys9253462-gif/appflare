@@ -9,6 +9,7 @@ import {
   storeGrant,
 } from "../cloudflare/grant.server";
 import { openValue, sealValue } from "../cloudflare/grant-seal";
+import { t } from "../i18n";
 import { handedGrantKey } from "./handoff-proof";
 import { forgetHandedGrant, HANDED_GRANT_KEY } from "./handoff-state.server";
 
@@ -44,7 +45,7 @@ const SEAL_CONTEXT = "appflare-handoff-grant";
 export class AuthorizeAgain extends Error {
   override name = "AuthorizeAgain";
   constructor() {
-    super("Cloudflare must be connected again from the page that installed Appflare.");
+    super(t("Cloudflare must be connected again from the page that installed Appflare."));
   }
 }
 

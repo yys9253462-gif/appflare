@@ -1,5 +1,6 @@
 import type { CatalogEmailRouting } from "@appflare/schema";
 import { TOKEN_REFUSALS } from "../../cloudflare/token-refusals";
+import { t } from "../../i18n";
 import { parseEmailRouteCfId } from "../../installs/email-routing";
 import { provisionEmailRoutingPhase, removeEmailRoutesPhase } from "../install/email-routing";
 import { JobError, type JobSteps } from "../steps";
@@ -74,8 +75,9 @@ export function emailLeftOut(
 }
 
 /** What the end of a refusal says: nothing changed, and how to go on. */
-const NOTHING_CHANGED =
-  "Nothing was changed. Once that is done, set up the app's email again from its settings.";
+const NOTHING_CHANGED = t(
+  "Nothing was changed. Once that is done, set up the app's email again from its settings.",
+);
 
 /**
  * The email part of the settings change job when it sets the app's email up

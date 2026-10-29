@@ -40,7 +40,7 @@ import { JobError } from "../errors";
 export const STAND_IN_TAG = "appflare-paused";
 
 /** What a visitor of a paused app reads. */
-export const PAUSED_MESSAGE = "This app is paused by its owner";
+export const PAUSED_MESSAGE = t("This app is paused by its owner");
 
 /** The stand-in's one module. */
 export const STAND_IN_MODULE = "appflare-paused.mjs";

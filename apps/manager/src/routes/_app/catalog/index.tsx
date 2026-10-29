@@ -334,7 +334,8 @@ function RefreshButton() {
       const { count, failed } = await refreshCatalog();
       await router.invalidate();
       toasts.add({
-        title: failed.length === 0 ? "List of apps refreshed" : "List of apps partly refreshed",
+        title:
+          failed.length === 0 ? t("List of apps refreshed") : t("List of apps partly refreshed"),
         description: `Loaded ${count} app${count === 1 ? "" : "s"}.${failed.length === 0 ? "" : ` Could not refresh ${failed.join(", ")}.`}`,
         variant: failed.length === 0 ? "success" : "warning",
       });

@@ -5,6 +5,7 @@ import {
   permissionName,
   TOKEN_PERMISSION_GROUPS,
 } from "../cloudflare/token-template";
+import { t } from "../i18n";
 
 /**
  * Email Routing for apps whose catalog manifest sets `install.emailRouting`:
@@ -364,7 +365,9 @@ export function sendsEmail(bindings: ReadonlyArray<{ type: string }>): boolean {
 export const SEND_EMAIL_NOTE =
   "**Sending email.** This app sends email through Cloudflare. Cloudflare delivers to the " +
   "account's verified destination addresses for free on every plan: add and verify them in the " +
-  "Cloudflare dashboard under Email Service, Email Routing, Destination addresses. Sending to any " +
+  t(
+    "Cloudflare dashboard under Email Service, Email Routing, Destination addresses. Sending to any ",
+  ) +
   "other address needs Email Sending, which requires the Workers Paid plan and a sending domain " +
   "set up in Email Service.";
 

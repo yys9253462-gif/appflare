@@ -1,4 +1,5 @@
-export const OWNER_ONLY = "Only the owner can rotate the auth secret or remove Appflare.";
+import { t } from "../i18n";
+export const OWNER_ONLY = t("Only the owner can rotate the auth secret or remove Appflare.");
 
 /**
  * A refused danger-zone action: its message is shown to the owner as is,

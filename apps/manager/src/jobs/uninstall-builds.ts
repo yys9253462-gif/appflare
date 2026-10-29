@@ -1,4 +1,5 @@
 import { buildCleanupRequestSchema, installBuildsPrefix, sandboxObjectUrl } from "@appflare/schema";
+import { t } from "../i18n";
 import { sandboxBinding } from "../sandbox/binding";
 import type { JobEnv } from "./run-job";
 import type { JobSteps } from "./steps";
@@ -129,7 +130,9 @@ export async function removeInstallBuildsPhase(
     const binding = sandboxBinding(env);
     if (binding === undefined) {
       log.warn(
-        "Appflare is not connected to the sandbox Worker, so this install's builds stay in its bucket (appflare-builds).",
+        t(
+          "Appflare is not connected to the sandbox Worker, so this install's builds stay in its bucket (appflare-builds).",
+        ),
       );
       return {};
     }

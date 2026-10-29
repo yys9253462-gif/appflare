@@ -72,7 +72,7 @@ export function EmailRoutingFields({
       .catch((err: unknown) => {
         if (live) {
           setLoadError(
-            err instanceof Error ? err.message : "Could not read the account's domains.",
+            err instanceof Error ? err.message : t("Could not read the account's domains."),
           );
         }
       });
@@ -100,7 +100,9 @@ export function EmailRoutingFields({
         .catch((err: unknown) => {
           if (live) {
             setPreviewFailure(
-              err instanceof Error ? err.message : "Could not read Email Routing for that domain.",
+              err instanceof Error
+                ? err.message
+                : t("Could not read Email Routing for that domain."),
             );
           }
         })

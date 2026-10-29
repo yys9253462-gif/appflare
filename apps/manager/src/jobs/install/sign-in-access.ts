@@ -1,5 +1,6 @@
 import { CloudflareApiError, failureDetail } from "@appflare/cf-api";
 import { RECONNECT_PLACE } from "../../cloudflare/connection-errors";
+import { t } from "../../i18n";
 import { JobError, type JobSteps } from "../steps";
 
 /**
@@ -34,7 +35,7 @@ export async function checkSignInPhase(steps: JobSteps): Promise<{ scripts: stri
       log.warn(`Cloudflare refused to list the account's Workers (${failureDetail(error)}).`);
       throw new JobError(SIGN_IN_REFUSED);
     }
-    log.info("Appflare's Cloudflare sign-in reaches this account.");
+    log.info(t("Appflare's Cloudflare sign-in reaches this account."));
     return { scripts };
   });
 }

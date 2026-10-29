@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { WORKER_NAME_HINT, WORKER_NAME_PATTERN } from "./install-input";
 
 /**
@@ -32,7 +33,7 @@ export const ACCOUNT_NAME_MESSAGE =
 
 /** Why the name breaks the format rules, or null when it follows them. */
 export function workerNameFormatProblem(name: string): string | null {
-  if (name === "") return "Enter a name.";
+  if (name === "") return t("Enter a name.");
   return WORKER_NAME_PATTERN.test(name) ? null : `Use ${WORKER_NAME_HINT}`;
 }
 

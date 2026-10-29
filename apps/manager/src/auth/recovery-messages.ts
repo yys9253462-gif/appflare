@@ -4,22 +4,26 @@
  * Better Auth's error codes to them rather than showing raw error text.
  */
 
+import { t } from "../i18n";
 import type { PasskeyError } from "./passkey-errors";
 import { SIGN_IN_MESSAGES } from "./sign-in-errors";
 
 export const RECOVERY_MESSAGES = {
-  invalid:
+  invalid: t(
     "That recovery code is not right, was already used, or has expired. Check it, or get a new one.",
+  ),
   noAdmin:
     "No admin uses that email address. Check it and try again; the code keeps working until it expires.",
   tooShort: (min: number) => `Use at least ${min} characters for the new password.`,
   tooLong: (max: number) => `Use at most ${max} characters for the new password.`,
-  linkInvalid:
+  linkInvalid: t(
     "This reset link is not valid any more: it was used, or it is older than 30 minutes.",
-  emailOff: "Password reset emails are off on this Appflare. Use a recovery code instead.",
-  emailSent:
+  ),
+  emailOff: t("Password reset emails are off on this Appflare. Use a recovery code instead."),
+  emailSent: t(
     "If an account uses that address, a link to choose a new password is on its way. It works for 30 minutes.",
-  failed: "Could not reset the password. Try again in a moment.",
+  ),
+  failed: t("Could not reset the password. Try again in a moment."),
 } as const;
 
 /** The endpoint under `/api/auth` that resets a password with a recovery code. */

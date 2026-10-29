@@ -44,7 +44,7 @@ export function SourceChangesCard({
     try {
       setChanges(await checkSourceChanges({ data: { installId: install.id } }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not check for changes.");
+      setError(err instanceof Error ? err.message : t("Could not check for changes."));
     }
     setChecking(false);
   }
@@ -89,7 +89,9 @@ export function SourceChangesCard({
             }
             description={
               changes.pinned
-                ? "It was built from a commit, which never changes. Rebuild it to pick up a new build command or a moved dependency."
+                ? t(
+                    "It was built from a commit, which never changes. Rebuild it to pick up a new build command or a moved dependency.",
+                  )
                 : changes.changed
                   ? `Installed: ${changes.installed?.slice(0, 12) ?? "unknown"}. Rebuild it to review the changes before updating.`
                   : `Still at ${changes.latest.slice(0, 12)}, the commit installed.`

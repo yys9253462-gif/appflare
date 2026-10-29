@@ -51,8 +51,8 @@ export function RuleSentence({ plan, rule }: { plan: AccountPlan; rule: AlertRul
  */
 export function unusedOnFree(plan: AccountPlan, rule: AlertRuleFields): string | null {
   if (plan !== "free") return null;
-  if (rule.unit === "usd") return "Dollar alerts aren't used on Workers Free.";
-  if (rule.period !== "day") return "On Workers Free an alert watches today only.";
+  if (rule.unit === "usd") return t("Dollar alerts aren't used on Workers Free.");
+  if (rule.period !== "day") return t("On Workers Free an alert watches today only.");
   return null;
 }
 

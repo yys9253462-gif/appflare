@@ -1,4 +1,5 @@
 import { Buffer } from "node:buffer";
+import { t } from "../i18n";
 
 /**
  * An install's Access service token client secret at rest. Cloudflare shows
@@ -40,7 +41,7 @@ const keys = new Map<string, CryptoKey>();
 
 async function sealingKey(authSecret: string | undefined): Promise<CryptoKey> {
   if (authSecret === undefined || authSecret.length === 0) {
-    throw new ServiceTokenKeyError("BETTER_AUTH_SECRET is not set on this Worker.");
+    throw new ServiceTokenKeyError(t("BETTER_AUTH_SECRET is not set on this Worker."));
   }
   const known = keys.get(authSecret);
   if (known !== undefined) return known;

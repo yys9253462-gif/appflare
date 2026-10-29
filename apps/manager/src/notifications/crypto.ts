@@ -1,5 +1,6 @@
 import { Buffer } from "node:buffer";
 import { z } from "zod";
+import { t } from "../i18n";
 import { channelSettingsSchema } from "./channels";
 
 /**
@@ -47,7 +48,7 @@ const keys = new Map<string, CryptoKey>();
 /** The AES-GCM key for channel credentials, derived once per isolate. */
 export async function channelKey(secret: string | undefined): Promise<CryptoKey> {
   if (secret === undefined || secret.length === 0) {
-    throw new ChannelKeyError("BETTER_AUTH_SECRET is not set on this Worker.");
+    throw new ChannelKeyError(t("BETTER_AUTH_SECRET is not set on this Worker."));
   }
   const known = keys.get(secret);
   if (known !== undefined) return known;

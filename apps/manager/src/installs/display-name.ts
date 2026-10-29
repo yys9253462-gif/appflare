@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "../i18n";
 
 /**
  * An install's display name: an optional name an admin gives it ("Team link
@@ -22,9 +23,12 @@ export const DISPLAY_NAME_HINT = `Use 1 to ${DISPLAY_NAME_MAX_LENGTH} characters
 export const displayNameSchema = z
   .string()
   .trim()
-  .min(1, "The name cannot be empty.")
+  .min(1, t("The name cannot be empty."))
   .max(DISPLAY_NAME_MAX_LENGTH, `Use at most ${DISPLAY_NAME_MAX_LENGTH} characters.`)
-  .refine((value) => !CONTROL_CHARACTER.test(value), "The name cannot hold line breaks or tabs.");
+  .refine(
+    (value) => !CONTROL_CHARACTER.test(value),
+    t("The name cannot hold line breaks or tabs."),
+  );
 
 /**
  * A display name as typed: empty (or only spaces) means none, so the

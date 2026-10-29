@@ -11,6 +11,7 @@ import { installAppKey } from "../catalog/sources";
 import { plainMessage } from "../components/message-links";
 import { createDb } from "../db/client";
 import { readSettings, SETTING, type SettingKey, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { runningVersion } from "../server/build-version";
 import { accountNames, accountNamesStatements, namesOf } from "./account-names.server";
 import { classifyJobError, cloudflareErrorCodes, splitJobError } from "./classify";
@@ -305,9 +306,9 @@ async function load(
     readFailedJob(env.DB, jobId),
     readSettings(createDb(env.DB), REPORT_SETTINGS) as Promise<ReportSettings>,
   ]);
-  if (job === null) throw new FailureReportError("There is no such job.");
+  if (job === null) throw new FailureReportError(t("There is no such job."));
   if (job.row.status !== "failed") {
-    throw new FailureReportError("Only a job that failed can be reported.");
+    throw new FailureReportError(t("Only a job that failed can be reported."));
   }
   return { job, settings };
 }
@@ -361,7 +362,7 @@ export async function sendFailureReport(
     if (current?.reported_at != null) {
       return { status: "already_sent", reportedAt: new Date(current.reported_at).toISOString() };
     }
-    throw new FailureReportError("Only a job that failed can be reported.");
+    throw new FailureReportError(t("Only a job that failed can be reported."));
   }
 
   const release = () =>

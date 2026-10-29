@@ -32,6 +32,7 @@ import { createDb } from "../db/client";
 import { type InstallOrigin, installs, jobs, resources, source_builds } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
 import type { UsedGithubToken } from "../github/access.server";
+import { t } from "../i18n";
 import { parseStoredManifest } from "../jobs/entry-workers";
 import type { InstallJobParams } from "../jobs/install";
 import { sha256Hex } from "../jobs/install/artifact";
@@ -326,7 +327,7 @@ async function planBuild(
       // The app left the catalog: build with the catalog manifest it was installed with.
       baseline = installedCatalog(install.manifest_json) ?? undefined;
     }
-    if (baseline === undefined) throw fail("The catalog manifest of this app is not available.");
+    if (baseline === undefined) throw fail(t("The catalog manifest of this app is not available."));
   }
   return {
     installId: install.id,
@@ -380,7 +381,7 @@ export async function startSourceBuildCore(
   const refusal = turnOnFirst ? null : sourceBuildRefusal({ ...sandbox, plan: accountPlan });
   if (refusal !== null) throw fail(refusal);
   if (!request.costConfirmed) {
-    throw fail("The build runs in your sandbox Worker on Workers Paid. Confirm its cost.");
+    throw fail(t("The build runs in your sandbox Worker on Workers Paid. Confirm its cost."));
   }
   const newId = deps.newId ?? (() => ulid());
   const plan = await planBuild(deps, request, newId);
@@ -482,8 +483,12 @@ export async function startSourceBuildCore(
   if (!claimed) {
     throw fail(
       plan.purpose === "update"
-        ? "Another job of this install is queued or running, sandbox builds are being changed, or Appflare is updating itself. Wait for it to finish, then try again."
-        : "Sandbox builds are being changed, or Appflare is updating itself. Wait for it to finish, then try again.",
+        ? t(
+            "Another job of this install is queued or running, sandbox builds are being changed, or Appflare is updating itself. Wait for it to finish, then try again.",
+          )
+        : t(
+            "Sandbox builds are being changed, or Appflare is updating itself. Wait for it to finish, then try again.",
+          ),
     );
   }
   const enableJobId = first?.enableJobId ?? null;
@@ -601,12 +606,12 @@ function builtOf(
   detected: RepositoryDetection | null;
   prebuilt: PrebuiltBuildParams;
 } {
-  if (record === null) throw new SourceBuildError("There is no such build.");
+  if (record === null) throw new SourceBuildError(t("There is no such build."));
   const status = effectiveStatus(record);
   if (status !== "built" && !(reused && status === "used")) {
     throw new SourceBuildError(
       status === "building"
-        ? "The build is still running."
+        ? t("The build is still running.")
         : status === "used"
           ? "This build was already installed. Start a new build to install it again."
           : status === "discarded" || status === "discarding"
@@ -626,7 +631,7 @@ function builtOf(
     row.image === null ||
     row.built_at === null
   ) {
-    throw new SourceBuildError("The build's record is incomplete. Start a new build.");
+    throw new SourceBuildError(t("The build's record is incomplete. Start a new build."));
   }
   return {
     row,
@@ -1278,15 +1283,15 @@ export async function discardSourceBuildCore(
   options: { idleBefore?: Date } = {},
 ): Promise<DiscardedFiles> {
   const record = await readSourceBuild(deps.db, buildId);
-  if (record === null) throw new SourceBuildError("There is no such build.");
+  if (record === null) throw new SourceBuildError(t("There is no such build."));
   const status = effectiveStatus(record);
   if (status === "building")
     throw new SourceBuildError("The build is still running. Wait for it to finish.");
   if (status !== "built" && status !== "failed") {
     throw new SourceBuildError(
       status === "used"
-        ? "This build is in use by an install."
-        : "This build was thrown away already.",
+        ? t("This build is in use by an install.")
+        : t("This build was thrown away already."),
     );
   }
   const now = (deps.now ?? (() => new Date()))();
@@ -1304,7 +1309,7 @@ export async function discardSourceBuildCore(
     )
     .returning({ id: source_builds.id });
   if (claimed.length === 0)
-    throw new SourceBuildError("The build changed meanwhile. Reload the page.");
+    throw new SourceBuildError(t("The build changed meanwhile. Reload the page."));
   if (deps.cleanup === undefined) return "no-sandbox";
   return deleteDiscardedFiles(deps.db, deps.cleanup, buildId, record.row.install_id, now);
 }

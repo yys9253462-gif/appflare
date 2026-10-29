@@ -5,6 +5,7 @@ import {
   needsWildcardHostname,
 } from "@appflare/schema";
 import type { AutoUpdateChoice } from "../auto-update/auto-update";
+import { t } from "../i18n";
 import type { InstallDomainInput } from "./install-input";
 import { enteredVarFields, type InstallVarField, varValueProblem } from "./install-vars";
 
@@ -289,7 +290,7 @@ export function installAgainPrefill(
  */
 export function reenterNote(catalog: CatalogManifest): string | null {
   if (hyperdriveDeclarations(catalog.resources?.hyperdrive).length === 0) return null;
-  return "Appflare never stores database connection strings, so enter them again.";
+  return t("Appflare never stores database connection strings, so enter them again.");
 }
 
 /** Under the install form's Secrets heading when installing again. */

@@ -196,7 +196,7 @@ export async function runRemoval(deps: RemovalDeps): Promise<RemovalOutcome> {
           more = result.value.more;
           previousFirst = result.value.first;
           return result.value.deleted === 0 && !more
-            ? done("The bucket is empty.")
+            ? done(t("The bucket is empty."))
             : done(
                 `Deleted ${result.value.deleted} object${result.value.deleted === 1 ? "" : "s"}.`,
               );

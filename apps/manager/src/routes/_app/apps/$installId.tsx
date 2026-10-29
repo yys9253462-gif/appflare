@@ -309,7 +309,7 @@ function SecretNamesSection({ names }: { names: readonly string[] }) {
       <SectionBody className="gap-1.5">
         <Text variant="secondary">
           {names.length === 0
-            ? "No secrets are set."
+            ? t("No secrets are set.")
             : `${names.length} ${names.length === 1 ? "secret is" : "secrets are"} set. Their values are stored encrypted on the app and cannot be shown.`}
         </Text>
         {showNames && (

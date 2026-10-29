@@ -1,5 +1,6 @@
 import type { CloudflareClient } from "@appflare/cf-api";
 import { z } from "zod";
+import { t } from "../../i18n";
 import { isNotFound, type JobSteps } from "../steps";
 
 /**
@@ -111,7 +112,7 @@ export async function findConsumersPhase(
     if (found.length > 0) {
       log.info(`Queues that still deliver to the app's Workers: ${describe(found)}.`);
     } else if (unlisted.length === 0) {
-      log.info("No queue delivers its messages to the app's Workers any more.");
+      log.info(t("No queue delivers its messages to the app's Workers any more."));
     }
     if (unlisted.length > 0) {
       log.info(

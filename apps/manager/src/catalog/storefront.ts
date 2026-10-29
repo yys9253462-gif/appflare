@@ -4,7 +4,7 @@ import {
   LICENSE_FILTERS,
   PLAN_WORDS,
 } from "@appflare/schema/catalog-display";
-import { getLocale } from "../i18n";
+import { getLocale, t } from "../i18n";
 import {
   type BrowsableApp,
   type BrowseQuery,
@@ -48,8 +48,9 @@ export interface StorefrontRow<T> {
 }
 
 /** The caption of the "new" row while the catalog does not say when apps were added. */
-export const RECENTLY_TESTED_CAPTION =
-  "Newest test results first, until the catalog says when each app was added.";
+export const RECENTLY_TESTED_CAPTION = t(
+  "Newest test results first, until the catalog says when each app was added.",
+);
 
 function time(iso: string | null | undefined): number {
   const value = iso == null ? Number.NaN : Date.parse(iso);
@@ -108,7 +109,7 @@ function popularRow<T extends BrowsableApp>(apps: readonly T[]): StorefrontRow<T
     title: "Most popular",
     caption: installs
       ? "Most installed first, then most starred on GitHub"
-      : "Most starred on GitHub",
+      : t("Most starred on GitHub"),
     apps: [...counted]
       .sort((a, b) => comparePopularity(a.popularity, b.popularity))
       .slice(0, ROW_LIMIT),
@@ -156,7 +157,7 @@ export function storefrontRows<T extends BrowsableApp>(
 }
 
 const SORT_WORDS: Record<CatalogSort, string> = {
-  popular: "Most popular first",
+  popular: t("Most popular first"),
   new: "Newest first",
 };
 

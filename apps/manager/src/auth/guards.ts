@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { hasRole, type Role } from "./roles";
 
 /**
@@ -34,14 +35,14 @@ export class AuthGuardError extends Error {
 
 export async function requireSession(load: SessionLoader): Promise<AuthSession> {
   const session = await load();
-  if (session === null) throw new AuthGuardError(401, "Sign in to continue.");
+  if (session === null) throw new AuthGuardError(401, t("Sign in to continue."));
   return session;
 }
 
 export async function requireRole(role: Role, load: SessionLoader): Promise<AuthSession> {
   const session = await requireSession(load);
   if (!hasRole(session.user.role, role)) {
-    throw new AuthGuardError(403, "You do not have permission to do that.");
+    throw new AuthGuardError(403, t("You do not have permission to do that."));
   }
   return session;
 }

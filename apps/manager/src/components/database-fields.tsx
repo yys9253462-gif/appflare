@@ -6,6 +6,7 @@ import {
 } from "@appflare/schema";
 import { SensitiveInput, Text } from "@cloudflare/kumo";
 import type { ReactNode } from "react";
+import { t } from "../i18n";
 import { FieldHelp, FieldLabel } from "./field-label";
 
 /**
@@ -117,7 +118,9 @@ export function DatabaseFields({
     <Text variant="secondary" size="sm">
       {replacing
         ? "An earlier update of this app already connected these databases. Leave a field empty to keep that connection, or enter a connection string to replace it. Appflare never stores the connection string."
-        : "The app keeps its data in a database you run elsewhere. Appflare never stores the connection string."}
+        : t(
+            "The app keeps its data in a database you run elsewhere. Appflare never stores the connection string.",
+          )}
     </Text>
   );
   const fields = databases.map((decl) => (

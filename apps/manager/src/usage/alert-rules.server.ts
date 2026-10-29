@@ -4,6 +4,7 @@ import type { AccountPlan } from "../account/plan";
 import { readAccountPlan } from "../account/plan.server";
 import type { Database } from "../db/client";
 import { installs, usage_activity, usage_alert_firings, usage_alert_rules } from "../db/schema";
+import { t } from "../i18n";
 import { type AlertRuleFields, alertSentence, planRefusal } from "./alert-rules";
 import { ACTIVITY_FACTS } from "./store/activity";
 import { type AlertRule, alertRuleInputSchema, readAlertRule } from "./store/alert-rules.server";
@@ -22,8 +23,8 @@ export class AlertRuleError extends Error {
 }
 
 export const ALERT_RULE_MESSAGES = {
-  noInstall: "There is no such app.",
-  noRule: "There is no such alert. It may have been removed.",
+  noInstall: t("There is no such app."),
+  noRule: t("There is no such alert. It may have been removed."),
 } as const;
 
 /** The setting name these changes record. */

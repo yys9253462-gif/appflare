@@ -1,4 +1,5 @@
 import type { CapabilityId } from "../capabilities/capability-rows";
+import { t } from "../i18n";
 import { messageLink } from "./message-links";
 
 /**
@@ -13,7 +14,7 @@ export const SETTINGS_SECTIONS = {
     path: "/settings/account",
     sections: {
       connection: "Cloudflare connection",
-      capabilities: "What this account can run",
+      capabilities: t("What this account can run"),
       "spend-protection": "Spend protection",
       "danger-zone": "Danger zone",
     },
@@ -28,7 +29,7 @@ export const SETTINGS_SECTIONS = {
   updates: {
     path: "/settings/updates",
     sections: {
-      apps: "Automatic app updates",
+      apps: t("Automatic app updates"),
       appflare: "Appflare version",
       versions: "Recent versions",
     },
@@ -72,7 +73,7 @@ export type SettingsSectionId<P extends SettingsPageKey> =
 
 /**
  * Anchors below a section: one row per capability on the account page
- * (`capability-r2`), the rows of "What this account can run".
+ * (`capability-r2`), the rows of t("What this account can run").
  */
 type SettingsRowAnchor<P extends SettingsPageKey> = P extends "account"
   ? `capability-${CapabilityId}`

@@ -5,6 +5,7 @@ import { hasRole, type Role } from "../auth/roles";
 import { canResetPassword } from "../components/user-actions";
 import type { Database } from "../db/client";
 import { settings, user, verification } from "../db/schema";
+import { t } from "../i18n";
 import { seenKey } from "../whats-new/seen.server";
 
 /** True once any user exists: from then on `/setup` no longer creates admins. */
@@ -46,8 +47,9 @@ export interface ManagedUser {
   createdAt: Date;
 }
 
-export const OWNER_ONLY_MESSAGE =
-  "Only the owner can change roles, delete users, or transfer ownership.";
+export const OWNER_ONLY_MESSAGE = t(
+  "Only the owner can change roles, delete users, or transfer ownership.",
+);
 
 /** A refused change the owner can act on; its message is shown as is. */
 export class UserChangeError extends Error {
@@ -55,17 +57,20 @@ export class UserChangeError extends Error {
 }
 
 export const USER_CHANGE_MESSAGES = {
-  notFound: "That user no longer exists. Reload the page.",
-  ownerRole:
+  notFound: t("That user no longer exists. Reload the page."),
+  ownerRole: t(
     "The owner is always an admin. To step down, transfer ownership to another admin first.",
-  deleteOwner: "The owner cannot be deleted. Transfer ownership to another admin first.",
-  deleteNotAllowed:
+  ),
+  deleteOwner: t("The owner cannot be deleted. Transfer ownership to another admin first."),
+  deleteNotAllowed: t(
     "That user can no longer be deleted: ownership or the user changed meanwhile. Reload the page.",
-  alreadyOwner: "You are already the owner.",
-  transferToMember: "Ownership can only go to an admin. Make them an admin first.",
-  transferFailed: "Ownership did not change. Reload the page and try again.",
-  resetNotAllowed:
+  ),
+  alreadyOwner: t("You are already the owner."),
+  transferToMember: t("Ownership can only go to an admin. Make them an admin first."),
+  transferFailed: t("Ownership did not change. Reload the page and try again."),
+  resetNotAllowed: t(
     "Only the owner can reset an admin's password, and nobody can reset the owner's or their own from here. Use \"Forgot your password?\" on the sign-in page instead.",
+  ),
 } as const;
 
 /** SQL twin of `hasRole(role, "admin")` for Better Auth's comma-separated roles. */

@@ -1,4 +1,5 @@
 import type { FetchLike } from "@appflare/cf-api";
+import { t } from "../i18n";
 import { type CatalogEnv, catalogIndexUrl, readCachedCatalogIndex } from "./index.server";
 import { findCatalogMedia, MAX_MEDIA_BYTES, mediaContentType } from "./media";
 import { readLimited } from "./read-limited";
@@ -44,7 +45,7 @@ export async function serveCatalogMedia(
   try {
     response = await fetchImpl(file.url, { signal: AbortSignal.timeout(15_000) });
   } catch {
-    return badGateway("The catalog site could not be reached.");
+    return badGateway(t("The catalog site could not be reached."));
   }
   if (!response.ok) {
     await response.body?.cancel();
@@ -53,16 +54,16 @@ export async function serveCatalogMedia(
   const declared = Number(response.headers.get("content-length") ?? "0");
   if (declared > MAX_MEDIA_BYTES) {
     await response.body?.cancel();
-    return badGateway("The image is larger than Appflare serves.");
+    return badGateway(t("The image is larger than Appflare serves."));
   }
   // Read with a running count, so a response without (or lying about) its
   // length is cut off at the limit instead of being buffered whole.
   const bytes = await readLimited(response.body, MAX_MEDIA_BYTES);
   if (bytes === null) {
-    return badGateway("The image is larger than Appflare serves.");
+    return badGateway(t("The image is larger than Appflare serves."));
   }
   if ((await sha256Hex(bytes)) !== digest) {
-    return badGateway("The image does not match the digest the catalog lists.");
+    return badGateway(t("The image does not match the digest the catalog lists."));
   }
   return new Response(bytes, {
     headers: {
@@ -87,7 +88,7 @@ export async function catalogMediaRoute(
   opts: { fetch?: FetchLike } = {},
 ): Promise<Response> {
   if (!(await signedIn())) {
-    return new Response("Sign in first.", {
+    return new Response(t("Sign in first."), {
       status: 401,
       headers: { "cache-control": "no-store" },
     });

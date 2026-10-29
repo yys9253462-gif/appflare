@@ -5,6 +5,7 @@ import { requireConnection } from "../../cloudflare/connection.server";
 import { createDb } from "../../db/client";
 import { installs, jobs, resources } from "../../db/schema";
 import { readSettings, SETTING } from "../../db/settings";
+import { t } from "../../i18n";
 import {
   keepWorkersLogsPhase,
   readWorkersLogsPhase,
@@ -134,7 +135,7 @@ export async function runSelfDeployingReconfigure(
       }
       const changedVars = changedVarNames(started.storedVars, params.vars);
       if (changedVars.length === 0 && !changesSecrets(params.secrets)) {
-        problems.push("Nothing changes: the settings and secrets are as they are.");
+        problems.push(t("Nothing changes: the settings and secrets are as they are."));
       }
       if (problems.length > 0) throw new JobError(problems.join(" "));
       if (changedVars.length > 0) log.info(`Settings changed: ${changedVars.join(", ")}.`);

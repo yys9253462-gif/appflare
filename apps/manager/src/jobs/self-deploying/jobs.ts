@@ -15,6 +15,7 @@ import { requireConnection } from "../../cloudflare/connection.server";
 import { createDb } from "../../db/client";
 import { installs, jobs, resources } from "../../db/schema";
 import { readSettings, SETTING } from "../../db/settings";
+import { t } from "../../i18n";
 import {
   keepWorkersLogsPhase,
   readWorkersLogsPhase,
@@ -100,7 +101,9 @@ export async function checkAppHealthPhase(
   if (url === null) {
     return steps.run("skip health check", async ({ log }) => {
       log.warn(
-        "The Worker that serves the app has no workers.dev route, so Appflare cannot check it. Open the app from the address its installer printed.",
+        t(
+          "The Worker that serves the app has no workers.dev route, so Appflare cannot check it. Open the app from the address its installer printed.",
+        ),
       );
       return {
         status: "unverified" as const,

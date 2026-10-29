@@ -1,4 +1,5 @@
 import { CloudflareApiError, type ScriptMetadata } from "@appflare/cf-api";
+import { t } from "../../i18n";
 import { errorMessage, JobError } from "../errors";
 import type { StepLog } from "../step-log";
 
@@ -87,7 +88,9 @@ export async function uploadRetried<T>(
           // refused one: one more new token is allowed.
           renewed = false;
           opts.log.warn(
-            "Cloudflare refused the upload: the app's startup used more CPU time than Cloudflare allows. Startup time varies, so the upload is sent once more.",
+            t(
+              "Cloudflare refused the upload: the app's startup used more CPU time than Cloudflare allows. Startup time varies, so the upload is sent once more.",
+            ),
           );
           await opts.pause(STARTUP_RETRY_PAUSE_MS);
           continue;

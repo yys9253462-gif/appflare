@@ -18,6 +18,7 @@ import { createDb } from "../db/client";
 import { jobs } from "../db/schema";
 import { readSettings, SETTING } from "../db/settings";
 import { releaseTokenOptions, releaseTokenSecret } from "../github/release-access.server";
+import { t } from "../i18n";
 import { fetchWhole } from "../jobs/install/artifact";
 import { lookupSubdomainPhase } from "../jobs/install/phases";
 import { explainR2Refusal } from "../jobs/install/r2-enablement";
@@ -150,7 +151,7 @@ export async function runSandboxEnable(ctx: JobContext): Promise<void> {
     const started = await steps.start(async ({ log, orm }) => {
       const settings = await readSettings(orm, [SETTING.accountId, SETTING.workerName]);
       if (!settings.account_id) throw new JobError("the Cloudflare account is not known yet");
-      if (!settings.worker_name) throw new JobError("Appflare does not know its own Worker yet");
+      if (!settings.worker_name) throw new JobError(t("Appflare does not know its own Worker yet"));
       // An API token, or a stored grant that does not need reconnecting.
       await requireConnection(env);
       requireSelf(steps.units.remote);
@@ -236,7 +237,7 @@ export async function runSandboxEnable(ctx: JobContext): Promise<void> {
             : `The sandbox Worker runs ${deployedVersion ?? "an unknown version"}.`,
           bucketExists
             ? `The bucket ${SANDBOX_BUCKET_NAME} exists.`
-            : "There is no build bucket yet.",
+            : t("There is no build bucket yet."),
         ].join(" "),
       );
       return {

@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { ACCESS_PERMISSIONS } from "../../access/messages";
 import { appPlace } from "../../components/app-links";
 import { install_access } from "../../db/schema";
+import { t } from "../../i18n";
 import { startVarsRefreshCore } from "../../installs/reconfigure.server";
 import { OFF_WORKERS_DEV } from "../../installs/workers-dev";
 import { sandboxBinding } from "../../sandbox/binding";
@@ -232,7 +233,7 @@ export async function syncAccessPhase(
   } catch (error) {
     const failedAt = steps.current;
     await steps
-      .run("Cloudflare Access destinations not updated", async ({ log, orm }) => {
+      .run(t("Cloudflare Access destinations not updated"), async ({ log, orm }) => {
         await orm
           .update(install_access)
           .set({ access_sync_failed_at: new Date(steps.now()) })
@@ -268,7 +269,9 @@ export async function publicPathsBackPhase(steps: JobSteps, installId: string): 
         .set({ access_sync_failed_at: new Date(steps.now()) })
         .where(eq(install_access.install_id, installId));
       log.warn(
-        "The public paths this version drops were taken off Cloudflare Access before the job failed. Within 30 minutes, Appflare makes them public again for the version that still serves.",
+        t(
+          "The public paths this version drops were taken off Cloudflare Access before the job failed. Within 30 minutes, Appflare makes them public again for the version that still serves.",
+        ),
       );
       return {};
     })

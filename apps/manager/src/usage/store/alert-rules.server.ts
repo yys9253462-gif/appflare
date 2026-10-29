@@ -13,6 +13,7 @@ import {
   usage_alert_firings,
   usage_alert_rules,
 } from "../../db/schema";
+import { t } from "../../i18n";
 import { chunk, DAY_SECONDS, MAX_BOUND_PARAMETERS, toUnixSeconds } from "./limits";
 
 /**
@@ -186,7 +187,7 @@ export async function createAlertRule(
       created_by: by.userId,
     })
     .returning();
-  if (!row) throw new Error("The alert rule was not stored");
+  if (!row) throw new Error(t("The alert rule was not stored"));
   return fromRow(row, null);
 }
 

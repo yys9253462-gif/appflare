@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCfClient } from "../cloudflare/client.server";
 import { createDb } from "../db/client";
 import { INSTALL_ORIGINS } from "../db/schema";
+import { t } from "../i18n";
 import { parsePauseCause } from "./attention-cause";
 import { HOUR_MS, hourStart, PERIODS, periodStart } from "./math";
 import { type AppObservability, readAppObservability } from "./observability.server";
@@ -221,7 +222,7 @@ function shortValue(value: string | undefined): value is string {
 /**
  * What a settings job changed, as it recorded it (the settings' names,
  * never secret values): "Check interval set to 10", "API key changed",
- * "Cloudflare Access turned on". The newest change of a setting names its
+ * t("Cloudflare Access turned on"). The newest change of a setting names its
  * value now; older ones only that it changed. Jobs come newest first.
  */
 function settingsChanges(row: JobRow, words: SettingWords): string[] {
@@ -242,8 +243,8 @@ function settingsChanges(row: JobRow, words: SettingWords): string[] {
     .safeParse(parseJson(row.secrets_json ?? "null")).data;
   for (const name of secrets?.set ?? []) out.push(`${words.labels.get(name) ?? name} changed`);
   for (const name of secrets?.unset ?? []) out.push(`${words.labels.get(name) ?? name} removed`);
-  if (row.access === "on") out.push("Cloudflare Access turned on");
-  if (row.access === "off") out.push("Cloudflare Access turned off");
+  if (row.access === "on") out.push(t("Cloudflare Access turned on"));
+  if (row.access === "off") out.push(t("Cloudflare Access turned off"));
   return out;
 }
 

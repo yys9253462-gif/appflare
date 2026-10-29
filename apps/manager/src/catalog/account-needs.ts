@@ -71,7 +71,7 @@ export interface AccountNeed {
   /**
    * The state in a word or two: the state of its row on Your account
    * ("Ready", "Needs action", "Paid plan only", "Could not check"), or
-   * "Included" and "You provide it" for what no account lacks.
+   * "Included" and t("You provide it") for what no account lacks.
    */
   state: string;
   tone: NeedTone;

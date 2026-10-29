@@ -4,6 +4,7 @@ import { getCfClient } from "../cloudflare/client.server";
 import { settingsPlace } from "../components/settings-links";
 import { createDb } from "../db/client";
 import { deleteSettings, readSettings, SETTING, writeSettings } from "../db/settings";
+import { t } from "../i18n";
 import { activeVersionId } from "../jobs/update/plan";
 import { AUTH_EMAIL_BINDING, type OutgoingEmail, resetEmail } from "./password-email";
 
@@ -26,17 +27,18 @@ export class PasswordEmailError extends Error {
 }
 
 export const PASSWORD_EMAIL_MESSAGES = {
-  gradual:
+  gradual: t(
     "No single version serves all of Appflare's traffic (a gradual deployment is in progress). Finish or undo it in the Cloudflare dashboard first.",
+  ),
   unreleased: (latest: string, serving: string) =>
     `The newest uploaded version of Appflare's Worker (${latest}) is not the one serving (${serving}), and changing reset emails would deploy it too. Deploy the version you want from the Worker's Deployments page in the Cloudflare dashboard, or update Appflare in ${settingsPlace("updates", "appflare", "the Updates settings")}, then try again.`,
   noWorkerName: `Appflare does not know its own Worker name yet. Save the Cloudflare token in ${settingsPlace("account", "connection", "the Cloudflare connection settings")} first.`,
 } as const;
 
 /** The message of every version turning reset emails on; never change it. */
-export const EMAIL_ON_MESSAGE = "Appflare: turn on password reset emails";
+export const EMAIL_ON_MESSAGE = t("Appflare: turn on password reset emails");
 /** The message of every version turning reset emails off; never change it. */
-export const EMAIL_OFF_MESSAGE = "Appflare: turn off password reset emails";
+export const EMAIL_OFF_MESSAGE = t("Appflare: turn off password reset emails");
 
 export interface PasswordEmailStatus {
   /** The running Worker has the `AUTH_EMAIL` binding. */
