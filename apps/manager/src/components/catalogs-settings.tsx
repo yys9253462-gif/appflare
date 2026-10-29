@@ -40,6 +40,7 @@ import {
   catalogLabelSchema,
   MAX_CUSTOM_CATALOGS,
 } from "../catalog/sources";
+import { t } from "../i18n";
 import { BusyMark, busyActionProps } from "./busy-button";
 import { CatalogSourceBadge } from "./catalog-source-badge";
 import { ConfirmDialog } from "./confirm-dialog";
@@ -76,7 +77,9 @@ export function CatalogsList({ catalogs, isAdmin }: { catalogs: CatalogView[]; i
   return (
     <Section
       {...settingsSection("catalogs", "catalogs")}
-      description="Each catalog lists apps, and Appflare checks every release it installs from one with that catalog's keys."
+      description={t(
+        "Each catalog lists apps, and Appflare checks every release it installs from one with that catalog's keys.",
+      )}
       action={
         isAdmin ? (
           <div ref={addSlot} className="contents">
@@ -131,7 +134,7 @@ function CatalogRow({
       await router.invalidate();
     } catch (err) {
       setEnabled(previous);
-      setError(errorText(err, "Could not change the catalog."));
+      setError(errorText(err, t("Could not change the catalog.")));
     }
     setPending(false);
   }
@@ -143,7 +146,7 @@ function CatalogRow({
       action={
         <>
           <Switch
-            label={enabled ? "On" : "Off"}
+            label={t(enabled ? "On" : "Off")}
             checked={enabled}
             disabled={!isAdmin || pending}
             onCheckedChange={(next: boolean) => void onToggle(next)}
@@ -161,21 +164,25 @@ function CatalogRow({
     >
       <div className="grid gap-4">
         <Text variant="secondary">
-          {catalog.official
-            ? "The catalog Appflare ships with. Its releases are verified with the keys built into Appflare. It can be turned off, not removed."
-            : "Added by an admin. Its releases are verified with the keys pinned below, and with no other key."}{" "}
+          {t(
+            catalog.official
+              ? "The catalog Appflare ships with. Its releases are verified with the keys built into Appflare. It can be turned off, not removed."
+              : "Added by an admin. Its releases are verified with the keys pinned below, and with no other key.",
+          )}{" "}
           {!enabled &&
-            "While it is off, its apps are not listed and apps installed from it get no updates."}
+            t(
+              "While it is off, its apps are not listed and apps installed from it get no updates.",
+            )}
         </Text>
         <DescriptionList>
-          <DescriptionItem label="Index URL">
+          <DescriptionItem label={t("Index URL")}>
             <span className={`${mono} break-all`}>{catalog.indexUrl}</span>
           </DescriptionItem>
-          <DescriptionItem label={catalog.keys.length === 1 ? "Key" : "Keys"}>
+          <DescriptionItem label={t(catalog.keys.length === 1 ? "Key" : "Keys")}>
             <span className="grid gap-1">
               {catalog.keys.length === 0 ? (
                 <Text as="span" variant="secondary">
-                  None recorded
+                  {t("None recorded")}
                 </Text>
               ) : (
                 catalog.keys.map((key) => (
@@ -190,22 +197,24 @@ function CatalogRow({
             </span>
           </DescriptionItem>
           {!catalog.official && (
-            <DescriptionItem label="Apps">
-              {catalog.apps === null ? "Not loaded yet" : String(catalog.apps)}
+            <DescriptionItem label={t("Apps")}>
+              {catalog.apps === null ? t("Not loaded yet") : String(catalog.apps)}
             </DescriptionItem>
           )}
-          <DescriptionItem label="Installed from it">{String(catalog.installs)}</DescriptionItem>
-          <DescriptionItem label="Last refreshed">
+          <DescriptionItem label={t("Installed from it")}>
+            {String(catalog.installs)}
+          </DescriptionItem>
+          <DescriptionItem label={t("Last refreshed")}>
             <Timestamp iso={catalog.refreshedAt} />
             {catalog.refreshError !== null && (
               <Text as="span" variant="error">
                 {" "}
-                Last attempt failed: <MessageText message={catalog.refreshError} />
+                {t("Last attempt failed:")} <MessageText message={catalog.refreshError} />
               </Text>
             )}
           </DescriptionItem>
           {catalog.addedAt !== null && (
-            <DescriptionItem label="Added">
+            <DescriptionItem label={t("Added")}>
               <Timestamp iso={catalog.addedAt} />
             </DescriptionItem>
           )}
@@ -258,7 +267,7 @@ function CatalogRowMenu({
             variant="ghost"
             size="sm"
             shape="square"
-            aria-label={`Actions for ${label}`}
+            aria-label={t("Actions for {label}", { label })}
           >
             <DotsThreeIcon weight="bold" size={16} />
           </Button>
@@ -267,11 +276,11 @@ function CatalogRowMenu({
       <DropdownMenu.Content>
         {/* Icons go in as components: Kumo sizes and spaces a component icon. */}
         <DropdownMenu.Item icon={PencilSimpleIcon} onClick={onEdit}>
-          Edit
+          {t("Edit")}
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item icon={TrashIcon} variant="danger" onClick={onRemove}>
-          Remove
+          {t("Remove")}
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu>
@@ -306,7 +315,7 @@ function usePastedKeys(
         if (current) setState({ keys, fingerprints });
       },
       () => {
-        if (current) setState("The fingerprint could not be worked out in this browser.");
+        if (current) setState(t("The fingerprint could not be worked out in this browser."));
       },
     );
     return () => {
@@ -326,8 +335,8 @@ function pasteText(keys: readonly { keyId: string; publicKeyBase64: string }[]):
 function AddCatalogDialog({ customCount }: { customCount: number }) {
   if (customCount >= MAX_CUSTOM_CATALOGS) {
     return (
-      <Button variant="primary" icon={<PlusIcon />} disabled title="Remove a catalog first.">
-        Add catalog
+      <Button variant="primary" icon={<PlusIcon />} disabled title={t("Remove a catalog first.")}>
+        {t("Add catalog")}
       </Button>
     );
   }
@@ -393,10 +402,10 @@ function CatalogDialog({
     if (pending) return;
     const found: Record<string, string> = {};
     const url = catalogIndexUrlSchema.safeParse(indexUrl);
-    if (!url.success) found.indexUrl = url.error.issues[0]?.message ?? "Check the URL.";
+    if (!url.success) found.indexUrl = url.error.issues[0]?.message ?? t("Check the URL.");
     const name = catalogLabelSchema.safeParse(label);
-    if (!name.success) found.label = name.error.issues[0]?.message ?? "Check the label.";
-    if (pasted === null) found.publicKeys = "Paste the catalog's public key.";
+    if (!name.success) found.label = name.error.issues[0]?.message ?? t("Check the label.");
+    if (pasted === null) found.publicKeys = t("Paste the catalog's public key.");
     else if (typeof pasted === "string") found.publicKeys = pasted;
     setErrors(found);
     if (Object.keys(found).length > 0) return;
@@ -407,8 +416,12 @@ function CatalogDialog({
       if (editing === null) {
         const added = await addCatalog({ data });
         toasts.add({
-          title: `${label.trim()} added`,
-          description: `${added.checked.slug} ${added.checked.version} verified with the key "${added.checked.keyId}".`,
+          title: t("{label} added", { label: label.trim() }),
+          description: t('{slug} {version} verified with the key "{keyId}".', {
+            slug: added.checked.slug,
+            version: added.checked.version,
+            keyId: added.checked.keyId,
+          }),
           variant: "success",
         });
       } else {
@@ -417,7 +430,7 @@ function CatalogDialog({
       await router.invalidate();
       setOpen(false);
     } catch (err) {
-      setFailure(errorText(err, "Could not save the catalog."));
+      setFailure(errorText(err, t("Could not save the catalog.")));
     } finally {
       setPending(false);
     }
@@ -435,25 +448,27 @@ function CatalogDialog({
         <LayerDialog.Trigger
           render={(p) => (
             <Button {...p} variant="primary" icon={<PlusIcon />}>
-              Add catalog
+              {t("Add catalog")}
             </Button>
           )}
         />
       )}
       <LayerDialog.Content size="lg">
         <LayerDialog.Title>
-          {editing === null ? "Add a catalog" : `Edit ${editing.label}`}
+          {editing === null ? t("Add a catalog") : t("Edit {label}", { label: editing.label })}
         </LayerDialog.Title>
         <LayerDialog.Description>
           {editing === null
-            ? "Get the index URL and the public key from the catalog's owner. Saving loads the index and verifies one of its releases with the key before the catalog is added."
-            : "A new index URL or key is checked the same way before it is saved."}{" "}
+            ? t(
+                "Get the index URL and the public key from the catalog's owner. Saving loads the index and verifies one of its releases with the key before the catalog is added.",
+              )
+            : t("A new index URL or key is checked the same way before it is saved.")}{" "}
           <DocsLink topic="customCatalogs" variant="inline" />
         </LayerDialog.Description>
         <LayerDialog.Body>
           <form id={formId} className="grid gap-4" onSubmit={onSubmit}>
             <Input
-              label="Index URL"
+              label={t("Index URL")}
               value={indexUrl}
               onChange={(e) => setIndexUrl(e.currentTarget.value)}
               placeholder="https://example.github.io/catalog/index.json"
@@ -463,7 +478,7 @@ function CatalogDialog({
               error={errors.indexUrl}
             />
             <InputArea
-              label="Public key"
+              label={t("Public key")}
               value={publicKeys}
               onChange={(e) => setPublicKeys(e.currentTarget.value)}
               placeholder='{"keyId":"acme-2026-09","publicKeyBase64":"..."}'
@@ -473,7 +488,9 @@ function CatalogDialog({
               minRows={2}
               maxRows={6}
               className="font-mono"
-              description="Paste the line the catalog publishes. Only releases signed with this key are installed from it."
+              description={t(
+                "Paste the line the catalog publishes. Only releases signed with this key are installed from it.",
+              )}
               error={errors.publicKeys}
             />
             {pasted !== null && typeof pasted !== "string" && (
@@ -481,7 +498,9 @@ function CatalogDialog({
                 variant="default"
                 icon={<FingerprintIcon weight="fill" />}
                 title={
-                  pasted.keys.length === 1 ? "Fingerprint" : `${pasted.keys.length} fingerprints`
+                  pasted.keys.length === 1
+                    ? t("Fingerprint")
+                    : t("{count} fingerprints", { count: pasted.keys.length })
                 }
                 description={
                   <span className="grid gap-1">
@@ -492,25 +511,26 @@ function CatalogDialog({
                       </span>
                     ))}
                     <span>
-                      Compare it with the fingerprint the catalog's owner published, somewhere you
-                      already trust, before you save.
+                      {t(
+                        "Compare it with the fingerprint the catalog's owner published, somewhere you already trust, before you save.",
+                      )}
                     </span>
                   </span>
                 }
               />
             )}
             <Input
-              label="Label"
+              label={t("Label")}
               value={label}
               onChange={(e) => setLabel(e.currentTarget.value)}
-              placeholder="Acme internal"
+              placeholder={t("Acme internal")}
               autoComplete="off"
               maxLength={40}
-              description="Shown on its apps' source badge."
+              description={t("Shown on its apps' source badge.")}
               error={errors.label}
             />
             <Select
-              label="Colour"
+              label={t("Colour")}
               value={colour}
               onValueChange={(value) => {
                 const next = CATALOG_COLOURS.find((c) => c === value);
@@ -520,12 +540,12 @@ function CatalogDialog({
             />
             <span className="flex items-center gap-2">
               <Text as="span" variant="secondary" size="sm">
-                Badge:
+                {t("Badge:")}
               </Text>
               <CatalogSourceBadge
                 source={{
                   id: editing?.id ?? "new",
-                  label: label.trim() || "Label",
+                  label: label.trim() || t("Label"),
                   colour,
                   official: false,
                 }}
@@ -534,10 +554,10 @@ function CatalogDialog({
             {failure !== null && <ErrorMessageBanner message={failure} newTab />}
           </form>
         </LayerDialog.Body>
-        <LayerDialog.Actions dismissLabel="Cancel">
+        <LayerDialog.Actions dismissLabel={t("Cancel")}>
           <LayerDialog.Actions.Primary type="submit" form={formId} {...busyActionProps(pending)}>
             <BusyMark pending={pending} />
-            {editing === null ? "Check and add" : "Save"}
+            {editing === null ? t("Check and add") : t("Save")}
           </LayerDialog.Actions.Primary>
         </LayerDialog.Actions>
       </LayerDialog.Content>
@@ -571,13 +591,20 @@ function RemoveCatalogDialog({
       open={open}
       onOpenChange={onOpenChange}
       onOpenChangeComplete={onOpenChangeComplete}
-      title={`Remove ${catalog.label}`}
+      title={t("Remove {label}", { label: catalog.label })}
       description={
         blocked
-          ? `${catalog.installs} app${catalog.installs === 1 ? " is" : "s are"} installed from ${catalog.label}. Their updates, form revisions and checks come from this catalog, and its key verifies them, so it cannot be removed while they are installed. Uninstall them first, or turn the catalog off instead.`
-          : `Its apps leave the catalog page and its key is no longer trusted. Nothing is uninstalled. You can add it again later.`
+          ? t(
+              catalog.installs === 1
+                ? "1 app is installed from {label}. Its updates, form revisions and checks come from this catalog, and its key verifies them, so it cannot be removed while it is installed. Uninstall it first, or turn the catalog off instead."
+                : "{count} apps are installed from {label}. Their updates, form revisions and checks come from this catalog, and its key verifies them, so it cannot be removed while they are installed. Uninstall them first, or turn the catalog off instead.",
+              { count: catalog.installs, label: catalog.label },
+            )
+          : t(
+              "Its apps leave the catalog page and its key is no longer trusted. Nothing is uninstalled. You can add it again later.",
+            )
       }
-      actionLabel="Remove catalog"
+      actionLabel={t("Remove catalog")}
       disabled={blocked}
       onConfirm={async () => {
         await deleteCatalog({ data: { id: catalog.id } });

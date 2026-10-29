@@ -319,6 +319,71 @@ export const ZH: Record<string, string> = {
   "Container disk": "容器磁盘",
   "Workers Logs events": "Workers Logs 事件",
 
+  // Settings > Catalogs.
+  "Each catalog lists apps, and Appflare checks every release it installs from one with that catalog's keys.":
+    "每个目录提供一批应用，Appflare 会用该目录自己的密钥校验从它安装的每一个版本。",
+  "Could not change the catalog.": "无法修改这个目录。",
+  On: "开",
+  Off: "关",
+  "The catalog Appflare ships with. Its releases are verified with the keys built into Appflare. It can be turned off, not removed.":
+    "Appflare 自带的目录。它的发布版本用内置在 Appflare 里的密钥校验。可以关闭，但不能删除。",
+  "Added by an admin. Its releases are verified with the keys pinned below, and with no other key.":
+    "由管理员添加。它的发布版本只用下面固定的密钥校验，不接受其他密钥。",
+  "While it is off, its apps are not listed and apps installed from it get no updates.":
+    "关闭期间，它的应用不会列出，从它安装的应用也不会再收到更新。",
+  "Index URL": "索引地址",
+  Key: "密钥",
+  Keys: "密钥",
+  "None recorded": "未记录",
+  Apps: "应用数",
+  "Not loaded yet": "尚未加载",
+  "Installed from it": "已安装数量",
+  "Last refreshed": "上次刷新",
+  "Last attempt failed:": "上次尝试失败：",
+  Added: "添加时间",
+  "Actions for {label}": "{label} 的操作",
+  Edit: "编辑",
+  Remove: "移除",
+  "The fingerprint could not be worked out in this browser.": "无法在这个浏览器里计算指纹。",
+  "Remove a catalog first.": "请先移除一个目录。",
+  "Add catalog": "添加目录",
+  "Check the URL.": "请检查地址。",
+  "Check the label.": "请检查名称。",
+  "Paste the catalog's public key.": "请粘贴这个目录的公钥。",
+  "{label} added": "已添加 {label}",
+  '{slug} {version} verified with the key "{keyId}".':
+    "{slug} {version} 已用密钥“{keyId}”校验通过。",
+  "Could not save the catalog.": "无法保存这个目录。",
+  "Add a catalog": "添加目录",
+  "Edit {label}": "编辑 {label}",
+  "Get the index URL and the public key from the catalog's owner. Saving loads the index and verifies one of its releases with the key before the catalog is added.":
+    "向目录的维护者索取索引地址和公钥。保存时会先加载索引，并用这把公钥校验它的一个发布版本，通过后才添加。",
+  "A new index URL or key is checked the same way before it is saved.":
+    "修改后的索引地址或公钥也会用同样的方式校验，通过后才保存。",
+  "Public key": "公钥",
+  "Paste the line the catalog publishes. Only releases signed with this key are installed from it.":
+    "粘贴目录公布的公钥。只有用这把密钥签名的版本才会从这里安装。",
+  Fingerprint: "指纹",
+  "{count} fingerprints": "{count} 个指纹",
+  "Compare it with the fingerprint the catalog's owner published, somewhere you already trust, before you save.":
+    "保存前，请与你已经信任的渠道上、目录维护者公布的指纹核对一致。",
+  Label: "名称",
+  "Acme internal": "公司内部",
+  "Shown on its apps' source badge.": "显示在它的应用来源徽章上。",
+  Colour: "颜色",
+  "Badge:": "徽章：",
+  Cancel: "取消",
+  "Check and add": "校验并添加",
+  Save: "保存",
+  "Remove {label}": "移除 {label}",
+  "1 app is installed from {label}. Its updates, form revisions and checks come from this catalog, and its key verifies them, so it cannot be removed while it is installed. Uninstall it first, or turn the catalog off instead.":
+    "有 1 个应用是从 {label} 安装的。它的更新、表单修订和检查都来自这个目录，并由该目录的密钥校验，所以只要它还装着就无法移除。请先卸载它，或者改为关闭这个目录。",
+  "{count} apps are installed from {label}. Their updates, form revisions and checks come from this catalog, and its key verifies them, so it cannot be removed while they are installed. Uninstall them first, or turn the catalog off instead.":
+    "有 {count} 个应用是从 {label} 安装的。它们的更新、表单修订和检查都来自这个目录，并由该目录的密钥校验，所以只要它们还装着就无法移除。请先卸载，或者改为关闭这个目录。",
+  "Its apps leave the catalog page and its key is no longer trusted. Nothing is uninstalled. You can add it again later.":
+    "它的应用会从目录页消失，它的密钥也不再被信任。不会卸载任何东西。之后可以重新添加。",
+  "Remove catalog": "移除目录",
+
   // The same names as chart tabs, where they are shorter.
   "CPU time": "CPU 时间",
   "DO duration": "DO 时长",
