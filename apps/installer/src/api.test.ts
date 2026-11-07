@@ -303,7 +303,7 @@ describe("POST installations", () => {
       release_version: "0.4.0",
       release_digest: await sha256Hex(new TextDecoder().decode(world.release.manifestBytes)),
       release_zip_url:
-        "https://github.com/appflare/appflare/releases/download/manager%400.4.0/appflare-0.4.0.zip",
+        "https://github.com/yys9253462-gif/appflare/releases/download/manager%400.4.0/appflare-0.4.0.zip",
     });
     expect(JSON.stringify(row)).not.toContain(created.key);
   });

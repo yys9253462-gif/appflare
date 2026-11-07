@@ -14,7 +14,7 @@ import {
 
 const asset = (name: string, size = 3) => ({
   name,
-  url: `https://api.github.com/repos/appflare/appflare/releases/assets/${name}`,
+  url: `https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/${name}`,
   size,
 });
 let nextId = 1;
@@ -33,10 +33,10 @@ const release = (tag: string, extra: Partial<Release> = {}): Release => {
 describe("release selection", () => {
   it("builds the API URLs", () => {
     expect(releaseApiUrl()).toBe(
-      "https://api.github.com/repos/appflare/appflare/releases?per_page=100",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases?per_page=100",
     );
     expect(releaseApiUrl("0.2.0")).toBe(
-      "https://api.github.com/repos/appflare/appflare/releases/tags/manager%400.2.0",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases/tags/manager%400.2.0",
     );
   });
 
@@ -92,10 +92,10 @@ describe("release selection", () => {
   it("explains a 404 on the release list as a possibly private repository", async () => {
     const fetchFn = async () => new Response("Not Found", { status: 404 });
     await expect(findManagerRelease(fetchFn, {})).rejects.toThrow(
-      /GitHub answered 404 for the releases of appflare\/appflare\. The repository appflare\/appflare may be private.*GITHUB_TOKEN=\$\(gh auth token\) npx create-appflare/,
+      /GitHub answered 404 for the releases of yys9253462-gif\/appflare\. The repository yys9253462-gif\/appflare may be private.*GITHUB_TOKEN=\$\(gh auth token\) npx create-appflare/,
     );
     await expect(findManagerRelease(fetchFn, { GITHUB_TOKEN: "t" })).rejects.toThrow(
-      "GITHUB_TOKEN is set; check that it can read appflare/appflare",
+      "GITHUB_TOKEN is set; check that it can read yys9253462-gif/appflare",
     );
   });
 
@@ -116,7 +116,7 @@ describe("release selection", () => {
     );
     expect(picked.tag).toBe("manager@0.3.0");
     expect(urls[1]).toBe(
-      `https://api.github.com/repos/appflare/appflare/releases/${fresh.id}/assets?per_page=100`,
+      `https://api.github.com/repos/yys9253462-gif/appflare/releases/${fresh.id}/assets?per_page=100`,
     );
     expect(warnings).toEqual([]);
   });
@@ -149,8 +149,8 @@ describe("release selection", () => {
     // Only the incomplete manager@0.3.0 had its assets fetched; the draft, the
     // pre-release, and the other tags were never considered.
     expect(urls).toEqual([
-      "https://api.github.com/repos/appflare/appflare/releases?per_page=100",
-      `https://api.github.com/repos/appflare/appflare/releases/${fresh.id}/assets?per_page=100`,
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases?per_page=100",
+      `https://api.github.com/repos/yys9253462-gif/appflare/releases/${fresh.id}/assets?per_page=100`,
     ]);
     expect(warnings).toHaveLength(1);
     expect(warnings[0]).toContain("manager@0.3.0 is still being published");

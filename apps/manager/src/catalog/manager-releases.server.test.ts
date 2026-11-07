@@ -36,10 +36,10 @@ describe("pickLatestManagerRelease", () => {
       version: "0.10.0",
       tag: "manager@0.10.0",
       assets: {
-        zip: "https://github.com/appflare/appflare/releases/download/manager@0.10.0/appflare-0.10.0.zip",
+        zip: "https://github.com/yys9253462-gif/appflare/releases/download/manager@0.10.0/appflare-0.10.0.zip",
         manifest:
-          "https://github.com/appflare/appflare/releases/download/manager@0.10.0/manifest.json",
-        sig: "https://github.com/appflare/appflare/releases/download/manager@0.10.0/manifest.sig",
+          "https://github.com/yys9253462-gif/appflare/releases/download/manager@0.10.0/manifest.json",
+        sig: "https://github.com/yys9253462-gif/appflare/releases/download/manager@0.10.0/manifest.sig",
       },
       publishedAt: "2026-09-20T10:00:00Z",
     });
@@ -67,9 +67,9 @@ describe("pickLatestManagerRelease", () => {
   it("addresses assets by their API URL when a token reads the feed", () => {
     const picked = pickLatestManagerRelease([githubRelease("0.1.0")], { viaApi: true });
     expect(picked?.assets).toEqual({
-      zip: "https://api.github.com/repos/appflare/appflare/releases/assets/1",
-      manifest: "https://api.github.com/repos/appflare/appflare/releases/assets/2",
-      sig: "https://api.github.com/repos/appflare/appflare/releases/assets/3",
+      zip: "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/1",
+      manifest: "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/2",
+      sig: "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/3",
     });
   });
 });
@@ -151,13 +151,13 @@ describe("refreshManagerReleases", () => {
 });
 
 describe("refreshManagerReleases without a token", () => {
-  const LATEST_PAGE = "https://github.com/appflare/appflare/releases/latest";
+  const LATEST_PAGE = "https://github.com/yys9253462-gif/appflare/releases/latest";
   const LIST = `${RELEASES_URL}?per_page=100`;
-  const DOWNLOAD = "https://github.com/appflare/appflare/releases/download";
+  const DOWNLOAD = "https://github.com/yys9253462-gif/appflare/releases/download";
   const at = (iso: string) => () => new Date(iso);
 
   /**
-   * GitHub as a public appflare/appflare looks to a request without a token:
+   * GitHub as a public yys9253462-gif/appflare looks to a request without a token:
    * github.com redirects to the latest release; the API answers the list with
    * an ETag (304 when it matches), or whatever `list` returns instead.
    */
@@ -182,7 +182,7 @@ describe("refreshManagerReleases without a token", () => {
           : new Response(null, {
               status: 302,
               headers: {
-                location: `https://github.com/appflare/appflare/releases/tag/${state.latest}`,
+                location: `https://github.com/yys9253462-gif/appflare/releases/tag/${state.latest}`,
               },
             });
       }
@@ -339,7 +339,7 @@ describe("refreshManagerReleases without a token", () => {
     expect(seen).toEqual([null, '"v1"']);
     expect(second).toEqual(first);
     expect(second?.assets.zip).toBe(
-      "https://api.github.com/repos/appflare/appflare/releases/assets/1",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/1",
     );
   });
 

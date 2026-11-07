@@ -20,7 +20,7 @@ import {
  * honours Range requests.
  */
 
-export const RELEASE_REPOSITORY = "appflare/appflare";
+export const RELEASE_REPOSITORY = "yys9253462-gif/appflare";
 export const RELEASE_TAG_PREFIX = "manager@";
 /** Appflare's own releases are signed by keys with these ids, never a catalog key. */
 export const RELEASE_KEY_PREFIX = "appflare-";

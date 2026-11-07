@@ -1,16 +1,16 @@
 import { type ArtifactFixture, MANIFEST_URL, SIG_URL, ZIP_URL } from "./artifact-fixture";
 
 /**
- * Test-only stand-in for GitHub's releases API of a private appflare/appflare:
+ * Test-only stand-in for GitHub's releases API of a private yys9253462-gif/appflare:
  * the releases list and the release-asset API answer only with the right
  * token; an asset request redirects (302) to a signed storage URL that
  * refuses any Authorization header, like GitHub's asset host. Asset bytes
  * come from an artifact fixture, Range requests included.
  */
 
-export const RELEASES_URL = "https://api.github.com/repos/appflare/appflare/releases";
+export const RELEASES_URL = "https://api.github.com/repos/yys9253462-gif/appflare/releases";
 export const GITHUB_TOKEN = "gh-test-token-DO-NOT-LEAK";
-const ASSET_API = "https://api.github.com/repos/appflare/appflare/releases/assets";
+const ASSET_API = "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets";
 const STORAGE_HOST = "release-assets.test";
 
 /** Fixture file behind each asset id. */
@@ -28,7 +28,7 @@ export interface GithubReleaseOptions {
 /** One entry of the releases list, shaped like GitHub's. */
 export function githubRelease(version: string, opts: GithubReleaseOptions = {}) {
   const tag = opts.tag ?? `manager@${version}`;
-  const download = `https://github.com/appflare/appflare/releases/download/${tag}`;
+  const download = `https://github.com/yys9253462-gif/appflare/releases/download/${tag}`;
   const assets = [
     { id: 1, name: `appflare-${version}.zip` },
     { id: 2, name: "manifest.json" },
@@ -71,7 +71,7 @@ export function fakeGithub(fixture: ArtifactFixture | null, releases: unknown[])
     }
     if (auth !== `Bearer ${GITHUB_TOKEN}`) return reply(404, '{"message":"Not Found"}');
     if (`${url.origin}${url.pathname}` === RELEASES_URL) return Response.json(releases);
-    const asset = /^\/repos\/appflare\/appflare\/releases\/assets\/(\d+)$/.exec(url.pathname);
+    const asset = /^\/repos\/yys9253462-gif\/appflare\/releases\/assets\/(\d+)$/.exec(url.pathname);
     if (asset?.[1] !== undefined) {
       if (new Headers(init?.headers).get("accept") !== "application/octet-stream") {
         return Response.json({ id: Number(asset[1]) });

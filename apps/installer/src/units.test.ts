@@ -178,7 +178,7 @@ describe("configuration", () => {
 describe("releases", () => {
   it("reads the tag of github.com's latest-release redirect", () => {
     expect(
-      tagOfLatestRedirect("https://github.com/appflare/appflare/releases/tag/manager%400.4.0"),
+      tagOfLatestRedirect("https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.4.0"),
     ).toBe("manager@0.4.0");
     expect(
       tagOfLatestRedirect("https://github.com/other/repo/releases/tag/manager@0.4.0"),

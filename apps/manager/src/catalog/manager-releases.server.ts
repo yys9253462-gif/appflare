@@ -38,7 +38,7 @@ import { compareVersions, isUpdateAvailable, parseVersion } from "./versions";
  */
 
 export const DEFAULT_MANAGER_RELEASES_URL =
-  "https://api.github.com/repos/appflare/appflare/releases";
+  "https://api.github.com/repos/yys9253462-gif/appflare/releases";
 export const MANAGER_LATEST_KEY = "manager:latest";
 export const MANAGER_TAG_PREFIX = "manager@";
 /** `APPFLARE_VERSION` of a local build; older than every release. */

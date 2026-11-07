@@ -65,8 +65,8 @@ export interface ReleaseFetchOptions {
 
 /** Appflare's own repository on GitHub, whose releases a marked token may read. */
 const APPFLARE_REPOSITORY_PREFIXES = [
-  "https://github.com/appflare/appflare/",
-  "https://api.github.com/repos/appflare/appflare/",
+  "https://github.com/yys9253462-gif/appflare/",
+  "https://api.github.com/repos/yys9253462-gif/appflare/",
 ];
 
 /** Whether `url` is about Appflare's own repository (`appflare/appflare`) on GitHub. */

@@ -106,15 +106,15 @@ export class FakeWorld {
 
   private github(url: URL): Response {
     const tag = `manager@${this.release.version}`;
-    if (url.pathname === "/appflare/appflare/releases/latest") {
+    if (url.pathname === "/yys9253462-gif/appflare/releases/latest") {
       return new Response(null, {
         status: 302,
         headers: {
-          location: `https://github.com/appflare/appflare/releases/tag/${encodeURIComponent(this.latestTag ?? tag)}`,
+          location: `https://github.com/yys9253462-gif/appflare/releases/tag/${encodeURIComponent(this.latestTag ?? tag)}`,
         },
       });
     }
-    const download = /^\/appflare\/appflare\/releases\/download\/([^/]+)\/([^/]+)$/.exec(
+    const download = /^\/yys9253462-gif\/appflare\/releases\/download\/([^/]+)\/([^/]+)$/.exec(
       url.pathname,
     );
     if (download?.[1] !== undefined && decodeURIComponent(download[1]) === tag) {

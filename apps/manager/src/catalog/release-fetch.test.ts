@@ -9,10 +9,10 @@ import {
 
 describe("releaseFetch", () => {
   it("sends the token only to api.github.com and github.com over https", () => {
-    expect(mayCarryGithubToken("https://api.github.com/repos/appflare/appflare/releases")).toBe(
+    expect(mayCarryGithubToken("https://api.github.com/repos/yys9253462-gif/appflare/releases")).toBe(
       true,
     );
-    expect(mayCarryGithubToken("https://github.com/appflare/appflare/releases/download/x/y")).toBe(
+    expect(mayCarryGithubToken("https://github.com/yys9253462-gif/appflare/releases/download/x/y")).toBe(
       true,
     );
     expect(mayCarryGithubToken("http://api.github.com/repos")).toBe(false);
@@ -111,12 +111,12 @@ describe("releaseFetch", () => {
       return new Response("zip");
     }, opts);
     const response = await fetch(
-      "https://api.github.com/repos/appflare/appflare/releases/assets/7",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/7",
     );
     expect(await response.text()).toBe("zip");
     expect(viaHolder).toEqual([
       {
-        url: "https://api.github.com/repos/appflare/appflare/releases/assets/7",
+        url: "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/7",
         auth: null,
         accept: "application/octet-stream",
       },
@@ -135,20 +135,20 @@ describe("releaseFetch", () => {
   });
 
   it("recognises Appflare's own repository only", () => {
-    expect(isAppflareRepositoryUrl("https://api.github.com/repos/appflare/appflare/releases")).toBe(
+    expect(isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare/releases")).toBe(
       true,
     );
     expect(
-      isAppflareRepositoryUrl("https://github.com/Appflare/Appflare/releases/download/t/f"),
+      isAppflareRepositoryUrl("https://github.com/Yys9253462-gif/Appflare/releases/download/t/f"),
     ).toBe(true);
     expect(
-      isAppflareRepositoryUrl("https://api.github.com/repos/appflare/appflare-x/releases"),
+      isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare-x/releases"),
     ).toBe(false);
-    expect(isAppflareRepositoryUrl("https://api.github.com/repos/appflare/appflare")).toBe(false);
+    expect(isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare")).toBe(false);
     expect(isAppflareRepositoryUrl("https://github.com/appflare/catalog/releases")).toBe(false);
-    expect(isAppflareRepositoryUrl("https://evil.test/repos/appflare/appflare/x")).toBe(false);
+    expect(isAppflareRepositoryUrl("https://evil.test/repos/yys9253462-gif/appflare/x")).toBe(false);
     expect(
-      isAppflareRepositoryUrl("https://api.github.com/repos/appflare/appflare/../../other/x"),
+      isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare/../../other/x"),
     ).toBe(false);
   });
 });

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { artifactZipName, MANAGER_APP } from "./artifact.ts";
 
 /** Where manager releases are published (docs/RELEASING.md). */
-export const RELEASE_REPO = "appflare/appflare";
+export const RELEASE_REPO = "yys9253462-gif/appflare";
 /** Manager release tags are `manager@<version>`. */
 export const RELEASE_TAG_PREFIX = "manager@";
 
