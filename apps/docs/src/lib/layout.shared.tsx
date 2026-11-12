@@ -6,7 +6,7 @@ import logoDark from "../../../../docs/assets/logo_full_white.svg?url";
 import { repositoryUrl, siteName } from "./shared.ts";
 
 /** The catalog's apps page, linked from every page. */
-export const appsLink: LinkItemType = { text: "Apps", url: "/apps/", active: "nested-url" };
+export const appsLink: LinkItemType = { text: "应用", url: "/apps/", active: "nested-url" };
 
 /**
  * Where the documentation starts, linked from the pages that have no docs
@@ -14,7 +14,7 @@ export const appsLink: LinkItemType = { text: "Apps", url: "/apps/", active: "ne
  */
 export const DOCS_HOME = "/start/overview/";
 
-export const docsLink: LinkItemType = { text: "Docs", url: DOCS_HOME, active: "url" };
+export const docsLink: LinkItemType = { text: "文档", url: DOCS_HOME, active: "url" };
 
 /**
  * The repository, as an icon in the navigation bar. Fumadocs' own `githubUrl`

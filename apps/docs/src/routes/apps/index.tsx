@@ -90,9 +90,9 @@ function AppsPage() {
     <CatalogLayout>
       <CatalogHeader title={appsPageTitle} description={appsPageDescription}>
         <p className="text-fd-muted-foreground text-sm">
-          New to Appflare? Read{" "}
+          第一次使用 Appflare？了解{" "}
           <Link href="/guides/install-apps/" className="text-fd-primary underline">
-            how installing an app works
+            如何安装应用
           </Link>
           .
         </p>
@@ -101,25 +101,25 @@ function AppsPage() {
       <div className="grid gap-4">
         <div className="grid gap-1.5">
           <label htmlFor={inputId} className="sr-only">
-            Search apps
+            搜索应用
           </label>
           <input
             id={inputId}
             type="search"
             value={text}
             onChange={(event) => change(event.target.value)}
-            placeholder="Search apps"
+            placeholder="搜索应用"
             autoComplete="off"
             className="h-11 w-full rounded-xl border border-fd-border bg-fd-card px-4 text-base outline-none placeholder:text-fd-muted-foreground focus-visible:ring-2 focus-visible:ring-fd-ring"
           />
           <p className="px-1 text-fd-muted-foreground text-sm">
             <span role="status">
               {results === null
-                ? `${catalog.apps.length} apps`
-                : `${results.length} of ${catalog.apps.length} apps`}
+                ? `共 ${catalog.apps.length} 个应用`
+                : `找到 ${results.length} 个，共 ${catalog.apps.length} 个应用`}
             </span>
             {" · "}
-            <time dateTime={catalog.generatedAt}>Updated {longDate(catalog.generatedAt)}</time>
+            <time dateTime={catalog.generatedAt}>更新于 {longDate(catalog.generatedAt)}</time>
           </p>
         </div>
         <CategoryCards categories={catalog.categories} />
@@ -166,28 +166,26 @@ const AppsList = memo(function AppsList({
   if (results !== null) {
     return results.length === 0 ? (
       <div className="grid justify-items-center gap-3 rounded-xl border border-fd-border border-dashed px-6 py-12 text-center">
-        <p className="font-semibold text-lg">No apps match</p>
-        <p className="text-fd-muted-foreground">
-          Try other words, or ask for the app you are looking for.
-        </p>
+        <p className="font-semibold text-lg">没有匹配的应用</p>
+        <p className="text-fd-muted-foreground">换个关键词试试，或提出你想添加的应用。</p>
         <div className="flex flex-wrap justify-center gap-2">
           <button
             type="button"
             onClick={onClear}
             className="rounded-md border border-fd-border px-3 py-1.5 font-medium text-sm hover:bg-fd-accent"
           >
-            Show all apps
+            显示全部应用
           </button>
           <a
             href={suggestAppUrl(query)}
             className="rounded-md border border-fd-border px-3 py-1.5 font-medium text-sm hover:bg-fd-accent"
           >
-            Suggest an app
+            推荐应用
           </a>
         </div>
       </div>
     ) : (
-      <CatalogSection title="Results">
+      <CatalogSection title="搜索结果">
         <AppGrid apps={results} long />
       </CatalogSection>
     );
@@ -201,7 +199,7 @@ const AppsList = memo(function AppsList({
         </Fragment>
       ))}
       {rows.length === 0 && featured}
-      <CatalogSection title="All apps">
+      <CatalogSection title="全部应用">
         <AppGrid apps={byName} phoneLimit={allShown ? undefined : PHONE_LIST_LENGTH} long />
         {!allShown && byName.length > PHONE_LIST_LENGTH && (
           <button
@@ -209,7 +207,7 @@ const AppsList = memo(function AppsList({
             onClick={onShowAll}
             className="justify-self-center rounded-md border border-fd-border px-4 py-2 font-medium text-sm hover:bg-fd-accent sm:hidden"
           >
-            Show all {byName.length} apps
+            显示全部 {byName.length} 个应用
           </button>
         )}
       </CatalogSection>

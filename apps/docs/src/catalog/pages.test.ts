@@ -71,7 +71,7 @@ describe("the catalog pages", () => {
 
   it("are listed in llms.txt, with the categories", () => {
     const index = llmsIndex();
-    expect(index).toContain(`## Apps\n\n- [Apps](${SITE_URL}/apps/)`);
+    expect(index).toContain(`## Apps\n\n- [应用中心](${SITE_URL}/apps/)`);
     for (const entry of catalogPageEntries(siteCatalog).appPages) {
       expect(index).toContain(`](${SITE_URL}${entry.url}): ${entry.description}`);
     }
@@ -82,7 +82,7 @@ describe("the catalog pages", () => {
 
   it("title an app page with its name and tagline", () => {
     expect(appPageTitle({ name: "Cut", pitch: "Short links" }, "Appflare")).toBe(
-      "Deploy Cut on Cloudflare: Short links | Appflare",
+      "在 Cloudflare 部署 Cut：Short links | Appflare",
     );
   });
 });
@@ -107,7 +107,7 @@ describe("siteCatalog", () => {
     expect(appLinks(only)).toEqual([
       {
         kind: "repository",
-        label: "Source code",
+        label: "源代码",
         href: "https://github.com/upstream/app",
         detail: "github.com/upstream/app",
       },
@@ -268,7 +268,7 @@ describe("storefrontRows", () => {
     const rows = storefrontRows(apps, categories, now);
     expect(rows.map((r) => r.id)).toEqual(["new", "popular", "category-email"]);
     expect(rows[0]?.apps.map((a) => a.slug)).toEqual(["a"]);
-    expect(rows[1]?.caption).toBe("Most starred on GitHub");
+    expect(rows[1]?.caption).toBe("GitHub 星标最多");
     expect(rows[2]?.seeAll).toBe("/categories/email/");
   });
 
@@ -302,9 +302,9 @@ describe("an app page", () => {
       app({ slug: "x", plan: "paid", requires: ["r2", "something-new"], services: ["kv", "r2"] }),
     );
     expect(needs.items).toEqual([
-      { key: "plan", name: "Workers Paid plan", words: "This app needs it" },
-      { key: "kv", name: "KV storage", words: "This app uses it" },
-      { key: "r2", name: "R2 storage", words: "This app needs it" },
+      { key: "plan", name: "Workers 付费套餐", words: "此应用需要" },
+      { key: "kv", name: "KV storage", words: "此应用使用" },
+      { key: "r2", name: "R2 storage", words: "此应用需要" },
       { key: "something-new", name: "Something new", words: null },
     ]);
     expect(needs.note).toBeNull();
@@ -313,10 +313,10 @@ describe("an app page", () => {
   it("says Cloudflare Access is needed only if protected when the entry does not require it", () => {
     const access = { slug: "x", requires: ["access"], services: ["access"] };
     expect(accountNeeds(app({ ...access, accessIfProtected: true })).items).toEqual([
-      { key: "access", name: SERVICE_NAMES.access, words: "Only if you protect it" },
+      { key: "access", name: SERVICE_NAMES.access, words: "仅在开启访问保护时需要" },
     ]);
     expect(accountNeeds(app(access)).items).toEqual([
-      { key: "access", name: SERVICE_NAMES.access, words: "This app needs it" },
+      { key: "access", name: SERVICE_NAMES.access, words: "此应用需要" },
     ]);
   });
 
@@ -324,7 +324,9 @@ describe("an app page", () => {
     const needs = accountNeeds(app({ slug: "x", requires: ["something-new"] }));
     expect(needs.items).toEqual([{ key: "something-new", name: "Something new", words: null }]);
     expect(needs.note).toBeNull();
-    expect(accountNeeds(app({ slug: "x", tier: "self-deploying" })).note).toMatch(/installer/);
+    expect(accountNeeds(app({ slug: "x", tier: "self-deploying" })).note).toMatch(
+      /应用自己的安装程序/,
+    );
   });
 
   it("leaves out a star count of zero", () => {
@@ -347,11 +349,11 @@ describe("an app page", () => {
     );
     expect(stats.map((s) => [s.id, s.value])).toEqual([
       ["stars", "1.2k"],
-      ["installs", "Under 10"],
+      ["installs", "少于 10"],
       ["plan", "Free"],
       ["license", "No license"],
-      ["version", "Sep 21"],
-      ["tested", "Dec 30, 2025"],
+      ["version", "9月21日"],
+      ["tested", "2025年12月30日"],
     ]);
     expect(stats.find((s) => s.id === "license")?.tone).toBe("warning");
     expect(appStats(app({ slug: "y" }), now).map((s) => s.id)).toEqual([
@@ -360,7 +362,7 @@ describe("an app page", () => {
       "version",
       "tested",
     ]);
-    expect(shortDate("2026-01-02T23:00:00Z", now)).toBe("Jan 2");
+    expect(shortDate("2026-01-02T23:00:00Z", now)).toBe("1月2日");
   });
 
   it("links the source code, and the website unless it is the repository", () => {
@@ -369,7 +371,7 @@ describe("an app page", () => {
     );
     expect(appLinks({ repo: "acme/cut", homepage: "https://www.cut.example/" })[1]).toEqual({
       kind: "website",
-      label: "Website",
+      label: "官方网站",
       href: "https://www.cut.example/",
       detail: "cut.example",
     });

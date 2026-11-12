@@ -64,7 +64,7 @@ function Step({
       <div className="grid min-w-0 max-w-3xl gap-2 pt-0.5">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <h3 className="m-0 font-semibold text-base">
-            <span className="sr-only">Step {number}: </span>
+            <span className="sr-only">第 {number} 步： </span>
             {title}
           </h3>
           {badge !== undefined && (
@@ -83,13 +83,13 @@ function Step({
 function AskedFields({ fields }: { fields: readonly AskedField[] }) {
   return (
     <div className="grid gap-1.5">
-      <p className="m-0 text-fd-muted-foreground">The install form asks you for:</p>
+      <p className="m-0 text-fd-muted-foreground">安装表单需要填写：</p>
       <ul className="m-0 grid list-none gap-1 p-0">
         {fields.map((field) => (
           <li key={field.label} className="flex flex-wrap items-baseline gap-x-3">
             <span className="font-medium">{field.label}</span>
             {field.seedOnly && (
-              <span className="text-fd-muted-foreground text-sm">asked once, at install</span>
+              <span className="text-fd-muted-foreground text-sm">仅安装时填写一次</span>
             )}
             {field.link !== null && (
               <a href={field.link.url} rel="noopener noreferrer" className={`${LINK} text-sm`}>
@@ -108,11 +108,11 @@ export function DeploySteps({ guide, appName }: { guide: DeployGuide; appName: s
   const { setup, install, finish } = guide;
   return (
     <ol className="m-0 grid list-none divide-y divide-fd-border overflow-hidden rounded-xl border border-fd-border p-0">
-      <Step number={1} title={setup.title} badge="Once">
+      <Step number={1} title={setup.title} badge="仅需一次">
         <p className="m-0 text-fd-muted-foreground">
-          {setup.text} See{" "}
+          {setup.text} 查看{" "}
           <a href={`#${NEEDS_ANCHOR}`} className={LINK}>
-            what {appName} needs on your account
+            {appName} 对账户的要求
           </a>
           .
         </p>
@@ -121,7 +121,7 @@ export function DeploySteps({ guide, appName }: { guide: DeployGuide; appName: s
           <InstallLink
             href={setup.href}
             handoffPath={setup.installHref}
-            shareTitle={`Install ${appName}`}
+            shareTitle={`安装 ${appName}`}
             className={buttonVariants({ variant: "primary", className: "px-4" })}
           >
             {setup.action}
@@ -137,7 +137,7 @@ export function DeploySteps({ guide, appName }: { guide: DeployGuide; appName: s
       <Step number={2} title={install.title}>
         {install.asks === null ? (
           <p className="m-0 text-fd-muted-foreground">
-            Find {appName} in Appflare's catalog and fill in its install form.
+            在 Appflare 应用中心找到 {appName}，填写安装表单。
           </p>
         ) : (
           install.asks.length > 0 && <AskedFields fields={install.asks} />

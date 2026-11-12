@@ -68,9 +68,7 @@ export function StatStrip({ stats }: { stats: readonly AppStat[] }) {
 export function NeedsList({ needs }: { needs: AccountNeeds }) {
   if (needs.items.length === 0) {
     return (
-      <p className="text-fd-muted-foreground">
-        Nothing beyond a Cloudflare account on the free Workers plan.
-      </p>
+      <p className="text-fd-muted-foreground">只需一个使用 Workers 免费套餐的 Cloudflare 账户。</p>
     );
   }
   return (
@@ -115,10 +113,10 @@ export function LinksList({
       </ul>
       {maintainers.length > 0 && (
         <p className="text-fd-muted-foreground text-sm">
-          Packaged for the catalog by{" "}
+          目录打包维护者：{" "}
           {maintainers.map((handle, i) => {
             const profile = maintainerProfile(handle);
-            const separator = i === 0 ? "" : i === maintainers.length - 1 ? " and " : ", ";
+            const separator = i === 0 ? "" : i === maintainers.length - 1 ? " 和 " : "、";
             return (
               <span key={handle}>
                 {separator}

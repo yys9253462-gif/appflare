@@ -18,9 +18,9 @@ export function InstallShell({ header, children }: { header: ReactNode; children
           {children}
         </section>
         <p className="text-center text-fd-muted-foreground text-sm">
-          Nothing is installed until you confirm it in your Appflare.{" "}
+          只有在你的 Appflare 中确认后，才会安装应用。{" "}
           <a href="/guides/install-links/" className="underline underline-offset-2">
-            About install links
+            关于安装链接
           </a>
         </p>
       </div>

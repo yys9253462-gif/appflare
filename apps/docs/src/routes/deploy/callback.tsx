@@ -9,6 +9,7 @@ import { type CallbackView, runCallback, submitReturn } from "../../deploy/callb
 import { CALLBACK_PATH } from "../../deploy/config.ts";
 import { requireDeployDocument } from "../../deploy/route-guard.ts";
 import { browserDeployStorage } from "../../deploy/storage.ts";
+import { deployFetch } from "../../deploy/token-fetch.ts";
 import { TokenKeeper } from "../../deploy/tokens.ts";
 import { noindexPageHead } from "../../lib/meta.ts";
 import { SITE_URL, siteName, siteOgImagePath } from "../../lib/shared.ts";
@@ -26,8 +27,8 @@ export const Route = createFileRoute("/deploy/callback")({
   beforeLoad: () => requireDeployDocument("/deploy/callback/"),
   head: () => {
     const head = noindexPageHead({
-      title: `Connecting Cloudflare | ${siteName}`,
-      description: "Finishing the Cloudflare sign-in for Appflare.",
+      title: `正在连接 Cloudflare | ${siteName}`,
+      description: "正在完成 Appflare 的 Cloudflare 授权登录。",
       url: `${SITE_URL}${CALLBACK_PATH}`,
       image: `${SITE_URL}${siteOgImagePath}`,
     });
@@ -48,8 +49,9 @@ function callbackOnce(): Promise<CallbackView> {
     running = runCallback({
       params,
       storage,
-      tokens: new TokenKeeper({ slot: storage.grant }),
+      tokens: new TokenKeeper({ slot: storage.grant, fetch: deployFetch }),
       navigate: (url) => window.location.replace(url),
+      fetch: deployFetch,
     }).then((view) => {
       // A sign-in from the deploy page that stops here counts as a step of its attempt.
       count(callbackStepOf(view));

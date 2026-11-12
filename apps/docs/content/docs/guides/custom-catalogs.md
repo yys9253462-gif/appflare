@@ -1,6 +1,6 @@
 ---
-title: Custom catalogs
-description: Add catalogs besides the official one, browse them together, and what changes for apps that come from them.
+title: 自定义应用目录
+description: 添加官方目录之外的应用目录、统一浏览，并了解这些目录中的应用有哪些差别。
 ---
 
 The manager lists apps from the official Appflare catalog. An admin can add more

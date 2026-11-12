@@ -26,19 +26,19 @@ const flush = () => act(() => new Promise<void>((resolve) => setTimeout(resolve,
 
 function why(label: string): HTMLButtonElement {
   const button = container.querySelector<HTMLButtonElement>(
-    `button[aria-label="Why Appflare needs ${label}"]`,
+    `button[aria-label="Appflare 为什么需要 ${label}"]`,
   );
-  if (button === null) throw new Error(`no Why? button for ${label}`);
+  if (button === null) throw new Error(`no 为什么需要？ button for ${label}`);
   return button;
 }
 
 /** The open popover's text, or null when none is open. */
 const openPopover = () => document.querySelector('[role="dialog"]')?.textContent ?? null;
 
-describe("the Why? buttons", () => {
+describe("the 为什么需要？ buttons", () => {
   it("are text buttons named after their permission", () => {
     const d1 = why("D1");
-    expect(d1.textContent).toBe("Why?");
+    expect(d1.textContent).toBe("为什么需要？");
     // One per scope Appflare asks for, offline_access included.
     expect(container.querySelectorAll("button")).toHaveLength(MANAGER_OAUTH_SCOPES.length);
   });
@@ -49,10 +49,10 @@ describe("the Why? buttons", () => {
     act(() => d1.click());
     await flush();
     expect(openPopover()).toBe(
-      "D1 lets Appflare create the databases of apps like Mailflare and ResolveHQ, update them with each app version, and restore them if you ask.Cloudflare permission: d1.write",
+      "允许 Appflare 创建应用数据库、随应用版本更新数据库，并在你要求时恢复数据。 使用此权限的应用示例：Mailflare、ResolveHQ。Cloudflare 权限： d1.write",
     );
-    // The row itself shows only the name and Why?.
-    expect(d1.closest("li")?.textContent).toBe("D1Why?");
+    // The row itself shows only the name and 为什么需要？.
+    expect(d1.closest("li")?.textContent).toBe("D1为什么需要？");
     act(() => {
       document.body.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
       document.body.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
@@ -71,7 +71,7 @@ describe("the Why? buttons", () => {
       zone.click();
     });
     await flush();
-    expect(openPopover()).toContain("Zone lets Appflare list the domains in your account");
+    expect(openPopover()).toContain("列出账户中的域名，让你选择 Appflare 或应用使用的域名");
     act(() => {
       (document.activeElement ?? document.body).dispatchEvent(
         new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),

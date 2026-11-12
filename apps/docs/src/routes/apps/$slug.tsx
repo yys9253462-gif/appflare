@@ -87,7 +87,7 @@ function AppPage() {
       ? app.screenshots
       : app.cover === null
         ? []
-        : [{ url: app.cover, alt: `${app.name} cover image` }];
+        : [{ url: app.cover, alt: `${app.name} 封面` }];
   const authors = app.authors.map((author) => author.name);
   const alternatives = alternativesLine(app);
   const guide = deployGuide(app);
@@ -101,9 +101,9 @@ function AppPage() {
 
   return (
     <CatalogLayout>
-      <nav aria-label="Breadcrumb" className="-mb-6 text-fd-muted-foreground text-sm">
+      <nav aria-label="面包屑导航" className="-mb-6 text-fd-muted-foreground text-sm">
         <Link href={appsPath} className="hover:text-fd-foreground">
-          Apps
+          应用中心
         </Link>
         <span aria-hidden="true"> / </span>
         <span aria-current="page">{app.name}</span>
@@ -117,7 +117,7 @@ function AppPage() {
             <p className="text-fd-muted-foreground text-lg">{app.pitch}</p>
             {authors.length > 0 && (
               <p className="text-fd-muted-foreground text-sm">
-                By {new Intl.ListFormat("en", { type: "conjunction" }).format(authors)}
+                作者：{new Intl.ListFormat("zh-CN", { type: "conjunction" }).format(authors)}
               </p>
             )}
           </div>
@@ -125,13 +125,13 @@ function AppPage() {
             <InstallLink
               href={installPath(app.slug)}
               handoffPath={installPath(app.slug)}
-              shareTitle={`Install ${app.name}`}
+              shareTitle={`安装 ${app.name}`}
               className={buttonVariants({ variant: "primary", className: "px-6 py-2.5 text-base" })}
             >
-              Install
+              安装
             </InstallLink>
-            <span className="text-fd-muted-foreground text-xs">Opens in your own Appflare</span>
-            <ShareLinkLine path={installPath(app.slug)} title={`Install ${app.name}`} />
+            <span className="text-fd-muted-foreground text-xs">在你自己的 Appflare 中打开</span>
+            <ShareLinkLine path={installPath(app.slug)} title={`安装 ${app.name}`} />
           </div>
         </header>
         <StatStrip stats={appStats(app, now)} />
@@ -139,7 +139,7 @@ function AppPage() {
 
       <ScreenshotGallery key={app.slug} images={images} appName={app.name} slug={app.slug} />
 
-      <AppSection title="About">
+      <AppSection title="关于">
         <div className="grid max-w-3xl gap-3 text-base leading-relaxed">
           {alternatives !== null && <p className="font-medium">{alternatives}</p>}
           {paragraphs(app.summary).map((paragraph) => (
@@ -149,7 +149,7 @@ function AppPage() {
       </AppSection>
 
       {app.features.length > 0 && (
-        <AppSection title="Features">
+        <AppSection title="功能">
           <FeatureList features={app.features} />
         </AppSection>
       )}
@@ -158,30 +158,30 @@ function AppPage() {
         <DeploySteps guide={guide} appName={app.name} />
       </AppSection>
 
-      <AppSection title="With Appflare instead of by hand">
+      <AppSection title="用 Appflare 自动完成部署与维护">
         <WithAppflareList items={withAppflare(app.tier)} />
       </AppSection>
 
-      <AppSection title="What it needs on your account" id={NEEDS_ANCHOR}>
+      <AppSection title="对账户的要求" id={NEEDS_ANCHOR}>
         <NeedsList needs={accountNeeds(app)} />
       </AppSection>
 
-      <AppSection title="Questions">
+      <AppSection title="常见问题">
         <FaqList items={appFaq(app)} />
       </AppSection>
 
-      <AppSection title="Links">
+      <AppSection title="相关链接">
         <LinksList links={appLinks(app)} maintainers={app.maintainers} />
       </AppSection>
 
       {app.authors.length > 0 && (
-        <AppSection title={app.authors.length === 1 ? "Author" : "Authors"}>
+        <AppSection title={app.authors.length === 1 ? "作者" : "作者"}>
           <AuthorsList authors={app.authors} />
         </AppSection>
       )}
 
       {app.categories.length > 0 && (
-        <AppSection title="Categories">
+        <AppSection title="分类">
           <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
             {appCategories(app).map((category) => (
               <li key={category.id}>

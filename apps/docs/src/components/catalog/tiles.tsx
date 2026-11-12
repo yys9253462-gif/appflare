@@ -8,6 +8,7 @@ import { iconImage } from "../../catalog/icon-copies.ts";
 import type { SiteApp, SiteCategory, SiteFeatured } from "../../catalog/site-catalog.ts";
 import type { StorefrontRow } from "../../catalog/storefront.ts";
 import { appPath, categoryPath } from "../../catalog/urls.ts";
+import { zhLabel } from "../../lib/zh.ts";
 
 /**
  * The pieces of the apps page, laid out as Appflare's own catalog page: apps
@@ -78,9 +79,9 @@ export function TileMeta({ app }: { app: Pick<SiteApp, "plan" | "popularity"> })
   const stars = (app.popularity?.stars ?? 0) > 0 ? (app.popularity?.stars ?? null) : null;
   return (
     <span className="flex min-w-0 items-center gap-1.5 overflow-hidden whitespace-nowrap text-fd-muted-foreground text-xs">
-      <span title={plan.tooltip}>
-        {plan.word}
-        <span className="sr-only"> ({plan.name} plan)</span>
+      <span title={zhLabel(plan.tooltip)}>
+        {zhLabel(plan.word)}
+        <span className="sr-only">（{plan.name} 套餐）</span>
       </span>
       {stars !== null && (
         <>
@@ -88,7 +89,7 @@ export function TileMeta({ app }: { app: Pick<SiteApp, "plan" | "popularity"> })
           <span className="inline-flex items-center gap-0.5 tabular-nums">
             <StarIcon />
             {formatCount(stars)}
-            <span className="sr-only"> stars on GitHub</span>
+            <span className="sr-only"> 个 GitHub 星标</span>
           </span>
         </>
       )}
@@ -280,20 +281,20 @@ export function AppRow({ row }: { row: StorefrontRow }) {
               href={row.seeAll}
               className="relative mr-1 shrink-0 font-medium text-fd-primary text-sm hover:underline"
             >
-              See all<span className="sr-only"> {row.title} apps</span>
+              查看全部<span className="sr-only"> {row.title} apps</span>
             </Link>
           )}
           {overflows && (
             <span className="flex items-center gap-1 max-sm:hidden">
               <ArrowButton
-                label={`Previous apps in ${row.title}`}
+                label={`${row.title}：上一组应用`}
                 direction={-1}
                 controls={listId}
                 enabled={!edges.atStart}
                 onPress={() => page(-1)}
               />
               <ArrowButton
-                label={`Next apps in ${row.title}`}
+                label={`${row.title}：下一组应用`}
                 direction={1}
                 controls={listId}
                 enabled={!edges.atEnd}
@@ -340,7 +341,7 @@ export function CategoryCards({
   current?: string;
 }) {
   return (
-    <nav aria-label="Categories">
+    <nav aria-label="分类">
       <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
         {categories.map((category) => {
           const active = category.id === current;
@@ -380,7 +381,7 @@ const SPONSORED_REL = "sponsored noopener noreferrer";
 export function FeaturedCard({ item, appName }: { item: SiteFeatured; appName: string | null }) {
   return (
     <aside
-      aria-label="Sponsored"
+      aria-label="推广"
       className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border border-fd-border bg-fd-card px-4 py-3"
     >
       {item.image !== null && (
@@ -396,14 +397,14 @@ export function FeaturedCard({ item, appName }: { item: SiteFeatured; appName: s
       <div className="grid min-w-0 flex-1 basis-64 gap-0.5">
         <span className="flex min-w-0 items-center gap-2">
           <span className="rounded-md bg-fd-secondary px-1.5 py-0.5 font-medium text-fd-muted-foreground text-xs">
-            Sponsored
+            推广
           </span>
           <span className="truncate font-semibold">{item.title}</span>
         </span>
         <p className="text-fd-muted-foreground text-sm">
           {item.text}{" "}
           <span className="whitespace-nowrap">
-            By{" "}
+            来自{" "}
             {item.sponsor.url === undefined ? (
               item.sponsor.name
             ) : (
@@ -420,7 +421,7 @@ export function FeaturedCard({ item, appName }: { item: SiteFeatured; appName: s
             href={appPath(item.slug)}
             className="rounded-md border border-fd-border px-3 py-1.5 font-medium text-sm hover:bg-fd-accent"
           >
-            View {appName}
+            查看 {appName}
           </Link>
         )}
         {item.link !== undefined && (

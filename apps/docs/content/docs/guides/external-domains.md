@@ -1,6 +1,6 @@
 ---
-title: External domains
-description: Serve an installed app on a hostname whose DNS is managed outside your Cloudflare account, through Cloudflare for SaaS and the Appflare gateway.
+title: 外部域名
+description: 通过 Cloudflare for SaaS 和 Appflare 网关，让应用使用 DNS 在你的 Cloudflare 账户之外管理的主机名。
 ---
 
 A [custom domain](/guides/custom-domains/) has to be in a domain on your own

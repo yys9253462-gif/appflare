@@ -9,9 +9,16 @@ const data = landingData(siteCatalog);
 const html = renderToStaticMarkup(<LandingContent data={data} />);
 
 describe("the front page", () => {
+  it("renders its navigation and introductory copy in Chinese", () => {
+    expect(html).toContain("在自己的 Cloudflare 账户里管理应用");
+    expect(html).toContain("浏览应用");
+    expect(html).toContain("三个步骤，在浏览器里完成");
+    expect(html).toContain("自己的账户，自己的应用，持续更新。");
+    expect(html).not.toContain("The app manager for your own Cloudflare account");
+  });
   it("leads with Install Appflare, the deploy page, twice", () => {
     const installs = [
-      ...html.matchAll(/<a[^>]*href="(https:\/\/link\.appflare\.dev\/deploy\?[^"]*)"[^>]*>/g),
+      ...html.matchAll(/<a[^>]*href="(https:\/\/cf\.hejige\.com\/deploy\/\?[^"]*)"[^>]*>/g),
     ];
     expect(installs).toHaveLength(2);
     expect(html.indexOf(installLink("home-hero-install").replaceAll("&", "&amp;"))).toBeLessThan(
@@ -24,12 +31,12 @@ describe("the front page", () => {
     const deploy = installLink("home-hero-cloudflare", true).replaceAll("&", "&amp;");
     expect(html).toContain(deploy);
     expect(html.indexOf(deploy)).toBeGreaterThan(html.indexOf("home-hero-install"));
-    expect(html).toContain("Cloudflare&#x27;s Deploy button");
+    expect(html).toContain("Cloudflare 部署按钮");
     expect(html).not.toContain("deploy.workers.cloudflare.com/button");
   });
 
   it("links to the documentation where it starts", () => {
-    expect(html).toMatch(/<a[^>]*href="\/start\/overview\/"[^>]*>Read the docs<\/a>/);
+    expect(html).toMatch(/<a[^>]*href="\/start\/overview\/"[^>]*>阅读文档<\/a>/);
   });
 
   it("offers no prompt for a coding agent", () => {
@@ -43,7 +50,9 @@ describe("the front page", () => {
     expect(svg).not.toBe("");
     expect(svg).toMatch(/aria-hidden="true"/);
     expect(svg).toContain('stroke="currentColor"');
-    expect(svg).not.toMatch(/<text\b|<image\b|<style\b|font-family/);
+    expect(svg).toContain("点击这里安装");
+    expect(svg).toMatch(/<text[^>]*font-family="system-ui, sans-serif"/);
+    expect(svg).not.toMatch(/<image\b|<style\b|https?:\/\//);
   });
 
   it("shows the whole manager, sidebar included, as the hero", () => {
@@ -69,11 +78,11 @@ describe("the front page", () => {
     const link = /<a[^>]*href="\/screenshots\/landing-home.png"[^>]*>([\s\S]*?)<\/a>/.exec(html);
     expect(link?.[0]).toMatch(/aria-haspopup="dialog"/);
     expect(link?.[1]).toMatch(/<img[^>]*src="\/screenshots\/landing-home.png"[^>]*alt="Appflare/);
-    expect(link?.[1]).toContain("Opens it larger.");
+    expect(link?.[1]).toContain("点击查看大图。");
   });
 
   it("links each app icon under How it works to the app's page", () => {
-    const step = html.slice(html.indexOf("Install an app"), html.indexOf("Keep it updated"));
+    const step = html.slice(html.indexOf("安装应用"), html.indexOf("保持更新"));
     const icons = [...step.matchAll(/<a[^>]*href="(\/apps\/[^"]+)"[^>]*aria-label="([^"]+)"/g)];
     expect(icons.map((m) => m[1])).toEqual(
       data.showcase.slice(0, 6).map((app) => `/apps/${app.slug}/`),
@@ -82,30 +91,30 @@ describe("the front page", () => {
   });
 
   it("names automatic updates, for apps and for Appflare itself", () => {
-    expect(html).toContain("Automatic updates");
+    expect(html).toContain("自动更新");
     expect(html).toContain('href="/guides/updates/#automatic-updates"');
-    expect(html).toContain("Appflare can update itself the same way");
+    expect(html).toContain("Appflare 也可以用同样的方式更新自己");
   });
 
   it("says what Appflare does when an app runs up the bill, with the guide and a picture", () => {
     const card = /<a[^>]*href="\/guides\/spend-protection\/"[^>]*>([\s\S]*?)<\/a>/.exec(html)?.[1];
-    expect(card).toContain("Spend protection");
-    expect(card).toContain("Automatic pausing is off by default");
-    expect(card).toContain("estimates at Cloudflare&#x27;s list prices");
+    expect(card).toContain("花费保护");
+    expect(card).toContain("自动暂停默认关闭");
+    expect(card).toContain("美元金额按 Cloudflare 标价估算");
     expect(card).toMatch(
       /<img[^>]*src="\/screenshots\/landing-spend.png"[^>]*width="1672"[^>]*height="1060"/,
     );
   });
 
   it("quotes the catalog's own numbers and links each app shown", () => {
-    expect(html).toContain(`${data.apps} apps, ready to install`);
+    expect(html).toContain(`${data.apps} 个应用，随时安装`);
     for (const app of data.showcase) expect(html).toContain(`href="/apps/${app.slug}/"`);
   });
 
   it("shows what people said on X, each post linking to itself, and loads nothing from X", () => {
     const section = html.slice(
-      html.indexOf('aria-label="What people are saying"'),
-      html.indexOf("How it works"),
+      html.indexOf('aria-label="用户评价（保留原文）"'),
+      html.indexOf("使用方法"),
     );
     const posts = [...section.matchAll(/href="(https:\/\/x\.com\/[^/]+\/status\/\d+)"/g)];
     expect(posts.length).toBeGreaterThan(1);
@@ -114,18 +123,16 @@ describe("the front page", () => {
   });
 
   it("puts one post in front and gives a face button to every post", () => {
-    const section = html.slice(html.indexOf('aria-label="What people are saying"'));
+    const section = html.slice(html.indexOf('aria-label="用户评价（保留原文）"'));
     const articles = [...section.matchAll(/<article[^>]*>/g)].map((m) => m[0]);
     expect(articles.filter((tag) => !tag.includes('aria-hidden="true"'))).toHaveLength(1);
-    expect([...section.matchAll(/aria-label="Show [^"]+&#x27;s post"/g)].length).toBe(
-      articles.length,
-    );
+    expect([...section.matchAll(/aria-label="查看 [^"]+ 的原帖"/g)].length).toBe(articles.length);
   });
 
   it("has a footer of its own that links to the privacy page", () => {
     const footer = html.slice(html.lastIndexOf("<footer"));
     expect(footer).toContain('href="/privacy/"');
-    expect(footer).toContain("not affiliated with");
+    expect(footer).toContain("没有隶属、背书或赞助关系");
   });
 });
 
@@ -143,5 +150,19 @@ describe("landingData", () => {
 
   it("shows at most the number it is asked for", () => {
     expect(landingData(siteCatalog, 2).showcase.length).toBeLessThanOrEqual(2);
+  });
+
+  it("keeps app names and localises the category captions", () => {
+    const result = landingData({
+      ...siteCatalog,
+      apps: siteCatalog.apps.slice(0, 1).map((app) => ({
+        ...app,
+        categories: ["analytics"],
+        icon: app.icon ?? "/test-icon.svg",
+      })),
+      categories: [{ id: "analytics", label: "Analytics", count: 1 }],
+    });
+    expect(result.showcase[0]?.name).toBe(siteCatalog.apps[0]?.name);
+    expect(result.showcase[0]?.category).toBe("网站分析");
   });
 });

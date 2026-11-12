@@ -1,6 +1,6 @@
 ---
-title: Uninstall an app
-description: What an uninstall deletes, what you can keep, how to delete kept data later, and how to finish an uninstall that stopped.
+title: 卸载应用
+description: 了解卸载会删除什么、可以保留什么、以后如何删除保留的数据，以及如何继续中断的卸载。
 ---
 
 Uninstall is in the **Danger zone** at the bottom of the **Overview** tab of the app's page, which only

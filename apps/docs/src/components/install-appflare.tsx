@@ -5,7 +5,7 @@ import { InstallLink } from "./in-app/open-in-browser.tsx";
 import { ShareLinkLine } from "./in-app/share-link.tsx";
 
 /** What the share sheet calls a link to install Appflare. */
-const SHARE_TITLE = "Install Appflare";
+const SHARE_TITLE = "安装 Appflare";
 
 /**
  * Appflare's hosted installer. The shortener counts the link; the deploy page
@@ -39,7 +39,7 @@ export function InstallButton({
       className={`not-prose inline-flex shrink-0 items-center justify-center gap-2.5 rounded-lg bg-[#fb6b00] font-semibold text-black shadow-sm transition-colors hover:bg-[#ff7d1a] focus-visible:outline-2 focus-visible:outline-fd-ring focus-visible:outline-offset-2 ${sizing} ${className}`}
     >
       <img src={logo} alt="" width={24} height={24} className="size-6 rounded bg-white p-0.5" />
-      Install Appflare
+      安装 Appflare
     </InstallLink>
   );
 }

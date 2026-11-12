@@ -1,6 +1,6 @@
 ---
-title: Change an app's settings
-description: Change an installed app's settings, rotate or remove its secrets, move its email to another zone, and what a rollback puts back.
+title: 修改应用设置
+description: 修改已安装应用的设置、轮换或移除密钥、将邮件迁移到另一区域，以及了解回滚会恢复哪些内容。
 ---
 
 An installed app's page has a **Settings** tab. Admins use it to change the app's

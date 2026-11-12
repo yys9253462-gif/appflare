@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
   },
   head: () =>
     pageHead({
-      title: `${siteName}: the app manager for your own Cloudflare account`,
+      title: `${siteName}：在自己的 Cloudflare 账户里管理应用`,
       description: siteDescription,
       url: `${SITE_URL}/`,
       image: `${SITE_URL}${siteOgImagePath}`,

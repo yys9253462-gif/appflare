@@ -56,8 +56,7 @@ function Origin({ origin }: { origin: string }) {
 function CannotRememberNote() {
   return (
     <p className="rounded-lg border border-fd-border bg-fd-secondary px-3 py-2 text-fd-muted-foreground text-sm">
-      This browser does not let this site remember your Appflare, so it asks for the address each
-      time.
+      此浏览器不允许网站记住你的 Appflare，因此每次都需要输入地址。
     </p>
   );
 }
@@ -80,12 +79,12 @@ export interface FlowPanelProps {
  */
 export function keepLine(intentSaved: boolean, what: string, inApp: InAppBrowser | null): string {
   if (!intentSaved) {
-    return `This browser does not let this site keep ${what}, so come back to this link then.`;
+    return `此浏览器不允许网站保存 ${what} 的安装信息，请在准备好后返回此链接。`;
   }
   if (inApp !== null) {
-    return `${inAppBrowserName(inApp.app)} keeps ${what} to itself, so open this link in your browser to continue there.`;
+    return `${inAppBrowserName(inApp.app)} 只在内置浏览器里保存 ${what} 的信息，请在浏览器中打开此链接继续。`;
   }
-  return `This browser keeps ${what} for 7 days, so you can continue installing it here then. Anywhere else, open this page's link again.`;
+  return `此浏览器会保存 ${what} 的安装信息 7 天，期间可返回这里继续。在其他设备或浏览器中，请重新打开本页面的链接。`;
 }
 
 export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPanelProps) {
@@ -94,17 +93,15 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
   const inApp = browser?.kind === "in-app" ? browser : null;
   const onInstall = context.page === "install";
   const request = context.page === "install" ? context.request : null;
-  const what = request === null ? "this app" : requestLabel(request, apps);
+  const what = request === null ? "这个应用" : requestLabel(request, apps);
 
   switch (view.step) {
     case "loading":
       return (
         <div className="grid gap-3">
-          <Text>Checking this link…</Text>
+          <Text>正在检查链接…</Text>
           <noscript>
-            <p className="text-fd-muted-foreground">
-              This page needs JavaScript to find your Appflare.
-            </p>
+            <p className="text-fd-muted-foreground">查找你的 Appflare 需要启用 JavaScript。</p>
           </noscript>
         </div>
       );
@@ -112,15 +109,15 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "invalid":
       return (
         <div className="grid gap-3">
-          <Title>This link is not valid</Title>
+          <Title>链接无效</Title>
           <Text>
             {onInstall
-              ? "It does not name an app or a GitHub repository that Appflare can install."
-              : "It does not carry the address of an Appflare."}
+              ? "此链接没有指定 Appflare 能安装的应用或 GitHub 仓库。"
+              : "此链接不包含 Appflare 的地址。"}
           </Text>
           <Actions>
             <a href={appsPath} className={primary}>
-              Browse apps
+              浏览应用
             </a>
           </Actions>
         </div>
@@ -129,22 +126,21 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "in-catalog":
       return (
         <div className="grid gap-3">
-          <Title>{view.app.name} is in the Appflare catalog</Title>
+          <Title>{view.app.name} 已收录于 Appflare 应用目录</Title>
           <Text>
-            The catalog's version is packaged and checked for Appflare. Building it from the
-            repository instead happens in your own Cloudflare account and needs the Workers Paid
-            plan.
+            目录版本已针对 Appflare 完成打包和检查。从仓库直接构建则会在你的 Cloudflare
+            账户内进行，需要 Workers Paid 套餐。
           </Text>
           <Actions>
             <a href={installPath(view.app.slug)} className={primary}>
-              Install {view.app.name} from the catalog
+              从目录安装 {view.app.name}
             </a>
             <button
               type="button"
               className={secondary}
               onClick={() => dispatch({ type: "use-repository" })}
             >
-              Build from the repository
+              从仓库构建
             </button>
           </Actions>
         </div>
@@ -153,10 +149,10 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "ask":
       return (
         <div className="grid gap-3">
-          <Title>Do you have Appflare?</Title>
+          <Title>你已经安装 Appflare 了吗？</Title>
           <Text>
-            Appflare installs apps into your own Cloudflare account. This page opens {what} in your
-            Appflare, where you check it and confirm the install.
+            Appflare 会将应用安装到你自己的 Cloudflare 账户。此页面会在你的 Appflare 中打开 {what}
+            ，由你检查并确认安装。
           </Text>
           {!canRemember && <CannotRememberNote />}
           <Actions>
@@ -165,14 +161,14 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={primary}
               onClick={() => dispatch({ type: "choose-enter" })}
             >
-              Enter its address
+              输入它的地址
             </button>
             <button
               type="button"
               className={secondary}
               onClick={() => dispatch({ type: "choose-get" })}
             >
-              Get Appflare
+              安装 Appflare
             </button>
           </Actions>
         </div>
@@ -187,7 +183,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
           onEdit={(value) => dispatch({ type: "edit", value })}
           onSubmit={() => dispatch({ type: "submit" })}
           onBack={() => dispatch({ type: "back" })}
-          backLabel={onInstall ? "Back" : "Cancel"}
+          backLabel={onInstall ? "返回" : "取消"}
         />
       );
 
@@ -195,15 +191,15 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
       return (
         <div className="grid gap-3">
           <Title>
-            Remember <Origin origin={view.origin} /> as your Appflare?
+            记住 <Origin origin={view.origin} />
+            ，将其作为你的 Appflare？
           </Title>
           <Text>
-            Install buttons on this site will then open apps there. The address stays in this
-            browser.
+            之后点击本站的安装按钮，会在该地址中打开应用。地址仅保存在此浏览器中。
             {view.replaces !== null && (
               <>
                 {" "}
-                It replaces <Origin origin={view.replaces} />.
+                它将替换 <Origin origin={view.replaces} />。
               </>
             )}
           </Text>
@@ -213,7 +209,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={primary}
               onClick={() => dispatch({ type: "remember" })}
             >
-              Remember
+              记住地址
             </button>
             {onInstall && (
               <button
@@ -221,11 +217,11 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
                 className={secondary}
                 onClick={() => dispatch({ type: "once" })}
               >
-                Just this once
+                仅使用这一次
               </button>
             )}
             <button type="button" className={quiet} onClick={() => dispatch({ type: "back" })}>
-              {onInstall ? "Back" : "Cancel"}
+              {onInstall ? "返回" : "取消"}
             </button>
           </Actions>
         </div>
@@ -241,12 +237,12 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
       const handoffPath = request === null ? undefined : installPagePath(request);
       return (
         <div className="grid gap-4">
-          <Title>Get Appflare</Title>
+          <Title>安装 Appflare</Title>
           <Text>
-            Appflare runs in your own Cloudflare account, on the free plan or Workers Paid.{" "}
+            Appflare 运行在你自己的 Cloudflare 账户中，支持免费套餐和 Workers Paid。{" "}
             {deployPath === null
-              ? "Install it one of these ways:"
-              : `Install it from your browser and ${what} comes right after: once Appflare is set up, ${what} opens in it, ready to install.`}
+              ? "请选择以下方式安装："
+              : `在浏览器中安装 Appflare，完成设置后会自动打开 ${what}，供你确认安装。`}
           </Text>
           <ol className="m-0 grid list-none gap-4 p-0">
             <li className="grid gap-2">
@@ -257,7 +253,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
                 {...(handoffPath === undefined ? {} : { handoffPath })}
               />
               <span className="text-fd-muted-foreground text-sm">
-                Sign in to Cloudflare and choose where it goes. Nothing to install on your computer.
+                登录 Cloudflare 并选择安装位置，无需在电脑上安装软件。
               </span>
               {/* Drawn only after the page runs, so there is nothing to keep room for. */}
               <InstallShareLine
@@ -272,24 +268,24 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
                 rel="noopener noreferrer"
                 className={textLink}
               >
-                Cloudflare's Deploy button
+                Cloudflare 部署按钮
               </a>
               <span className="text-fd-muted-foreground text-sm">
-                It goes through a copy in your GitHub or GitLab account.{" "}
+                通过你 GitHub 或 GitLab 账户中的仓库副本进行部署。{" "}
                 <a href="/start/deploy-button/" className={textLink}>
-                  How the button works
+                  按钮的工作方式
                 </a>
               </span>
             </li>
             <li className="text-fd-muted-foreground text-sm">
               <a href="/start/install/" className={textLink}>
-                Other ways to install
+                其他安装方式
               </a>
             </li>
           </ol>
           <p className="leading-relaxed">
-            {deployPath === null ? "When it is ready" : "Installed another way? When it is ready"},
-            open <strong>Your account › Use this Appflare on appflare.dev</strong> in your Appflare.{" "}
+            {deployPath === null ? "准备好后" : "通过其他方式安装？准备好后"}，请在你的 Appflare
+            中打开<strong>账户 › 在 appflare.dev 上使用这个 Appflare</strong>。{" "}
             {keepLine(view.intentSaved, what, inApp)}
           </p>
           <Actions>
@@ -298,10 +294,10 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={secondary}
               onClick={() => dispatch({ type: "choose-enter" })}
             >
-              I have Appflare now
+              我已安装 Appflare
             </button>
             <button type="button" className={quiet} onClick={() => dispatch({ type: "back" })}>
-              Back
+              返回
             </button>
           </Actions>
         </div>
@@ -312,14 +308,14 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
       return (
         <div className="grid gap-3">
           <p role="status" className="text-lg leading-relaxed">
-            {forwarding ? "Opening in your Appflare at " : "Your Appflare is at "}
+            {forwarding ? "正在你的 Appflare 中打开，地址：" : "你的 Appflare 地址："}
             <Origin origin={view.origin} />
-            {forwarding ? "…" : "."}
+            {forwarding ? "…" : "。"}
           </p>
           <details className="text-fd-muted-foreground text-sm">
-            <summary className="cursor-pointer select-none">Details</summary>
+            <summary className="cursor-pointer select-none">详情</summary>
             <p className="pt-2">
-              The page this opens:{" "}
+              即将打开的页面：{" "}
               <a
                 href={view.target}
                 className={`${PRIVATE_CLASS} font-mono text-fd-primary underline [overflow-wrap:anywhere]`}
@@ -332,7 +328,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
           <Actions>
             {!forwarding && (
               <a href={view.target} className={`${PRIVATE_CLASS} ${primary}`}>
-                Open in your Appflare
+                在你的 Appflare 中打开
               </a>
             )}
             <button
@@ -340,7 +336,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={secondary}
               onClick={() => dispatch({ type: "change" })}
             >
-              Change
+              更换
             </button>
           </Actions>
         </div>
@@ -349,15 +345,14 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "saved":
       return (
         <div className="grid gap-3">
-          <Title>{view.justRemembered ? "Appflare remembered" : "Your Appflare"}</Title>
+          <Title>{view.justRemembered ? "已记住 Appflare" : "你的 Appflare"}</Title>
           <Text>
-            Install buttons on this site open apps in your Appflare at{" "}
-            <Origin origin={view.origin} />.
+            本站的安装按钮会在以下 Appflare 中打开应用： <Origin origin={view.origin} />.
           </Text>
           <Actions>
             {view.intent !== null && (
               <a href={installPagePath(view.intent)} className={primary}>
-                Continue installing {requestLabel(view.intent, apps)}
+                继续安装 {requestLabel(view.intent, apps)}
               </a>
             )}
             <button
@@ -365,10 +360,10 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={secondary}
               onClick={() => dispatch({ type: "change" })}
             >
-              Use a different Appflare
+              使用其他 Appflare
             </button>
             <button type="button" className={quiet} onClick={() => dispatch({ type: "forget" })}>
-              Forget this Appflare
+              忘记这个 Appflare
             </button>
           </Actions>
         </div>
@@ -377,12 +372,11 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "none":
       return (
         <div className="grid gap-3">
-          <Title>{view.forgotten ? "Appflare forgotten" : "No Appflare remembered"}</Title>
+          <Title>{view.forgotten ? "已忘记 Appflare" : "尚未记住 Appflare"}</Title>
           <Text>
-            {view.forgotten ? "This browser no longer remembers an Appflare. " : ""}
-            To open apps from this site in your Appflare, open{" "}
-            <strong>Your account › Use this Appflare on appflare.dev</strong> in your Appflare, or
-            enter its address here.
+            {view.forgotten ? "此浏览器已不再记住任何 Appflare。" : ""}
+            要从本站在你的 Appflare 中打开应用，请在 Appflare 中打开
+            <strong>账户 › 在 appflare.dev 上使用这个 Appflare</strong>，或在这里输入它的地址。
           </Text>
           {!canRemember && <CannotRememberNote />}
           <Actions>
@@ -391,10 +385,10 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
               className={primary}
               onClick={() => dispatch({ type: "choose-enter" })}
             >
-              Enter its address
+              输入它的地址
             </button>
             <a href="/start/install/" className={secondary}>
-              Get Appflare
+              安装 Appflare
             </a>
           </Actions>
         </div>
@@ -403,17 +397,17 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
     case "cannot-remember":
       return (
         <div className="grid gap-3">
-          <Title>This browser cannot remember your Appflare</Title>
+          <Title>此浏览器无法记住你的 Appflare</Title>
           <Text>
-            It does not let this site keep <Origin origin={view.origin} />, so Install buttons on
-            this site will ask for your Appflare's address each time.
+            此浏览器不允许本站保存 <Origin origin={view.origin} />
+            ，因此每次点击安装按钮都需要重新输入 Appflare 地址。
           </Text>
           <Actions>
             <a href={appsPath} className={primary}>
-              Browse apps
+              浏览应用
             </a>
             <button type="button" className={quiet} onClick={() => dispatch({ type: "back" })}>
-              Back
+              返回
             </button>
           </Actions>
         </div>
@@ -447,10 +441,10 @@ function AddressForm({
   }
   return (
     <form className="grid gap-3" onSubmit={submit} noValidate>
-      <Title>Your Appflare's address</Title>
+      <Title>你的 Appflare 地址</Title>
       <div className="grid gap-1.5">
         <label htmlFor={id} className="font-medium text-sm">
-          Address
+          地址
         </label>
         <input
           id={id}
@@ -474,13 +468,13 @@ function AddressForm({
           </p>
         )}
         <p id={hintId} className="text-fd-muted-foreground text-sm">
-          The address you open Appflare at, as your browser shows it.
+          请输入浏览器中访问 Appflare 时显示的完整地址。
         </p>
       </div>
       {!canRemember && <CannotRememberNote />}
       <Actions>
         <button type="submit" className={primary}>
-          Continue
+          继续
         </button>
         <button type="button" className={quiet} onClick={onBack}>
           {backLabel}

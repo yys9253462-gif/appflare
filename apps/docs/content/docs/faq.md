@@ -1,6 +1,6 @@
 ---
-title: FAQ
-description: Free plan limits, health check results, R2 and payment methods, and removing Appflare.
+title: 常见问题
+description: 免费套餐限额、健康检查结果、R2 与付款方式，以及移除 Appflare。
 ---
 
 ## Does Appflare work on the free plan?

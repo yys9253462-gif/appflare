@@ -25,7 +25,7 @@ export const Route = createFileRoute("/install/$slug")({
   head: ({ loaderData }) =>
     loaderData
       ? noindexPageHead({
-          title: `Install ${loaderData.app.name} | ${siteName}`,
+          title: `安装 ${loaderData.app.name} | ${siteName}`,
           description: loaderData.app.pitch,
           url: `${SITE_URL}${installPath(loaderData.app.slug)}`,
           image: `${SITE_URL}${ogImagePath(["install", loaderData.app.slug])}`,
@@ -46,13 +46,13 @@ function InstallAppPage() {
       header={
         <InstallHeader
           icon={<AppIcon src={app.icon} name={app.name} size={64} lazy={false} />}
-          title={`Install ${app.name}`}
+          title={`安装 ${app.name}`}
           lines={
             <>
               <p>{app.pitch}</p>
               <p className="text-sm">
                 <a href={appPath(app.slug)} className="underline underline-offset-2">
-                  About {app.name}
+                  关于 {app.name}
                 </a>
               </p>
             </>

@@ -41,9 +41,9 @@ function CategoryPage() {
   }, [category.id]);
   return (
     <CatalogLayout>
-      <nav aria-label="Breadcrumb" className="-mb-6 text-fd-muted-foreground text-sm">
+      <nav aria-label="面包屑导航" className="-mb-6 text-fd-muted-foreground text-sm">
         <Link href={appsPath} className="hover:text-fd-foreground">
-          Apps
+          应用中心
         </Link>
         <span aria-hidden="true"> / </span>
         <span aria-current="page">{category.label}</span>
@@ -51,7 +51,7 @@ function CategoryPage() {
       <CatalogHeader title={categoryTitle(category)} description={categoryDescription(category)} />
       <AppGrid apps={apps} />
       <section className="grid gap-3">
-        <h2 className="font-semibold text-lg">All categories</h2>
+        <h2 className="font-semibold text-lg">全部分类</h2>
         <CategoryCards categories={categories} current={category.id} />
       </section>
     </CatalogLayout>

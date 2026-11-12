@@ -1,6 +1,6 @@
 ---
-title: Users and roles
-description: The owner, admins, members, and managing users.
+title: 用户与角色
+description: 了解所有者、管理员和成员，以及如何管理用户。
 ---
 
 Appflare has two roles, admin and member, and one owner.

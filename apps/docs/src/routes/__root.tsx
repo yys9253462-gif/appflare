@@ -9,6 +9,7 @@ import { startAnalytics } from "../analytics/analytics.ts";
 import { DocsLink } from "../components/link.tsx";
 import { faviconLinks, faviconMeta } from "../lib/favicons.ts";
 import { siteName } from "../lib/shared.ts";
+import { docsTranslations } from "../lib/zh.ts";
 import appCss from "../styles/app.css?url";
 
 export const Route = createRootRoute({
@@ -26,7 +27,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -37,6 +38,7 @@ function RootComponent() {
           applied by an inline script before the first paint, so a reload does not flash.
         */}
         <RootProvider
+          i18n={{ locale: "zh-CN", hideLocale: "always", translations: docsTranslations }}
           search={{ SearchDialog: SearchOnFirstOpen }}
           theme={{ defaultTheme: "light", enableSystem: true }}
           components={{ Link: DocsLink }}

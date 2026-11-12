@@ -109,6 +109,6 @@ describe("a docs page's, an app's, an install page's or a category's address wit
     for (const route of routes) {
       expect(route.options.head({ loaderData: undefined, params: {} })).toEqual(notFoundHead);
     }
-    expect(notFoundHead.meta[0]?.title).toBe("Page not found | Appflare");
+    expect(notFoundHead.meta[0]?.title).toBe("页面不存在 | Appflare");
   });
 });

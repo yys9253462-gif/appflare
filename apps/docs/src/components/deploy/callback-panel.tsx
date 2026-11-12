@@ -24,7 +24,7 @@ function Working({ label }: { label: string }) {
 function StartAgain() {
   return (
     <LinkButton href={DEPLOY_PATH} variant="primary" className={`${WIDE} ${TOUCH}`}>
-      Start again
+      重新开始
     </LinkButton>
   );
 }
@@ -34,22 +34,22 @@ function problemText(view: Extract<CallbackView, { step: "problem" }>): string {
   if (typeof problem === "string") {
     switch (problem) {
       case "invalid-state":
-        return "This page was opened without a sign-in from Appflare, or with a damaged one.";
+        return "这个页面没有有效的 Appflare 登录请求，或登录信息已损坏。";
       case "unknown-session":
-        return "This sign-in was started in another tab, or it was already used. Start again in this tab.";
+        return "登录是在另一个标签页发起的，或请求已经使用过。请在当前标签页重新开始。";
       case "missing-code":
-        return "Cloudflare sent you back without the sign-in.";
+        return "Cloudflare 返回时没有携带授权信息。";
     }
   }
   switch (problem.kind) {
     case "refused":
       return problem.retryable
-        ? "Cloudflare did not answer when this page finished signing in. Start again in a moment."
-        : "Cloudflare did not accept the sign-in. It may have taken too long; start again.";
+        ? "完成登录时未收到 Cloudflare 的响应，请稍后重新开始。"
+        : "Cloudflare 未接受此次登录，可能已超时。请重新开始。";
     case "no-refresh-token":
-      return "Cloudflare did not grant lasting access, so your new Appflare could not stay connected. Start again and allow everything Appflare asks for.";
+      return "Cloudflare 未授予持续访问权限，新的 Appflare 无法保持连接。请重新开始，并允许 Appflare 请求的全部权限。";
     case "missing-scopes":
-      return `Cloudflare did not grant ${problem.missing.length === 1 ? "one of the permissions" : `${problem.missing.length} of the permissions`} Appflare needs. Start again and allow everything Appflare asks for.`;
+      return `Cloudflare 未授予 Appflare 所需的 ${problem.missing.length} 项权限。请重新开始，并允许 Appflare 请求的全部权限。`;
   }
 }
 
@@ -65,10 +65,10 @@ export function CallbackPanel({ view, onConfirm, onCancel }: CallbackPanelProps)
     case "working":
     case "done":
       return (
-        <DeployCard meter={null} title="Connecting Cloudflare">
-          <Working label="Finishing the Cloudflare sign-in…" />
+        <DeployCard meter={null} title="正在连接 Cloudflare">
+          <Working label="正在完成 Cloudflare 登录…" />
           <noscript>
-            <Text variant="secondary">This page needs JavaScript.</Text>
+            <Text variant="secondary">此页面需要启用 JavaScript。</Text>
           </noscript>
         </DeployCard>
       );
@@ -76,32 +76,32 @@ export function CallbackPanel({ view, onConfirm, onCancel }: CallbackPanelProps)
       return (
         <DeployCard
           meter={null}
-          title="Return to your Appflare?"
-          description="Continue only if this is your own Appflare's address. Whoever runs it gets access to your Cloudflare account."
+          title="返回你的 Appflare？"
+          description="请确认这是你自己的 Appflare 地址后再继续。该站点的运营者将获得访问你 Cloudflare 账户的权限。"
         >
           <p className="rounded-lg bg-kumo-recessed px-3 py-2.5 font-mono text-[0.9em] [overflow-wrap:anywhere]">
             {view.origin}
           </p>
           <div className="grid gap-2 sm:flex sm:flex-wrap">
             <Button variant="primary" className={`${WIDE} ${TOUCH} sm:w-auto`} onClick={onConfirm}>
-              Return to my Appflare
+              返回我的 Appflare
             </Button>
             <Button
               variant="ghost"
               className={`${TOUCH} max-sm:w-full max-sm:justify-center`}
               onClick={onCancel}
             >
-              Cancel
+              取消
             </Button>
           </div>
         </DeployCard>
       );
     case "returning":
       return (
-        <DeployCard meter={null} title="Returning to your Appflare">
-          <Working label={`Opening ${view.origin}…`} />
+        <DeployCard meter={null} title="正在返回你的 Appflare">
+          <Working label={`正在打开 ${view.origin}…`} />
           <Text variant="secondary" size="sm">
-            It shows whether Cloudflare is connected.
+            该页面会显示 Cloudflare 是否已连接。
           </Text>
         </DeployCard>
       );
@@ -109,23 +109,23 @@ export function CallbackPanel({ view, onConfirm, onCancel }: CallbackPanelProps)
       return (
         <DeployCard
           meter={null}
-          title="Nothing was sent"
-          description="You can close this page. To connect Cloudflare to your Appflare, start again from its settings."
+          title="未发送任何信息"
+          description="你可以关闭此页面。若要连接 Cloudflare，请从 Appflare 的设置中重新开始。"
         />
       );
     case "declined":
       return (
         <DeployCard
           meter={null}
-          title="Cloudflare was not connected"
-          description="You did not allow access, so nothing was installed. Appflare needs every permission it asks for."
+          title="Cloudflare 未连接"
+          description="你没有允许访问，因此未安装任何内容。Appflare 需要获得其请求的全部权限。"
         >
           <StartAgain />
         </DeployCard>
       );
     case "problem":
       return (
-        <DeployCard meter={null} title="The sign-in did not finish">
+        <DeployCard meter={null} title="登录未完成">
           <div role="alert">
             <Banner
               variant="error"
@@ -134,7 +134,7 @@ export function CallbackPanel({ view, onConfirm, onCancel }: CallbackPanelProps)
             />
           </div>
           {typeof view.problem !== "string" && view.problem.kind === "missing-scopes" && (
-            <More summary="Which permissions">
+            <More summary="缺少哪些权限">
               <ul className="grid list-disc gap-0.5 pl-5 font-mono text-[0.9em]" translate="no">
                 {view.problem.missing.map((scope) => (
                   <li key={scope}>{scope}</li>

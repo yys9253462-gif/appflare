@@ -8,6 +8,7 @@ import {
   serviceName,
   serviceNeedWords,
 } from "@appflare/schema/catalog-display";
+import { zhLabel } from "../lib/zh.ts";
 import type { SiteApp } from "./site-catalog.ts";
 
 /**
@@ -21,7 +22,7 @@ import type { SiteApp } from "./site-catalog.ts";
 export function shortDate(iso: string, now: Date): string {
   const date = new Date(iso);
   const sameYear = date.getUTCFullYear() === now.getUTCFullYear();
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("zh-CN", {
     month: "short",
     day: "numeric",
     ...(sameYear ? {} : { year: "numeric" }),
@@ -32,7 +33,7 @@ export function shortDate(iso: string, now: Date): string {
 
 /** A day with its year: "Sep 26, 2026". */
 export function longDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "UTC" }).format(
+  return new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeZone: "UTC" }).format(
     new Date(iso),
   );
 }
@@ -52,26 +53,25 @@ export interface AppStat {
 function installsStat(app: SiteApp): AppStat | null {
   const p = app.popularity;
   if (p === null || !p.installsKnown) return null;
-  const base = { id: "installs", label: "Installs", caption: null, tone: "default" } as const;
+  const base = { id: "installs", label: "安装量", caption: null, tone: "default" } as const;
   if (p.activeInstalls !== null) {
     return {
       ...base,
       value: formatCount(p.activeInstalls),
-      tooltip: `${p.activeInstalls.toLocaleString("en-US")} Appflare users run this app, from anonymous usage data.`,
+      tooltip: `根据匿名使用数据，有 ${p.activeInstalls.toLocaleString("zh-CN")} 位用户运行此应用。`,
     };
   }
   if (p.installs30d !== null) {
     return {
       ...base,
       value: formatCount(p.installs30d),
-      tooltip: `${p.installs30d.toLocaleString("en-US")} Appflare users installed this app in the last 30 days, from anonymous usage data.`,
+      tooltip: `根据匿名使用数据，最近 30 天有 ${p.installs30d.toLocaleString("zh-CN")} 位用户安装此应用。`,
     };
   }
   return {
     ...base,
-    value: "Under 10",
-    tooltip:
-      "Fewer than 10 Appflare users run this app, from anonymous usage data; smaller counts are not published.",
+    value: "少于 10",
+    tooltip: "匿名使用数据中，运行此应用的用户少于 10 位；为保护隐私不公布具体数量。",
   };
 }
 
@@ -87,10 +87,10 @@ export function appStats(app: SiteApp, now: Date): AppStat[] {
   if (stars !== null && stars > 0) {
     stats.push({
       id: "stars",
-      label: "Stars",
+      label: "星标",
       value: formatCount(stars),
       caption: null,
-      tooltip: `${stars.toLocaleString("en-US")} stars on the app's GitHub repository.`,
+      tooltip: `此应用的 GitHub 仓库有 ${stars.toLocaleString("zh-CN")} 个星标。`,
       tone: "default",
     });
   }
@@ -98,7 +98,7 @@ export function appStats(app: SiteApp, now: Date): AppStat[] {
   if (installs !== null) stats.push(installs);
   stats.push({
     id: "plan",
-    label: "Plan",
+    label: "套餐",
     caption: null,
     tone: "default",
     ...PLAN_STATS[app.plan],
@@ -106,7 +106,7 @@ export function appStats(app: SiteApp, now: Date): AppStat[] {
   const copy = licenseBadgeCopy(app.license);
   stats.push({
     id: "license",
-    label: "License",
+    label: "许可证",
     value: copy.label,
     caption: copy.prefix,
     tooltip: copy.tooltip,
@@ -115,29 +115,29 @@ export function appStats(app: SiteApp, now: Date): AppStat[] {
   const day = dateBuildDay(app.version);
   stats.push({
     id: "version",
-    label: "Version",
+    label: "版本",
     // A date build reads as its day; the full string is in the tooltip.
     value: day === null ? app.version : shortDate(`${day}T00:00:00Z`, now),
     caption: null,
-    tooltip: `Version ${app.version}.`,
+    tooltip: `版本 ${app.version}。`,
     tone: "default",
   });
   stats.push(
     app.lastVerified === null
       ? {
           id: "tested",
-          label: "Last tested",
-          value: "Not yet",
+          label: "最近测试",
+          value: "尚未测试",
           caption: null,
-          tooltip: "The catalog has not yet installed this version in a test account.",
+          tooltip: "目录尚未在测试账户中安装此版本。",
           tone: "default",
         }
       : {
           id: "tested",
-          label: "Last tested",
+          label: "最近测试",
           value: shortDate(app.lastVerified, now),
           caption: null,
-          tooltip: `The catalog installed this version in a test account and it answered, on ${longDate(app.lastVerified)}.`,
+          tooltip: `目录于 ${longDate(app.lastVerified)} 在测试账户安装此版本，并确认其正常响应。`,
           tone: "default",
         },
   );
@@ -162,7 +162,7 @@ export interface AccountNeeds {
 }
 
 /** Why an app that needs Cloudflare Access only while protected lists it. */
-export const ACCESS_IF_PROTECTED_WORDS = "Only if you protect it";
+export const ACCESS_IF_PROTECTED_WORDS = "仅在开启访问保护时需要";
 
 /** A requirement without a service of its own, spelled out from its id. */
 function requirementName(requirement: string): string {
@@ -181,7 +181,7 @@ function requirementName(requirement: string): string {
 export function accountNeeds(app: SiteApp): AccountNeeds {
   const items: NeedItem[] = [];
   if (app.plan === "paid") {
-    items.push({ key: "plan", name: "Workers Paid plan", words: serviceNeedWords(true) });
+    items.push({ key: "plan", name: "Workers 付费套餐", words: zhLabel(serviceNeedWords(true)) });
   }
   const declared: ReadonlySet<string> = declaredServices(app.requires);
   // A requirement the services leave out still gets its line.
@@ -192,7 +192,7 @@ export function accountNeeds(app: SiteApp): AccountNeeds {
     const words =
       id === "access" && app.accessIfProtected
         ? ACCESS_IF_PROTECTED_WORDS
-        : serviceNeedWords(declared.has(id));
+        : zhLabel(serviceNeedWords(declared.has(id)));
     items.push({ key: id, name, words });
   }
   for (const requirement of app.requires) {
@@ -204,9 +204,9 @@ export function accountNeeds(app: SiteApp): AccountNeeds {
 
 function needsNote(app: SiteApp): string | null {
   if (app.tier === "self-deploying") {
-    return "Its own installer creates what it needs; this is what its token allows.";
+    return "由应用自己的安装程序创建所需资源；此处列出其令牌允许的操作。";
   }
-  if (app.tier === "sandbox") return "It is built in your account, so the rest is known then.";
+  if (app.tier === "sandbox") return "应用在你的账户中构建，其余要求将在构建后确认。";
   return null;
 }
 
@@ -231,12 +231,12 @@ function hostOf(url: string): string {
 export function appLinks(app: Pick<SiteApp, "repo" | "homepage">): AppLink[] {
   const repoUrl = `https://github.com/${app.repo}`;
   const links: AppLink[] = [
-    { kind: "repository", label: "Source code", href: repoUrl, detail: `github.com/${app.repo}` },
+    { kind: "repository", label: "源代码", href: repoUrl, detail: `github.com/${app.repo}` },
   ];
   if (app.homepage.replace(/\/$/, "") !== repoUrl) {
     links.push({
       kind: "website",
-      label: "Website",
+      label: "官方网站",
       href: app.homepage,
       detail: hostOf(app.homepage),
     });
@@ -280,7 +280,7 @@ export const TITLE_LIMIT = 70;
  * than {@link TITLE_LIMIT} characters.
  */
 export function appPageTitle(app: Pick<SiteApp, "name" | "pitch">, siteName: string): string {
-  const title = `Deploy ${app.name} on Cloudflare: ${app.pitch}`;
+  const title = `在 Cloudflare 部署 ${app.name}：${app.pitch}`;
   const full = `${title} | ${siteName}`;
   return full.length > TITLE_LIMIT ? title : full;
 }
@@ -289,7 +289,7 @@ export function appPageTitle(app: Pick<SiteApp, "name" | "pitch">, siteName: str
 export const DESCRIPTION_LIMIT = 160;
 
 /** What the description adds after the app's summary. */
-export const DESCRIPTION_SENTENCE = "Deploy it to your own Cloudflare account with Appflare.";
+export const DESCRIPTION_SENTENCE = "使用 Appflare 部署到你自己的 Cloudflare 账户。";
 
 /**
  * The meta description: the app's summary, then {@link DESCRIPTION_SENTENCE}.
@@ -314,5 +314,5 @@ export function appPageDescription(app: Pick<SiteApp, "summary">): string {
 export function appCategories(
   app: Pick<SiteApp, "categories">,
 ): Array<{ id: string; label: string }> {
-  return app.categories.map((id) => ({ id, label: categoryLabel(id) }));
+  return app.categories.map((id) => ({ id, label: zhLabel(categoryLabel(id)) }));
 }

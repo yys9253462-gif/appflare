@@ -38,17 +38,17 @@ export function Wordmark({ className = "h-6" }: { className?: string }) {
 export function DeployButtonLine({ placement }: { placement: string }) {
   return (
     <p className="m-0 text-fd-muted-foreground text-sm">
-      Or use{" "}
+      也可以使用{" "}
       <InstallLink
         href={installLink(placement, true)}
         handoffPath={landingLinks.deployButton}
-        shareTitle="Deploy Appflare with Cloudflare's button"
+        shareTitle="通过 Cloudflare 部署按钮安装 Appflare"
         data-link-id={placement}
         className="font-medium text-fd-foreground underline underline-offset-4"
       >
-        Cloudflare's Deploy button
+        Cloudflare 部署按钮
       </InstallLink>
-      .
+      。
     </p>
   );
 }
@@ -153,7 +153,7 @@ export function ZoomableShot({ title, ...shot }: ShotProps & { title: string }) 
         className={`block cursor-zoom-in rounded-xl ${FOCUS_RING}`}
       >
         <Shot {...shot} />
-        <span className="sr-only">Opens it larger.</span>
+        <span className="sr-only">点击查看大图。</span>
       </a>
       <Lightbox
         title={title}

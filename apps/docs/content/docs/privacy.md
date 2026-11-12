@@ -1,6 +1,6 @@
 ---
-title: Privacy
-description: What appflare.dev records about visits to its pages, and what Appflare's installer keeps.
+title: 隐私
+description: 了解 appflare.dev 记录哪些页面访问数据，以及 Appflare 安装器保存哪些信息。
 ---
 
 appflare.dev uses PostHog analytics, including session recordings, heatmaps, error reports

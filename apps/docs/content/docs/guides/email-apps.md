@@ -1,6 +1,6 @@
 ---
-title: Apps that receive email
-description: How Appflare sets up Cloudflare Email Routing for an app, which permissions it needs, and what uninstalling undoes.
+title: 接收邮件的应用
+description: 了解 Appflare 如何为应用配置 Cloudflare 邮件路由、所需权限，以及卸载时会撤销哪些内容。
 ---
 
 Some apps receive email: an inbox, a mail-to-chat bridge, a newsletter archive. They

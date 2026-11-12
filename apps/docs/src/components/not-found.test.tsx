@@ -7,11 +7,11 @@ describe("the page for an app that is not in the catalog", () => {
 
   it("offers to search the apps for the words of its address", () => {
     expect(html).toContain('href="/apps/?q=trading%20edge"');
-    expect(html).toContain("Search apps for “trading edge”");
+    expect(html).toContain("搜索“trading edge”相关应用");
   });
 
   it("offers to ask for the app", () => {
-    const suggest = /<a href="([^"]+)"[^>]*>Suggest an app<\/a>/.exec(html)?.[1] ?? "";
+    const suggest = /<a href="([^"]+)"[^>]*>推荐应用<\/a>/.exec(html)?.[1] ?? "";
     const url = new URL(suggest.replaceAll("&amp;", "&"));
     expect(url.pathname).toBe("/appflare/catalog/issues/new");
     expect(url.searchParams.get("title")).toBe("App request: trading edge");

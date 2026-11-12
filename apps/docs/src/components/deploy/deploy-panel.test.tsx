@@ -66,10 +66,10 @@ describe("DeployPanel", () => {
 
   it("shows a slim bar and the step's name after sign-in, the count only for screen readers", () => {
     const steps: Array<[string, string]> = [
-      ["account", "Choose an account"],
-      ["name", "Name"],
-      ["address-domain", "Address"],
-      ["review", "Review"],
+      ["account", "选择账户"],
+      ["name", "名称"],
+      ["address-domain", "地址"],
+      ["review", "确认"],
     ];
     for (const [name, label] of steps) {
       const html = renderToStaticMarkup(
@@ -84,7 +84,7 @@ describe("DeployPanel", () => {
       <DeployPanel view={sample("review")} actions={NO_ACTIONS} canGoBack accountStep />,
     );
     expect(review).toMatch(/aria-valuenow="4"[^>]*|aria-valuemax="5"/);
-    expect(review).toContain('aria-valuetext="Step 4 of 5"');
+    expect(review).toContain('aria-valuetext="第 4 步，共 5 步"');
   });
 
   it("leaves no gap in the bar when there is no account to choose", () => {
@@ -93,7 +93,7 @@ describe("DeployPanel", () => {
     expect(journeyPosition("review", false)).toEqual({ step: 3, count: 4 });
     expect(journeyPosition("account", true)).toEqual({ step: 1, count: 5 });
     expect(journeyPosition("name", true)).toEqual({ step: 2, count: 5 });
-    expect(render(sample("name"))).toContain('aria-valuetext="Step 1 of 4"');
+    expect(render(sample("name"))).toContain('aria-valuetext="第 1 步，共 4 步"');
   });
 
   it("hides the journey's bar from the deploy on, and outside the journey", () => {
@@ -113,23 +113,23 @@ describe("DeployPanel", () => {
   it("offers to connect Cloudflare again, not to try again, when Appflare declined the connection", () => {
     const failed = sample("handoff-failed") as Extract<DeployView, { step: "handoff-failed" }>;
     const declined = text(render({ ...failed, problem: "declined" }));
-    expect(declined).toContain("Connect Cloudflare again");
-    expect(declined).not.toContain("Try again");
+    expect(declined).toContain("重新连接 Cloudflare");
+    expect(declined).not.toContain("重试");
     const busy = text(render({ ...failed, problem: "busy" }));
-    expect(busy).toContain("Try again");
-    expect(busy).not.toContain("Connect Cloudflare again");
+    expect(busy).toContain("重试");
+    expect(busy).not.toContain("重新连接 Cloudflare");
   });
 
-  it("starts with Connect Cloudflare and keeps every permission behind a fold", () => {
+  it("starts with 连接 Cloudflare and keeps every permission behind a fold", () => {
     const html = render(sample("welcome"));
     const t = text(html);
-    expect(t).toContain("Connect Cloudflare");
-    expect(t).toContain("What Appflare asks Cloudflare for");
+    expect(t).toContain("连接 Cloudflare");
+    expect(t).toContain("Appflare 需要哪些 Cloudflare 权限");
     // In the page for find-in-page, but folded away: each permission by name only.
     expect(html).toMatch(/<div[^>]*hidden[^>]*>(?:(?!<\/div>).)*Workers Scripts/s);
     expect(t).toContain("Offline access");
-    expect(html).toContain('aria-label="Why Appflare needs Workers Scripts"');
-    // The raw ids wait inside each Why? popover.
+    expect(html).toContain('aria-label="Appflare 为什么需要 Workers Scripts"');
+    // The raw ids wait inside each 为什么需要？ popover.
     expect(html).not.toContain("workers-scripts.write");
     expect(html).not.toContain("offline_access");
   });
@@ -141,13 +141,13 @@ describe("DeployPanel", () => {
       "appflare",
       "https://appflare.acme.example",
       "Appflare 0.4.2",
-      "Signature checked",
-      "What gets created in Acme Studio",
-      "a D1 database named appflare",
-      "a KV namespace named appflare-kv",
-      "a Workflow named appflare-jobs",
-      "The custom domain appflare.acme.example",
-      "Deploy Appflare",
+      "签名已验证",
+      "将在 Acme Studio 创建哪些资源",
+      "名为 appflare 的 D1 数据库",
+      "名为 appflare-kv 的 KV 命名空间",
+      "名为 appflare-jobs 的 Workflow",
+      "自定义域名 appflare.acme.example",
+      "部署 Appflare",
     ]) {
       expect(t).toContain(part);
     }
@@ -162,8 +162,8 @@ describe("DeployPanel", () => {
       }),
     ).toEqual(
       expect.arrayContaining([
-        "Its background jobs, a Workflow named team-jobs, and a schedule for its regular checks",
-        "Its address on workers.dev, https://team.acme.workers.dev",
+        "后台任务：名为 team-jobs 的 Workflow，以及定期检查计划",
+        "workers.dev 访问地址：https://team.acme.workers.dev",
       ]),
     );
   });
@@ -175,16 +175,16 @@ describe("DeployPanel", () => {
     expect(t).toContain("Uploaded 120 of 180 files.");
     // One bar: the deploy's own. Its number is the bar's (steps done); the step under way is named.
     expect(t).not.toContain("of 7");
-    expect(t).toContain("Step 4 of 11");
-    expect(t).toContain("3 of 11 done");
+    expect(t).toContain("第 4 步，共 11 步");
+    expect(t).toContain("已完成 3 / 11 步");
     expect(html).toMatch(/aria-valuenow="3"/);
     expect(html.match(/role="meter"/g)).toHaveLength(1);
-    expect(t).toContain("Details");
+    expect(t).toContain("详情");
     expect(t).toContain('Create the database: Created the D1 database "appflare".');
     expect(html).toContain('aria-busy="true"');
     // Progress is announced.
     expect(html).toMatch(
-      /role="status"[^>]*>Step 4 of 11: Upload Appflare&#x27;s files\. 3 of 11 done\./,
+      /role="status"[^>]*>第 4 步，共 11 步: Upload Appflare&#x27;s files\. 已完成 3 \/ 11 步\./,
     );
   });
 
@@ -192,66 +192,64 @@ describe("DeployPanel", () => {
     for (const name of ["handing-off-notice", "opening-notice"]) {
       const html = render(sample(name));
       const t = text(html);
-      expect(t).toContain(
-        "Appflare's regular checks, such as looking for updates, will not run on their own.",
-      );
+      expect(t).toContain("Appflare 的定期检查（例如检查更新）不会自动运行。");
       // The installer's full words, folded away.
-      expect(t).toContain("Why");
+      expect(t).toContain("原因");
       expect(html).toContain("free a trigger in another Worker");
     }
     expect(text(render(sample("opening")))).not.toContain("regular checks");
   });
 
-  it("turns the progress into Reconnecting… when the installer does not answer", () => {
+  it("turns the progress into 正在重新连接… when the installer does not answer", () => {
     const t = text(render(sample("deploying-reconnecting")));
-    expect(t).toContain("Reconnecting…");
+    expect(t).toContain("正在重新连接…");
     expect(t).not.toMatch(/lost contact|tries again/);
-    expect(t).not.toContain("Check now");
+    expect(t).not.toContain("立即检查");
   });
 
   it("waits quietly while another window holds the installation, then explains it in one line", () => {
     const quiet = text(render(sample("deploying-held")));
     expect(quiet).toContain("Set up background jobs");
     expect(quiet).not.toContain("Another window");
-    expect(quiet).not.toContain("Check now");
+    expect(quiet).not.toContain("立即检查");
     const long = text(render(sample("deploying-held-long")));
     expect(long).toContain("Another window is working on this installation.");
-    expect(long).toContain("Check now");
+    expect(long).toContain("立即检查");
   });
 
-  it("shows Check now busy while it checks, then what it found", () => {
+  it("shows 立即检查 busy while it checks, then what it found", () => {
     const checking = render(sample("deploying-address-checking"));
-    expect(checking).toMatch(/<button[^>]*aria-busy="true"[^>]*>(?:(?!<\/button>).)*Checking…/s);
+    expect(checking).toMatch(/<button[^>]*aria-busy="true"[^>]*>(?:(?!<\/button>).)*正在检查…/s);
     // Busy but not disabled, so the focus stays on it; announced as checking.
     const button = /<button[^>]*aria-busy="true"[^>]*>/.exec(checking)?.[0] ?? "";
     expect(button).toContain('aria-disabled="true"');
     expect(button).not.toMatch(/\sdisabled=""/);
-    expect(checking).toMatch(/role="status"[^>]*><span class="sr-only">Checking…<\/span>/);
+    expect(checking).toMatch(/role="status"[^>]*><span class="sr-only">正在检查…<\/span>/);
     const checked = text(render(sample("deploying-address-checked")));
-    expect(checked).toContain("Check now");
-    expect(checked).toMatch(/Still waiting \(checked at .+\)\./);
+    expect(checked).toContain("立即检查");
+    expect(checked).toMatch(/仍在等待（上次检查：.+）。/);
   });
 
   it("explains the certificate wait in one line, and offers workers.dev only once it is long", () => {
     const early = text(render(sample("deploying-address")));
     expect(early).toContain(
-      "Cloudflare is setting up appflare.acme.example and its certificate. This usually takes 1 to 5 minutes.",
+      "Cloudflare 正在配置 appflare.acme.example 及其证书，通常需要 1 至 5 分钟。",
     );
-    expect(early).toContain("Check now");
+    expect(early).toContain("立即检查");
     expect(early).not.toContain("workers.dev");
     const late = text(render(sample("deploying-waiting")));
     expect(late).toContain(
-      "Rather not wait? Set up your owner account at workers.dev now; Appflare moves to appflare.acme.example once it is ready.",
+      "不想等待？可先在 workers.dev 创建所有者账户，等 appflare.acme.example 就绪后，Appflare 会自动迁移过去。",
     );
-    expect(late).toContain("Open at workers.dev");
+    expect(late).toContain("在 workers.dev 打开");
     expect(late).toContain("https://appflare.acme.workers.dev");
   });
 
   it("says what removing deletes, and that nothing else is touched", () => {
     const t = text(render(sample("confirm-remove")));
-    expect(t).toContain("Appflare itself, a Worker named appflare");
-    expect(t).toContain("Anything that was in the account before stays");
-    expect(t).toContain("cannot be undone");
+    expect(t).toContain("Appflare 主程序：名为 appflare 的 Worker");
+    expect(t).toContain("账户原有的内容会保留");
+    expect(t).toContain("无法撤销");
   });
 
   it("says the app comes next when the page was opened from an app's install page", () => {
@@ -263,30 +261,30 @@ describe("DeployPanel", () => {
       expect(text(render(sample(name))), name).not.toContain(THEN_APP_LINE);
     }
     const opening = render(sample("opening-then-app"));
-    expect(text(opening)).toContain("Then the app you chose opens, ready to install.");
+    expect(text(opening)).toContain("随后会打开你选择的应用，供你确认安装。");
     expect(opening).toContain(
       `href="https://appflare.acme.example/setup?returnTo=%2Finstall%2Fopen-seo#claim=${SAMPLE_SECRETS.claim}"`,
     );
-    expect(text(render(sample("opening")))).not.toContain("the app you chose");
+    expect(text(render(sample("opening")))).not.toContain("你选择的应用");
   });
 
   it("opens the app's install link in an Appflare that is already set up", () => {
     const html = render(sample("set-up-then-app"));
     expect(html).toContain('href="https://appflare.acme.example/install/open-seo"');
-    expect(text(html)).toContain("Open the app in Appflare");
+    expect(text(html)).toContain("在 Appflare 中打开应用");
     const plain = render(sample("set-up"));
     expect(plain).toContain('href="https://appflare.acme.example"');
-    expect(text(plain)).toContain("Open Appflare");
-    expect(text(plain)).not.toContain("the app you chose");
+    expect(text(plain)).toContain("打开 Appflare");
+    expect(text(plain)).not.toContain("你选择的应用");
   });
 
   it("opens owner setup on the chosen address, with no referrer", () => {
-    // While it checks, the page shows "Opening…" and no link that could land on a 404.
-    expect(text(render(sample("opening")))).toContain("Opening…");
+    // While it checks, the page shows "正在打开…" and no link that could land on a 404.
+    expect(text(render(sample("opening")))).toContain("正在打开…");
     expect(render(sample("opening"))).not.toContain("/setup#claim=");
-    // When the address did not answer in time: Try again, or open it anyway.
+    // When the address did not answer in time: 重试, or open it anyway.
     const html = render(sample("opening-not-yet"));
-    expect(text(html)).toContain("Try again");
+    expect(text(html)).toContain("重试");
     expect(html).toContain(
       `href="https://appflare.acme.example/setup#claim=${SAMPLE_SECRETS.claim}"`,
     );
@@ -303,12 +301,12 @@ describe("the deploy page's terms", () => {
       </>,
     );
     const t = text(html);
-    expect(t).toContain("What Appflare's installer receives and keeps");
-    expect(t).toContain("short-lived Cloudflare access token");
-    expect(t).toContain("never gets the refresh token");
-    expect(t).toContain("The record goes once the owner account is created");
-    expect(t).toContain("Other ways to install");
-    expect(t).toContain("Deploy to Cloudflare button");
+    expect(t).toContain("安装器接收和保存哪些信息");
+    expect(t).toContain("短期有效的 Cloudflare 访问令牌");
+    expect(t).toContain("刷新令牌不会发送给安装器");
+    expect(t).toContain("创建所有者账户或移除安装后就会删除");
+    expect(t).toContain("其他安装方式");
+    expect(t).toContain("Deploy to Cloudflare 按钮");
     expect(t).toContain("npx create-appflare");
     // Both start folded.
     expect(html.match(/aria-expanded="false"/g)).toHaveLength(2);
@@ -326,11 +324,11 @@ describe("CallbackPanel", () => {
     const view = SAMPLE_CALLBACK_VIEWS["callback-confirm-return"] ?? { step: "working" };
     const html = renderToStaticMarkup(<CallbackPanel view={view} />);
     const t = text(html);
-    expect(t).toContain("Return to your Appflare?");
+    expect(t).toContain("返回你的 Appflare？");
     expect(t).toContain("https://appflare.acme.example");
-    expect(t).toContain("only if this is your own Appflare's address");
-    expect(t).toContain("Return to my Appflare");
-    expect(t).toContain("Cancel");
+    expect(t).toContain("请确认这是你自己的 Appflare 地址后再继续");
+    expect(t).toContain("返回我的 Appflare");
+    expect(t).toContain("取消");
     expect(html).not.toContain(SAMPLE_SECRETS.claim);
     expect(html).not.toContain("<form");
   });
@@ -338,7 +336,7 @@ describe("CallbackPanel", () => {
   it("does not claim the reconnect worked: the Appflare says so", () => {
     const view = SAMPLE_CALLBACK_VIEWS["callback-returning"] ?? { step: "working" };
     const t = text(renderToStaticMarkup(<CallbackPanel view={view} />));
-    expect(t).toContain("It shows whether Cloudflare is connected");
+    expect(t).toContain("该页面会显示 Cloudflare 是否已连接");
   });
 
   it("names missing permissions on demand and sends the visitor back to start again", () => {
@@ -347,7 +345,7 @@ describe("CallbackPanel", () => {
         view={SAMPLE_CALLBACK_VIEWS["callback-missing-scopes"] ?? { step: "working" }}
       />,
     );
-    expect(text(html)).toContain("2 of the permissions");
+    expect(text(html)).toContain("2 项权限");
     expect(html).toContain("dns.write");
     expect(html).toContain("zone.read");
     expect(html).toContain('href="/deploy/"');

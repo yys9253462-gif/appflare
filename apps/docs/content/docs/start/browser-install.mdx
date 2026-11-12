@@ -1,273 +1,140 @@
 ---
-title: Install from your browser
-description: Install Appflare from appflare.dev/deploy, what Appflare's hosted installer receives and keeps, and how to continue or remove an unfinished installation.
+title: 通过浏览器安装
+description: 通过 appflare.dev/deploy 安装 Appflare，了解托管安装器接收和保存的数据，以及如何继续或移除未完成的安装。
 ---
+
+<Callout type="info" title="本站的授权令牌转发">
+本站通过 `cf.hejige.com/api/oauth/token` 在服务器上向 Cloudflare 换取或刷新 OAuth 令牌，以解决浏览器跨域限制。该代理在转发时会处理授权码、PKCE 校验码，以及请求和响应中的访问令牌或刷新令牌；它与下面所述的安装器 Worker 是不同服务。请仅在信任本站维护者时授权。
+</Callout>
 
 <InstallButton placement="browser-install-primary" />
 
-[appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-1) installs Appflare into your own Cloudflare account. You
-sign in to Cloudflare, choose an account, a name and an address, and the page deploys
-Appflare and opens it at that address, where you create the owner account. There is no
-API token to create, no Git account involved, and nothing to install on your computer.
+[appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-1) 会把 Appflare 安装到你自己的 Cloudflare 账户中。登录 Cloudflare，选择账户、名称和地址后，页面会部署 Appflare，并在该地址打开它，供你创建所有者账户。无需创建 API 令牌，不涉及 Git 账户，也不用在电脑上安装软件。
 
-A web page cannot create Workers by itself, because Cloudflare's API does not accept
-requests from one. So the deploying is done by Appflare's hosted installer, a small
-open-source service behind the page, and for the few minutes of the install it can act
-on your account. [What the installer sees and keeps](#what-the-installer-sees-and-keeps)
-spells out what that means. If you would rather no service of Appflare's ever touches
-your account, choose [another way to install](/start/install/#which-way-to-choose).
+网页本身无法创建 Worker，因为 Cloudflare API 不接受来自网页的这类请求。实际部署由页面背后的 Appflare 托管安装器完成，它是一个小型开源服务，在安装的几分钟里能够操作你的账户。[安装器会看到并保存什么](#what-the-installer-sees-and-keeps)详细解释了其中的含义。如果你不希望 Appflare 的任何服务访问账户，请选择[其他安装方式](/start/install/#which-way-to-choose)。
 
-## Before you start
+## 开始前 [#before-you-start]
 
-- **A Cloudflare account.** The free Workers plan works.
-- **An address for Appflare.** Either a domain on that account with the status
-  **Active**, or a `workers.dev` subdomain. An account with neither gets a `workers.dev`
-  subdomain the first time someone opens **Workers & Pages** in the Cloudflare dashboard.
-- **A free cron trigger.** Appflare checks for updates on a schedule, which uses one
-  cron trigger. A free account has five. If all five are in use, the deploy still
-  finishes and Appflare works, but the page says its regular checks, such as looking
-  for updates, do not run on their own. Free a trigger in another Worker to turn them
-  on.
-- **A browser that keeps site data for appflare.dev**, with JavaScript on. Private
-  windows often refuse site data, and then the page cannot sign in.
+- **Cloudflare 账户。** Workers 免费套餐即可。
+- **Appflare 的访问地址。** 可以是账户中状态为 **Active** 的域名，也可以是 `workers.dev` 子域名。如果两者都没有，首次在 Cloudflare 控制台打开 **Workers & Pages** 时会获得一个 `workers.dev` 子域名。
+- **至少一个空闲的定时触发器。** Appflare 的定时更新检查需要一个触发器。免费账户共有五个。如果全部占用，部署仍会完成，Appflare 也可以使用，但页面会提示更新检查等例行检查无法自动运行。释放其他 Worker 的一个触发器即可开启这些检查。
+- **允许 appflare.dev 保存站点数据且开启 JavaScript 的浏览器。** 隐私窗口经常拒绝保存站点数据，此时页面无法完成登录。
 
-If an administrator of the account turned off **Public OAuth App access** (in the
-Cloudflare dashboard under **Manage Account > Members > Settings**), Cloudflare refuses
-new sign-ins from apps such as Appflare. Use
-[Cloudflare's Deploy button](/start/deploy-button/) or
-[the command line](/start/install/#advanced-install-from-the-command-line) instead.
+如果账户管理员在 Cloudflare 控制台的 **Manage Account > Members > Settings** 中关闭了 **Public OAuth App access**，Cloudflare 会拒绝 Appflare 等应用的新登录授权。请改用 [Cloudflare 部署按钮](/start/deploy-button/)或[命令行](/start/install/#advanced-install-from-the-command-line)。
 
-## Install
+## 安装步骤 [#install]
 
-The page shows its steps along the top: Connect, Account, Name, Address, Review, Deploy,
-and Set up. Nothing is created in your account before you select **Deploy Appflare** on
-the review.
+页面顶部会显示连接、账户、名称、地址、确认、部署和设置等步骤。在确认页选择**部署 Appflare**之前，不会在你的账户中创建任何资源。
 
-### 1. Connect Cloudflare
+### 1. 连接 Cloudflare [#1-connect-cloudflare]
 
-Select **Connect Cloudflare**. Cloudflare asks you to sign in, to choose the accounts
-Appflare may reach, and to allow its permissions. Allow all of them. Appflare asks for
-every permission it uses at once, so it never has to come back for more when you turn
-on a feature later, and it refuses a sign-in that leaves any out. **The permissions
-Appflare asks for**, on the page, lists them.
+选择**连接 Cloudflare**。Cloudflare 会要求你登录、选择 Appflare 可以访问的账户，并允许所需权限。请允许全部权限。Appflare 一次申请其使用的所有权限，因此以后开启新功能时无需再次申请；如果缺少任何权限，它会拒绝接受这次登录。页面中的 **Appflare 请求的权限**列出了完整清单。
 
-They are the permissions of the [API token](/start/install/#1-connect-cloudflare) other
-installs use, without Billing: Cloudflare offers no Billing permission to apps that sign
-in this way. Appflare then works the [Workers plan](/guides/install-apps/#workers-free-or-workers-paid)
-out from what the account can run, or you choose it in its settings.
+这些权限与其他安装方式使用的 [API 令牌](/start/install/#1-connect-cloudflare)相同，但不包含 Billing：Cloudflare 不向这种登录方式的应用提供 Billing 权限。Appflare 会根据账户可用功能推断 [Workers 套餐](/guides/install-apps/#workers-free-or-workers-paid)，或者由你在设置中选择。
 
-Cloudflare sends you back to appflare.dev, which finishes the sign-in in your browser.
+Cloudflare 会把你送回 appflare.dev，由浏览器完成登录。
 
-### 2. Choose the account
+### 2. 选择账户 [#2-choose-the-account]
 
-When your login reaches more than one account, choose the one Appflare goes into. With
-one account the page skips this step. If the account has installations that never
-finished, the page lists them first. See
-[Continue or remove an unfinished installation](#continue-or-remove-an-unfinished-installation).
+如果你的登录可以访问多个账户，请选择 Appflare 要安装到的账户；只有一个账户时会跳过这一步。如果账户里有未完成的安装，页面会先列出它们。请参阅[继续或移除未完成的安装](#continue-or-remove-an-unfinished-installation)。
 
-### 3. Name it
+### 3. 设置名称 [#3-name-it]
 
-The name is `appflare` unless you change it. Appflare's Worker and its D1 database take
-this name, its KV namespace is `<name>-kv` and its Workflow `<name>-jobs`. Use lowercase
-letters, digits and dashes. Keep the suggestion unless the account already has an
-Appflare; the page refuses a name that is in use.
+默认名称是 `appflare`。Appflare 的 Worker 和 D1 数据库使用这个名字，KV 命名空间叫 `<name>-kv`，Workflow 叫 `<name>-jobs`。名称只能包含小写字母、数字和短横线。如果账户里还没有 Appflare，保留建议值即可；已被占用的名称会被拒绝。
 
-### 4. Choose its address
+### 4. 选择访问地址 [#4-choose-its-address]
 
-You open Appflare and sign in at this address, and your passkeys belong to it, so choose
-the one you want to keep.
+你会在这个地址打开 Appflare 并登录，通行密钥也绑定到该地址，因此请选一个你希望长期使用的地址。
 
-- **On your domain.** The page proposes `appflare.<your domain>`. Change the part in
-  front, or pick another domain of the account. Cloudflare creates the DNS record and
-  the certificate.
-- **Cloudflare's free address**, `https://<name>.<your subdomain>.workers.dev`.
+- **使用自己的域名。** 页面建议 `appflare.<your domain>`。可以修改前面的部分，或选择账户中的另一个域名。Cloudflare 会创建 DNS 记录和证书。
+- **使用 Cloudflare 免费地址**：`https://<name>.<your subdomain>.workers.dev`。
 
-Before you go on, the page checks a name on your domain. It refuses one that already
-has a DNS record (a wildcard record that covers it counts), is attached to another
-Worker, or is caught by a Workers route, so the install never takes over something that
-serves there now. Choose another name, or free that one first.
+继续之前，页面会检查你的域名名称。如果已有 DNS 记录（覆盖它的通配记录也算）、已绑定到其他 Worker，或被 Workers 路由覆盖，就会拒绝使用，避免覆盖现有服务。请换一个名称，或先释放这个名称。
 
-You can move Appflare to another address later; see
-[Give Appflare its own address](/guides/appflare-address/).
+以后也可以迁移 Appflare 的地址；请参阅[为 Appflare 配置专用地址](/guides/appflare-address/)。
 
-### 5. Check before you deploy
+### 5. 部署前确认 [#5-check-before-you-deploy]
 
-The review shows the account, the name, the full address, and the Appflare release:
-the newest one, with its signature checked. Under **Created in** it lists everything the
-install will create:
+确认页会显示账户、名称、完整地址，以及已通过签名校验的最新 Appflare 发布版本。**创建位置**会列出此次安装将创建的全部资源：
 
-- the Worker, named after the name you chose;
-- its D1 database and KV namespace;
-- its Workflow, and a schedule that runs every 5 minutes;
-- the custom domain with its DNS record and certificate, or the `workers.dev` address.
+- 以你选择的名称命名的 Worker；
+- 它的 D1 数据库和 KV 命名空间；
+- 它的 Workflow，以及每 5 分钟执行一次的计划；
+- 带 DNS 记录和证书的自定义域名，或 `workers.dev` 地址。
 
-Nothing that is already in the account is changed. Select **Deploy Appflare**.
+账户中已经存在的内容不会被更改。确认后选择**部署 Appflare**。
 
-### 6. Deploy
+### 6. 部署 [#6-deploy]
 
-A progress bar names each step: check the release, create the database and the
-key-value storage, upload Appflare's files and Appflare itself, set up background jobs,
-schedule regular checks, store the setup key, turn on the `workers.dev` address, connect
-your domain, and wait for Appflare to answer. The installer checks the release's Ed25519
-signature and the sha256 of every file before it uploads anything.
+进度条会逐一显示步骤：检查发布版本、创建数据库和键值存储、上传 Appflare 文件与管理器本身、配置后台任务、安排定时检查、保存设置密钥、启用 `workers.dev` 地址、连接域名，以及等待 Appflare 响应。安装器在上传任何内容之前，会验证发布版本的 Ed25519 签名和每个文件的 sha256。
 
-You can close the tab while it runs. The installation keeps its progress, and the page
-continues it when you open [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-2) again in the same browser,
-after you connect Cloudflare again. If the browser does not let the page remember the
-installation, the page says so: keep that tab open until the end.
+运行期间可以关闭标签页。安装进度会被保留；以后在同一个浏览器重新打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-2)，再次连接 Cloudflare 后，页面会继续安装。如果浏览器不允许页面记住安装信息，页面会明确提示，此时请保持标签页打开直到结束。
 
-The last step waits until your new Appflare answers at the address you chose and proves
-it belongs to this installation. A page that merely answers is not enough. Nothing is
-sent to an address before it has proved that.
+最后一步会等待新 Appflare 在所选地址响应，并证明它属于这次安装。仅仅有网页响应还不够；在地址证明身份之前，不会向它发送任何凭据。
 
-### 7. Hand over and open Appflare
+### 7. 交接并打开 Appflare [#7-hand-over-and-open-appflare]
 
-The page checks the address once more, then gives your new Appflare its Cloudflare
-connection, straight from your browser. Appflare renews the connection right away, so
-the copy your browser held stops working and only Appflare can renew it from then on.
-The page shows **Appflare is ready** and opens Appflare at its address.
+页面会再次检查地址，然后直接从浏览器把 Cloudflare 连接交给新安装的 Appflare。Appflare 会立即续期连接，使浏览器持有的副本失效，此后只有 Appflare 能继续续期。页面会显示 **Appflare 已就绪**，并打开它的地址。
 
-### 8. Create the owner account
+### 8. 创建所有者账户 [#8-create-the-owner-account]
 
-Appflare opens at the owner step of its [setup wizard](/start/install/#the-setup-wizard),
-because the page already connected Cloudflare. Enter a name, an email, and a password of
-at least 12 characters. Then [check your account](/start/install/#3-check-your-account)
-and select **Finish**.
+由于页面已经连接了 Cloudflare，Appflare 会直接打开[设置向导](/start/install/#the-setup-wizard)中的所有者步骤。输入名称、邮箱和至少 12 个字符的密码，然后[检查账户](/start/install/#3-check-your-account)，选择**完成**。
 
-When Appflare is on your domain, setup skips **Where should Appflare live?**, because
-it already lives there. On `workers.dev`, in an account with an active domain, setup offers to move
-it.
+如果 Appflare 已在你的域名上运行，会跳过 **Appflare 应该放在哪里？**，因为它已经在那里了。若运行在 `workers.dev`，而账户中有已激活域名，向导会提供迁移选项。
 
-The link that opens the owner step works once, for 30 minutes. If setup says **This
-setup link no longer works**, open [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-3) again in the browser
-you installed from, connect Cloudflare, and select **Continue**. The page opens Appflare
-with a new link.
+打开所有者步骤的链接只能使用一次，有效期 30 分钟。如果页面提示**这个设置链接已失效**，请在原安装浏览器中重新打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-3)，连接 Cloudflare，然后选择**继续**。页面会使用新的链接打开 Appflare。
 
-Someone who opens your new Appflare before you do, in another browser, sees **Finish
-where you installed Appflare** and cannot create the owner. The same screen offers
-**Connect with an API token instead**, which works for anyone who can create a token for
-the account. Such a person controls the account already.
+如果有人先在另一个浏览器打开你的新 Appflare，他们会看到**请回到安装 Appflare 的地方完成设置**，不能创建所有者。同一页面也提供**改用 API 令牌连接**，任何能为账户创建令牌的人都能使用；这样的人本来就拥有账户控制权。
 
-Once the owner account exists, Appflare tells the installer, and the installer deletes
-its record of the installation.
+所有者创建完成后，Appflare 会通知安装器，安装器随即删除本次安装记录。
 
-## Install an app right after
+## 紧接着安装应用 [#install-an-app-right-after]
 
-When you select **Install** on an app's page on appflare.dev and this browser does not
-know your Appflare yet, choose **Get Appflare**, then **Install Appflare**. It opens this
-page as `appflare.dev/deploy/?app=<slug>`, and the page says that the app you chose
-opens once Appflare is set up. The steps are the same.
+在 appflare.dev 的应用页面选择**安装**时，如果浏览器还不知道你的 Appflare 地址，可以选择**获取 Appflare**，再选择**安装 Appflare**。它会以 `appflare.dev/deploy/?app=<slug>` 打开部署页，提示你所选应用会在 Appflare 设置完成后打开。安装步骤相同。
 
-When Appflare is ready, the page opens setup with the app's
-[install link](/guides/install-links/) waiting behind it. Create the owner account,
-select **Finish**, and the app's page opens in your new Appflare, ready to install. If
-Appflare already has its owner, **Open the app in Appflare** opens the app's page
-directly, after you sign in.
+Appflare 就绪后，页面会打开设置向导，并在后面保留该应用的[安装链接](/guides/install-links/)。创建所有者并选择**完成**，新 Appflare 就会打开该应用页面，等待安装。如果 Appflare 已有所有者，**在 Appflare 中打开应用**会在登录后直接打开该应用页面。
 
-The page keeps the app in this tab only, while you sign in to Cloudflare, and comes
-back from Cloudflare with it. Opened without `?app=`, or with something that is not an
-app, it installs Appflare alone. If you close the tab and continue later, select the app's
-**Install** button again once Appflare is set up.
+登录 Cloudflare 期间，页面仅在当前标签页保存所选应用，并在返回时继续使用它。不带 `?app=`，或参数不是有效应用时，只安装 Appflare。如果关掉标签页之后再继续，请在 Appflare 设置完成后重新点击应用的**安装**按钮。
 
-The page also remembers your new Appflare's address in this browser, as
-[Use this Appflare on appflare.dev](/guides/install-links/#use-your-appflare-on-appflaredev)
-does, so Install buttons on appflare.dev open apps there from then on.
+页面也会像[在 appflare.dev 上使用你的 Appflare](/guides/install-links/#use-your-appflare-on-appflaredev)一样，在这个浏览器记住新 Appflare 的地址，此后 appflare.dev 的安装按钮就会在那里打开应用。
 
-## If the domain takes a while
+## 如果域名需要等待 [#if-the-domain-takes-a-while]
 
-A new name on your domain needs a DNS record and a certificate before browsers can open
-it. That usually takes one to five minutes, sometimes longer. While it waits, the page
-says what Cloudflare is doing, keeps checking by itself, and offers **Check now**. It
-never gives up on its own.
+域名下的新名称需要 DNS 记录和证书就绪后，浏览器才能访问。通常需要一到五分钟，有时更久。等待期间，页面会说明 Cloudflare 正在处理什么，自动重复检查，并提供**立即检查**。它不会自行放弃。
 
-After 20 seconds of waiting, the page also offers **Open at workers.dev**.
-Choose it and you create your owner account at Appflare's `workers.dev` address, with a
-password. Appflare keeps checking your domain, and once the domain works it moves there
-by itself. Sign in at the domain with the same email and password. Appflare says it
-moved and offers to add a passkey, which belongs to the domain.
+等待 20 秒后，页面还会提供**通过 workers.dev 打开**。选择后，你可以先在 Appflare 的 `workers.dev` 地址用密码创建所有者账户。Appflare 会继续检查域名，域名可用后自行迁移过去。请在域名上用相同邮箱和密码登录；Appflare 会说明已迁移，并提供添加属于该域名的通行密钥的选项。
 
-## Continue or remove an unfinished installation
+## 继续或移除未完成的安装 [#continue-or-remove-an-unfinished-installation]
 
-The installer keeps an unfinished installation until its owner account exists or you
-remove it. Closing the tab, or leaving it for days, removes neither the installation
-nor what it created.
+安装器会一直保留未完成的安装，直到创建所有者或手动移除。关闭标签页或放置几天，都不会删除安装记录及已创建的资源。
 
-To continue, open [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-4) in the browser you started in. It says
-**Continue installing Appflare**. Connect Cloudflare (the page cannot renew its access by
-itself, so it usually asks again), and select **Continue** next to the installation. It
-picks up where it stopped, at the same address, and never starts a second deploy.
+要继续，请在最初使用的浏览器中打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-4)。页面会显示**继续安装 Appflare**。连接 Cloudflare（页面不能自行续期访问，因此通常需要再次授权），然后点击安装旁的**继续**。它会在同一地址从中断处继续，不会重复创建部署。
 
-The page lists, under the account, installations that were started in another browser.
-Only the browser that started one can continue it, because only that browser holds the
-key to it. From any browser whose Cloudflare login reaches the account, you can remove
-it.
+页面会在账户下列出其他浏览器中开始的安装。只有发起安装的浏览器能够继续，因为只有它持有安装密钥。但任何能登录并访问该 Cloudflare 账户的浏览器，都可以移除安装。
 
-To remove one, select **Remove…** next to it, or **Remove this installation…** after a
-failed step. The page lists what goes: whatever the installation created, as far as it
-got. Anything that was in the account before is left alone. Appflare's data goes with
-its database, which cannot be undone. When the removal finishes, the installer deletes
-its record.
+要移除，请选择旁边的**移除…**，或失败步骤后的**移除此安装…**。页面会列出将删除的内容，即安装截至中断时创建的资源。账户中原先存在的内容保持不变。Appflare 数据随数据库一起删除，无法撤销。移除完成后，安装器删除安装记录。
 
-An Appflare whose owner account exists is no longer an unfinished installation. Remove
-it from its own settings, as
-[Remove Appflare](/guides/danger-zone/#remove-appflare-from-this-account) describes.
+已有所有者的 Appflare 不再属于未完成安装，请按[移除 Appflare](/guides/danger-zone/#remove-appflare-from-this-account)中的说明，从它自己的设置页移除。
 
-### When a step fails
+### 某一步失败时 [#when-a-step-fails]
 
-**The deployment stopped** shows the step and Cloudflare's reason. Fix the cause, if it
-names one, and select **Try again**. The installation continues from that step.
+**部署已停止**会显示失败步骤和 Cloudflare 给出的原因。如果指出了原因，请先修复，再选择**重试**，安装会从该步骤继续。
 
-**Appflare is deployed but not connected yet** means the deploy worked and the handover
-did not. The message says why. Most often your new Appflare does not answer yet, or
-someone is finishing its setup in another browser with an API token. **Try again** is
-safe: nothing is handed to an address that has not proved it is yours. When the page
-says your Cloudflare connection ran out or was not accepted, connect Cloudflare again
-with the account Appflare is installed in, and allow every permission.
+**Appflare 已部署，但尚未连接**表示部署成功了，但交接没有完成。消息会说明原因。最常见的情况是新 Appflare 尚未响应，或有人在另一个浏览器用 API 令牌完成设置。**重试**是安全的：没有证明属于你的地址不会收到连接。如果页面提示 Cloudflare 连接已到期或不被接受，请再次连接 Cloudflare，选择安装所在账户，并允许全部权限。
 
-## What the installer sees and keeps
+## 安装器会看到并保存什么 [#what-the-installer-sees-and-keeps]
 
-- **It receives a short-lived access token.** Every request the page sends the
-  installer carries the access token Cloudflare issued when you connected. It lasts
-  about an hour and carries every permission you allowed Appflare, which is much more
-  than deploying needs. While it is valid, the installer could use it for anything those
-  permissions allow in the accounts you chose. The installer uses it only to deploy
-  Appflare, and it neither stores nor logs it. Throwing the token away does not cancel
-  it at Cloudflare, though. It stays valid until it expires.
-- **It never receives the refresh token**, the part that keeps Appflare connected
-  afterwards. Your browser hands that to your new Appflare directly and then forgets
-  it, and Appflare renews it at once. This describes the published code. An installer
-  that ran other code could not take the refresh token from your browser, but while
-  the access token is valid it could use that token to do more than deploy, for
-  example change the Appflare it is deploying. That is the trust described below.
-- **It keeps a record of the installation** until setup finishes: your Cloudflare
-  account id, the name, the address, the Appflare release, the ids of what it created,
-  and how far it got. No token, no password, nothing about the owner and nothing about
-  your apps. The record has no time limit. It is deleted when your new Appflare's owner
-  account is created, or when you remove the unfinished installation.
-- **Its code is open source**, in
-  [apps/installer](https://github.com/appflare/appflare/tree/main/apps/installer) of
-  Appflare's repository, so you can read what it does with your token. You cannot check
-  that the service on appflare.dev runs exactly that code. Using it is a decision to
-  trust it.
+- **它会收到短期访问令牌。** 页面发给安装器的每个请求都携带连接 Cloudflare 时签发的访问令牌。令牌约一小时有效，拥有你允许 Appflare 的全部权限，远多于部署所需。在有效期内，安装器理论上可以在你选择的账户里执行这些权限允许的任何操作。安装器实际只用它部署 Appflare，不保存也不记录令牌。但丢弃令牌不等于在 Cloudflare 撤销它，它会一直有效直到过期。
+- **它永远不会收到刷新令牌**，也就是之后维持 Appflare 连接的那部分。浏览器直接把刷新令牌交给新 Appflare 后便遗忘它，Appflare 会立即续期。这描述的是公开代码的行为。运行其他代码的安装器不能从浏览器直接取得刷新令牌，但在访问令牌有效期内，它可以做部署之外的事情，例如修改正在部署的 Appflare。这就是下文所说的信任。
+- **它会保留安装记录**直到设置完成：你的 Cloudflare 账户 id、名称、地址、Appflare 发布版本、已创建资源的 id 和当前进度。不含令牌、密码、所有者信息或应用信息。记录没有保留期限；创建新 Appflare 的所有者账户，或移除未完成安装后才会删除。
+- **代码开源**，位于 Appflare 仓库的 [apps/installer](https://github.com/appflare/appflare/tree/main/apps/installer)，你可以阅读它如何使用令牌。但你无法验证 appflare.dev 实际运行的是否就是同一份代码。使用它意味着选择信任这个服务。
 
-The deploy page and the page Cloudflare sends you back to run no analytics beyond a count
-of how far each install gets, which holds nothing about you or your account; see
-[Privacy](/privacy/#installing-appflare-from-this-site).
+部署页及 Cloudflare 返回的页面不会运行其他分析，仅统计每次安装进行到哪一步，不包含你或账户的信息。请参阅[隐私](/privacy/#installing-appflare-from-this-site)。
 
-Once Appflare has its connection, it talks to Cloudflare on its own. Your Appflare and
-your apps keep working if appflare.dev is down. Two things still go through appflare.dev
-later: signing in with Cloudflare again from Appflare's settings comes back through a
-page there, and it uses Appflare's registration with Cloudflare. An API token needs
-neither; see [Appflare's Cloudflare connection](/guides/cloudflare-connection/).
+Appflare 获得连接后，就会自行与 Cloudflare 通信。即使 appflare.dev 不可用，你的 Appflare 和应用仍会工作。之后还有两件事会经过 appflare.dev：从 Appflare 设置里再次用 Cloudflare 登录时，会回到该站点的页面，并使用 Appflare 在 Cloudflare 注册的客户端。API 令牌不需要这两项；请参阅 [Appflare 的 Cloudflare 连接](/guides/cloudflare-connection/)。
 
-To keep every Appflare service out of your account, install with
-[the Deploy to Cloudflare button](/start/deploy-button/) or
-[the installer](/start/install/). Both connect Appflare with an API token you create,
-which goes from the Cloudflare dashboard into your own Appflare and nowhere else.
+要让所有 Appflare 服务都不接触你的账户，请通过[Deploy to Cloudflare 按钮](/start/deploy-button/)或[安装器](/start/install/)安装。它们使用你自行创建的 API 令牌，令牌从 Cloudflare 控制台直接进入你的 Appflare，不经过其他地方。
 
-## Afterwards
+## 安装完成后 [#afterwards]
 
-Appflare connects with Cloudflare sign-in and renews its access by itself. If Cloudflare
-ever stops accepting it, admins see **Reconnect Cloudflare**. To switch to an API token,
-or to withdraw Appflare's access, see
-[Appflare's Cloudflare connection](/guides/cloudflare-connection/).
+Appflare 使用 Cloudflare 登录连接，并自行续期。如果 Cloudflare 不再接受连接，管理员会看到**重新连接 Cloudflare**。要改用 API 令牌或撤销 Appflare 的访问，请参阅 [Appflare 的 Cloudflare 连接](/guides/cloudflare-connection/)。

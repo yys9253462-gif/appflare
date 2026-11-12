@@ -66,20 +66,20 @@ describe("focus on the deploy page", () => {
     });
     draw(sample("address-domain"));
     expect(document.activeElement?.id).toBe(STEP_TITLE_ID);
-    expect(document.activeElement?.textContent).toBe("Choose Appflare's address");
+    expect(document.activeElement?.textContent).toBe("选择 Appflare 的地址");
   });
 
-  it("keeps the focus on Check now while it checks, and ignores presses meanwhile", () => {
+  it("keeps the focus on 立即检查 while it checks, and ignores presses meanwhile", () => {
     const checkNow = vi.fn();
     const actions = { ...NO_ACTIONS, checkNow };
     draw(sample("deploying-address"), actions);
-    const idle = button(/Check now/);
+    const idle = button(/立即检查/);
     act(() => idle.focus());
     act(() => idle.click());
     expect(checkNow).toHaveBeenCalledTimes(1);
 
     draw(sample("deploying-address-checking"), actions);
-    const busy = button(/Checking/);
+    const busy = button(/正在检查/);
     expect(busy).toBe(idle);
     expect(busy.disabled).toBe(false);
     expect(busy.getAttribute("aria-disabled")).toBe("true");
@@ -89,6 +89,6 @@ describe("focus on the deploy page", () => {
     expect(checkNow).toHaveBeenCalledTimes(1);
 
     draw(sample("deploying-address-checked"), actions);
-    expect(document.activeElement).toBe(button(/Check now/));
+    expect(document.activeElement).toBe(button(/立即检查/));
   });
 });

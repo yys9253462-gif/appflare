@@ -1,4 +1,5 @@
 import { categoryLabel } from "@appflare/schema/catalog-display";
+import { zhLabel } from "../lib/zh.ts";
 import type { SiteCatalog, SiteCategory } from "./site-catalog.ts";
 import { appPath, appsPath, categoryPath } from "./urls.ts";
 
@@ -8,17 +9,16 @@ import { appPath, appsPath, categoryPath } from "./urls.ts";
  * the search index all read them here, so they never disagree.
  */
 
-export const appsPageTitle = "Apps";
+export const appsPageTitle = "应用中心";
 export const appsPageDescription =
-  "Apps you can add to your own Cloudflare account with Appflare. Each one runs in your account, under your control.";
+  "通过 Appflare 将应用安装到你自己的 Cloudflare 账户。应用由你掌控，在你的账户中运行。";
 
 export function categoryTitle(category: Pick<SiteCategory, "id">): string {
-  return `${categoryLabel(category.id)} apps`;
+  return `${zhLabel(categoryLabel(category.id))}应用`;
 }
 
 export function categoryDescription(category: Pick<SiteCategory, "id" | "count">): string {
-  const apps = category.count === 1 ? "1 app" : `${category.count} apps`;
-  return `${apps} in the ${categoryLabel(category.id)} category that you can add to your own Cloudflare account with Appflare.`;
+  return `共 ${category.count} 个${zhLabel(categoryLabel(category.id))}应用，可通过 Appflare 安装到你自己的 Cloudflare 账户。`;
 }
 
 /** One catalog page, as the site's indexes list it. */

@@ -1,6 +1,6 @@
 ---
-title: Install links
-description: Links that open an app or a GitHub repository in your Appflare, ready to install, and how Appflare keeps them across sign-in.
+title: 安装链接
+description: 通过链接在你的 Appflare 中打开待安装的应用或 GitHub 仓库，并了解登录后如何保留这些链接。
 ---
 
 An install link opens a page of your own Appflare with an app ready to install. Other

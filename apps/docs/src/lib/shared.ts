@@ -19,7 +19,7 @@ export const siteName = "Appflare";
 export const siteOgImagePath = "/og/appflare-launch.png";
 
 export const siteDescription =
-  "A self-hosted app manager for Cloudflare. Install, update, and remove Cloudflare-native apps in your own account.";
+  "在自己的 Cloudflare 账户里安装、更新和移除应用，使用 Appflare 统一管理。";
 
 export const repository = {
   owner: "appflare",

@@ -244,7 +244,7 @@ export function Lightbox({
             <div className="flex shrink-0 items-center gap-1">
               <button
                 type="button"
-                aria-label={zoomed === null ? "Zoom in" : "Zoom out"}
+                aria-label={zoomed === null ? "放大" : "缩小"}
                 onClick={() => (zoomed === null ? zoomIn() : setZoom(null))}
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
@@ -255,7 +255,7 @@ export function Lightbox({
                 )}
               </button>
               <Dialog.Close
-                aria-label="Close"
+                aria-label="关闭"
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
                 <XIcon aria-hidden="true" />
@@ -320,14 +320,14 @@ export function Lightbox({
                 className={NAV_BUTTON}
               >
                 <CaretLeftIcon aria-hidden="true" />
-                Previous
+                上一张图片
               </button>
               <button
                 type="button"
                 onClick={() => dispatch({ type: "next" })}
                 className={NAV_BUTTON}
               >
-                Next
+                下一张图片
                 <CaretRightIcon aria-hidden="true" />
               </button>
             </div>

@@ -30,8 +30,7 @@ import {
 } from "./parts.tsx";
 import { Testimonials } from "./testimonials.tsx";
 
-const notAffiliated =
-  "Appflare is an independent open-source project, not affiliated with, endorsed by, or sponsored by Cloudflare, Inc.";
+const notAffiliated = "Appflare 是独立开源项目，与 Cloudflare, Inc. 没有隶属、背书或赞助关系。";
 
 /** Two buttons side by side, or stacked at the same width on a phone. */
 const BUTTON_ROW = "flex w-full max-w-xs flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row";
@@ -55,24 +54,21 @@ export function LandingContent({ data }: { data: LandingData }) {
     <>
       <Hero data={data} />
 
-      <section
-        aria-label="The catalog in numbers"
-        className="mx-auto w-full max-w-6xl px-4 md:px-6"
-      >
+      <section aria-label="应用目录概览" className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <dl className="m-0 grid grid-cols-2 border-fd-border border-b md:grid-cols-4">
-          <Fact value={String(data.apps)} label="apps in the catalog" />
-          <Fact value={String(data.categories)} label="categories" />
-          <Fact value={String(data.freePlan)} label="run on Workers Free" />
-          <Fact value="1" label="Worker to manage them" />
+          <Fact value={String(data.apps)} label="个目录应用" />
+          <Fact value={String(data.categories)} label="个分类" />
+          <Fact value={String(data.freePlan)} label="个支持 Workers Free" />
+          <Fact value="1" label="个 Worker 统一管理" />
         </dl>
       </section>
 
       <Testimonials
         heading={
           <SectionHeading
-            eyebrow="On X"
-            title="What people are saying"
-            lead="Including a few people who work at Cloudflare."
+            eyebrow="来自 X"
+            title="大家怎么说"
+            lead="其中也有 Cloudflare 团队成员的评价。"
           />
         }
       />
@@ -83,16 +79,16 @@ export function LandingContent({ data }: { data: LandingData }) {
       <section className="mx-auto w-full max-w-6xl px-4 pb-24 md:px-6">
         <div className="grid justify-items-center gap-6 rounded-3xl border border-fd-border bg-fd-card px-6 py-16 text-center">
           <h2 className="m-0 text-balance font-semibold text-3xl tracking-tight md:text-4xl">
-            Your account. Your apps. Kept up to date.
+            自己的账户，自己的应用，持续更新。
           </h2>
           <p className="m-0 max-w-xl text-fd-muted-foreground">
-            Sign in to Cloudflare, choose where Appflare goes, and the page deploys a prebuilt,
-            signed Appflare there. It takes a few minutes and no API token.
+            登录 Cloudflare，选择 Appflare 的安装位置，网页便会部署预构建、已签名的 Appflare。
+            只需几分钟，无需手动创建 API 令牌。
           </p>
           <div className={BUTTON_ROW}>
             <InstallButton size="lg" placement="home-closing-install" />
             <GhostButton href={DOCS_HOME} size="lg">
-              Read the docs
+              阅读文档
             </GhostButton>
           </div>
           {/* Far below the first screen: by the time it is seen, the line is there. */}
@@ -119,14 +115,14 @@ function Hero({ data }: { data: LandingData }) {
           className="inline-flex items-center gap-2 rounded-full border border-fd-border bg-fd-card px-3 py-1 text-fd-muted-foreground text-sm hover:text-fd-foreground"
         >
           <span className="size-1.5 rounded-full bg-[#fb6b00]" />
-          Open source, Apache-2.0
+          开源，Apache-2.0 许可
         </a>
         <h1 className="m-0 text-balance font-semibold text-4xl tracking-tight md:text-6xl">
-          The app manager for your own Cloudflare account
+          在自己的 Cloudflare 账户里管理应用
         </h1>
         <p className="m-0 max-w-2xl text-balance text-fd-muted-foreground text-lg md:text-xl">
-          Appflare is one Worker in your account. Pick from {data.apps} apps built for Workers,
-          install one in a click, and keep it updated, with a rollback when you need one.
+          Appflare 只需在你的账户中运行一个 Worker。浏览 {data.apps} 个适配 Workers 的应用，
+          一键安装并持续更新，需要时还能回滚。
         </p>
         <div className={BUTTON_ROW}>
           <span className="relative flex">
@@ -135,31 +131,31 @@ function Hero({ data }: { data: LandingData }) {
             <ClickHere className="pointer-events-none absolute top-1/2 right-full mr-1 hidden w-60 -translate-y-[18%] text-[#c75400] lg:block dark:text-[#ff8a3d]" />
           </span>
           <GhostButton href={appsPath} size="lg">
-            Browse apps
+            浏览应用
           </GhostButton>
         </div>
         <div className="grid justify-items-center gap-2">
           <InstallShareLine className="justify-items-center" />
           <DeployButtonLine placement="home-hero-cloudflare" />
           <p className="m-0 text-fd-muted-foreground text-sm">
-            Runs on the Workers free plan.{" "}
+            支持 Workers 免费套餐。{" "}
             <Link
               href={DOCS_HOME}
               className="font-medium text-fd-foreground underline underline-offset-4"
             >
-              Read the docs
+              阅读文档
             </Link>
           </p>
         </div>
       </div>
       <div className="relative mx-auto mt-14 max-w-6xl px-4 md:mt-20 md:px-6 lg:pr-32">
         <ZoomableShot
-          title="Appflare's Home"
+          title="Appflare 首页"
           src="/screenshots/landing-home.png"
           srcSet={landingHomeSrcSet}
           // The column's width: 1000px once the page is 72rem wide, else the viewport less its padding.
           sizes="(min-width: 1152px) 1000px, (min-width: 1024px) calc(100vw - 152px), (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
-          alt="Appflare's Home: the sidebar with the apps installed, two updates that need attention, and the account's usage by app"
+          alt="Appflare 首页：侧边栏列出已安装应用，主区域显示两项待处理更新和按应用统计的账户用量"
           width={2880}
           height={1800}
           eager
@@ -168,7 +164,7 @@ function Hero({ data }: { data: LandingData }) {
           src="/screenshots/catalog-phone.png"
           srcSet={catalogPhoneSrcSet}
           sizes="192px"
-          alt="The catalog on a phone"
+          alt="手机上的应用目录"
           width={780}
           height={1540}
           loading="lazy"
@@ -214,15 +210,15 @@ function HowItWorks({ data }: { data: LandingData }) {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
       <SectionHeading
-        eyebrow="How it works"
-        title="Three steps, all in your browser"
-        lead="Nothing runs anywhere but your own account, on your plan, under your limits."
+        eyebrow="使用方法"
+        title="三个步骤，在浏览器里完成"
+        lead="应用运行在你自己的账户中，使用你的套餐和额度。"
       />
       <ol className="m-0 mt-12 grid list-none gap-4 p-0 md:grid-cols-3">
         <Step
           n={1}
-          title="Install Appflare"
-          text="Sign in to Cloudflare at appflare.dev/deploy and choose an address. The page puts the manager into your account, and afterwards Appflare updates itself."
+          title="安装 Appflare"
+          text="在本站的部署页面登录 Cloudflare 并选择地址。网页会将管理器安装到你的账户中，之后可由 Appflare 自行更新。"
         >
           <div className="flex flex-wrap gap-1.5 font-mono text-xs">
             {["Worker", "D1", "KV", "Workflow", "Cron"].map((item) => (
@@ -237,8 +233,8 @@ function HowItWorks({ data }: { data: LandingData }) {
         </Step>
         <Step
           n={2}
-          title="Install an app"
-          text="Pick an app from the catalog. Appflare creates what it needs (databases, storage, queues, secrets, cron triggers) and records each one."
+          title="安装应用"
+          text="从目录中选择应用。Appflare 会创建所需的数据库、存储、队列、密钥和定时触发器，并记录每一项资源。"
         >
           <div className="flex flex-wrap gap-2">
             {data.showcase.slice(0, 6).map((app) => (
@@ -256,12 +252,12 @@ function HowItWorks({ data }: { data: LandingData }) {
         </Step>
         <Step
           n={3}
-          title="Keep it updated"
-          text="New versions show up on Home. Update in one click, or let Appflare update apps on its own; roll back to the version you had, or uninstall and remove everything it created."
+          title="保持更新"
+          text="首页会提示新版本。你可以一键更新或开启自动更新，也可以回滚到旧版本，或卸载并清理应用创建的全部资源。"
         >
           <div className="flex items-center gap-2 text-sm">
             <span className="size-2 rounded-full bg-blue-500" />
-            <span>Update available to 0.1.1</span>
+            <span>可更新至 0.1.1</span>
           </div>
         </Step>
       </ol>
@@ -298,11 +294,11 @@ function Apps({ data }: { data: LandingData }) {
       <div className="mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
-            eyebrow="The catalog"
-            title={`${data.apps} apps, ready to install`}
-            lead="Short links, analytics, email, password vaults, notes, file sharing and more, each built from a pinned upstream commit and signed."
+            eyebrow="应用目录"
+            title={`${data.apps} 个应用，随时安装`}
+            lead="短链接、网站分析、邮件、密码库、笔记、文件分享等应用，均从固定的上游提交构建并签名。"
           />
-          <GhostButton href={appsPath}>See all {data.apps} apps</GhostButton>
+          <GhostButton href={appsPath}>查看全部 {data.apps} 个应用</GhostButton>
         </div>
         <ul className="m-0 mt-12 grid list-none grid-cols-3 gap-1 p-0 md:gap-2 lg:grid-cols-6">
           {data.showcase.map((app) => (
@@ -329,100 +325,94 @@ function Features() {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
       <SectionHeading
-        eyebrow="What you get"
-        title="Everything after the install, handled"
-        lead="Appflare owns each install, so it can do what a copied repository cannot."
+        eyebrow="功能一览"
+        title="安装之后的管理，也交给 Appflare"
+        lead="Appflare 记录每次安装及其资源，让后续更新和维护更方便。"
       />
       <WideFeature
-        title="Automatic updates"
+        title="自动更新"
         href={landingLinks.automaticUpdates}
         shot="/screenshots/settings-appflare-updates.png"
         srcSet={appflareUpdatesSrcSet}
-        alt="Settings, Updates: Automatically update apps, and Automatically update Appflare under Appflare version"
+        alt="设置中的更新页面：应用自动更新和 Appflare 自身自动更新选项"
         width={2352}
         height={1700}
         className="mt-12"
       >
         <p className="m-0 text-fd-muted-foreground">
-          Turn on automatic updates for every app, or app by app. Every 30 minutes Appflare checks
-          the catalog and updates an app on its own when the new version needs nothing from you,
-          with the same snapshot and checks as an update you start. One that needs a new secret or a
-          confirmation waits for you on the app's page.
+          可以为所有应用开启自动更新，也可以逐个设置。Appflare 每 30 分钟检查一次目录；
+          如果新版本无需你补充信息，就会自动更新，并执行与手动更新相同的快照和检查。
+          如果需要新密钥或确认，则会在应用页面等待你处理。
         </p>
         <p className="m-0 text-fd-muted-foreground">
-          Appflare can update itself the same way, when no other job is running.
+          没有其他任务运行时，Appflare 也可以用同样的方式更新自己。
         </p>
       </WideFeature>
       <WideFeature
-        title="Spend protection"
+        title="花费保护"
         href={landingLinks.spendProtection}
         shot="/screenshots/landing-spend.png"
         srcSet={landingSpendSrcSet}
-        alt="An app's Usage tab: Durable Objects requests far above normal right after a settings change, about $0.65 an hour, with Pause app, over the 24-hour chart of the jump"
+        alt="应用用量页面：设置变更后 Durable Objects 请求激增，约每小时 0.65 美元，页面显示暂停应用按钮和最近 24 小时用量图"
         width={1672}
         height={1060}
         shotFirst
         className="mt-4"
       >
         <p className="m-0 text-fd-muted-foreground">
-          An app with a bug can loop and run up your bill. Every 5 minutes Appflare reads each app's
-          usage from Cloudflare's analytics, and tells you on Telegram, Slack, Discord or a webhook
-          when an hour reaches 5, 20 or 100 times the app's normal, or when a usage alert you wrote
-          comes true.
+          有缺陷的应用可能陷入循环，产生高额费用。Appflare 每 5 分钟从 Cloudflare 分析读取应用用量；
+          当某小时达到平时用量的 5、20 或 100 倍，或命中你设置的用量提醒时， 会通过
+          Telegram、Slack、Discord 或 webhook 通知你。
         </p>
         <p className="m-0 text-fd-muted-foreground">
-          Automatic pausing is off by default. Turn it on and Appflare pauses an app that loops. On
-          Workers Paid it also pauses an app past its spending cap for the day, week or month, and a
-          monthly budget pauses the biggest spender. A pause keeps the app's data, bindings and
-          secrets, and Resume puts back the exact versions.
+          自动暂停默认关闭。开启后，Appflare 会暂停陷入循环的应用。使用 Workers Paid 时，
+          还可在应用超过每日、每周或每月花费上限时暂停它；月度预算则优先暂停花费最高的应用。
+          暂停会保留数据、绑定和密钥，恢复时会还原暂停前的版本。
         </p>
         <p className="m-0 text-fd-muted-foreground text-sm">
-          On Workers Free, Appflare warns before a free daily limit runs out. Dollar amounts are
-          estimates at Cloudflare's list prices.
+          使用 Workers Free 时，Appflare 会在每日免费额度耗尽前提醒。 美元金额按 Cloudflare
+          标价估算。
         </p>
       </WideFeature>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <BigFeature
-          title="Every install is a job with a log"
-          text="Installs, updates and rollbacks run as durable Workflow jobs. The log shows each step and ends with a health check."
+          title="每次安装都有任务日志"
+          text="安装、更新和回滚均以持久化 Workflow 任务运行。日志会记录每个步骤，并在结束时进行健康检查。"
           href={landingLinks.health}
           shot="/screenshots/jobs-install-log.png"
           srcSet={jobsLogSrcSet}
-          alt="An install job that verified the signed release, created a KV namespace, uploaded the Worker, and passed its health check"
+          alt="安装任务日志：验证签名、创建 KV 命名空间、上传 Worker 并通过健康检查"
           height={1354}
         />
         <BigFeature
-          title="Every app has a page"
-          text="Stars, plan, license, size, screenshots and what the app needs from your account, before you install it."
+          title="每个应用都有专属页面"
+          text="安装前即可查看星标、套餐、许可证、体积、截图，以及应用对账户资源的要求。"
           href={landingLinks.installApps}
           shot="/screenshots/catalog-app.png"
           srcSet={catalogAppSrcSet}
-          alt="EmDash's catalog page with its stars, plan, license, version and screenshots"
+          alt="EmDash 应用详情页：星标、套餐、许可证、版本和截图"
           height={1580}
         />
       </div>
       <ul className="m-0 mt-4 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
-        <SmallFeature title="Signed builds" href={landingLinks.catalogHowItWorks}>
-          Catalog CI builds every version from a pinned commit and signs it. Nothing installs unless
-          the signature verifies.
+        <SmallFeature title="构建签名" href={landingLinks.catalogHowItWorks}>
+          目录 CI 从固定提交构建并签署每个版本。只有签名校验通过，才会安装。
         </SmallFeature>
-        <SmallFeature title="Updates and rollbacks" href={landingLinks.updates}>
-          A snapshot of the Worker version and each D1 database comes first, so you can go back.
+        <SmallFeature title="更新与回滚" href={landingLinks.updates}>
+          操作前先保存 Worker 版本和每个 D1 数据库的快照，方便需要时回退。
         </SmallFeature>
-        <SmallFeature title="Custom domains" href={landingLinks.domains}>
-          Serve an app on a hostname in your own zone. Cloudflare creates the DNS record and the
-          certificate.
+        <SmallFeature title="自定义域名" href={landingLinks.domains}>
+          通过你自己区域下的域名访问应用。Cloudflare 会创建 DNS 记录和证书。
         </SmallFeature>
-        <SmallFeature title="Users and passkeys" href={landingLinks.users}>
-          One owner, admins who change things, members who can only look. Sign in with a passkey.
+        <SmallFeature title="用户与通行密钥" href={landingLinks.users}>
+          支持所有者、可修改配置的管理员和只读成员，并可使用通行密钥登录。
         </SmallFeature>
-        <SmallFeature title="Notifications" href={landingLinks.notifications}>
-          Updates, finished jobs, failing health checks, unusual usage and paused apps, sent to
-          Telegram, Slack, Discord or a signed webhook.
+        <SmallFeature title="通知" href={landingLinks.notifications}>
+          更新、任务完成、健康检查失败、用量异常和应用暂停等通知， 可发送到 Telegram、Slack、Discord
+          或带签名的 webhook。
         </SmallFeature>
-        <SmallFeature title="Your apps outlive it" href={landingLinks.faq}>
-          Installed apps are ordinary Workers. They keep running if the manager breaks or is
-          removed.
+        <SmallFeature title="应用独立运行" href={landingLinks.faq}>
+          已安装的应用是普通 Worker。即使管理器故障或被移除，它们仍会继续运行。
         </SmallFeature>
       </ul>
     </section>
@@ -548,13 +538,13 @@ function SmallFeature({
 /** The front page's own footer, in small type. The docs pages have none. */
 function LandingFooter() {
   const links: Array<[string, string]> = [
-    ["Docs", DOCS_HOME],
-    ["Apps", appsPath],
-    ["Submit an app", landingLinks.submit],
-    ["Security", landingLinks.security],
+    ["文档", DOCS_HOME],
+    ["应用", appsPath],
+    ["提交应用", landingLinks.submit],
+    ["安全", landingLinks.security],
     ["GitHub", repositoryUrl],
-    ["Catalog on GitHub", catalogRepositoryUrl],
-    ["Privacy", landingLinks.privacy],
+    ["应用目录仓库", catalogRepositoryUrl],
+    ["隐私", landingLinks.privacy],
   ];
   return (
     <footer className="border-fd-border border-t">
@@ -562,10 +552,10 @@ function LandingFooter() {
         <div className="flex items-center gap-3">
           <Wordmark className="h-5" />
           <span className="text-fd-muted-foreground text-xs">
-            A self-hosted app manager for Cloudflare.
+            面向 Cloudflare 的自托管应用管理器。
           </span>
         </div>
-        <nav aria-label="Site">
+        <nav aria-label="站点导航">
           <ul className="m-0 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 text-xs">
             {links.map(([text, href]) => (
               <li key={href}>

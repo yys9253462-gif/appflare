@@ -1,6 +1,6 @@
 ---
-title: Notifications
-description: Send messages about updates, jobs, failing health checks, unusual usage, paused apps and external domains to Telegram, Slack, Discord or your own webhook, and verify a webhook's signature.
+title: 通知
+description: 将更新、任务、健康检查失败、用量异常、应用暂停和外部域名消息发送到 Telegram、Slack、Discord 或自建 webhook，并验证 webhook 签名。
 ---
 
 Appflare can tell you when something needs attention: an update is available, an

@@ -21,7 +21,10 @@ describe("why each permission is asked for, on the deploy page", () => {
     const listed = listedScopes(examples);
     expect(listed.map((s) => s.scope)).toEqual([...MANAGER_OAUTH_SCOPES]);
     for (const { why, reason } of listed) {
-      expect(why.startsWith(`${reason.label} lets Appflare `)).toBe(true);
+      expect(reason.label.length).toBeGreaterThan(0);
+      expect(why.trim().length).toBeGreaterThan(15);
+      expect(why).toMatch(/[\u4e00-\u9fff]/);
+      expect(why).not.toContain("undefined");
     }
     expect(listed.map((s) => s.reason.label)).not.toContain("Billing");
   });
@@ -63,7 +66,7 @@ describe("why each permission is asked for, on the deploy page", () => {
     // No app uses Vectorize here: no examples, so the sentence has no "apps like".
     expect(found.vectorize).toBeUndefined();
     const vectorize = listedScopes(found).find((s) => s.scope === "vectorize.write");
-    expect(vectorize?.why).toBe(MANAGER_SCOPE_REASONS.vectorize.text);
-    expect(vectorize?.why).not.toContain("apps like");
+    expect(vectorize?.why).toBe("允许 Appflare 创建和移除应用按语义查找内容所需的搜索索引。");
+    expect(vectorize?.why).not.toContain("应用示例");
   });
 });

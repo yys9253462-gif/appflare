@@ -1,6 +1,6 @@
 ---
-title: Install from a repository
-description: Build any GitHub repository with a wrangler config in your own account, public or private with a read-only token, review what it declares, and install it. Also, build a catalog app from source at another commit. Needs Workers Paid and sandbox builds.
+title: 从仓库安装
+description: 在你的账户中构建带有 wrangler 配置的 GitHub 仓库，审核其声明后安装；私有仓库需要只读令牌。也可从其他提交构建目录应用。需要 Workers Paid 和沙盒构建。
 ---
 
 The catalog lists apps that someone packaged and checked. You can also install a

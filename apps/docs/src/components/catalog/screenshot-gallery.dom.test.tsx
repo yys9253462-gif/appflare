@@ -150,9 +150,7 @@ async function openWithClick(i: number) {
 describe("the screenshot row", () => {
   it("links each screenshot to its image, so it opens without JavaScript", () => {
     expect(thumbs().map((a) => a.getAttribute("href"))).toEqual(IMAGES.map((i) => i.url));
-    expect(thumb(1).getAttribute("aria-label")).toBe(
-      "Screenshot 2 of 3: Writing a message. Opens it larger.",
-    );
+    expect(thumb(1).getAttribute("aria-label")).toBe("截图 2 of 3：Writing a message。点击放大。");
     expect(thumb(1).getAttribute("aria-haspopup")).toBe("dialog");
     expect(dialog()).toBeNull();
   });
@@ -180,7 +178,7 @@ describe("the lightbox", () => {
     expect(box).not.toBeNull();
     expect(box?.getAttribute("aria-modal")).toBe("true");
     const title = document.getElementById(box?.getAttribute("aria-labelledby") ?? "");
-    expect(title?.textContent).toBe("Mailflare screenshots");
+    expect(title?.textContent).toBe("Mailflare 截图");
     expect(shown()).toEqual({
       counter: "2 of 3",
       alt: "Writing a message",
@@ -190,10 +188,10 @@ describe("the lightbox", () => {
 
   it("pages with Next and Previous, wrapping around", async () => {
     await openWithClick(2);
-    act(() => button("Next").click());
+    act(() => button("下一张图片").click());
     expect(shown()?.counter).toBe("1 of 3");
-    act(() => button("Previous").click());
-    act(() => button("Previous").click());
+    act(() => button("上一张图片").click());
+    act(() => button("上一张图片").click());
     expect(shown()).toMatchObject({ counter: "2 of 3", alt: "Writing a message" });
   });
 
@@ -214,7 +212,7 @@ describe("the lightbox", () => {
 
   it("closes with Escape and gives focus back to the screenshot last shown", async () => {
     await openWithClick(0);
-    act(() => button("Next").click());
+    act(() => button("下一张图片").click());
     key(document.activeElement ?? document.body, "Escape");
     await flush();
     expect(dialog()).toBeNull();
@@ -223,7 +221,7 @@ describe("the lightbox", () => {
 
   it("closes with its close button", async () => {
     await openWithClick(2);
-    act(() => button("Close").click());
+    act(() => button("关闭").click());
     await flush();
     expect(dialog()).toBeNull();
     expect(document.activeElement).toBe(thumb(2));
@@ -291,7 +289,7 @@ describe("counting", () => {
   it("counts each screenshot opened, by app and position", async () => {
     await openWithClick(1);
     expect(track).toHaveBeenCalledWith("screenshot_opened", { slug: "mailflare", index: 1 });
-    act(() => button("Close").click());
+    act(() => button("关闭").click());
     await flush();
     act(() => thumb(2).focus());
     key(thumb(2), " ");
@@ -336,7 +334,7 @@ describe("zooming", () => {
   it("zooms in where the screenshot is tapped, and out on the next tap", async () => {
     await openWithClick(0);
     const { image, view, scrolls } = laidOut();
-    expect(button("Zoom in")).toBeDefined();
+    expect(button("放大")).toBeDefined();
     // Fitted, the screenshot is 360x225 in the middle of the box (from y=207.5):
     // this taps a quarter of the way across it.
     press([90, 263], [90, 263]);
@@ -344,13 +342,13 @@ describe("zooming", () => {
     expect([image.style.width, image.style.height]).toEqual(["1440px", "900px"]);
     expect(view.className).toContain("overflow-auto");
     expect(scrolls).toEqual([["to", { left: 270, top: 0 }]]);
-    expect(button("Zoom out")).toBeDefined();
+    expect(button("缩小")).toBeDefined();
     expect(shown()?.counter).toBe("1 of 3");
 
     press([100, 100], [100, 100]);
     expect(zoomedIn()).toBe(false);
     expect(view.className).toContain("overflow-hidden");
-    expect(button("Zoom in")).toBeDefined();
+    expect(button("放大")).toBeDefined();
   });
 
   it("zooms with a mouse click too, and drags the zoomed screenshot", async () => {
@@ -381,7 +379,7 @@ describe("zooming", () => {
   it("zooms from the keyboard on the middle, and moves with the arrow keys instead of paging", async () => {
     await openWithClick(0);
     const { scrolls } = laidOut();
-    act(() => button("Zoom in").click());
+    act(() => button("放大").click());
     expect(zoomedIn()).toBe(true);
     // The middle of the 1440x900 screenshot, in the middle of the 360x640 box.
     expect(scrolls).toEqual([["to", { left: 540, top: 130 }]]);
@@ -394,7 +392,7 @@ describe("zooming", () => {
       ["by", { left: 0, top: 80 }],
     ]);
     expect(shown()?.counter).toBe("1 of 3");
-    act(() => button("Zoom out").click());
+    act(() => button("缩小").click());
     expect(zoomedIn()).toBe(false);
     key(box, "ArrowRight");
     expect(shown()?.counter).toBe("2 of 3");
@@ -403,7 +401,7 @@ describe("zooming", () => {
   it("fits the screenshot on Escape first, and closes on the next", async () => {
     await openWithClick(0);
     laidOut();
-    act(() => button("Zoom in").click());
+    act(() => button("放大").click());
     key(document.activeElement ?? document.body, "Escape");
     await flush();
     expect(dialog()).not.toBeNull();
@@ -430,8 +428,8 @@ describe("zooming", () => {
   it("fits the screenshot again on paging", async () => {
     await openWithClick(0);
     laidOut();
-    act(() => button("Zoom in").click());
-    act(() => button("Next").click());
+    act(() => button("放大").click());
+    act(() => button("下一张图片").click());
     expect(shown()?.counter).toBe("2 of 3");
     expect(zoomedIn()).toBe(false);
   });
@@ -439,30 +437,30 @@ describe("zooming", () => {
   it("shows the screenshot paged back to fitted, not as it was left", async () => {
     await openWithClick(0);
     laidOut();
-    act(() => button("Zoom in").click());
-    act(() => button("Next").click());
-    act(() => button("Previous").click());
+    act(() => button("放大").click());
+    act(() => button("下一张图片").click());
+    act(() => button("上一张图片").click());
     expect(shown()?.counter).toBe("1 of 3");
     expect(zoomedIn()).toBe(false);
-    expect(button("Zoom in")).toBeDefined();
+    expect(button("放大")).toBeDefined();
   });
 
   it("opens fitted again after closing zoomed, with its close button", async () => {
     await openWithClick(1);
     laidOut();
-    act(() => button("Zoom in").click());
-    act(() => button("Close").click());
+    act(() => button("放大").click());
+    act(() => button("关闭").click());
     await flush();
     expect(dialog()).toBeNull();
     await openWithClick(1);
     expect(zoomedIn()).toBe(false);
-    expect(button("Zoom in")).toBeDefined();
+    expect(button("放大")).toBeDefined();
   });
 
   it("opens fitted again after closing zoomed, with a click outside it", async () => {
     await openWithClick(1);
     laidOut();
-    act(() => button("Zoom in").click());
+    act(() => button("放大").click());
     await clickOutside();
     expect(dialog()).toBeNull();
     await openWithClick(1);
@@ -480,14 +478,14 @@ describe("one screenshot", () => {
   });
 
   it("offers no paging: no counter, no Previous and Next", async () => {
-    expect(thumb(0).getAttribute("aria-label")).toBe("Screenshot: The inbox. Opens it larger.");
+    expect(thumb(0).getAttribute("aria-label")).toBe("截图：The inbox。点击放大。");
     await openWithClick(0);
     const box = dialog();
     const title = document.getElementById(box?.getAttribute("aria-labelledby") ?? "");
-    expect(title?.textContent).toBe("Mailflare screenshot");
+    expect(title?.textContent).toBe("Mailflare 截图");
     expect(box?.querySelector("[aria-live]")).toBeNull();
-    expect(() => button("Next")).toThrow();
-    expect(() => button("Previous")).toThrow();
-    expect(button("Zoom in")).toBeDefined();
+    expect(() => button("下一张图片")).toThrow();
+    expect(() => button("上一张图片")).toThrow();
+    expect(button("放大")).toBeDefined();
   });
 });

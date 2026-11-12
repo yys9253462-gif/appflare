@@ -1,6 +1,6 @@
 ---
-title: Appflare's Cloudflare connection
-description: How Appflare connects to your Cloudflare account, Reconnect Cloudflare, switching between Cloudflare sign-in and an API token, and withdrawing Appflare's access.
+title: 连接 Cloudflare
+description: 了解 Appflare 如何连接你的 Cloudflare 账户、重新连接、切换 Cloudflare 登录与 API 令牌，以及撤销访问授权。
 ---
 
 Appflare needs access to your Cloudflare account to install, update and remove apps.

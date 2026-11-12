@@ -21,9 +21,8 @@ export const Route = createFileRoute("/deploy/")({
   beforeLoad: ({ location }) => requireDeployDocument("/deploy/", location.searchStr),
   head: () => {
     const head = pageHead({
-      title: `Install Appflare | ${siteName}`,
-      description:
-        "Install Appflare into your own Cloudflare account from your browser: connect Cloudflare, choose the account and address, deploy.",
+      title: `安装 Appflare | ${siteName}`,
+      description: "通过浏览器连接 Cloudflare，选择账户与地址，将 Appflare 安装到你自己的账户。",
       url: `${SITE_URL}${DEPLOY_PATH}`,
       // No card of its own: the site's card.
       image: `${SITE_URL}${siteOgImagePath}`,

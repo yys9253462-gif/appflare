@@ -53,7 +53,7 @@ export function ShareLinkLine({
   }, [phone]);
 
   if (!phone && !reserve) return null;
-  const label = state === "copied" ? "Link copied" : sharing ? "Share this link" : "Copy this link";
+  const label = state === "copied" ? "链接已复制" : sharing ? "分享链接" : "复制链接";
   return (
     <div
       className={`not-prose grid gap-2 text-fd-muted-foreground text-sm ${reserve ? RESERVED : ""} ${className}`}
@@ -61,7 +61,7 @@ export function ShareLinkLine({
       {phone && (
         <>
           <p className="m-0">
-            Not at your computer?{" "}
+            不在电脑旁？{" "}
             <button
               type="button"
               onClick={() => void (sharing ? share() : copy())}
@@ -70,7 +70,7 @@ export function ShareLinkLine({
               {label}
             </button>
             <span role="status" className="sr-only">
-              {state === "copied" ? "Link copied" : ""}
+              {state === "copied" ? "链接已复制" : ""}
             </span>
           </p>
           {state === "failed" && <LinkToCopy path={path} />}

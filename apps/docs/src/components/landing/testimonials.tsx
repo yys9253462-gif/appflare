@@ -155,7 +155,7 @@ export function Testimonials({ heading }: { heading: ReactNode }) {
   return (
     <section
       ref={section}
-      aria-label="What people are saying"
+      aria-label="用户评价（保留原文）"
       // A click focuses a face too, but only focus from the keyboard holds the stack.
       onFocus={(event) => setKeyboardFocus(event.target.matches(":focus-visible"))}
       onBlur={(event) => {
@@ -170,7 +170,7 @@ export function Testimonials({ heading }: { heading: ReactNode }) {
             <button
               key={t.handle}
               type="button"
-              aria-label={`Show ${t.name}'s post`}
+              aria-label={`查看 ${t.name} 的原帖`}
               aria-pressed={i === front}
               onClick={() => setFront(i)}
               className={`relative grid size-11 shrink-0 place-items-center rounded-full first:ml-0 -ml-3.5 transition-transform duration-300 focus-visible:outline-2 focus-visible:outline-fd-ring focus-visible:outline-offset-2 motion-reduce:transition-none sm:-ml-2 ${i === front ? "z-10 -translate-y-1" : "hover:z-10 hover:-translate-y-0.5"}`}
@@ -189,7 +189,7 @@ export function Testimonials({ heading }: { heading: ReactNode }) {
           ))}
           <button
             type="button"
-            aria-label={paused ? "Play the posts" : "Pause the posts"}
+            aria-label={paused ? "播放评价" : "暂停播放"}
             onClick={() => setPaused(!paused)}
             className="ml-2 grid size-11 shrink-0 place-items-center rounded-full text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground focus-visible:outline-2 focus-visible:outline-fd-ring focus-visible:outline-offset-2 sm:ml-3"
           >
@@ -343,7 +343,7 @@ function Post({
             className="shrink-0 hover:underline after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-fd-ring focus-visible:after:outline-offset-2"
           >
             {t.date}
-            <span className="sr-only">, the post on X</span>
+            <span className="sr-only">，X 上的原帖</span>
           </a>
           {t.role && <span className="truncate text-right">{t.role}</span>}
         </div>
@@ -355,7 +355,7 @@ function Post({
           onClick={onBring}
           className="absolute inset-0 cursor-pointer rounded-2xl"
         >
-          <span className="sr-only">Show {t.name}'s post</span>
+          <span className="sr-only">查看 {t.name} 的原帖</span>
         </button>
       )}
     </article>

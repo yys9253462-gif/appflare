@@ -35,7 +35,7 @@ function LogoLink() {
         width={width}
         height={height}
         role="img"
-        aria-label={`${siteName} home`}
+        aria-label={`${siteName} 首页`}
       >
         <g style={{ fill: INK }}>
           {INK_PATHS.map((d) => (
@@ -70,9 +70,9 @@ export function DeployLayout({
       </div>
       <footer className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-x-4 gap-y-2 border-kumo-hairline border-t px-1 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         <div className="flex flex-wrap items-center gap-x-4">
-          <FooterLink href="/start/browser-install/">Help</FooterLink>
-          <FooterLink href="/privacy/">Privacy</FooterLink>
-          <FooterLink href={`${repositoryUrl}/tree/main/apps/installer`}>Source</FooterLink>
+          <FooterLink href="/start/browser-install/">帮助</FooterLink>
+          <FooterLink href="/privacy/">隐私</FooterLink>
+          <FooterLink href={`${repositoryUrl}/tree/main/apps/installer`}>源码</FooterLink>
         </div>
         <Appearance />
       </footer>
@@ -101,10 +101,10 @@ export const STEP_TITLE_ID = "deploy-step-title";
 export type JourneyStep = "account" | "name" | "address" | "review";
 
 const JOURNEY_LABELS: Record<JourneyStep, string> = {
-  account: "Choose an account",
-  name: "Name",
-  address: "Address",
-  review: "Review",
+  account: "选择账户",
+  name: "名称",
+  address: "地址",
+  review: "确认",
 };
 
 /** What the meter needs from the page: whether choosing an account is a step on this sign-in. */
@@ -143,7 +143,7 @@ function JourneyMeter({ step }: { step: JourneyStep }) {
       showValue={false}
       value={at.step}
       max={at.count}
-      getAriaValueText={() => `Step ${at.step} of ${at.count}`}
+      getAriaValueText={() => `第 ${at.step} 步，共 ${at.count} 步`}
       trackClassName="h-1"
     />
   );
@@ -205,29 +205,25 @@ export function More({ summary, children }: { summary: string; children: ReactNo
 /** What Appflare's hosted installer receives and keeps, folded away. */
 export function InstallerTerms() {
   return (
-    <More summary="What Appflare's installer receives and keeps">
+    <More summary="安装器接收和保存哪些信息">
       <Text variant="secondary">
-        A web page cannot create Workers on its own, so a small open-source service behind this
-        page, Appflare's installer, does the deploying.
+        网页无法自行创建 Worker，因此部署由页面背后的开源服务——Appflare 安装器——完成。
       </Text>
       <Text variant="secondary">
-        With each request it gets a short-lived Cloudflare access token. That token allows
-        everything you allow Appflare, so you are trusting the installer to run{" "}
-        <Link href={`${repositoryUrl}/tree/main/apps/installer`}>its published code</Link>. It does
-        not store the token, which stays valid until it expires.
+        每次请求都会向安装器发送短期有效的 Cloudflare 访问令牌，授权范围与你授予 Appflare
+        的权限相同。因此，你需要信任安装器运行的是
+        <Link href={`${repositoryUrl}/tree/main/apps/installer`}>公开的源码</Link>
+        。安装器不会保存这个令牌，令牌会在有效期结束后失效。
       </Text>
       <Text variant="secondary">
-        It never gets the refresh token that keeps Appflare connected. Your browser gives that to
-        your new Appflare directly.
+        用于保持连接的刷新令牌不会发送给安装器，而是由浏览器直接交给新安装的 Appflare。
       </Text>
       <Text variant="secondary">
-        Until your owner account exists, it keeps a record so you can continue or remove the
-        installation: the account id, name, address, release and what it created. No token or
-        password. The record goes once the owner account is created or the installation is removed.
+        在创建所有者账户之前，安装器会保留账户
+        ID、名称、地址、发布版本和已创建的资源，以便继续或移除安装。记录不包含令牌或密码；创建所有者账户或移除安装后就会删除。
       </Text>
       <Text variant="secondary">
-        This page runs no analytics beyond counting how far installs get, with nothing about you or
-        your account. <Link href="/privacy/">Privacy</Link>
+        此页面仅统计安装进度，不记录你的身份或账户信息。<Link href="/privacy/">隐私说明</Link>
       </Text>
     </More>
   );
@@ -236,13 +232,13 @@ export function InstallerTerms() {
 /** The ways to install without the hosted installer, folded away. */
 export function OtherWays() {
   return (
-    <More summary="Other ways to install">
+    <More summary="其他安装方式">
       <Text variant="secondary">
-        Both install the same signed Appflare without Appflare's installer: the{" "}
-        <Link href="/start/deploy-button/">Deploy to Cloudflare button</Link>, through a copy in
-        your GitHub or GitLab account, or{" "}
+        不使用本站安装器，也能安装同一份已签名的 Appflare：通过
+        <Link href="/start/deploy-button/">Deploy to Cloudflare 按钮</Link>，在你的 GitHub 或 GitLab
+        账户中生成副本；或者在终端运行
         <code className="font-mono text-[0.9em]">npx create-appflare</code>{" "}
-        <Link href="/start/install/">in a terminal</Link>.
+        <Link href="/start/install/">查看命令行安装说明</Link>。
       </Text>
     </More>
   );

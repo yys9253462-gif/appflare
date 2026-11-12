@@ -46,7 +46,7 @@ export default function StaticSearchDialog(props: SharedProps) {
       <SearchDialogContent>
         <SearchDialogHeader>
           <SearchDialogIcon />
-          <SearchDialogInput />
+          <SearchDialogInput placeholder="搜索文档与应用" />
           <SearchDialogClose />
         </SearchDialogHeader>
         <SearchDialogList items={query.data !== "empty" ? query.data : null} />

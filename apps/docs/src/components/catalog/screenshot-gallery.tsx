@@ -33,7 +33,7 @@ export function ScreenshotGallery({
   }
 
   return (
-    <section aria-label={`Screenshots of ${appName}`}>
+    <section aria-label={`${appName} 的截图`}>
       <ul className="m-0 flex list-none snap-x snap-mandatory gap-3 overflow-x-auto p-0.5 pb-2">
         {images.map((image, i) => (
           <li key={image.url} className="shrink-0 snap-start">
@@ -45,7 +45,7 @@ export function ScreenshotGallery({
                 href={image.url}
                 rel="noopener noreferrer"
                 {...lightboxOpener(() => open(i))}
-                aria-label={`Screenshot${count > 1 ? ` ${positionLabel(i, count)}` : ""}: ${image.alt}. Opens it larger.`}
+                aria-label={`截图${count > 1 ? ` ${positionLabel(i, count)}` : ""}：${image.alt}。点击放大。`}
                 className="block cursor-zoom-in rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2 focus-visible:ring-offset-fd-background"
               >
                 <img
@@ -71,7 +71,7 @@ export function ScreenshotGallery({
       </ul>
 
       <Lightbox
-        title={count > 1 ? `${appName} screenshots` : `${appName} screenshot`}
+        title={count > 1 ? `${appName} 截图` : `${appName} 截图`}
         images={images}
         state={box}
         dispatch={dispatch}

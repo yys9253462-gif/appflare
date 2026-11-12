@@ -1,6 +1,6 @@
 ---
-title: Give Appflare its own address
-description: Move Appflare from its workers.dev address to a domain of your Cloudflare account, change it, or go back.
+title: 为 Appflare 配置专用地址
+description: 将 Appflare 从 workers.dev 地址迁移到你 Cloudflare 账户中的域名，修改地址或迁回原地址。
 ---
 
 Appflare starts at its `workers.dev` address, such as

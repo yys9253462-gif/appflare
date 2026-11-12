@@ -40,8 +40,8 @@ export const NEEDS_ANCHOR = "needs";
  */
 export function alternativesLine(app: Pick<SiteApp, "alternativeTo">): string | null {
   if (app.alternativeTo.length === 0) return null;
-  const products = new Intl.ListFormat("en", { type: "disjunction" }).format(app.alternativeTo);
-  return `A self-hosted alternative to ${products}.`;
+  const products = new Intl.ListFormat("zh-CN", { type: "disjunction" }).format(app.alternativeTo);
+  return `${products} 的自托管替代方案。`;
 }
 
 /** Step 1: Appflare itself, set up once per account. */
@@ -81,11 +81,10 @@ export interface DeployGuide {
 
 function setupText(app: Pick<SiteApp, "name" | "plan">): string {
   const base =
-    "Appflare installs itself into your own Cloudflare account from your browser, " +
-    "and runs on the free Workers plan";
+    "Appflare 可通过浏览器安装到你自己的 Cloudflare 账户，" + "并在 Workers 免费套餐上运行";
   return app.plan === "free"
-    ? `${base}, as ${app.name} does.`
-    : `${base}. ${app.name} needs ${PLAN_WORDS.paid.name} on that account.`;
+    ? `${base}，${app.name} 也可使用免费套餐。`
+    : `${base}。${app.name} 需要该账户使用 ${PLAN_WORDS.paid.name}。`;
 }
 
 type Form = NonNullable<SiteApp["installForm"]>;
@@ -94,15 +93,15 @@ function accessNote(name: string, form: Form): string | null {
   const paths = form.publicPaths;
   const who =
     paths.length === 0
-      ? "so only the people who use your Appflare can open it"
-      : `so only the people who use your Appflare can open it, except ${listWords(paths)}, which ${paths.length === 1 ? "stays" : "stay"} public`;
+      ? "只允许你 Appflare 中的用户访问"
+      : `只允许你 Appflare 中的用户访问，但 ${paths.join("、")} 保持公开`;
   switch (form.access) {
     case "required":
-      return `${name} is always installed behind Cloudflare Access, ${who}.`;
+      return `${name} 安装时必须启用 Cloudflare Access，${who}。`;
     case "recommended":
-      return `The form puts ${name} behind Cloudflare Access, ${who}. You can switch that off.`;
+      return `表单默认使用 Cloudflare Access 保护 ${name}，${who}。你也可以关闭此选项。`;
     case "offered":
-      return `One switch on the form puts ${name} behind Cloudflare Access, ${who}.`;
+      return `可通过表单中的开关为 ${name} 启用 Cloudflare Access，${who}。`;
     case null:
       return null;
   }
@@ -111,9 +110,9 @@ function accessNote(name: string, form: Form): string | null {
 function buildNote(tier: SiteApp["tier"]): string | null {
   switch (tier) {
     case "sandbox":
-      return `It has no prebuilt release, so you approve a build of it in your account, on ${PLAN_WORDS.paid.name}.`;
+      return `此应用没有预构建的发布包，需要你确认在自己账户的 ${PLAN_WORDS.paid.name} 套餐中构建。`;
     case "self-deploying":
-      return `Its own installer deploys it, in your account on ${PLAN_WORDS.paid.name}, once you approve the run.`;
+      return `确认后，应用通过自带安装程序在你账户的 ${PLAN_WORDS.paid.name} 套餐中部署。`;
     case "artifact":
       return null;
   }
@@ -121,12 +120,12 @@ function buildNote(tier: SiteApp["tier"]): string | null {
 
 /** The token a self-deploying app's installer deploys with, which the form asks for first. */
 function appTokenField(app: Pick<SiteApp, "name">): AskedField {
-  return { label: `A Cloudflare API token for ${app.name}`, link: null, seedOnly: false };
+  return { label: `为 ${app.name} 创建的 Cloudflare API 令牌`, link: null, seedOnly: false };
 }
 
 /** A domain of the account for an app that receives email. */
 const EMAIL_DOMAIN_FIELD: AskedField = {
-  label: "A domain of yours that can receive email",
+  label: "你自己可接收邮件的域名",
   link: null,
   seedOnly: false,
 };
@@ -148,20 +147,18 @@ function installNotes(app: SiteApp, asks: readonly AskedField[] | null): string[
   if (app.tier === "self-deploying") {
     notes.push(
       asks === null
-        ? `It asks for a Cloudflare API token for ${app.name}, which its installer deploys with. Create token on its page in Appflare makes one.`
-        : `Its installer deploys with that token, not Appflare's own. Create token on its page in Appflare makes one.`,
+        ? `需要为 ${app.name} 提供 Cloudflare API 令牌，可在应用页点击“创建令牌”。`
+        : `应用安装程序使用此令牌部署，可在应用页点击“创建令牌”。`,
     );
   }
   if (form !== null && asks !== null) {
-    if (asks.length === 0) notes.push(`${app.name} needs no keys or settings from you.`);
+    if (asks.length === 0) notes.push(`${app.name} 不需要你填写密钥或设置。`);
     if (form.generated.length > 0) {
-      const values = countOf("value", form.generated.length);
-      notes.push(`Appflare generates ${values} for you: ${listWords(form.generated)}.`);
+      const values = `${form.generated.length} 个值`;
+      notes.push(`Appflare 会自动生成 ${values}：${form.generated.join("、")}。`);
     }
     if (form.optional > 0) {
-      notes.push(
-        `It also has ${countOf("optional setting", form.optional)} you can leave for later.`,
-      );
+      notes.push(`另外有 ${form.optional} 项可选设置，可稍后配置。`);
     }
     notes.push(accessNote(app.name, form));
   }
@@ -174,18 +171,18 @@ export function deployGuide(app: SiteApp): DeployGuide {
   const steps = app.installForm?.postInstallSteps ?? 0;
   const asks = askedFields(app);
   return {
-    title: `Deploy ${app.name} on Cloudflare`,
+    title: `在 Cloudflare 部署 ${app.name}`,
     setup: {
-      title: "Set up Appflare in your Cloudflare account",
+      title: "在你的 Cloudflare 账户中安装 Appflare",
       text: setupText(app),
       href: deployAppPath(app.slug),
-      action: "Set up Appflare",
+      action: "安装 Appflare",
       installHref: installPath(app.slug),
-      installQuestion: "Already have Appflare?",
-      installAction: `Install ${app.name}`,
+      installQuestion: "已经安装 Appflare？",
+      installAction: `安装 ${app.name}`,
     },
     install: {
-      title: `Install ${app.name}`,
+      title: `安装 ${app.name}`,
       asks,
       notes: installNotes(app, asks),
     },
@@ -193,8 +190,8 @@ export function deployGuide(app: SiteApp): DeployGuide {
       steps === 0
         ? null
         : {
-            title: "Finish setting it up",
-            text: `After the install, Appflare shows ${countOf("short step", steps)} for ${app.name}, on its page.`,
+            title: "完成后续设置",
+            text: `安装后，Appflare 会在 ${app.name} 的页面列出 ${steps} 项后续设置。`,
           },
   };
 }
@@ -217,35 +214,35 @@ export function withAppflare(tier: SiteApp["tier"]): WithAppflareItem[] {
   return [
     {
       id: "setup",
-      title: "Nothing to build on your computer",
+      title: "无需在电脑上编译",
       text: selfDeploying
-        ? "Appflare sets itself up from your browser and runs the app's own installer in your Cloudflare account."
-        : "Appflare sets itself up from your browser, with no API token to create and nothing to install.",
+        ? "Appflare 通过浏览器完成安装，再在你的 Cloudflare 账户中运行应用的安装程序。"
+        : "Appflare 可通过浏览器完成安装，无需手动创建 API 令牌或安装本地工具。",
     },
     tier === "artifact"
       ? {
           id: "updates",
-          title: "Updates in one click",
-          text: "Appflare tells you when the catalog has a new version, and Update installs it.",
+          title: "一键更新",
+          text: "目录有新版本时，Appflare 会提醒你；点击“更新”即可安装。",
         }
       : {
           id: "updates",
-          title: "Updates from the catalog",
+          title: "从目录获取更新",
           text: selfDeploying
-            ? "Appflare tells you when the catalog has a new version, and runs the installer again once you approve."
-            : "Appflare tells you when the catalog has a new version, and builds it in your account once you approve.",
+            ? "目录有新版本时，Appflare 会提醒你，并在获得确认后重新运行安装程序。"
+            : "目录有新版本时，Appflare 会提醒你，并在获得确认后在你的账户中构建。",
         },
     {
       id: "health",
-      title: "Health checks",
-      text: "After every install and update, Appflare checks that the app answers.",
+      title: "健康检查",
+      text: "每次安装和更新后，Appflare 都会检查应用是否正常响应。",
     },
     {
       id: "account",
-      title: "It stays in your own account",
+      title: "应用留在你自己的账户中",
       text: selfDeploying
-        ? "Everything runs on your Cloudflare account and your plan. An uninstall runs the app's installer to delete what it created."
-        : "Everything runs on your Cloudflare account and your plan, and Appflare records what it creates, so an uninstall removes it.",
+        ? "所有内容都使用你自己的 Cloudflare 账户和套餐运行。卸载时由应用的安装程序删除它创建的资源。"
+        : "所有内容都使用你自己的 Cloudflare 账户和套餐运行；Appflare 记录创建的资源，卸载时会一并处理。",
     },
   ];
 }
@@ -282,13 +279,13 @@ function createdWords(id: ServiceId): string {
 
 function planAnswer(app: Pick<SiteApp, "name" | "plan">): string {
   return app.plan === "free"
-    ? `Yes. ${app.name} runs on Cloudflare's free Workers plan, and so does Appflare.`
-    : `No. ${app.name} needs Cloudflare's ${PLAN_WORDS.paid.name} plan on your account. Appflare itself runs on the free plan.`;
+    ? `可以。${app.name} 和 Appflare 均可在 Workers 免费套餐运行。`
+    : `不可以。${app.name} 需要 ${PLAN_WORDS.paid.name} 套餐。Appflare 本身可在免费套餐运行。`;
 }
 
 function createsAnswer(app: SiteApp): string {
   if (app.tier === "self-deploying") {
-    return `Appflare runs ${app.name}'s own installer in your account, and the installer creates what it needs. An uninstall runs the installer again to delete it all.`;
+    return `Appflare 在你的账户中运行 ${app.name} 自带的安装程序，由它创建资源。卸载时再次运行安装程序清理。`;
   }
   const services = app.services.filter(isService);
   const created = services.filter((id) => CREATED.has(id)).map(createdWords);
@@ -296,28 +293,26 @@ function createsAnswer(app: SiteApp): string {
   const usedWords = used.map((noun) => (noun.countable ? countOf(noun.singular, 1) : noun.name));
   const parts = [
     created.length === 0
-      ? `Appflare creates a Worker for ${app.name}.`
-      : `Appflare creates a Worker for ${app.name} and the resources it uses: ${listWords(created)}.`,
+      ? `Appflare 为 ${app.name} 创建一个 Worker。`
+      : `Appflare 为 ${app.name} 创建 Worker 和所需资源：${listWords(created)}。`,
   ];
-  if (usedWords.length > 0) parts.push(`It also uses ${listWords(usedWords)}.`);
+  if (usedWords.length > 0) parts.push(`它还会使用 ${listWords(usedWords)}。`);
   if (app.tier === "sandbox" && services.length === 0) {
-    parts.push("It is built in your account, so the rest is known then.");
+    parts.push("应用在你的账户中构建，其余要求将在构建后确认。");
   }
-  parts.push(
-    "Appflare records each resource it creates; an uninstall deletes them, keeping any data you choose to keep.",
-  );
+  parts.push("Appflare 会记录它创建的资源，卸载时删除这些资源，并保留你选择留下的数据。");
   return parts.join(" ");
 }
 
 function updateAnswer(app: Pick<SiteApp, "name" | "tier">): string {
-  const offer = `When the catalog has a new version, ${app.name}'s page in Appflare says Update available.`;
+  const offer = `目录有新版本时，${app.name} 的页面会显示“有可用更新”。`;
   switch (app.tier) {
     case "artifact":
-      return `${offer} Select Update: Appflare takes a snapshot first, so you can roll back to the version before. You can also let Appflare update it automatically.`;
+      return `${offer} 点击“更新”即可。Appflare 会先创建快照以便回滚，也可以开启自动更新。`;
     case "sandbox":
-      return `${offer} Select Update and approve the build of the new version in your account. Appflare takes a snapshot first, so you can roll back to the version before.`;
+      return `${offer} 点击“更新”并确认在账户中构建新版。Appflare 会先创建快照以便回滚。`;
     case "self-deploying":
-      return `${offer} Select Update and approve the run: Appflare runs ${app.name}'s own installer again at the new version. Its installer changes the app in place, so there is no rollback.`;
+      return `${offer} 点击“更新”并确认运行新版 ${app.name} 的安装程序。其安装程序就地修改应用，不支持回滚。`;
   }
 }
 
@@ -327,14 +322,14 @@ function updateAnswer(app: Pick<SiteApp, "name" | "tier">): string {
  */
 function licenseAnswer(app: Pick<SiteApp, "license" | "repo">): string | null {
   const copy = licenseBadgeCopy(app.license);
-  const source = `Its source code is at github.com/${app.repo}.`;
+  const source = `源码地址：github.com/${app.repo}。`;
   switch (copy.kind) {
     case "open-source":
-      return `Yes, under ${copy.label}. ${copy.tooltip} ${source}`;
+      return `是的，采用 ${copy.label} 许可证。${source}`;
     case "source-available":
-      return `Not quite: its code is public, but its license is source-available. ${copy.tooltip} ${source}`;
+      return `它属于源码可见软件，使用限制见 ${copy.label} 许可证。${source}`;
     case "none":
-      return `No. ${copy.tooltip} ${source}`;
+      return `不属于开源软件，请查看仓库许可说明。${source}`;
     case "unknown":
       return null;
   }
@@ -347,14 +342,14 @@ function licenseAnswer(app: Pick<SiteApp, "license" | "repo">): string | null {
  */
 export function appFaq(app: SiteApp): FaqItem[] {
   const items: FaqItem[] = [
-    { question: `Does ${app.name} run on Cloudflare's free plan?`, answer: planAnswer(app) },
+    { question: `${app.name} 可以使用 Cloudflare 免费套餐吗？`, answer: planAnswer(app) },
     {
-      question: `What does ${app.name} create in my Cloudflare account?`,
+      question: `${app.name} 会在我的账户创建哪些资源？`,
       answer: createsAnswer(app),
     },
-    { question: `How do I update ${app.name}?`, answer: updateAnswer(app) },
+    { question: `如何更新 ${app.name}？`, answer: updateAnswer(app) },
   ];
   const license = licenseAnswer(app);
-  if (license !== null) items.push({ question: `Is ${app.name} open source?`, answer: license });
+  if (license !== null) items.push({ question: `${app.name} 是开源软件吗？`, answer: license });
   return items;
 }

@@ -103,11 +103,11 @@ async function tap(element: HTMLElement) {
   await flush();
 }
 
-describe("Install Appflare in an app's own browser", () => {
+describe("安装 Appflare in an app's own browser", () => {
   it("opens the sheet instead of the install, on an iPhone with the steps to leave X", async () => {
     browse(UA.xIphone, "/");
     await render(<InstallButton placement="home-hero-install" />);
-    const install = link("Install Appflare");
+    const install = link("安装 Appflare");
     expect(install.getAttribute("aria-haspopup")).toBe("dialog");
     await tap(install);
 
@@ -116,17 +116,15 @@ describe("Install Appflare in an app's own browser", () => {
     expect(sheet).not.toBeNull();
     expect(sheet?.getAttribute("aria-modal")).toBe("true");
     const title = document.getElementById(sheet?.getAttribute("aria-labelledby") ?? "");
-    expect(text(title)).toBe("Open this in your browser");
+    expect(text(title)).toBe("在浏览器中打开");
     const description = document.getElementById(sheet?.getAttribute("aria-describedby") ?? "");
-    expect(text(description)).toBe(
-      "X's in-app browser may not be able to finish the Cloudflare sign-in.",
-    );
-    expect(text(sheet)).toContain("Tap ••• or the share icon");
-    expect(text(sheet)).toContain("Choose Open in browser or Open in Safari");
+    expect(text(description)).toBe("X's in-app browser 的内置浏览器可能无法完成 Cloudflare 登录。");
+    expect(text(sheet)).toContain("点击屏幕顶部或底部的 ••• 或分享图标");
+    expect(text(sheet)).toContain("选择在浏览器中打开或在 Safari 中打开");
     expect(sheet?.querySelector('a[href^="intent:"]')).toBeNull();
     // The focus is in the sheet, on its first action.
     expect(sheet?.contains(document.activeElement)).toBe(true);
-    expect(text(document.activeElement)).toBe("Copy link");
+    expect(text(document.activeElement)).toBe("复制链接");
     expect(track).toHaveBeenCalledWith("handoff_shown", {
       reason: "in_app_browser",
       app: "X",
@@ -137,11 +135,11 @@ describe("Install Appflare in an app's own browser", () => {
   it("copies the deploy page's address, says so, and counts it", async () => {
     browse(UA.xIphone, "/");
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
-    await tap(button("Copy link"));
+    await tap(link("安装 Appflare"));
+    await tap(button("复制链接"));
     expect(writeText).toHaveBeenCalledWith("https://appflare.dev/deploy/");
-    expect(text(dialog())).toContain("Link copied");
-    expect(document.querySelector('[role="status"]')?.textContent).toBe("Link copied");
+    expect(text(dialog())).toContain("链接已复制");
+    expect(document.querySelector('[role="status"]')?.textContent).toBe("链接已复制");
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
       action: "copy",
       reason: "in_app_browser",
@@ -153,8 +151,8 @@ describe("Install Appflare in an app's own browser", () => {
     browse(UA.xIphone, "/");
     writeText.mockRejectedValueOnce(new DOMException("Denied", "NotAllowedError"));
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
-    await tap(button("Copy link"));
+    await tap(link("安装 Appflare"));
+    await tap(button("复制链接"));
     const field = dialog()?.querySelector("input");
     expect(field?.value).toBe("https://appflare.dev/deploy/");
     expect(field?.readOnly).toBe(true);
@@ -166,11 +164,11 @@ describe("Install Appflare in an app's own browser", () => {
     const share = vi.fn(async (_data: ShareData) => {});
     setNavigator("share", share);
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
-    await tap(button("Send to my computer"));
+    await tap(link("安装 Appflare"));
+    await tap(button("发送到电脑"));
     expect(share).toHaveBeenCalledWith({
       url: "https://appflare.dev/deploy/",
-      title: "Install Appflare",
+      title: "安装 Appflare",
     });
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
       action: "share",
@@ -179,11 +177,11 @@ describe("Install Appflare in an app's own browser", () => {
     });
   });
 
-  it("leaves Send to my computer out where the browser has no share sheet", async () => {
+  it("leaves 发送到电脑 out where the browser has no share sheet", async () => {
     browse(UA.xIphone, "/");
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
-    expect(() => button("Send to my computer")).toThrow();
+    await tap(link("安装 Appflare"));
+    expect(() => button("发送到电脑")).toThrow();
   });
 
   it("hands the page to Chrome in one tap on Android", async () => {
@@ -198,12 +196,12 @@ describe("Install Appflare in an app's own browser", () => {
       </InstallLink>,
     );
     await tap(link("Install"));
-    const open = link("Open in Chrome");
+    const open = link("在 Chrome 中打开");
     expect(open.getAttribute("href")).toBe(
       "intent://appflare.dev/install/glance/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fappflare.dev%2Finstall%2Fglance%2F;end",
     );
     expect(document.activeElement).toBe(open);
-    expect(text(dialog())).toContain("Use the menu (⋮) and choose Open in browser");
+    expect(text(dialog())).toContain("请点菜单（⋮），选择 在浏览器中打开");
     await tap(open);
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
       action: "open",
@@ -224,7 +222,7 @@ describe("Install Appflare in an app's own browser", () => {
       </InstallLink>,
     );
     await tap(link("Install"));
-    const anyway = link("Continue here anyway");
+    const anyway = link("仍在这里继续");
     expect(anyway.getAttribute("href")).toBe("/install/glance/");
     // Not the first thing the focus lands on.
     expect(document.activeElement).not.toBe(anyway);
@@ -240,9 +238,9 @@ describe("Install Appflare in an app's own browser", () => {
   it("says this in-app browser when the app does not name itself", async () => {
     browse(UA.unnamedIos);
     await render(<InstallButton placement="overview-primary" />);
-    await tap(link("Install Appflare"));
+    await tap(link("安装 Appflare"));
     expect(text(dialog())).toContain(
-      "This in-app browser may not be able to finish the Cloudflare sign-in.",
+      "This in-app browser 的内置浏览器可能无法完成 Cloudflare 登录。",
     );
     expect(track).toHaveBeenCalledWith("handoff_shown", {
       reason: "in_app_browser",
@@ -254,7 +252,7 @@ describe("Install Appflare in an app's own browser", () => {
   it("closes with Escape and with its close button", async () => {
     browse(UA.xIphone, "/");
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
+    await tap(link("安装 Appflare"));
     act(() => {
       (document.activeElement ?? document.body).dispatchEvent(
         new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
@@ -262,20 +260,20 @@ describe("Install Appflare in an app's own browser", () => {
     });
     await flush();
     expect(dialog()).toBeNull();
-    await tap(link("Install Appflare"));
-    await tap(button("Close"));
+    await tap(link("安装 Appflare"));
+    await tap(button("关闭"));
     expect(dialog()).toBeNull();
   });
 });
 
-describe("Install Appflare in a real browser", () => {
+describe("安装 Appflare in a real browser", () => {
   it.each([
     ["a computer", UA.chromeMac],
     ["a phone's browser", UA.safariIphone],
   ])("follows the link on %s, with no sheet", async (_name, userAgent) => {
     browse(userAgent, "/");
     await render(<InstallButton placement="home-hero-install" />);
-    const install = link("Install Appflare");
+    const install = link("安装 Appflare");
     expect(install.getAttribute("aria-haspopup")).toBeNull();
     await tap(install);
     expect(followed).toEqual([true]);
@@ -292,15 +290,15 @@ describe("counting clicks", () => {
     posthog.capture.mockClear();
   });
 
-  it("does not take the tap that opens the sheet for an install, but counts Continue here anyway", async () => {
+  it("does not take the tap that opens the sheet for an install, but counts 仍在这里继续", async () => {
     browse(UA.xIphone, "/");
     expect(startAnalytics(router)).toBe(true);
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
+    await tap(link("安装 Appflare"));
     expect(dialog()).not.toBeNull();
     expect(names()).toEqual(["$pageview"]);
 
-    await tap(link("Continue here anyway"));
+    await tap(link("仍在这里继续"));
     expect(names()).toEqual(["$pageview", "outbound_click", "install_button_clicked"]);
     expect(posthog.capture).toHaveBeenLastCalledWith("install_button_clicked", { path: "/" });
   });
@@ -309,7 +307,7 @@ describe("counting clicks", () => {
     browse(UA.xIphone, "/");
     startAnalytics(router);
     await render(<InstallButton placement="home-hero-install" />);
-    const install = link("Install Appflare");
+    const install = link("安装 Appflare");
     act(() => {
       install.dispatchEvent(
         new MouseEvent("click", { bubbles: true, cancelable: true, button: 0, metaKey: true }),
@@ -324,7 +322,7 @@ describe("counting clicks", () => {
     browse(UA.safariIphone, "/");
     startAnalytics(router);
     await render(<InstallButton placement="home-hero-install" />);
-    await tap(link("Install Appflare"));
+    await tap(link("安装 Appflare"));
     expect(names()).toEqual(["$pageview", "outbound_click", "install_button_clicked"]);
   });
 
@@ -347,20 +345,20 @@ describe("counting clicks", () => {
   });
 });
 
-describe("Cloudflare's Deploy button on the front page", () => {
+describe("Cloudflare 部署按钮 on the front page", () => {
   it("asks an app's browser to move to the browser too, offering the button's page", async () => {
     browse(UA.xIphone, "/");
     await render(<DeployButtonLine placement="home-hero-cloudflare" />);
-    const deploy = link("Cloudflare's Deploy button");
+    const deploy = link("Cloudflare 部署按钮");
     expect(deploy.getAttribute("aria-haspopup")).toBe("dialog");
     await tap(deploy);
     expect(followed).toEqual([false]);
-    expect(text(dialog())).toContain("Open this in your browser");
-    await tap(button("Copy link"));
+    expect(text(dialog())).toContain("在浏览器中打开");
+    await tap(button("复制链接"));
     expect(writeText).toHaveBeenCalledWith("https://appflare.dev/start/deploy-button/");
-    await tap(link("Continue here anyway"));
+    await tap(link("仍在这里继续"));
     expect(followed.at(-1)).toBe(true);
-    expect(link("Continue here anyway").getAttribute("href")).toContain(
+    expect(link("仍在这里继续").getAttribute("href")).toContain(
       "https://link.appflare.dev/deploy-1c?",
     );
   });
@@ -368,7 +366,7 @@ describe("Cloudflare's Deploy button on the front page", () => {
   it("is the plain link to Cloudflare in a real browser", async () => {
     browse(UA.safariIphone, "/");
     await render(<DeployButtonLine placement="home-hero-cloudflare" />);
-    await tap(link("Cloudflare's Deploy button"));
+    await tap(link("Cloudflare 部署按钮"));
     expect(followed).toEqual([true]);
     expect(dialog()).toBeNull();
   });
@@ -385,11 +383,11 @@ describe("the share line under an install button", () => {
         <ShareLinkLine path="/install/glance/" title="Install Glance" />
       </>,
     );
-    expect(text(container)).toContain("Not at your computer? Share this link");
+    expect(text(container)).toContain("不在电脑旁？ 分享链接");
     expect(vi.mocked(track).mock.calls).toEqual([
       ["handoff_shown", { reason: "mobile", app: null, page: "/apps/glance/" }],
     ]);
-    await tap(button("Share this link"));
+    await tap(button("分享链接"));
     expect(share).toHaveBeenCalledWith({
       url: "https://appflare.dev/install/glance/",
       title: "Install Glance",
@@ -403,10 +401,10 @@ describe("the share line under an install button", () => {
 
   it("copies the link where the phone has no share sheet", async () => {
     browse(UA.safariIphone, "/");
-    await render(<ShareLinkLine path="/deploy/" title="Install Appflare" />);
-    await tap(button("Copy this link"));
+    await render(<ShareLinkLine path="/deploy/" title="安装 Appflare" />);
+    await tap(button("复制链接"));
     expect(writeText).toHaveBeenCalledWith("https://appflare.dev/deploy/");
-    expect(text(container)).toContain("Link copied");
+    expect(text(container)).toContain("链接已复制");
   });
 
   it.each([
@@ -416,8 +414,8 @@ describe("the share line under an install button", () => {
     browse(userAgent);
     await render(
       <>
-        <ShareLinkLine path="/deploy/" title="Install Appflare" />
-        <ShareLinkLine path="/deploy/" title="Install Appflare" reserve={false} />
+        <ShareLinkLine path="/deploy/" title="安装 Appflare" />
+        <ShareLinkLine path="/deploy/" title="安装 Appflare" reserve={false} />
       </>,
     );
     // Only the room the line keeps on a phone-sized screen, so that it
@@ -429,13 +427,13 @@ describe("the share line under an install button", () => {
   });
 
   it("keeps its room in the page as built, before it knows the browser", () => {
-    const built = renderToString(<ShareLinkLine path="/deploy/" title="Install Appflare" />);
+    const built = renderToString(<ShareLinkLine path="/deploy/" title="安装 Appflare" />);
     expect(built).toMatch(/^<div class="[^"]*max-sm:min-h-11[^"]*"><\/div>$/);
     expect(renderToString(<ShareLinkLine path="/" title="x" reserve={false} />)).toBe("");
   });
 });
 
-describe("the install page's Get Appflare step", () => {
+describe("the install page's 安装 Appflare step", () => {
   const state: FlowState = {
     context: { page: "install", request: { kind: "app", slug: "glance" }, catalogApp: null },
     canRemember: true,
@@ -447,11 +445,11 @@ describe("the install page's Get Appflare step", () => {
     browse(UA.xIphone, "/install/glance/");
     await render(<FlowPanel state={state} dispatch={() => {}} apps={apps} />);
     expect(text(container)).toContain(
-      "X's in-app browser keeps Glance to itself, so open this link in your browser to continue there.",
+      "X's in-app browser 只在内置浏览器里保存 Glance 的信息，请在浏览器中打开此链接继续。",
     );
     expect(text(container)).not.toContain("7 days");
-    await tap(link("Install Appflare"));
-    await tap(button("Copy link"));
+    await tap(link("安装 Appflare"));
+    await tap(button("复制链接"));
     expect(writeText).toHaveBeenCalledWith("https://appflare.dev/install/glance/");
   });
 
@@ -459,10 +457,10 @@ describe("the install page's Get Appflare step", () => {
     browse(UA.chromeMac, "/install/glance/");
     await render(<FlowPanel state={state} dispatch={() => {}} apps={apps} />);
     expect(text(container)).toContain(
-      "This browser keeps Glance for 7 days, so you can continue installing it here then.",
+      "此浏览器会保存 Glance 的安装信息 7 天，期间可返回这里继续。",
     );
-    await tap(link("Install Appflare"));
+    await tap(link("安装 Appflare"));
     expect(followed).toEqual([true]);
-    expect(link("Install Appflare").getAttribute("href")).toBe("/deploy/?app=glance");
+    expect(link("安装 Appflare").getAttribute("href")).toBe("/deploy/?app=glance");
   });
 });

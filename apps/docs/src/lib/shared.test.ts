@@ -4,6 +4,7 @@ import {
   markdownUrl,
   ogImagePath,
   pageUrl,
+  siteDescription,
   slugsFromMarkdownPath,
   slugsFromOgImagePath,
   slugsFromSplat,
@@ -81,5 +82,12 @@ describe("isPrerendered", () => {
     expect(isPrerendered("/screenshots/landing-home.png")).toBe(false);
     expect(isPrerendered("/badge.svg")).toBe(false);
     expect(isPrerendered("/screenshots/shot.WEBP")).toBe(false);
+  });
+});
+
+describe("the site introduction", () => {
+  it("describes the self-hosted manager in Chinese", () => {
+    expect(siteDescription).toContain("在自己的 Cloudflare 账户里");
+    expect(siteDescription).toContain("安装、更新和移除应用");
   });
 });

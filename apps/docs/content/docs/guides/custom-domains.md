@@ -1,6 +1,6 @@
 ---
-title: Custom domains
-description: Serve an installed app on a hostname in one of your own domains.
+title: 自定义域名
+description: 让已安装的应用通过你自有域名下的主机名提供服务。
 ---
 
 Every app gets a `workers.dev` URL. You can also serve it on a hostname in a domain

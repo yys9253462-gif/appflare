@@ -4,11 +4,12 @@ import { DeployFlow } from "./flow.ts";
 import { type FetchLike, installerApi } from "./installer-api.ts";
 import { managerApi } from "./manager-api.ts";
 import { browserDeployStorage } from "./storage.ts";
+import { deployFetch } from "./token-fetch.ts";
 import { TokenKeeper } from "./tokens.ts";
 
 /** The deploy page's flow, wired to this browser. */
 export function createBrowserFlow(): DeployFlow {
-  const fetch: FetchLike = (input, init) => window.fetch(input, init);
+  const fetch: FetchLike = deployFetch;
   const storage = browserDeployStorage();
   const tokens = new TokenKeeper({ slot: storage.grant, fetch });
   return new DeployFlow({

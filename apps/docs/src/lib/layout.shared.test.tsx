@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { baseOptions, githubLink, logoScrollsToTop } from "./layout.shared.tsx";
+import { appsLink, baseOptions, docsLink, githubLink, logoScrollsToTop } from "./layout.shared.tsx";
 
 describe("the GitHub link in the navigation bar", () => {
   it("is named by its label, with its icon hidden from screen readers", () => {
@@ -43,5 +43,13 @@ describe("the logo in the navigation bar", () => {
 
   it("is the site's own, not Fumadocs' plain link", () => {
     expect(typeof baseOptions().nav?.title).toBe("function");
+  });
+});
+
+describe("the Chinese navigation", () => {
+  it("keeps the apps and docs routes while naming them in Chinese", () => {
+    expect(appsLink).toMatchObject({ text: "应用", url: "/apps/" });
+    expect(docsLink).toMatchObject({ text: "文档", url: "/start/overview/" });
+    expect(baseOptions().links).toContain(appsLink);
   });
 });

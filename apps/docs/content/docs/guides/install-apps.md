@@ -1,6 +1,6 @@
 ---
-title: Install an app
-description: The install form, secrets, what the install job does, and post-install steps.
+title: 安装应用
+description: 了解安装表单、密钥、安装任务的执行过程，以及安装完成后的步骤。
 ---
 
 Open the app's page in **Catalog**. Only admins can install apps.

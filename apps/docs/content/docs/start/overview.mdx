@@ -1,111 +1,77 @@
 ---
-title: What Appflare is
-description: A self-hosted app manager that runs as one Worker in your own Cloudflare account.
+title: Appflare 是什么
+description: 运行在你自己 Cloudflare 账户中、只需一个 Worker 的自托管应用管理器。
 ---
 
-Appflare is a self-hosted app manager for Cloudflare. It is a single Worker that you
-install into your own Cloudflare account. From its web UI you browse a catalog of
-apps built for Workers, install them into the same account, and keep them updated.
-Home shows your installed apps and the work that needs your attention.
+Appflare 是面向 Cloudflare 的自托管应用管理器。把它安装到你自己的 Cloudflare 账户后，它只需一个 Worker 就能运行。你可以在网页界面中浏览为 Workers 构建的应用，将它们安装到同一账户，并持续更新。首页会显示已安装的应用和需要你处理的事项。
 
-![Home with updates to review, the account's usage by app, and installed apps with their usage](/screenshots/home-dashboard.png)
+![首页显示待审核更新、按应用统计的账户用量，以及已安装应用和各自用量](/screenshots/home-dashboard.png)
 
-## Install it
+## 安装 [#install-it]
 
 <InstallButton placement="overview-primary" />
 
-Open [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-1), sign in to Cloudflare, and choose where Appflare
-goes. The page deploys it into your account; there is nothing to install on your
-computer.
+打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-1)，登录 Cloudflare，然后选择 Appflare 的安装位置。页面会将它部署到你的账户，无需在电脑上安装任何软件。
 
 <Cards>
-  <Card title="Install from your browser" href="https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=overview-install-card">
-    The recommended way. Sign in to Cloudflare at appflare.dev/deploy, pick an address, and the page deploys Appflare there.
+  <Card title="通过浏览器安装" href="https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=overview-install-card">
+    推荐方式。在 appflare.dev/deploy 登录 Cloudflare，选择地址，页面就会在那里部署 Appflare。
   </Card>
-  <Card title="Or use Cloudflare's Deploy button" href="/start/deploy-button/">
-    It goes through a copy of Appflare in your GitHub or GitLab account, which you remove afterwards.
+  <Card title="或使用 Cloudflare 的部署按钮" href="/start/deploy-button/">
+    这种方式会先在你的 GitHub 或 GitLab 账户中创建一份 Appflare 副本，安装后需要删除它。
   </Card>
 </Cards>
 
-[Cloudflare's Deploy button](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-cloudflare-1)
+[Cloudflare 部署按钮](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-cloudflare-1)
 
-[Install Appflare](/start/install/) compares the two and has the command line for
-advanced cases. Every way ends in the same [setup wizard](/start/install/#the-setup-wizard).
+[安装 Appflare](/start/install/) 对比了两种方式，并提供适用于高级场景的命令行安装方法。所有方式最后都会进入同一个[设置向导](/start/install/#the-setup-wizard)。
 
-## How it works
+## 工作原理 [#how-it-works]
 
-Whichever way you install, one Worker, the manager, is deployed into your Cloudflare
-account. The manager has a web UI where you browse a catalog of apps
-that run on Workers.
+无论采用哪种安装方式，都会在你的 Cloudflare 账户中部署一个管理器 Worker。它的网页界面提供了可在 Workers 上运行的应用目录。
 
-When you install an app, the manager creates what the app needs (KV namespaces, D1
-databases, R2 buckets, queues, Vectorize indexes, secrets, cron triggers) and records
-each one. Because it knows every resource it created, it can update the app later,
-roll it back, and remove it cleanly.
+安装应用时，管理器会创建并记录该应用需要的资源：KV 命名空间、D1 数据库、R2 存储桶、队列、Vectorize 索引、密钥和定时触发器。因为它知道自己创建了哪些资源，之后就能更新应用、回滚版本，并完整地移除应用。
 
-Every app in the catalog is built from a pinned upstream commit, packed and signed by
-the catalog's CI. The manager installs nothing whose signature does not verify.
+目录中的每个应用都由目录的 CI 从固定的上游提交构建、打包并签名。签名校验不通过的内容，管理器一律不会安装。
 
-## Why it exists
+## 为什么需要 Appflare [#why-it-exists]
 
-Cloudflare's "Deploy to Cloudflare" button copies an app's repository into your
-GitHub account. The copy has no link back to the original, so you never hear about
-new versions and have no way to update.
+Cloudflare 的“Deploy to Cloudflare”按钮会把应用仓库复制到你的 GitHub 账户。副本与原仓库没有关联，因此你不会收到新版本通知，也没有现成的更新方式。
 
-Appflare owns the install instead. It records every resource it creates for an app,
-so it can update the app, roll it back, and uninstall it. Appflare itself can use the
-button because it updates itself afterwards and does not need the copy.
+Appflare 则负责管理安装本身。它记录为应用创建的每个资源，因此可以更新、回滚和卸载应用。Appflare 自身也能通过该按钮安装，因为之后它会自行更新，不再需要那份副本。
 
-## What it is not
+## 使用边界 [#what-it-is-not]
 
-- **Not a hosting service.** Everything runs in your account, on your plan, under
-  your limits. Nobody else runs a server for you.
-- **Not a template gallery.** Apps are installed and run, not forked into a
-  repository you then maintain.
-- **Not affiliated with Cloudflare.** Appflare is an independent open-source
-  project. It is not endorsed or sponsored by Cloudflare, Inc.
-- **Not collecting personal data.** Appflare sends an anonymous report (counts,
-  versions and error categories, never your account, emails, domains or secrets) to
-  decide what to build and fix. It is on by default and easy to turn off; see
-  [Anonymous report](/telemetry/).
-  The installer keeps wrangler's own usage metrics off for the commands it runs.
+- **不提供托管服务。** 所有内容都运行在你的账户中，使用你的套餐并受你的额度限制。没有其他人为你运行服务器。
+- **不是模板合集。** 应用会被实际安装并运行，而不是复制成一个之后要由你维护的仓库。
+- **与 Cloudflare 没有隶属关系。** Appflare 是独立开源项目，不受 Cloudflare, Inc. 背书或赞助。
+- **不收集个人数据。** Appflare 会发送匿名报告（数量、版本和错误类别，不包含你的账户、邮箱、域名或密钥），帮助确定开发和修复重点。默认开启，也很容易关闭；请参阅[匿名报告](/telemetry/)。安装器执行命令时也会关闭 wrangler 自身的用量统计。
 
-## What gets installed
+## 会安装哪些资源 [#what-gets-installed]
 
-Whichever way you install, these are created in your account:
+无论采用哪种方式，都会在账户中创建以下资源：
 
-| Resource | Name |
+| 资源 | 名称 |
 | --- | --- |
-| Worker | `appflare`, served at `https://appflare.<your-subdomain>.workers.dev` |
-| D1 database | `appflare` |
-| KV namespace | `appflare-kv` (with the button, named after the project) |
+| Worker | `appflare`，访问地址为 `https://appflare.<your-subdomain>.workers.dev` |
+| D1 数据库 | `appflare` |
+| KV 命名空间 | `appflare-kv`（部署按钮方式则使用项目名称） |
 | Workflow | `appflare-jobs` |
-| Cron trigger | every 5 minutes |
-| Custom domain | only when you give Appflare [its own address](/guides/appflare-address/), during setup or later |
+| 定时触发器 | 每 5 分钟执行一次 |
+| 自定义域名 | 仅当你在设置期间或之后为 Appflare [配置专用地址](/guides/appflare-address/)时创建 |
 
-The D1 database holds users, settings, install records, and job logs. The KV
-namespace caches the catalog. The Workflow runs installs, updates, rollbacks, and
-uninstalls as durable jobs. The cron trigger reads each app's
-[usage](/guides/spend-protection/) every 5 minutes, and every 30 minutes refreshes the
-catalog and checks for new releases. It starts update jobs on its own only when you turn on
-[automatic updates](/guides/updates/#automatic-updates).
+D1 数据库保存用户、设置、安装记录和任务日志。KV 命名空间缓存应用目录。Workflow 以持久任务的方式执行安装、更新、回滚和卸载。定时触发器每 5 分钟读取各应用的[用量](/guides/spend-protection/)，每 30 分钟刷新目录并检查新版本。只有开启[自动更新](/guides/updates/#automatic-updates)后，它才会自行启动更新任务。
 
-## The parts
+## 项目组成 [#the-parts]
 
-- **The manager** is the Worker above, with its web UI.
-- **The deploy page** at [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-2) puts the manager into your
-  account. Cloudflare's Deploy button and the command-line installer,
-  `create-appflare`, can too.
-- Everything after that, updates and removal included, happens in the manager's
-  settings pages.
-- **The catalog** is a public GitHub repository, `appflare/catalog`. Its CI builds
-  each app from a pinned commit, signs it, and publishes it. See
-  [How the catalog works](/catalog/how-it-works/).
+- **管理器**是上面所说的 Worker，以及它的网页界面。
+- **部署页** [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-2) 负责将管理器安装到你的账户。Cloudflare 的部署按钮和命令行安装器 `create-appflare` 也能完成这件事。
+- 安装之后的所有操作，包括更新和移除，都在管理器的设置页进行。
+- **应用目录**是公开的 GitHub 仓库 `appflare/catalog`。它的 CI 从固定提交构建每个应用，签名后发布。请参阅[目录工作原理](/catalog/how-it-works/)。
 
-## Next
+## 接下来 [#next]
 
-- [Install from your browser](/start/browser-install/), or compare
-  [the ways to install](/start/install/#which-way-to-choose).
-- [Install an app](/guides/install-apps/) from the catalog.
-- [Submit an app](/catalog/submit/) to the catalog.
-- [Security model](/security/): what the manager does with its access to your account.
+- [通过浏览器安装](/start/browser-install/)，或对比[安装方式](/start/install/#which-way-to-choose)。
+- 从目录中[安装应用](/guides/install-apps/)。
+- 向目录[提交应用](/catalog/submit/)。
+- 阅读[安全模型](/security/)，了解管理器如何使用账户访问权限。

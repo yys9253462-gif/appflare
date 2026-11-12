@@ -10,20 +10,23 @@ import {
 describe("appPageTitle", () => {
   it("names the search it answers, with the site's name when it fits", () => {
     const title = appPageTitle({ name: "Cut", pitch: "Short links" }, "Appflare");
-    expect(title).toBe("Deploy Cut on Cloudflare: Short links | Appflare");
+    expect(title).toBe("在 Cloudflare 部署 Cut：Short links | Appflare");
     expect(title.length).toBeLessThanOrEqual(TITLE_LIMIT);
   });
 
   it("leaves the site's name off a title that would be too long", () => {
-    const app = { name: "OpenSEO", pitch: "Find keywords, track rankings" };
-    // Exactly 70 characters with the site's name: it still fits.
-    expect(appPageTitle(app, "Appflare")).toBe(
-      "Deploy OpenSEO on Cloudflare: Find keywords, track rankings | Appflare",
-    );
-    const longer = { ...app, pitch: "Find keywords, track rankings, audit" };
-    expect(appPageTitle(longer, "Appflare")).toBe(
-      "Deploy OpenSEO on Cloudflare: Find keywords, track rankings, audit",
-    );
+    const prefix = "在 Cloudflare 部署 OpenSEO：";
+    const suffix = " | Appflare";
+    const pitch = "搜索".repeat(TITLE_LIMIT).slice(0, TITLE_LIMIT - prefix.length - suffix.length);
+    const app = { name: "OpenSEO", pitch };
+    // Exactly the title limit including the site's name still fits.
+    const atLimit = `${prefix}${pitch}${suffix}`;
+    expect(atLimit).toHaveLength(TITLE_LIMIT);
+    expect(appPageTitle(app, "Appflare")).toBe(atLimit);
+    // One extra character must remove only the site suffix, not the app's pitch.
+    const longer = { ...app, pitch: `${pitch}词` };
+    expect(appPageTitle(longer, "Appflare")).toBe(`${prefix}${longer.pitch}`);
+    expect(appPageTitle(longer, "Appflare")).not.toContain(suffix);
   });
 });
 

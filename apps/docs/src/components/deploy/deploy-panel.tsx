@@ -111,7 +111,7 @@ function Actions({ children }: { children: ReactNode }) {
   return <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-center">{children}</div>;
 }
 
-function BackButton({ actions, label = "Back" }: { actions: DeployActions; label?: string }) {
+function BackButton({ actions, label = "返回" }: { actions: DeployActions; label?: string }) {
   return (
     <Button variant="ghost" className={`${TOUCH} ${WIDE_ON_PHONE}`} onClick={() => actions.back()}>
       {label}
@@ -279,11 +279,10 @@ export function useFocusOnStepChange(step: string): void {
 // --- Steps -------------------------------------------------------------------
 
 const NOTICES: Record<Notice, string> = {
-  reconnect: "Your Cloudflare connection ran out. Connect again to carry on. Nothing was lost.",
-  "finished-elsewhere":
-    "The installation this browser remembered is finished or was removed, so there is nothing to continue.",
+  reconnect: "Cloudflare 连接已过期。重新连接即可继续，进度不会丢失。",
+  "finished-elsewhere": "浏览器记住的安装已完成或已被移除，没有待继续的安装。",
   "account-unreachable":
-    "This Cloudflare login does not reach the account where you started. Connect with that login, or choose an account to start again.",
+    "当前 Cloudflare 登录无法访问之前安装的账户。请使用原来的账户登录，或选择其他账户重新安装。",
 };
 
 /**
@@ -291,8 +290,7 @@ const NOTICES: Record<Notice, string> = {
  * page (`?app=`). The page does not carry the catalog, so it cannot name
  * the app; the visitor chose it a moment ago.
  */
-export const THEN_APP_LINE =
-  "When Appflare is set up, the app you chose opens in it, ready to install.";
+export const THEN_APP_LINE = "完成 Appflare 设置后，会打开你选择的应用，供你确认安装。";
 
 function ThenApp({ show }: { show: boolean }) {
   return show ? <Text variant="secondary">{THEN_APP_LINE}</Text> : null;
@@ -312,11 +310,11 @@ function Welcome({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title={view.unfinished ? "Continue installing Appflare" : "Install Appflare"}
+      title={view.unfinished ? "继续安装 Appflare" : "安装 Appflare"}
       description={
         view.unfinished
-          ? "Connect Cloudflare to pick up where this browser stopped."
-          : "Into your own Cloudflare account, in a few minutes, from this page."
+          ? "连接 Cloudflare，继续完成之前的安装。"
+          : "通过此页面，几分钟内即可安装到你自己的 Cloudflare 账户。"
       }
     >
       {view.notice !== null && <AlertBanner>{NOTICES[view.notice]}</AlertBanner>}
@@ -329,17 +327,16 @@ function Welcome({
         pending={view.busy}
         onClick={() => actions.connect()}
       >
-        {view.busy ? "Opening Cloudflare…" : "Connect Cloudflare"}
+        {view.busy ? "正在打开 Cloudflare…" : "连接 Cloudflare"}
       </BusyButton>
-      <More summary="What Appflare asks Cloudflare for">
+      <More summary="Appflare 需要哪些 Cloudflare 权限">
         <Text variant="secondary">
-          Every permission it uses, all at once, so it never has to ask again when you turn on a
-          feature later. Nothing is created until you check and press Deploy.
+          一次请求所需的全部权限，之后启用其他功能时无需再次授权。只有你确认并点击“部署”后，才会创建资源。
         </Text>
         <ScopeList examples={examples} />
         <Text variant="secondary">
-          Billing is not among them, so Appflare works your Workers plan out from what the account
-          can run, or asks you in its settings.
+          其中不包含 Billing 权限，因此 Appflare 会根据账户可用的服务判断 Workers
+          套餐，或请你在设置中选择。
         </Text>
       </More>
     </DeployCard>
@@ -351,11 +348,11 @@ function Unavailable({ view }: { view: Extract<DeployView, { step: "unavailable"
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Sign-in does not work on this copy of the page"
+      title="此站点尚未正确配置登录"
       description={
         view.reason === "unregistered-origin"
-          ? `Cloudflare sends you back only to ${site}.`
-          : "This copy finishes signing in at another address."
+          ? `Cloudflare 仅允许返回 ${site}。`
+          : "此站点配置的登录回调位于另一个地址。"
       }
     >
       <LinkButton
@@ -363,7 +360,7 @@ function Unavailable({ view }: { view: Extract<DeployView, { step: "unavailable"
         variant="primary"
         className={`${WIDE} ${TOUCH}`}
       >
-        Open {site}
+        打开 {site}
         {DEPLOY_PATH.replace(/\/$/, "")}
       </LinkButton>
     </DeployCard>
@@ -380,8 +377,8 @@ function AccountPicker({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Choose an account"
-      description="Your Cloudflare login reaches several. Appflare goes into one."
+      title="选择账户"
+      description="当前登录可访问多个 Cloudflare 账户，请选择 Appflare 要安装到的账户。"
     >
       {view.notice !== null && (
         <div className="grid gap-2">
@@ -392,7 +389,7 @@ function AccountPicker({
               className={`${WIDE} ${TOUCH}`}
               onClick={() => actions.reconnect()}
             >
-              Connect with another login
+              换一个账户登录
             </Button>
           )}
         </div>
@@ -417,9 +414,9 @@ function AccountPicker({
 }
 
 function progressLine(item: Pick<Unfinished, "done" | "total" | "step" | "status">): string {
-  if (item.status === "deployed") return "Deployed, not connected yet";
-  if (item.status === "removing") return "Being removed";
-  return `Step ${Math.min(item.done + 1, item.total)} of ${item.total}: ${item.step.label}`;
+  if (item.status === "deployed") return "已部署，尚未连接";
+  if (item.status === "removing") return "正在移除";
+  return `第 ${Math.min(item.done + 1, item.total)} 步，共 ${item.total} 步：${item.step.label}`;
 }
 
 function UnfinishedList({
@@ -432,15 +429,14 @@ function UnfinishedList({
   canGoBack: boolean;
 }) {
   const { mine, others } = view;
-  const one = others.length === 1;
   return (
     <DeployCard
       meter={meterOf(view)}
-      title={mine !== null ? "Continue installing Appflare?" : "Unfinished installations"}
+      title={mine !== null ? "继续安装 Appflare？" : "未完成的安装"}
       description={
         mine !== null
-          ? "This browser started one and it is not finished."
-          : `Started in another browser, in ${view.account.name}. Continue ${one ? "it" : "one"} there, or remove ${one ? "it" : "them"} here.`
+          ? "此浏览器之前发起的安装尚未完成。"
+          : `账户 ${view.account.name} 有 ${others.length} 个由其他浏览器发起的未完成安装。可在原浏览器继续，或在这里移除。`
       }
     >
       {view.notice !== null && <AlertBanner>{NOTICES[view.notice]}</AlertBanner>}
@@ -459,14 +455,14 @@ function UnfinishedList({
               className={`${TOUCH} ${WIDE_ON_PHONE}`}
               onClick={() => actions.continueMine()}
             >
-              Continue
+              继续
             </Button>
             <Button
               variant="secondary-destructive"
               className={`${TOUCH} ${WIDE_ON_PHONE}`}
               onClick={() => actions.requestRemove(mine.id)}
             >
-              Remove…
+              移除…
             </Button>
           </Actions>
         </div>
@@ -475,7 +471,7 @@ function UnfinishedList({
         <div className="grid gap-2">
           {mine !== null && (
             <Text variant="secondary" size="sm">
-              Also unfinished, started in another browser:
+              其他浏览器发起的未完成安装：
             </Text>
           )}
           <ul className="grid gap-2">
@@ -496,7 +492,7 @@ function UnfinishedList({
                   className={TOUCH}
                   onClick={() => actions.requestRemove(item.id)}
                 >
-                  Remove…
+                  移除…
                 </Button>
               </li>
             ))}
@@ -510,7 +506,7 @@ function UnfinishedList({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             onClick={() => actions.startNew()}
           >
-            Start a new installation
+            开始新的安装
           </Button>
           {canGoBack && <BackButton actions={actions} />}
         </Actions>
@@ -535,12 +531,12 @@ function NameStep({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Name your Appflare"
-      description="Keep the suggestion unless you install Appflare more than once."
+      title="为 Appflare 命名"
+      description="如果只安装一份 Appflare，保留建议名称即可。"
     >
       <form className="grid gap-5" onSubmit={submit} noValidate>
         <Input
-          label="Name"
+          label="名称"
           name="worker-name"
           autoComplete="off"
           autoCapitalize="none"
@@ -551,7 +547,7 @@ function NameStep({
           disabled={view.checking}
           onChange={(event) => actions.editName(event.target.value)}
           className={TOUCH_FIELD}
-          description={`Lowercase letters, digits and dashes. Its database and storage in ${view.account.name} get the same name.`}
+          description={`使用小写字母、数字和连字符。它在 ${view.account.name} 中的数据库和存储也将使用此名称。`}
           {...(view.error === null ? {} : { error: view.error })}
         />
         <Actions>
@@ -561,7 +557,7 @@ function NameStep({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             pending={view.checking}
           >
-            {view.checking ? "Checking…" : "Continue"}
+            {view.checking ? "正在检查…" : "继续"}
           </BusyButton>
           {canGoBack && <BackButton actions={actions} />}
         </Actions>
@@ -580,8 +576,8 @@ function AddressStep({
   canGoBack: boolean;
 }) {
   const { account, workerName, zones, choice } = view;
-  const title = "Choose Appflare's address";
-  const description = "You open Appflare and sign in here. Pick the one you will keep.";
+  const title = "选择 Appflare 的地址";
+  const description = "你将通过这个地址访问和登录 Appflare，请选择准备长期使用的地址。";
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     actions.submitAddress();
@@ -589,7 +585,7 @@ function AddressStep({
   if (zones === null) {
     return (
       <DeployCard meter={meterOf(view)} title={title} description={description}>
-        <Working label={`Reading the domains of ${account.name}…`} />
+        <Working label={`正在读取 ${account.name} 的域名…`} />
       </DeployCard>
     );
   }
@@ -600,11 +596,11 @@ function AddressStep({
       <DeployCard
         meter={meterOf(view)}
         title={title}
-        description={`${account.name} has no domain and no workers.dev address yet.`}
+        description={`${account.name} 目前既没有域名，也没有 workers.dev 地址。`}
       >
         <Text variant="secondary">
-          Open Workers &amp; Pages in the Cloudflare dashboard once to get a workers.dev address, or
-          add a domain to the account. Then check again.
+          请在 Cloudflare 控制台打开一次 Workers &amp; Pages 以启用 workers.dev
+          地址，或先为账户添加域名，然后重新检查。
         </Text>
         <Actions>
           <Button
@@ -612,7 +608,7 @@ function AddressStep({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             onClick={() => actions.refreshAddress()}
           >
-            Check again
+            重新检查
           </Button>
           {canGoBack && <BackButton actions={actions} />}
         </Actions>
@@ -641,22 +637,20 @@ function AddressStep({
             }
           }}
         >
-          <Radio.Legend className="sr-only">Address</Radio.Legend>
+          <Radio.Legend className="sr-only">地址</Radio.Legend>
           {firstZone !== undefined && (
             <Radio.Item
               value="domain"
-              label="On your domain"
-              description="Cloudflare adds the DNS record and the certificate."
+              label="使用自己的域名"
+              description="Cloudflare 会自动添加 DNS 记录和证书。"
             />
           )}
           <Radio.Item
             value="workers-dev"
-            label="Cloudflare's free address"
+            label="Cloudflare 免费地址"
             disabled={devAddress === null}
             description={
-              <span className="[overflow-wrap:anywhere]">
-                {devAddress ?? "Not set up in this account yet."}
-              </span>
+              <span className="[overflow-wrap:anywhere]">{devAddress ?? "此账户尚未启用。"}</span>
             }
           />
         </Radio.Group>
@@ -664,7 +658,7 @@ function AddressStep({
           <div className="grid gap-2">
             <div className="grid items-end gap-3 sm:gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.3fr)]">
               <Input
-                label="Subdomain"
+                label="子域名"
                 name="subdomain"
                 autoComplete="off"
                 autoCapitalize="none"
@@ -683,7 +677,7 @@ function AddressStep({
               <div className="min-w-0">
                 {zones.length > 1 ? (
                   <Select
-                    label="Domain"
+                    label="域名"
                     hideLabel={false}
                     value={domain.zone}
                     disabled={view.checking}
@@ -696,7 +690,7 @@ function AddressStep({
                 ) : (
                   <div className="grid gap-1.5">
                     <Text size="sm" bold as="span">
-                      Domain
+                      域名
                     </Text>
                     <span className="flex h-9 items-center font-medium [overflow-wrap:anywhere] max-sm:h-11">
                       {domain.zone}
@@ -707,10 +701,10 @@ function AddressStep({
             </div>
             <Text variant="secondary" size="sm">
               {preview === null ? (
-                "Use letters, digits and dashes in front of the domain."
+                "域名前缀可使用字母、数字和连字符。"
               ) : (
                 <>
-                  Appflare will be at <Strong>https://{preview}</Strong>
+                  Appflare 的地址将是 <Strong>https://{preview}</Strong>
                 </>
               )}
             </Text>
@@ -718,8 +712,7 @@ function AddressStep({
         )}
         {firstZone === undefined && (
           <Text variant="secondary" size="sm">
-            {account.name} has no domain on Cloudflare. You can move Appflare to one later in its
-            settings.
+            {account.name} 在 Cloudflare 上没有域名。之后可以在 Appflare 设置中迁移到自己的域名。
           </Text>
         )}
         {view.error !== null && <ErrorBanner>{view.error}</ErrorBanner>}
@@ -730,7 +723,7 @@ function AddressStep({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             pending={view.checking}
           >
-            {view.checking ? "Checking the address…" : "Continue"}
+            {view.checking ? "正在检查地址…" : "继续"}
           </BusyButton>
           {canGoBack && <BackButton actions={actions} />}
         </Actions>
@@ -744,13 +737,13 @@ export function createdItems(plan: Pick<Plan, "workerName" | "hostname" | "addre
   const name = plan.workerName;
   const jobs = name === "appflare" ? "appflare-jobs" : `${name}-jobs`;
   return [
-    `Appflare itself, a Worker named ${name}`,
-    `Its database, a D1 database named ${name}`,
-    `Its settings storage, a KV namespace named ${name}-kv`,
-    `Its background jobs, a Workflow named ${jobs}, and a schedule for its regular checks`,
+    `Appflare 主程序：名为 ${name} 的 Worker`,
+    `数据库：名为 ${name} 的 D1 数据库`,
+    `设置存储：名为 ${name}-kv 的 KV 命名空间`,
+    `后台任务：名为 ${jobs} 的 Workflow，以及定期检查计划`,
     plan.hostname === null
-      ? `Its address on workers.dev, ${plan.address}`
-      : `The custom domain ${plan.hostname}, with its DNS record and certificate`,
+      ? `workers.dev 访问地址：${plan.address}`
+      : `自定义域名 ${plan.hostname}，以及对应的 DNS 记录和证书`,
   ];
 }
 
@@ -765,31 +758,31 @@ function Review({
 }) {
   const { plan } = view;
   const rows: Array<[string, ReactNode]> = [
-    ["Account", plan.account.name],
+    ["账户", plan.account.name],
     [
-      "Name",
+      "名称",
       <span key="name" translate="no">
         {plan.workerName}
       </span>,
     ],
-    ["Address", <Strong key="address">{plan.address}</Strong>],
+    ["地址", <Strong key="address">{plan.address}</Strong>],
     [
-      "Release",
+      "发布版本",
       view.release !== null ? (
         <span key="release" className="inline-flex flex-wrap items-center gap-2">
           Appflare {view.release}
           <Badge variant="success" icon={<CheckCircleIcon weight="fill" />}>
-            Signature checked
+            签名已验证
           </Badge>
         </span>
       ) : view.releaseError === null ? (
         <span key="release" className="inline-flex items-center gap-2 text-kumo-subtle">
           <AppflareLoader size={14} aria-hidden />
-          Looking it up…
+          正在查询…
         </span>
       ) : (
         <span key="release" className="text-kumo-danger">
-          Not available
+          暂不可用
         </span>
       ),
     ],
@@ -797,8 +790,8 @@ function Review({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Check and deploy"
-      description="Nothing is created in your account until you press Deploy."
+      title="确认并部署"
+      description="点击“部署”之前，不会在你的账户中创建任何资源。"
     >
       <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-[max-content_1fr]">
         {rows.map(([term, value]) => (
@@ -809,7 +802,7 @@ function Review({
         ))}
       </dl>
       <ThenApp show={thenApp} />
-      <More summary={`What gets created in ${plan.account.name}`}>
+      <More summary={`将在 ${plan.account.name} 创建哪些资源`}>
         <ul className="grid list-disc gap-1 pl-5">
           {createdItems(plan).map((item) => (
             <li key={item} className="[overflow-wrap:anywhere]">
@@ -818,8 +811,7 @@ function Review({
           ))}
         </ul>
         <Text variant="secondary">
-          Nothing already in the account changes. If you stop before the end, you can remove exactly
-          these again.
+          账户中的原有内容不会改变。如果中途停止，你可以移除本次创建的这些资源。
         </Text>
       </More>
       {view.releaseError !== null && (
@@ -830,7 +822,7 @@ function Review({
             className={`${TOUCH} ${WIDE_ON_PHONE} sm:justify-self-start`}
             onClick={() => actions.retryRelease()}
           >
-            Try again
+            重试
           </Button>
         </div>
       )}
@@ -844,7 +836,7 @@ function Review({
           pending={view.starting}
           onClick={() => actions.deploy()}
         >
-          {view.starting ? "Starting…" : "Deploy Appflare"}
+          {view.starting ? "正在启动…" : "部署 Appflare"}
         </BusyButton>
         {!view.starting && <BackButton actions={actions} />}
       </Actions>
@@ -854,7 +846,7 @@ function Review({
 
 /** One short line for each warning a finished step can give; the installer's words on demand. */
 const NOTICE_LINES: Record<string, string> = {
-  schedules: "Appflare's regular checks, such as looking for updates, will not run on their own.",
+  schedules: "Appflare 的定期检查（例如检查更新）不会自动运行。",
 };
 
 /**
@@ -872,8 +864,8 @@ function Notices({ notices }: { notices: FinishedNote[] }) {
           icon={<WarningIcon weight="fill" />}
           description={
             <div className="grid gap-1">
-              <span>{NOTICE_LINES[notice.id] ?? `${notice.label}: needs your attention.`}</span>
-              <More summary="Why">
+              <span>{NOTICE_LINES[notice.id] ?? `${notice.label}：需要你处理。`}</span>
+              <More summary="原因">
                 <span>{notice.message}</span>
               </More>
             </div>
@@ -886,12 +878,12 @@ function Notices({ notices }: { notices: FinishedNote[] }) {
 
 /** "Step 6 of 11": the step under way. */
 function stepPosition(progress: Pick<StepAnswer, "done" | "total">): string {
-  return `Step ${Math.min(progress.done + 1, progress.total)} of ${progress.total}`;
+  return `第 ${Math.min(progress.done + 1, progress.total)} 步，共 ${progress.total} 步`;
 }
 
 /** "5 of 11 done": what the bar shows. */
 function stepsDone(progress: Pick<StepAnswer, "done" | "total">): string {
-  return `${Math.min(progress.done, progress.total)} of ${progress.total} done`;
+  return `已完成 ${Math.min(progress.done, progress.total)} / ${progress.total} 步`;
 }
 
 /**
@@ -929,14 +921,14 @@ function CheckNow({
         pending={view.checking}
         onClick={() => actions.checkNow()}
       >
-        {view.checking ? "Checking…" : "Check now"}
+        {view.checking ? "正在检查…" : "立即检查"}
       </BusyButton>
       <span role="status" className="text-kumo-subtle text-sm">
         {view.checking ? (
           // The button already shows it; this says it to screen readers.
-          <span className="sr-only">Checking…</span>
+          <span className="sr-only">正在检查…</span>
         ) : view.checkedAt !== null ? (
-          `Still waiting (checked at ${timeFormat.format(view.checkedAt)}).`
+          `仍在等待（上次检查：${timeFormat.format(view.checkedAt)}）。`
         ) : (
           ""
         )}
@@ -949,8 +941,8 @@ function CheckNow({
 export function addressWaitLine(view: Extract<DeployView, { step: "deploying" }>): string {
   const { hostname } = view.active;
   return hostname !== null
-    ? `Cloudflare is setting up ${hostname} and its certificate. This usually takes 1 to 5 minutes.`
-    : "Cloudflare is putting Appflare live at its workers.dev address. This usually takes under a minute.";
+    ? `Cloudflare 正在配置 ${hostname} 及其证书，通常需要 1 至 5 分钟。`
+    : "Cloudflare 正在将 Appflare 上线到 workers.dev 地址，通常不到一分钟。";
 }
 
 function Deploying({
@@ -963,11 +955,11 @@ function Deploying({
   thenApp: boolean;
 }) {
   const { active, progress, reconnecting, wait } = view;
-  const label = reconnecting ? "Reconnecting…" : (progress?.step.label ?? "Starting…");
+  const label = reconnecting ? "正在重新连接…" : (progress?.step.label ?? "正在启动…");
   const announcement = reconnecting
-    ? "Reconnecting to Appflare's installer."
+    ? "正在重新连接 Appflare 安装器。"
     : progress === null
-      ? "Starting."
+      ? "正在启动。"
       : `${stepPosition(progress)}: ${progress.step.label}. ${stepsDone(progress)}.`;
   // A message about the step itself while it runs ("Uploaded 120 of 180 files").
   const running = progress?.status === "running" && !reconnecting ? progress.message : undefined;
@@ -975,17 +967,17 @@ function Deploying({
     ...view.notes.map((note) => ({ key: note.id, label: note.label, text: note.message })),
     // What the installer's last look at the address found, for the curious.
     ...(wait === "address" && progress?.message !== undefined
-      ? [{ key: "now", label: "Last check", text: progress.message }]
+      ? [{ key: "now", label: "上次检查", text: progress.message }]
       : []),
   ];
   return (
     // The deploy's own meter is the one that moves here; the journey's would be a second bar.
     <DeployCard
       meter={null}
-      title="Installing Appflare"
+      title="正在安装 Appflare"
       description={
         <>
-          To <Strong>{hostOf(active.address)}</Strong>, in {active.accountName}
+          账户：{active.accountName}，地址：<Strong>{hostOf(active.address)}</Strong>
         </>
       }
     >
@@ -1019,8 +1011,7 @@ function Deploying({
       {!reconnecting && wait === "long" && (
         <div className="grid gap-2">
           <Text variant="secondary">
-            {progress?.message ?? "Appflare's installer asked this page to wait."} This page keeps
-            trying.
+            {progress?.message ?? "安装器要求此页面稍候。"} 页面会持续尝试。
           </Text>
           <CheckNow view={view} actions={actions} />
         </div>
@@ -1035,11 +1026,11 @@ function Deploying({
       <ThenApp show={thenApp} />
       <Text variant="secondary" size="sm">
         {active.remembered
-          ? "You can close this tab. Come back to this page in this browser to continue."
-          : "Keep this tab open until it finishes: this browser does not let the page remember it."}
+          ? "可以关闭此标签页。之后用同一浏览器返回此页面即可继续。"
+          : "请保持标签页打开直到完成：此浏览器不允许页面保存安装进度。"}
       </Text>
       {details.length > 0 && (
-        <More summary="Details">
+        <More summary="详情">
           <ul className="grid gap-1.5">
             {details.map((item) => (
               <li key={item.key}>
@@ -1069,8 +1060,7 @@ function RatherNotWait({
   return (
     <div className="grid gap-2 border-kumo-hairline border-t pt-4">
       <Text>
-        Rather not wait? Set up your owner account at workers.dev now; Appflare moves to {hostname}{" "}
-        once it is ready.
+        不想等待？可先在 workers.dev 创建所有者账户，等 {hostname} 就绪后，Appflare 会自动迁移过去。
       </Text>
       <Button
         variant="secondary"
@@ -1078,12 +1068,12 @@ function RatherNotWait({
         className={`${TOUCH} ${WIDE_ON_PHONE} sm:justify-self-start`}
         onClick={onOpen}
       >
-        Open at workers.dev
+        在 workers.dev 打开
       </Button>
-      <More summary="What changes">
+      <More summary="有什么不同">
         <Text variant="secondary">
-          Appflare opens at <Strong>{workersDevAddress}</Strong>, which needs no new certificate.
-          The installation and your Cloudflare connection are the same either way.
+          Appflare 会在 <Strong>{workersDevAddress}</Strong> 打开，无需申请新证书。安装内容和
+          Cloudflare 连接均保持不变。
         </Text>
       </More>
     </div>
@@ -1100,8 +1090,8 @@ function DeployFailed({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="The installation stopped"
-      {...(view.progress === null ? {} : { description: `At: ${view.progress.step.label}` })}
+      title="安装已中止"
+      {...(view.progress === null ? {} : { description: `停止位置：${view.progress.step.label}` })}
     >
       <ErrorBanner>{view.message}</ErrorBanner>
       <Actions>
@@ -1110,14 +1100,14 @@ function DeployFailed({
           className={`${WIDE} ${TOUCH} sm:w-auto`}
           onClick={() => actions.retry()}
         >
-          Try again
+          重试
         </Button>
         <Button
           variant="secondary-destructive"
           className={`${TOUCH} ${WIDE_ON_PHONE}`}
           onClick={() => actions.requestRemove(view.active.local.installationId)}
         >
-          Remove this installation…
+          移除此安装…
         </Button>
       </Actions>
     </DeployCard>
@@ -1125,48 +1115,43 @@ function DeployFailed({
 }
 
 const minutesText = (minutes: number | undefined) =>
-  minutes === undefined ? "a few minutes" : `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  minutes === undefined ? "几分钟" : `${minutes} 分钟`;
 
 // Only the first two happen before anything is sent; the rest describe how
 // Appflare answered after this page sent it its Cloudflare connection.
 const HANDOFF_PROBLEMS: Record<HandoffProblem, (address: string, minutes?: number) => string> = {
-  unreachable: (a) => `${a} does not answer yet. Nothing was sent to it.`,
-  unverified: (a) =>
-    `Something answers at ${a}, but it is not your new Appflare, so nothing was sent to it.`,
+  unreachable: (a) => `${a} 尚未响应，未向它发送任何信息。`,
+  unverified: (a) => `${a} 有响应，但不是你新安装的 Appflare，因此未向它发送任何信息。`,
   refused: () =>
-    "Your new Appflare did not accept this browser's setup key. If you started this installation in another browser, finish it there.",
+    "新安装的 Appflare 未接受此浏览器的安装密钥。如果你在其他浏览器发起了安装，请在那里完成。",
   elsewhere: (_a, m) =>
-    `Someone is finishing the setup of your new Appflare in another browser, with a Cloudflare API token. Finish it there, or try again here in ${minutesText(m)}.`,
+    `另一个浏览器正在使用 Cloudflare API 令牌完成此 Appflare 的设置。请在那里继续，或 ${minutesText(m)}后在这里重试。`,
   declined: () =>
-    "Your new Appflare could not use this Cloudflare connection. Connect Cloudflare again, choosing the account Appflare is installed in and allowing every permission it asks for.",
-  "rate-limited": () =>
-    "Your new Appflare asked this page to wait after several attempts. Try again in a few minutes.",
-  busy: () =>
-    "Your new Appflare is busy with another step, or could not reach Cloudflare just now. Try again in a minute.",
-  failed: () =>
-    "Your new Appflare received the request but could not finish connecting to Cloudflare. Try again.",
-  "no-answer": () =>
-    "Your new Appflare stopped answering while this page was connecting it. Try again.",
-  invalid: () => "Your new Appflare gave an answer this page cannot use. Try again.",
+    "新安装的 Appflare 无法使用当前 Cloudflare 连接。请重新连接，选择 Appflare 所在的账户，并允许其请求的全部权限。",
+  "rate-limited": () => "多次尝试后，新安装的 Appflare 要求稍候。请几分钟后重试。",
+  busy: () => "新安装的 Appflare 正忙于其他步骤，或暂时无法连接 Cloudflare。请一分钟后重试。",
+  failed: () => "新安装的 Appflare 已收到请求，但未能完成与 Cloudflare 的连接。请重试。",
+  "no-answer": () => "连接过程中，新安装的 Appflare 停止响应。请重试。",
+  invalid: () => "新安装的 Appflare 返回了此页面无法处理的响应。请重试。",
 };
 
 function HandingOff({ view }: { view: Extract<DeployView, { step: "handing-off" }> }) {
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Connecting your new Appflare"
+      title="正在连接新安装的 Appflare"
       description={
         <>
-          At <Strong>{hostOf(view.address)}</Strong>
+          地址：<Strong>{hostOf(view.address)}</Strong>
         </>
       }
     >
-      <Working label="Checking that this is your new Appflare…" />
+      <Working label="正在确认这是你新安装的 Appflare…" />
       <Notices notices={view.active.notices} />
-      <More summary="What happens here">
+      <More summary="此步骤做什么">
         <Text variant="secondary">
-          Once the address proves it is this installation, this page gives it its Cloudflare
-          connection, straight from your browser. The installer never sees it.
+          确认地址属于本次安装后，此页面会将 Cloudflare 连接信息从浏览器直接交给新的
+          Appflare，不经过安装器。
         </Text>
       </More>
     </DeployCard>
@@ -1183,10 +1168,10 @@ function HandoffFailed({
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Appflare is installed but not connected yet"
+      title="Appflare 已安装，尚未连接"
       description={
         <>
-          At <Strong>{hostOf(view.address)}</Strong>
+          地址：<Strong>{hostOf(view.address)}</Strong>
         </>
       }
     >
@@ -1200,7 +1185,7 @@ function HandoffFailed({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             onClick={() => actions.reconnect()}
           >
-            Connect Cloudflare again
+            重新连接 Cloudflare
           </Button>
         ) : (
           <Button
@@ -1208,7 +1193,7 @@ function HandoffFailed({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             onClick={() => actions.retry()}
           >
-            Try again
+            重试
           </Button>
         )}
         <Button
@@ -1216,7 +1201,7 @@ function HandoffFailed({
           className={`${TOUCH} ${WIDE_ON_PHONE}`}
           onClick={() => actions.requestRemove(view.active.local.installationId)}
         >
-          Remove this installation…
+          移除此安装…
         </Button>
       </Actions>
     </DeployCard>
@@ -1237,13 +1222,13 @@ function Opening({
       title={
         <span className="inline-flex items-center gap-2">
           <CheckCircleIcon aria-hidden weight="fill" className="shrink-0 text-kumo-success" />
-          Appflare is ready
+          Appflare 已就绪
         </span>
       }
       description={
         <>
-          At <Strong>{host}</Strong>, where you create your owner account.
-          {view.thenApp && " Then the app you chose opens, ready to install."}
+          地址：<Strong>{host}</Strong>。请在此创建所有者账户。
+          {view.thenApp && " 随后会打开你选择的应用，供你确认安装。"}
         </>
       }
     >
@@ -1251,8 +1236,7 @@ function Opening({
         <>
           <div role="status">
             <Text variant="secondary">
-              {host} does not answer everywhere yet. A new address can take a minute to reach
-              everyone.
+              {host} 尚未在所有地区生效。新地址可能需要一分钟才能全面访问。
             </Text>
           </div>
           <Actions>
@@ -1261,7 +1245,7 @@ function Opening({
               className={`${WIDE} ${TOUCH} sm:w-auto`}
               onClick={() => actions.retry()}
             >
-              Try again
+              重试
             </Button>
             <LinkButton
               href={view.ownerSetupUrl}
@@ -1270,17 +1254,17 @@ function Opening({
               rel="noreferrer"
               icon={ArrowSquareOutIcon}
             >
-              Open Appflare anyway
+              仍然打开 Appflare
             </LinkButton>
           </Actions>
         </>
       ) : (
         // Opened only once the address answers as this Appflare, so the
         // visitor never lands on Cloudflare's "not found" page meanwhile.
-        <Working label="Opening…" />
+        <Working label="正在打开…" />
       )}
       <Text variant="secondary" size="sm">
-        The link works for 30 minutes.
+        链接有效期为 30 分钟。
       </Text>
       <Notices notices={view.notices} />
     </DeployCard>
@@ -1291,11 +1275,11 @@ function SetUp({ view }: { view: Extract<DeployView, { step: "set-up" }> }) {
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="This Appflare is already set up"
+      title="此 Appflare 已完成设置"
       description={
         <>
-          It has its owner. Sign in at <Strong>{hostOf(view.address)}</Strong>
-          {view.thenApp ? ", and the app you chose opens, ready to install." : "."}
+          所有者账户已创建。请在 <Strong>{hostOf(view.address)}</Strong> 登录
+          {view.thenApp ? "，随后会打开你选择的应用，供你确认安装。" : "。"}
         </>
       }
     >
@@ -1305,7 +1289,7 @@ function SetUp({ view }: { view: Extract<DeployView, { step: "set-up" }> }) {
         className={`${WIDE} ${TOUCH}`}
         rel="noreferrer"
       >
-        {view.thenApp ? "Open the app in Appflare" : "Open Appflare"}
+        {view.thenApp ? "在 Appflare 中打开应用" : "打开 Appflare"}
       </LinkButton>
       <Notices notices={view.notices} />
     </DeployCard>
@@ -1331,15 +1315,15 @@ function ConfirmRemove({
   return (
     <DeployCard
       meter={null}
-      title="Remove this installation?"
+      title="移除此安装？"
       description={
         <>
-          Everything the installation of <Strong>{hostOf(target.address)}</Strong> created, as far
-          as it got. This cannot be undone.
+          将删除 <Strong>{hostOf(target.address)}</Strong>{" "}
+          本次安装已创建的全部资源，此操作无法撤销。
         </>
       }
     >
-      <More summary={`What goes from ${target.account.name}`}>
+      <More summary={`将从 ${target.account.name} 删除哪些资源`}>
         <ul className="grid list-disc gap-1 pl-5">
           {removalItems(target).map((item) => (
             <li key={item} className="[overflow-wrap:anywhere]">
@@ -1347,9 +1331,7 @@ function ConfirmRemove({
             </li>
           ))}
         </ul>
-        <Text variant="secondary">
-          Anything that was in the account before stays. Appflare's data goes with its database.
-        </Text>
+        <Text variant="secondary">账户原有的内容会保留。Appflare 的数据将随其数据库一起删除。</Text>
       </More>
       <Actions>
         <Button
@@ -1357,9 +1339,9 @@ function ConfirmRemove({
           className={`${WIDE} ${TOUCH} sm:w-auto`}
           onClick={() => actions.confirmRemove()}
         >
-          Remove
+          移除
         </Button>
-        <BackButton actions={actions} label="Cancel" />
+        <BackButton actions={actions} label="取消" />
       </Actions>
     </DeployCard>
   );
@@ -1376,16 +1358,16 @@ function Removing({
   return (
     <DeployCard
       meter={null}
-      title="Removing the installation"
+      title="正在移除安装"
       description={
         <>
-          Of <Strong>{hostOf(view.target.address)}</Strong>
+          地址：<Strong>{hostOf(view.target.address)}</Strong>
         </>
       }
     >
       {view.error === null && (
         <div className="grid gap-3">
-          <Working label={progress === null ? "Starting…" : progress.step.label} />
+          <Working label={progress === null ? "正在启动…" : progress.step.label} />
           {progress !== null && <StepMeter progress={progress} />}
         </div>
       )}
@@ -1397,7 +1379,7 @@ function Removing({
             className={`${WIDE} ${TOUCH} sm:w-auto sm:justify-self-start`}
             onClick={() => actions.retry()}
           >
-            Try again
+            重试
           </Button>
         </div>
       )}
@@ -1415,11 +1397,11 @@ function Removed({
   return (
     <DeployCard
       meter={null}
-      title="Removed"
+      title="已移除"
       description={
         <>
-          The installation of <Strong>{hostOf(view.target.address)}</Strong> and everything it
-          created are gone. The installer keeps no record of it.
+          已移除 <Strong>{hostOf(view.target.address)}</Strong>{" "}
+          的安装及其创建的全部资源，安装器不再保留相关记录。
         </>
       }
     >
@@ -1428,7 +1410,7 @@ function Removed({
         className={`${WIDE} ${TOUCH}`}
         onClick={() => actions.afterRemoval()}
       >
-        Start a new installation
+        开始新的安装
       </Button>
     </DeployCard>
   );
@@ -1442,7 +1424,7 @@ function ErrorStep({
   actions: DeployActions;
 }) {
   return (
-    <DeployCard meter={meterOf(view)} title="That did not work">
+    <DeployCard meter={meterOf(view)} title="操作未成功">
       <ErrorBanner>{view.message}</ErrorBanner>
       <Actions>
         {view.retry !== null && (
@@ -1451,7 +1433,7 @@ function ErrorStep({
             className={`${WIDE} ${TOUCH} sm:w-auto`}
             onClick={() => actions.retry()}
           >
-            Try again
+            重试
           </Button>
         )}
         <Button
@@ -1459,7 +1441,7 @@ function ErrorStep({
           className={`${TOUCH} ${WIDE_ON_PHONE}`}
           onClick={() => actions.reconnect()}
         >
-          Connect Cloudflare again
+          重新连接 Cloudflare
         </Button>
       </Actions>
     </DeployCard>
@@ -1470,12 +1452,12 @@ function Loading({ view }: { view: Extract<DeployView, { step: "loading" }> }) {
   return (
     <DeployCard
       meter={meterOf(view)}
-      title="Install Appflare"
-      description="Into your own Cloudflare account, in a few minutes, from this page."
+      title="安装 Appflare"
+      description="通过此页面，几分钟内即可安装到你自己的 Cloudflare 账户。"
     >
-      <Working label="Getting ready…" />
+      <Working label="正在准备…" />
       <noscript>
-        <Text variant="secondary">This page needs JavaScript to install Appflare.</Text>
+        <Text variant="secondary">安装 Appflare 需要启用 JavaScript。</Text>
       </noscript>
     </DeployCard>
   );
@@ -1529,7 +1511,7 @@ function Step({ view, actions, canGoBack, examples = {}, thenApp = false }: Depl
       return <Welcome view={view} actions={actions} examples={examples} thenApp={thenApp} />;
     case "working":
       return (
-        <DeployCard meter={meterOf(view)} title="Connected to Cloudflare">
+        <DeployCard meter={meterOf(view)} title="已连接 Cloudflare">
           <Working label={view.label} />
         </DeployCard>
       );

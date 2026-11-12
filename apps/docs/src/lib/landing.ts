@@ -9,6 +9,40 @@ import type { SiteCatalog } from "../catalog/site-catalog.ts";
 /** Apps shown in the front page's grid. */
 export const SHOWCASE_SIZE = 18;
 
+/** Chinese category captions for the landing page's app grid. */
+const CATEGORY_LABELS: Readonly<Record<string, string>> = {
+  ai: "人工智能",
+  analytics: "网站分析",
+  bots: "机器人",
+  business: "商业工具",
+  chat: "聊天",
+  cms: "网站与博客",
+  community: "社区",
+  "developer-tools": "开发工具",
+  ecommerce: "电子商务",
+  education: "教育",
+  email: "邮件",
+  family: "家庭",
+  files: "文件",
+  finance: "财务",
+  games: "游戏",
+  marketing: "营销",
+  media: "媒体",
+  monitoring: "监控",
+  networking: "网络",
+  notes: "笔记",
+  notifications: "通知",
+  passwords: "密码管理",
+  privacy: "隐私",
+  productivity: "效率工具",
+  "remote-access": "远程访问",
+  scheduling: "日程管理",
+  security: "安全",
+  sharing: "分享",
+  sync: "同步",
+  utilities: "实用工具",
+};
+
 export interface LandingApp {
   slug: string;
   name: string;
@@ -28,7 +62,12 @@ export interface LandingData {
 }
 
 export function landingData(catalog: SiteCatalog, size = SHOWCASE_SIZE): LandingData {
-  const label = new Map(catalog.categories.map((category) => [category.id, category.label]));
+  const label = new Map(
+    catalog.categories.map((category) => [
+      category.id,
+      CATEGORY_LABELS[category.id] ?? category.label,
+    ]),
+  );
   const showcase = catalog.apps
     .flatMap((app) => (app.icon === null ? [] : [{ app, icon: app.icon }]))
     .sort((a, b) => (b.app.popularity?.stars ?? 0) - (a.app.popularity?.stars ?? 0))

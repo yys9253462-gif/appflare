@@ -30,9 +30,9 @@ export function MissingApp({ words }: { words: string }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
       <h1 className="font-bold text-6xl text-fd-muted-foreground">404</h1>
-      <h2 className="font-semibold text-2xl">No app has this address</h2>
+      <h2 className="font-semibold text-2xl">此地址没有对应应用</h2>
       <p className="max-w-md text-fd-muted-foreground">
-        The app may be in the catalog under another name, or not be in it yet.
+        应用可能在目录中使用另一个名字，也可能尚未收录。
       </p>
       <div className="mt-4 flex flex-wrap justify-center gap-2">
         <a
@@ -40,10 +40,10 @@ export function MissingApp({ words }: { words: string }) {
           className={buttonVariants({ variant: "primary", className: "gap-1.5" })}
         >
           <MagnifyingGlassIcon aria-hidden="true" className="size-4" />
-          Search apps for “{words}”
+          搜索“{words}”相关应用
         </a>
         <a href={suggestAppUrl(words)} className={buttonVariants({ variant: "secondary" })}>
-          Suggest an app
+          推荐应用
         </a>
       </div>
     </div>

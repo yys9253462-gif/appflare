@@ -1,6 +1,6 @@
 ---
-title: Protect apps with Cloudflare Access
-description: Put an installed app behind a Cloudflare sign-in so only Appflare's users reach it, at install or later.
+title: 使用 Cloudflare Access 保护应用
+description: 在安装时或之后为应用添加 Cloudflare 登录保护，仅允许 Appflare 用户访问。
 ---
 
 Many apps have no sign-in of their own, or one you would rather not expose to the

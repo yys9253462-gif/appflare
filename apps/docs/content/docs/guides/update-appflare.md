@@ -1,6 +1,6 @@
 ---
-title: Update Appflare
-description: How the manager updates itself, and how to go back.
+title: 更新 Appflare
+description: 了解管理器如何自行更新，以及如何返回旧版本。
 ---
 
 The manager checks its release feed,

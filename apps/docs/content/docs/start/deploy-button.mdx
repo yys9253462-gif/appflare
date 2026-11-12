@@ -1,121 +1,62 @@
 ---
-title: Deploy with the button
-description: Deploy Appflare from your browser with the Deploy to Cloudflare button, then remove what the button leaves behind.
+title: 使用部署按钮安装
+description: 在浏览器中通过 Deploy to Cloudflare 按钮部署 Appflare，然后清理按钮留下的副本。
 ---
 
-The Deploy to Cloudflare button installs Appflare without any service of Appflare's
-touching your account. Everything happens in your browser, and there is nothing to
-install on your computer. The button copies a prebuilt Appflare into your GitHub or
-GitLab account, deploys it to your Cloudflare account, and then you open the setup
-wizard. Appflare does not need the copy afterwards, because it updates itself, so the
-last step is to remove the copy.
-To skip the copy and the API token, [install from your browser](/start/browser-install/)
-instead.
+Deploy to Cloudflare 按钮可以在不让 Appflare 的任何服务访问你账户的情况下安装 Appflare。所有步骤都在浏览器中完成，无需在电脑上安装软件。按钮会把预构建的 Appflare 复制到你的 GitHub 或 GitLab 账户，然后部署到你的 Cloudflare 账户，之后打开设置向导。由于 Appflare 后续会自行更新，不再需要那份副本，所以最后一步是删除副本。
 
-[Cloudflare's Deploy button](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-deploy-button-cloudflare-1)
+如果希望跳过仓库副本和 API 令牌，请改用[浏览器安装](/start/browser-install/)。
 
-The button deploys from [github.com/appflare/deploy](https://github.com/appflare/deploy),
-which holds the latest Appflare release, prebuilt. Nothing is built during the deploy;
-Cloudflare's Workers Builds only copies it and deploys it.
+[Cloudflare 部署按钮](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-deploy-button-cloudflare-1)
 
-## Before you start
+按钮从 [github.com/appflare/deploy](https://github.com/appflare/deploy) 部署。该仓库保存了预构建的最新 Appflare 发布版本。部署期间不执行构建；Cloudflare Workers Builds 只负责复制和部署。
 
-- **A Cloudflare account.** The free Workers plan works.
-- **A GitHub or GitLab account.** The button always copies Appflare into one; there
-  is no way to deploy without it. Make the copy private, as step 3 shows.
-- **A `workers.dev` subdomain** on the account. If it has none, register one in the
-  dashboard under Workers & Pages first.
-- **A free cron trigger.** Appflare checks for updates on a schedule, which uses one
-  cron trigger. A free account has five in total, and the deploy fails if all five
-  are in use.
-- **No Appflare in the account yet.** A second Appflare in the same account would take
-  over the first one's background jobs (`appflare-jobs`), so the account can hold only
-  one.
-- **Permission to create an API token** for the account, for the setup wizard.
+## 开始前 [#before-you-start]
 
-## Deploy
+- **Cloudflare 账户。** Workers 免费套餐即可。
+- **GitHub 或 GitLab 账户。** 按钮始终会把 Appflare 复制到其中一个账户，没有跳过副本直接部署的方式。按第 3 步将副本设为私有。
+- 账户中已配置 **`workers.dev` 子域名**。如果没有，请先在控制台的 Workers & Pages 下注册。
+- **至少一个空闲的定时触发器。** Appflare 的定时更新检查会占用一个。免费账户共有五个，如果全部占用，部署会失败。
+- **账户中尚未安装 Appflare。** 同一账户中的第二个 Appflare 会接管第一个的后台任务（`appflare-jobs`），因此一个账户只能保留一个。
+- 有权为账户**创建 API 令牌**，供设置向导使用。
 
-1. Open **[Deploy to Cloudflare](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-deploy-button-cloudflare-2)**,
-   sign in, and pick the account.
-2. The **Git account** picker lists every GitHub or GitLab account and organization
-   you have connected. Choose one: the copy is created there. The first time, select
-   **Connect GitHub** (or GitLab) and install the Cloudflare Workers and Pages app.
-   Giving it access to only selected repositories is enough.
-3. Check the form:
-   - Tick **Create private Git repository**. It may start unticked, and an unticked
-     box makes the copy public.
-   - **Project name** becomes the Worker's name, its address, and the name of the
-     copy. It defaults to `appflare`. If the Git account you chose already has a
-     repository with that name, change the project name: the form gives no error.
-   - The D1 database defaults to `appflare`; the KV namespace is named after the
-     project. Keep **Create new** for both.
-   - Leave the two variables, `APPFLARE_VERSION` and `APPFLARE_INSTALL_SOURCE`, as
-     they are.
-   - The form asks for no secrets. Leave the build command empty and the deploy
-     command as `npm run deploy`.
-4. Select **Create and deploy** and wait for the build to finish, usually a minute or
-   two.
-5. The deploy page shows no address when the build is done. In the Cloudflare
-   dashboard, open **Workers & Pages** > **appflare** (your project name) and select
-   its address, or go straight to `https://appflare.<your subdomain>.workers.dev`,
-   with your project name in place of `appflare` if you changed it.
+## 部署 [#deploy]
 
-## Set up
+1. 打开 **[Deploy to Cloudflare](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-deploy-button-cloudflare-2)**，登录并选择账户。
+2. **Git account** 选项会列出你连接过的 GitHub、GitLab 账户和组织。选择副本的保存位置。首次使用时，选择 **Connect GitHub**（或 GitLab），安装 Cloudflare Workers and Pages 应用。只授权选定仓库即可。
+3. 检查表单：
+   - 勾选 **Create private Git repository**。它可能默认未勾选；未勾选会创建公开副本。
+   - **Project name** 会成为 Worker 名称、地址和副本名称，默认是 `appflare`。如果选定的 Git 账户已有同名仓库，请修改项目名称，表单不会为此报错。
+   - D1 数据库默认名为 `appflare`；KV 命名空间按项目命名。两者都保留 **Create new**。
+   - 两个变量 `APPFLARE_VERSION` 和 `APPFLARE_INSTALL_SOURCE` 保持原样。
+   - 表单不要求填写密钥。构建命令留空，部署命令保留 `npm run deploy`。
+4. 选择 **Create and deploy**，等待构建完成，通常需要一两分钟。
+5. 完成后部署页面不会显示地址。请在 Cloudflare 控制台打开 **Workers & Pages > appflare**（你的项目名），点击它的地址；也可直接访问 `https://appflare.<your subdomain>.workers.dev`。若修改过项目名，请相应替换地址里的 `appflare`。
 
-The [setup wizard](/start/install/#the-setup-wizard) opens on the first visit. It asks
-for a Cloudflare API token before anything else: only someone who can create a token
-for this account can set Appflare up. The wizard also generates the secret that signs
-sessions, `BETTER_AUTH_SECRET`, and stores it with the token as encrypted secrets on
-Appflare's Worker, and adds the service binding through which Appflare runs its own
-jobs. It waits a few seconds for that new version, then you create the owner account
-and check your account.
+## 设置 [#set-up]
 
-The button deploys Appflare at its `workers.dev` address. When the account has an
-active domain, the wizard asks **Where should Appflare live?** after the owner
-account: keep the `workers.dev` address, or move Appflare to a name in that domain.
-**Later** skips it. See [Give Appflare its own address](/guides/appflare-address/).
+首次访问时会打开[设置向导](/start/install/#the-setup-wizard)。它首先要求 Cloudflare API 令牌：只有能为这个账户创建令牌的人才能完成 Appflare 设置。向导还会生成会话签名密钥 `BETTER_AUTH_SECRET`，将它和令牌一起作为加密密钥保存到 Appflare 的 Worker，并添加 Appflare 执行自身任务所用的服务绑定。等待新版本生效几秒后，即可创建所有者账户并检查账户。
 
-## Clean up the deploy copy
+按钮会把 Appflare 部署到 `workers.dev` 地址。当账户中有已激活域名时，创建所有者后，向导会询问 **Appflare 应该放在哪里？**：保留 `workers.dev` 地址，或迁移到该域名下的某个名称。选择**稍后**可跳过。请参阅[为 Appflare 配置专用地址](/guides/appflare-address/)。
 
-The button leaves two things behind: the copy of the repository in your Git account,
-and a Workers Builds connection from that copy to Appflare's Worker. While the
-connection stays, **any push to the copy deploys the version it holds over the one
-Appflare has updated itself to.** Appflare cannot remove either one: the Workers Builds
-API does not accept the account-owned token Appflare holds.
+## 清理部署副本 [#clean-up-the-deploy-copy]
 
-After setup, admins see **Clean up the deploy copy** under **Needs attention** on Home.
-**Show the steps** lists them, each with its button, and **Done** hides the row for every
-admin:
+按钮会留下两样东西：Git 账户中的仓库副本，以及从该副本到 Appflare Worker 的 Workers Builds 连接。只要连接仍在，**向副本推送任何代码，都会用副本中的版本覆盖 Appflare 已自行更新到的版本。** Appflare 无法自行移除这两项，因为 Workers Builds API 不接受 Appflare 持有的账户级令牌。
 
-1. **Disconnect Workers Builds.** **Open Builds** opens the Worker's **Settings** at
-   its **Builds** section in the Cloudflare dashboard. Select **Disconnect**.
-2. **Delete the repository copy.** **Find on GitHub** searches your private
-   repositories for the project name. Open the copy, then **Settings**, and select
-   **Delete this repository** at the bottom. On GitLab, open the project, then
-   **Settings** > **General** > **Advanced** > **Delete project**.
+设置完成后，管理员会在首页的**需要处理**中看到**清理部署副本**。**展开步骤**会显示以下操作及对应按钮，**完成**会为所有管理员隐藏这条提醒：
 
-Optionally, also:
+1. **断开 Workers Builds。** **Open Builds** 会打开 Cloudflare 控制台中该 Worker 的 **Settings > Builds**。选择 **Disconnect**。
+2. **删除仓库副本。** **Find on GitHub** 会按项目名称搜索你的私有仓库。打开副本，在 **Settings** 页面底部选择 **Delete this repository**。在 GitLab 中，打开项目，进入 **Settings > General > Advanced > Delete project**。
 
-- delete the API token Workers Builds may have created for its builds (dashboard,
-  **My Profile** > **API Tokens**);
-- uninstall the Cloudflare Workers and Pages app from
-  [github.com/settings/installations](https://github.com/settings/installations) (or the
-  organization's settings) if nothing else uses it.
+还可以按需执行：
 
-Dismiss the card when you are done. It does not come back.
+- 删除 Workers Builds 可能为构建创建的 API 令牌（控制台 **My Profile > API Tokens**）；
+- 如果没有其他项目使用它，在 [github.com/settings/installations](https://github.com/settings/installations)（或组织设置）卸载 Cloudflare Workers and Pages 应用。
 
-## Caveats
+完成后关闭提醒卡片，它不会再次出现。
 
-- **A push to the copy downgrades Appflare** to the version the copy holds, and
-  removes bindings Appflare added to itself since. If that older version is also older
-  than Appflare's database, Appflare shows a banner saying so. Either way, open
-  **Settings > Updates > Appflare version**, update to the newest version again, and then
-  disconnect Workers Builds.
-- **Until Appflare updates itself once**, it runs every step of a job inside the job
-  itself. A manager installed with `create-appflare` hands the heaviest steps to
-  itself over a service binding, which the button cannot declare (the binding would
-  name the Worker, and the form lets you rename it). The next
-  [update of Appflare](/guides/update-appflare/) adds the binding. On the free plan, an
-  install of a large app may fail before then.
-- **Names.** The KV namespace is named after the project, not `appflare-kv` as with
-  `create-appflare`. Appflare does not depend on either name.
+## 注意事项 [#caveats]
+
+- **向副本推送代码会降级 Appflare**，回到副本保存的版本，并移除 Appflare 之后为自己添加的绑定。如果旧版本还早于 Appflare 数据库的版本，Appflare 会显示警告横幅。无论哪种情况，请进入**设置 → 更新 → Appflare 版本**，再次更新到最新版，然后断开 Workers Builds。
+- **在 Appflare 第一次自行更新之前**，它会在任务本身内部执行所有步骤。通过 `create-appflare` 安装的管理器，会利用服务绑定把最重的步骤交给自身执行；部署按钮无法声明该绑定（因为绑定需要指定 Worker 名称，而表单允许你改名）。下一次 [Appflare 更新](/guides/update-appflare/)会添加绑定。在免费套餐下，大型应用在此之前可能无法安装成功。
+- **命名差异。** KV 命名空间按项目名命名，而不是像 `create-appflare` 那样叫 `appflare-kv`。Appflare 不依赖其中任何一种名称。

@@ -4,6 +4,7 @@ import { openedAt } from "../deploy/arrival.ts";
 import { isDeployPath } from "../deploy/paths.ts";
 import { detectBrowser } from "../in-app/browser.ts";
 import { browserMemory } from "../install/memory.ts";
+import { HOSTED_INSTALL_URL } from "../lib/install-links.ts";
 import { SITE_URL } from "../lib/shared.ts";
 
 /**
@@ -432,7 +433,10 @@ export function linkEvents(href: string, here: Here): EventCall[] {
   const short = shortLink(url);
   if (url.host === "deploy.workers.cloudflare.com" || short === "deploy-button") {
     events.push(["deploy_button_clicked", { path: here.pathname }]);
-  } else if (short === "install") {
+  } else if (
+    short === "install" ||
+    (url.origin === new URL(HOSTED_INSTALL_URL).origin && isDeployPath(url.pathname))
+  ) {
     events.push(["install_button_clicked", { path: here.pathname }]);
   }
   return events;

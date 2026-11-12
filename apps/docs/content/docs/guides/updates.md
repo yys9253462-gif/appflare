@@ -1,6 +1,6 @@
 ---
-title: Update and roll back
-description: Updating an app, rolling it back, and restoring a database to an earlier point.
+title: 更新与回滚
+description: 更新或回滚应用，并将数据库恢复到较早的时间点。
 ---
 
 ## When an update is available

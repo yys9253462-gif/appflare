@@ -1,6 +1,6 @@
 ---
-title: Security model
-description: Signed artifacts, pinned builds, what the manager does with its access to your Cloudflare account, the browser installer's part, sessions, roles, notification credentials, and the optional Cloudflare Access protection.
+title: 安全模型
+description: 了解签名构建产物、固定提交构建、管理器对 Cloudflare 账户权限的使用、浏览器安装器、会话、角色、通知凭据，以及可选的 Cloudflare Access 保护。
 ---
 
 The manager holds access to your Cloudflare account that can change Workers and data

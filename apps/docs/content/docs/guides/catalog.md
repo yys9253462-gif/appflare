@@ -1,6 +1,6 @@
 ---
-title: Browse the catalog
-description: What the catalog pages show before you install an app.
+title: 浏览应用目录
+description: 了解安装应用前目录页面会显示哪些信息。
 ---
 
 Open **Catalog** in the manager. The list comes from the catalog's `index.json`

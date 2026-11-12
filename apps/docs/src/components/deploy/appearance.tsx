@@ -2,7 +2,7 @@ import { Select } from "@cloudflare/kumo/components/select";
 import { useTheme } from "@fumadocs/base-ui/provider/base";
 import { useSyncExternalStore } from "react";
 
-const CHOICES = { light: "Light", dark: "Dark", system: "System" } as const;
+const CHOICES = { light: "浅色", dark: "深色", system: "跟随系统" } as const;
 type Choice = keyof typeof CHOICES;
 
 const isChoice = (value: unknown): value is Choice =>
@@ -25,7 +25,7 @@ export function Appearance() {
   const value: Choice = mounted && isChoice(theme) ? theme : "light";
   return (
     <Select
-      aria-label="Appearance"
+      aria-label="外观"
       size="sm"
       className="w-28 max-sm:h-11"
       value={value}

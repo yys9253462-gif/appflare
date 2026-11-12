@@ -7,7 +7,7 @@ import type { StructuredData } from "./structured-data.ts";
  * route that finds nothing at its address gives the same, so the tab is still
  * titled "Page not found" once the page runs in the browser.
  */
-export const notFoundHead = { meta: [{ title: `Page not found | ${siteName}` }] };
+export const notFoundHead = { meta: [{ title: `页面不存在 | ${siteName}` }] };
 
 export interface PageMeta {
   /** The document title. */

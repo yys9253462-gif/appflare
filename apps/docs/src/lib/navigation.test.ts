@@ -26,13 +26,13 @@ describe("the docs sidebar", () => {
   const items = sidebar();
 
   it("starts at the overview", () => {
-    expect(items.slice(0, 2)).toEqual(["---Getting started---", "/start/overview/"]);
+    expect(items.slice(0, 2)).toEqual(["---开始使用---", "/start/overview/"]);
   });
 
   it("ends with an Advanced group holding custom catalogs", () => {
-    const advanced = items.lastIndexOf("---Advanced---");
+    const advanced = items.lastIndexOf("---高级用法---");
     const groups = items.filter((item) => item.startsWith("---"));
-    expect(groups.at(-1)).toBe("---Advanced---");
+    expect(groups.at(-1)).toBe("---高级用法---");
     expect(items.slice(advanced)).toContain("/guides/custom-catalogs/");
     expect(items.indexOf("/guides/custom-catalogs/")).toBeGreaterThan(advanced);
   });

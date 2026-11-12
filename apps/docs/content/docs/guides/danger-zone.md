@@ -1,6 +1,6 @@
 ---
-title: Rotate the auth secret or remove Appflare
-description: The two owner-only actions in Settings > Your account > Danger zone.
+title: 轮换认证密钥或移除 Appflare
+description: 设置 → 账户 → 危险区中仅所有者可执行的两项操作。
 ---
 
 The **Danger zone** at the bottom of **Settings > Your account** holds two actions

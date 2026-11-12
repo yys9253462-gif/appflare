@@ -1,6 +1,6 @@
 ---
-title: Forgot your password
-description: Get back into Appflare with an emailed link, a code from an admin, or a code from your Cloudflare account.
+title: 忘记密码
+description: 使用邮件链接、管理员提供的恢复码，或从 Cloudflare 账户取得的恢复码重新登录 Appflare。
 ---
 
 Everyone who signs in to Appflare can reset a forgotten password from the sign-in

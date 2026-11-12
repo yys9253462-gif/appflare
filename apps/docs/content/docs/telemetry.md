@@ -1,6 +1,6 @@
 ---
-title: Anonymous report
-description: What leaving the anonymous report on does, what Appflare sends and never sends, where it goes, and the ways to turn it off.
+title: 匿名报告
+description: 了解开启匿名报告的作用、Appflare 会发送和绝不发送哪些内容、发送目的地，以及关闭方式。
 ---
 
 Appflare collects anonymous usage data to decide what to build and fix: the manager

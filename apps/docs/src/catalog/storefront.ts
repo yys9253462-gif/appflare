@@ -1,4 +1,5 @@
 import { categoryLabel, comparePopularity, serviceName } from "@appflare/schema/catalog-display";
+import { zhLabel } from "../lib/zh.ts";
 import type { SiteApp, SiteCategory } from "./site-catalog.ts";
 import { categoryPath } from "./urls.ts";
 
@@ -51,7 +52,7 @@ function newRow(apps: readonly SiteApp[], now: Date): StorefrontRow | null {
   if (fresh.length === 0) return null;
   return {
     id: "new",
-    title: "New this week",
+    title: "本周新增",
     caption: null,
     apps: [...fresh].sort(compareNewest).slice(0, ROW_LIMIT),
     seeAll: null,
@@ -70,10 +71,8 @@ function popularRow(apps: readonly SiteApp[]): StorefrontRow | null {
   );
   return {
     id: "popular",
-    title: "Most popular",
-    caption: installs
-      ? "Most installed first, then most starred on GitHub"
-      : "Most starred on GitHub",
+    title: "最受欢迎",
+    caption: installs ? "优先按安装量，其次按 GitHub 星标排序" : "GitHub 星标最多",
     apps: [...counted]
       .sort((a, b) => comparePopularity(a.popularity, b.popularity))
       .slice(0, ROW_LIMIT),
@@ -98,7 +97,7 @@ export function storefrontRows(
   for (const { id } of categories.filter((c) => c.count >= 2).slice(0, CATEGORY_ROWS)) {
     rows.push({
       id: `category-${id}`,
-      title: categoryLabel(id),
+      title: zhLabel(categoryLabel(id)),
       caption: null,
       apps: appsInCategory(apps, id).slice(0, ROW_LIMIT),
       seeAll: categoryPath(id),

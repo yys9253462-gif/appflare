@@ -26,8 +26,8 @@ export const Route = createFileRoute("/install/")({
   },
   head: () =>
     noindexPageHead({
-      title: `Install from GitHub | ${siteName}`,
-      description: "Open a GitHub repository in your own Appflare, ready to build and install.",
+      title: `从 GitHub 安装 | ${siteName}`,
+      description: "在你自己的 Appflare 中打开 GitHub 仓库，准备构建和安装。",
       url: `${SITE_URL}${installRepoPath}`,
       // No card of its own: the site's card.
       image: `${SITE_URL}${siteOgImagePath}`,
@@ -56,12 +56,9 @@ function InstallRepositoryPage() {
       header={
         <InstallHeader
           icon={<RepositoryIcon />}
-          title={repo === null ? "Install from GitHub" : `Install ${repo}`}
+          title={repo === null ? "从 GitHub 安装" : `安装 ${repo}`}
           lines={
-            <p>
-              Built from its GitHub repository in your own Cloudflare account. Needs the Workers
-              Paid plan.
-            </p>
+            <p>从 GitHub 仓库构建，运行在你自己的 Cloudflare 账户中，需要 Workers 付费套餐。</p>
           }
         />
       }

@@ -14,6 +14,8 @@ import {
   categoryLabel,
   freshStats,
 } from "@appflare/schema/catalog-display";
+import { zhLabel } from "../lib/zh.ts";
+import { appDisplayCopy } from "./display-copy.ts";
 import type { InstallForm } from "./install-form.ts";
 import type { CatalogSnapshot } from "./snapshot.ts";
 import { catalogMediaUrl } from "./urls.ts";
@@ -96,7 +98,7 @@ export function categoryCounts(apps: ReadonlyArray<Pick<SiteApp, "categories">>)
     for (const id of app.categories) counts.set(id, (counts.get(id) ?? 0) + 1);
   }
   return [...counts]
-    .map(([id, count]) => ({ id, label: categoryLabel(id), count }))
+    .map(([id, count]) => ({ id, label: zhLabel(categoryLabel(id)), count }))
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "en"));
 }
 
@@ -119,8 +121,8 @@ export function siteCatalog(snapshot: CatalogSnapshot): SiteCatalog {
     return {
       slug: app.slug,
       name: app.name,
-      pitch: appPitch(app),
-      summary: app.summary,
+      pitch: appDisplayCopy(app.slug)?.pitch ?? appPitch(app),
+      summary: appDisplayCopy(app.slug)?.summary ?? app.summary,
       features: app.features ?? [],
       alternativeTo: app.alternativeTo ?? [],
       version: app.version,

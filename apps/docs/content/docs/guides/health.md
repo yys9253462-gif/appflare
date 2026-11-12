@@ -1,6 +1,6 @@
 ---
-title: Health checks
-description: How Appflare checks that an installed app answers, and what each result means.
+title: 健康检查
+description: 了解 Appflare 如何检查已安装应用能否响应，以及各项结果的含义。
 ---
 
 After an install, an update, or a rollback, the manager requests the app's URL to

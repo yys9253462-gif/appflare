@@ -32,14 +32,14 @@ describe("Markdown for agents", () => {
   it("writes Cards as a list of links", async () => {
     const text = await docsLlms.page(page("start", "overview"));
     expect(text).toContain(
-      `- [Install from your browser](${installLink("overview-install-card")}): The recommended way.`,
+      `- [通过浏览器安装](${installLink("overview-install-card")}): 推荐方式。`,
     );
   });
 
   it("keeps the command line's steps, folded on the page, in the text agents read", async () => {
     const install = await docsLlms.page(page("start", "install"));
     expect(install).toContain("npx create-appflare");
-    expect(install).toContain("Cloudflare lets\naccount admins block public OAuth apps");
+    expect(install).toContain("账户管理员可以禁止公开 OAuth 应用");
   });
 
   it("points no page at the instructions for coding agents", async () => {

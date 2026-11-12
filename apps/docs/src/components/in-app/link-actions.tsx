@@ -54,7 +54,7 @@ export function useLinkActions(path: string, title: string, reason: Reason) {
 export function LinkToCopy({ path }: { path: string }) {
   return (
     <label className="grid gap-1.5 text-sm">
-      <span className="text-fd-muted-foreground">Copy the link from here:</span>
+      <span className="text-fd-muted-foreground">从这里复制链接：</span>
       <input
         type="text"
         readOnly

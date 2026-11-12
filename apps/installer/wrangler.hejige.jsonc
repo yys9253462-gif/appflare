@@ -1,0 +1,34 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "appflare-installer",
+  "main": "src/index.ts",
+  "alias": {
+    "@appflare/cf-api": "../../packages/cf-api/src/index.ts",
+    "@appflare/schema": "../../packages/schema/src/index.ts"
+  },
+  "compatibility_date": "2026-09-21",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "invocation_logs": false
+    }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "appflare-installer"
+    }
+  ],
+  "vars": {
+    "INSTALLER_ENV": "production",
+    "INSTALLER_ORIGIN": "https://cf.hejige.com",
+    "MIN_MANAGER_VERSION": "0.4.0"
+  },
+  "env": {}
+}

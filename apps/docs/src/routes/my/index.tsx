@@ -21,8 +21,8 @@ export const Route = createFileRoute("/my/")({
   },
   head: () =>
     noindexPageHead({
-      title: `Your Appflare | ${siteName}`,
-      description: "Choose the Appflare that Install buttons on this site open.",
+      title: `你的 Appflare | ${siteName}`,
+      description: "选择本站安装按钮所使用的 Appflare。",
       url: `${SITE_URL}${myPath}`,
       // No card of its own: the site's card.
       image: `${SITE_URL}${siteOgImagePath}`,
@@ -43,10 +43,10 @@ function MyPage() {
     <InstallShell
       header={
         <header className="grid gap-2">
-          <h1 className="font-bold text-3xl tracking-tight">Your Appflare</h1>
+          <h1 className="font-bold text-3xl tracking-tight">你的 Appflare</h1>
           <p className="text-fd-muted-foreground text-lg">
-            Install buttons on this site open apps in your own Appflare. This browser remembers its
-            address; it is not sent anywhere.
+            本站安装按钮会在你自己的 Appflare
+            中打开应用。地址仅保存在这个浏览器中，不会发送到其他地方。
           </p>
         </header>
       }

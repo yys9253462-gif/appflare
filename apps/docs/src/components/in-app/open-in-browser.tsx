@@ -109,14 +109,14 @@ export function OpenInBrowserSheet({
           <div className="flex items-start justify-between gap-3">
             <div className="grid gap-1">
               <Dialog.Title className="text-balance font-semibold text-xl tracking-tight">
-                Open this in your browser
+                在浏览器中打开
               </Dialog.Title>
               <Dialog.Description className="text-fd-muted-foreground leading-relaxed">
-                {inAppBrowserName(browser.app)} may not be able to finish the Cloudflare sign-in.
+                {inAppBrowserName(browser.app)} 的内置浏览器可能无法完成 Cloudflare 登录。
               </Dialog.Description>
             </div>
             <Dialog.Close
-              aria-label="Close"
+              aria-label="关闭"
               className={buttonVariants({
                 variant: "ghost",
                 size: "icon",
@@ -130,10 +130,10 @@ export function OpenInBrowserSheet({
           {browser.platform === "ios" && (
             <ol className="m-0 grid list-none gap-3 p-0">
               <Step n={1}>
-                Tap <MenuWord>•••</MenuWord> or the share icon, at the top or bottom of the screen.
+                点击屏幕顶部或底部的 <MenuWord>•••</MenuWord> 或分享图标。
               </Step>
               <Step n={2}>
-                Choose <MenuWord>Open in browser</MenuWord> or <MenuWord>Open in Safari</MenuWord>.
+                选择<MenuWord>在浏览器中打开</MenuWord>或<MenuWord>在 Safari 中打开</MenuWord>。
               </Step>
             </ol>
           )}
@@ -153,23 +153,20 @@ export function OpenInBrowserSheet({
                 }
                 className={PRIMARY}
               >
-                <ArrowSquareOutIcon aria-hidden="true" />
-                Open in Chrome
+                <ArrowSquareOutIcon aria-hidden="true" />在 Chrome 中打开
               </a>
               <p className="m-0 text-center text-fd-muted-foreground text-sm">
-                Not opening? Use the menu (<MenuWord>⋮</MenuWord>) and choose{" "}
-                <MenuWord>Open in browser</MenuWord>.
+                无法打开？请点菜单（<MenuWord>⋮</MenuWord>），选择{" "}
+                <MenuWord>在浏览器中打开</MenuWord>。
               </p>
             </div>
           )}
           {browser.platform === "other" && (
-            <p className="m-0 leading-relaxed">
-              Use the app's menu to open this page in your browser.
-            </p>
+            <p className="m-0 leading-relaxed">请从应用菜单选择在浏览器中打开此页面。</p>
           )}
 
           <div className="grid gap-3 border-fd-border border-t pt-4">
-            <p className="m-0 text-fd-muted-foreground text-sm">Or finish on your computer:</p>
+            <p className="m-0 text-fd-muted-foreground text-sm">也可以在电脑上完成：</p>
             {/* Stacked: side by side, "Send to my computer" wraps on a phone. */}
             <div className="grid gap-2">
               <button
@@ -185,18 +182,18 @@ export function OpenInBrowserSheet({
                 ) : (
                   <CopyIcon aria-hidden="true" />
                 )}
-                {state === "copied" ? "Link copied" : "Copy link"}
+                {state === "copied" ? "链接已复制" : "复制链接"}
               </button>
               {sharing && (
                 <button type="button" onClick={() => void share()} className={SECONDARY}>
                   <PaperPlaneTiltIcon aria-hidden="true" />
-                  Send to my computer
+                  发送到电脑
                 </button>
               )}
             </div>
             {state === "failed" && <LinkToCopy path={path} />}
             <p role="status" className="sr-only">
-              {state === "copied" ? "Link copied" : ""}
+              {state === "copied" ? "链接已复制" : ""}
             </p>
           </div>
 
@@ -211,7 +208,7 @@ export function OpenInBrowserSheet({
             }
             className="-my-2 inline-flex min-h-11 items-center justify-self-center rounded-sm text-fd-muted-foreground text-sm underline underline-offset-4 hover:text-fd-foreground focus-visible:outline-2 focus-visible:outline-fd-ring focus-visible:outline-offset-2"
           >
-            Continue here anyway
+            仍在这里继续
           </a>
         </Dialog.Popup>
       </Dialog.Portal>
