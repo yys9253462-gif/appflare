@@ -127,7 +127,7 @@ describe("RELEASE_DOWNLOADS_HELP", () => {
 describe("newTokenUrl", () => {
   it("points a token only for release downloads at Appflare's own repository owner", () => {
     const url = new URL(newTokenUrl("Updates", "acme/*", { forBuilds: false, forReleases: true }));
-    expect(url.searchParams.get("target_name")).toBe("appflare");
+    expect(url.searchParams.get("target_name")).toBe("yys9253462-gif");
     expect(url.searchParams.get("description")).toBe(
       "Appflare: read-only access to download its releases",
     );

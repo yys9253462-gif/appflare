@@ -10,7 +10,7 @@ import {
   tagOfReleaseLocation,
 } from "./github-releases";
 
-const APPFLARE = { owner: "appflare", repo: "appflare" };
+const APPFLARE = { owner: "yys9253462-gif", repo: "appflare" };
 
 describe("GitHub release URLs", () => {
   it("knows the repository of a GitHub releases API URL, and of nothing else", () => {

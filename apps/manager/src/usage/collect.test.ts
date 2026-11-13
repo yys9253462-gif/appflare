@@ -47,7 +47,12 @@ function reader(
   refuse?: Parameters<typeof fakeGraphQL>[2],
 ) {
   const graphql = fakeGraphQL(answers, undefined, refuse);
-  const api = createClient({ accountId: "acc", token: "t", fetch: graphql.fetch });
+  const api = createClient({
+    accountId: "acc",
+    token: "t",
+    fetch: graphql.fetch,
+    now: () => RECORDED_NOW * 1000,
+  });
   return { usage: api.usage, sent: graphql.sent, requests: graphql.requests };
 }
 
@@ -458,7 +463,12 @@ describe("accountDayFrom", () => {
 describe("collectUsage: the account's totals", () => {
   it("reads them in the same request as the apps' datasets, when asked", async () => {
     const graphql = fakeGraphQL(RECORDED);
-    const client = createClient({ accountId: "acc", token: "t", fetch: graphql.fetch });
+    const client = createClient({
+      accountId: "acc",
+      token: "t",
+      fetch: graphql.fetch,
+      now: () => RECORDED_NOW * 1000,
+    });
     const targets = [target({ installId: "notes", workers: [RECORDED_IDS.worker] })];
     const without = await collectUsage(client.usage, targets, RECORDED_NOW);
     expect(without.accountTotals).toBeNull();

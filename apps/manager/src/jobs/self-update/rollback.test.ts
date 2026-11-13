@@ -231,7 +231,7 @@ describe("the pure reads", () => {
     const error = new CloudflareApiError({
       status: 400,
       method: "POST",
-      path: "/accounts/a/workers/scripts/yys9253462-gif/appflarements",
+      path: "/accounts/a/workers/scripts/appflare/deployments",
       errors: [
         {
           code: 10220,
@@ -458,7 +458,7 @@ describe("rollBackManagerCore", () => {
     const deployError = new CloudflareApiError({
       status: 400,
       method: "POST",
-      path: "/accounts/acc-1/workers/scripts/yys9253462-gif/appflarements",
+      path: "/accounts/acc-1/workers/scripts/appflare/deployments",
       errors: [{ code: 10220, message: "The following secrets have changed: CF_API_TOKEN" }],
     });
     const { api } = fakeApi({ deployError });

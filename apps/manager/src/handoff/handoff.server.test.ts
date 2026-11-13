@@ -64,7 +64,7 @@ const CLAIM_URL = /^https:\/\/([^/]+)\/setup#claim=([A-Za-z0-9_-]{16,256})$/;
 const ok = (result: unknown): FakeRoute => ({ result });
 const SECRETS = `PUT ${A}/workers/scripts/appflare/secrets`;
 const SELF_PATCH = `PATCH ${A}/workers/workers/appflare/versions/latest`;
-const DEPLOY = `POST ${A}/workers/scripts/yys9253462-gif/appflarements`;
+const DEPLOY = `POST ${A}/workers/scripts/appflare/deployments`;
 const DOMAINS = `GET ${A}/workers/domains`;
 
 function world(over: Record<string, FakeRoute | "network-error"> = {}) {

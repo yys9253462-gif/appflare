@@ -49,7 +49,8 @@ function headingIds(raw: string): string[] {
     if (fence !== null) continue;
     const text = /^#{1,6}\s+(.+?)\s*#*\s*$/.exec(line)?.[1];
     if (text === undefined) continue;
-    const base = slug(text);
+    const explicit = /\s+\[#([A-Za-z0-9_-]+)\]\s*$/.exec(text);
+    const base = explicit?.[1] ?? slug(text);
     const count = seen.get(base) ?? 0;
     seen.set(base, count + 1);
     ids.push(count === 0 ? base : `${base}-${count}`);
@@ -91,6 +92,9 @@ describe("docs topics", () => {
       "status",
       "next",
       "next-1",
+    ]);
+    expect(headingIds("## 清理部署副本 [#clean-up-the-deploy-copy]")).toEqual([
+      "clean-up-the-deploy-copy",
     ]);
   });
 

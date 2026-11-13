@@ -32,6 +32,8 @@ export interface ClientOptions {
   onRequest?: (log: RequestLog) => void;
   /** Overridable for tests; defaults to {@link CLOUDFLARE_API_BASE}. */
   baseUrl?: string;
+  /** Clock in milliseconds for usage lookback bounds; tests pass a fixed one. */
+  now?: () => number;
 }
 
 /** Cloudflare's standard response envelope. */

@@ -471,7 +471,7 @@ export function fakeSandboxAccount(
   const fetch: FetchLike = async (input, init) => {
     const url = new URL(input);
     if (url.hostname === "api.github.com") {
-      const tag = /^\/repos\/appflare\/appflare\/releases\/tags\/(.+)$/.exec(url.pathname);
+      const tag = /^\/repos\/yys9253462-gif\/appflare\/releases\/tags\/(.+)$/.exec(url.pathname);
       const wanted = tag === null ? null : decodeURIComponent(tag[1] as string);
       if (
         `${url.origin}${url.pathname}`.startsWith(RELEASES) &&
@@ -483,7 +483,7 @@ export function fakeSandboxAccount(
     }
     // The public download URLs of the same release (read without a token).
     if (url.hostname === "github.com") {
-      const download = /^\/appflare\/appflare\/releases\/download\/([^/]+)\/([^/]+)$/.exec(
+      const download = /^\/yys9253462-gif\/appflare\/releases\/download\/([^/]+)\/([^/]+)$/.exec(
         url.pathname,
       );
       const version = release.manifest.version;

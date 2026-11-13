@@ -71,7 +71,7 @@ describe("matchesSearch", () => {
     expect(matchesSearch(cut, "cut")).toBe(true);
     expect(matchesSearch(cut, "SHORTENER")).toBe(true);
     expect(matchesSearch(cut, "own domain")).toBe(true);
-    expect(matchesSearch(cut, "mendy")).toBe(true);
+    expect(matchesSearch(cut, "yys9253462-gif")).toBe(true);
     expect(matchesSearch(flaremo, "vectorize")).toBe(true);
     expect(matchesSearch(flaremo, "notes")).toBe(true);
     expect(matchesSearch(openSeo, "every app")).toBe(true);

@@ -153,7 +153,9 @@ describe("the deploy repository's npm project", () => {
 
   it("has a README with the button and the three steps", () => {
     const readme = deployRepoReadme("1.2.3");
-    expect(readme).toContain(`(${DEPLOY_BUTTON_URL}?utm_source=github`);
+    const buttonUrl = new URL(DEPLOY_BUTTON_URL);
+    buttonUrl.searchParams.set("utm_source", "github");
+    expect(readme).toContain(`(${buttonUrl.href}&`);
     expect(readme).toContain("/deploy-badge.svg");
     expect(readme).not.toContain("https://deploy.workers.cloudflare.com/button");
     expect(readme).toContain("utm_content=deploy-readme-install");

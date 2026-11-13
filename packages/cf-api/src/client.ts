@@ -82,6 +82,6 @@ export function createClient(options: ClientOptions): CloudflareClient {
     billing: createBilling(http),
     customHostnames: createCustomHostnames(http),
     analyticsEngine: createAnalyticsEngine(http),
-    usage: createUsage(http),
+    usage: createUsage(http, options.now === undefined ? undefined : { now: options.now }),
   };
 }

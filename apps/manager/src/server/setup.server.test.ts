@@ -388,7 +388,7 @@ describe("an unfinished handoff from the browser installer", () => {
 
 describe("a manager deployed without secrets or SELF (the Deploy to Cloudflare button)", () => {
   const SELF_PATCH = `PATCH ${A}/workers/workers/appflare/versions/latest`;
-  const DEPLOY = `POST ${A}/workers/scripts/yys9253462-gif/appflarements`;
+  const DEPLOY = `POST ${A}/workers/scripts/appflare/deployments`;
   const withPatch = () => ({
     ...accountToken(ACC, true),
     [SELF_PATCH]: ok({ id: "v-self" }),
