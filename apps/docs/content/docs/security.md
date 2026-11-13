@@ -40,7 +40,7 @@ The manager never changes the kind of connection by itself. Replacing a token,
 switching between the two, reconnecting and withdrawing access are described in
 [Appflare's Cloudflare connection](/guides/cloudflare-connection/).
 
-## Installing from appflare.dev
+## Installing from cf.hejige.com [#installing-from-appflaredev]
 
 An [install from your browser](/start/browser-install/) adds one more party for a few
 minutes: Appflare's hosted installer, which deploys the manager because Cloudflare's API
@@ -59,7 +59,7 @@ does not accept requests from a web page.
   itself: the installer deploys the manager with the secret's SHA-256 alone
   (`APPFLARE_HANDOFF`). Before handing anything over, the browser has the manager at
   the chosen address prove it holds that hash. Browsers may send the handover only
-  from appflare.dev, and the manager allows 20 tries per client address in 10 minutes.
+  from cf.hejige.com, and the manager allows 20 tries per client address in 10 minutes.
 - In return the manager gives that browser a one-time link to the owner step, valid
   for 30 minutes, stored only as a hash.
 - Until the owner account exists, the installer keeps a record of the installation:
@@ -67,7 +67,7 @@ does not accept requests from a web page.
   password, no app data. It is deleted when the owner account is created or the
   installation is removed.
 
-The installer's code is open source, but whether the service on appflare.dev runs
+The installer's code is open source, but whether the service on cf.hejige.com runs
 exactly that code is something you take on trust. The Deploy to Cloudflare button and
 `create-appflare` avoid it. See
 [What the installer sees and keeps](/start/browser-install/#what-the-installer-sees-and-keeps).
@@ -200,7 +200,7 @@ app, never the manager's.
   verifies and saves, are limited to 20 per client address in 10 minutes, and refusals
   carry fixed messages. A manager that cannot identify its own version refuses
   every token unless it is opened at its `workers.dev` address. A manager
-  [installed from appflare.dev](#installing-from-appflaredev) gets its connection
+  [installed from cf.hejige.com](#installing-from-appflaredev) gets its connection
   from the browser that installed it, and that browser gets the setup claim through
   its one-time link. Until then, a pasted token works there too.
 - **Better Auth.** Users sign in with email and password, or with a passkey they
@@ -256,7 +256,7 @@ What turning it on does:
   by your team's keys and issued for that application; otherwise the manager answers
   with a 403 page that says why. The token is never logged.
 - Leaves two more paths out of the manager's own check. `/api/handoff` is where the
-  browser that [installed Appflare from appflare.dev](#installing-from-appflaredev)
+  browser that [installed Appflare from cf.hejige.com](#installing-from-appflaredev)
   hands over its connection; it accepts a handover only before the owner account
   exists. `/api/cloudflare/oauth-return` is where a
   [Cloudflare sign-in from Settings](/guides/cloudflare-connection/#sign-in-with-cloudflare)

@@ -9,6 +9,10 @@ interface ImportMetaEnv {
    * copy served where Cloudflare's token endpoint sends no CORS headers.
    */
   readonly VITE_APPFLARE_OAUTH_TOKEN_PROXY?: string;
+  /** Optional PostHog project token for site analytics. Unset disables analytics. */
+  readonly VITE_POSTHOG_KEY?: string;
+  /** Optional PostHog ingestion host. */
+  readonly VITE_POSTHOG_HOST?: string;
 }
 
 /** A `srcset` of resized copies of an image, made by vite-imagetools during the build. */

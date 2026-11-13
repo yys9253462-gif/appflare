@@ -7,7 +7,7 @@ interface Env {
   DB: D1Database;
   /** `production` or `development`; anything else is refused. */
   INSTALLER_ENV?: string;
-  /** The origin of the deploy page and this API, e.g. `https://appflare.dev`. */
+  /** The origin of the deploy page and this API, e.g. `https://cf.hejige.com`. */
   INSTALLER_ORIGIN?: string;
   /** The oldest Appflare release the installer deploys, e.g. `0.4.0`. */
   MIN_MANAGER_VERSION?: string;

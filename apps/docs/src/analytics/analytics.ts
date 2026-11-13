@@ -33,15 +33,23 @@ import { SITE_URL } from "../lib/shared.ts";
  * PostHog with nothing else in it (see `deploy-steps.ts`).
  */
 
-/** The PostHog project's key. It is public by design: every page that reports carries it. */
-export const POSTHOG_KEY = "phc_vvhuhY8yQFBuE5pGUe7rmrasqxaHb3MibmUNyQdSK8qW";
+/** Optional PostHog project key; empty disables all client reporting. */
+export const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY?.trim() ?? "";
 
-/**
- * The site's own reverse proxy to PostHog's EU region. Events and PostHog's
- * scripts both go through it, so content blockers that drop requests to
- * posthog.com do not drop them.
- */
-export const POSTHOG_HOST = "https://swgo.appflare.dev";
+/** Optional PostHog ingestion host (defaults to PostHog Cloud EU). */
+export const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST?.trim() || "https://eu.i.posthog.com";
+
+let testPosthogKey: string | null = null;
+
+/** Current PostHog key; tests can set one without changing production defaults. */
+export function activePosthogKey(): string {
+  return testPosthogKey ?? POSTHOG_KEY;
+}
+
+/** Test-only override for {@link activePosthogKey}. */
+export function setPosthogKeyForTests(key: string | null): void {
+  testPosthogKey = key;
+}
 
 /** PostHog's app for the EU region, where the toolbar's links lead. */
 export const POSTHOG_UI_HOST = "https://eu.posthog.com";
@@ -322,12 +330,12 @@ export function startAnalytics(router: NavigationSource): boolean {
   if (client !== null) return true;
   const early = pending.splice(0);
   const deployPage = isDeployPath(window.location.pathname) || isDeployPath(openedAt ?? "");
-  if (!isReportingHost(window.location.hostname) || deployPage) {
+  if (activePosthogKey() === "" || !isReportingHost(window.location.hostname) || deployPage) {
     closed = true;
     return false;
   }
   client = import("posthog-js").then(({ default: posthog }) => {
-    posthog.init(POSTHOG_KEY, posthogOptions);
+    posthog.init(activePosthogKey(), posthogOptions);
     return posthog;
   });
   const unwatch = watchPageviews(router);

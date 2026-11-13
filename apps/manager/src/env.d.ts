@@ -28,7 +28,7 @@ interface ManagerSecrets {
    */
   CF_GRANT_KEY?: string;
   /**
-   * Optional GitHub token that can read appflare/appflare's releases (the
+   * Optional GitHub token that can read yys9253462-gif/appflare's releases (the
    * repository is public, so a fine-grained token with no permissions
    * will do). Not needed: without it the newest release comes from
    * github.com and the API, limited to 60 requests an hour per shared
@@ -96,7 +96,7 @@ interface ManagerOptionalVars {
   APPFLARE_INSTALL_SOURCE?: string;
   /**
    * The origin of the hosted installer that deployed this manager (for
-   * example `https://appflare.dev`): the only origin whose pages may call
+   * example `https://cf.hejige.com`): the only origin whose pages may call
    * `/api/handoff`, and where the end of setup is reported.
    */
   APPFLARE_INSTALLER_ORIGIN?: string;

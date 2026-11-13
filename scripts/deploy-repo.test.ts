@@ -169,14 +169,16 @@ describe("the deploy repository's npm project", () => {
     expect(readme).toContain(`(${SITE_URL}/start/deploy-button/?utm_source=github`);
     expect(readme).toContain(`(${SITE_URL}/start/install/?utm_source=github`);
     const docsLinks = readme.match(/\]\((https:\/\/[^)]+)\)/g) ?? [];
-    const external = /github\.com|cloudflare\.com|link\.appflare\.dev/;
+    const external = /github\.com|cloudflare\.com/;
     for (const link of docsLinks.filter((l) => !external.test(l))) {
       expect(link).toContain(SITE_URL);
     }
   });
 
   it("points the README's button at another repository when asked", () => {
-    expect(DEPLOY_BUTTON_URL).toBe("https://link.appflare.dev/deploy-1c");
+    expect(DEPLOY_BUTTON_URL).toBe(
+      "https://deploy.workers.cloudflare.com/?url=https://github.com/yys9253462-gif/appflare",
+    );
     const readme = deployRepoReadme("1.2.3", { repository: "someone/appflare-deploy-trial" });
     expect(readme).toContain(
       "(https://deploy.workers.cloudflare.com/?url=https://github.com/someone/appflare-deploy-trial)",
@@ -188,8 +190,8 @@ describe("the deploy repository's npm project", () => {
   });
 
   it("accepts only owner/name for --repo", () => {
-    expect(parseDeployRepository(" MendyLanda/deploy-trial.v2 ")).toBe(
-      "MendyLanda/deploy-trial.v2",
+    expect(parseDeployRepository(" yys9253462-gif/deploy-trial.v2 ")).toBe(
+      "yys9253462-gif/deploy-trial.v2",
     );
     for (const bad of [
       "",

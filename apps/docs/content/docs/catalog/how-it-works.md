@@ -4,7 +4,7 @@ description: Pinned commits, signed artifacts, versioned releases, and the night
 ---
 
 The catalog is a public GitHub repository,
-[appflare/catalog](https://github.com/appflare/catalog). Each app is one folder,
+[yys9253462-gif/appflare-catalog](https://github.com/yys9253462-gif/appflare-catalog). Each app is one folder,
 `apps/<slug>/`, holding a hand-written manifest, `appflare.jsonc`, and an optional
 `README.md`. Everything else is produced by the catalog's CI.
 
@@ -44,7 +44,7 @@ When a change to an app reaches the `main` branch, CI:
    `<slug>-<version>.zip`, `manifest.json`, and `manifest.sig`.
 6. Regenerates `index.json`, the list of apps with their latest version, artifact
    URLs, and manifest digest, and publishes it to
-   `https://appflare.github.io/catalog/index.json`.
+   `https://yys9253462-gif.github.io/appflare-catalog/index.json`.
 
 An [app of several Workers](/catalog/submit/#apps-of-several-workers) is built and
 bundled one Worker at a time, in the order its entry lists them, and packed into one

@@ -98,7 +98,7 @@ does not inherit vars into environments):
 | Var | Meaning |
 |---|---|
 | `INSTALLER_ENV` | `production` or `development`. Required. |
-| `INSTALLER_ORIGIN` | The deploy page's origin, e.g. `https://appflare.dev`. Appflare answers its handoff only to this origin and reports completion here. |
+| `INSTALLER_ORIGIN` | The deploy page's origin, e.g. `https://cf.hejige.com`. Appflare answers its handoff only to this origin and reports completion here. |
 | `MIN_MANAGER_VERSION` | The oldest Appflare release deployed. Older releases are refused with a plain message. |
 | `DEV_RELEASE_URL`, `DEV_RELEASE_KEYS` | Development only. See below. |
 

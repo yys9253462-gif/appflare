@@ -285,7 +285,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
           </ol>
           <p className="leading-relaxed">
             {deployPath === null ? "准备好后" : "通过其他方式安装？准备好后"}，请在你的 Appflare
-            中打开<strong>账户 › 在 appflare.dev 上使用这个 Appflare</strong>。{" "}
+            中打开<strong>账户 › 在 cf.hejige.com 上使用这个 Appflare</strong>。{" "}
             {keepLine(view.intentSaved, what, inApp)}
           </p>
           <Actions>
@@ -376,7 +376,7 @@ export function FlowPanel({ state, dispatch, apps, forwarding = true }: FlowPane
           <Text>
             {view.forgotten ? "此浏览器已不再记住任何 Appflare。" : ""}
             要从本站在你的 Appflare 中打开应用，请在 Appflare 中打开
-            <strong>账户 › 在 appflare.dev 上使用这个 Appflare</strong>，或在这里输入它的地址。
+            <strong>账户 › 在 cf.hejige.com 上使用这个 Appflare</strong>，或在这里输入它的地址。
           </Text>
           {!canRemember && <CannotRememberNote />}
           <Actions>

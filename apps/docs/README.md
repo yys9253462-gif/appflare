@@ -85,7 +85,7 @@ is in `src/deploy/`, the steps' drawing in `src/components/deploy/`.
   callback may submit a form elsewhere: to an https address, or a local one while
   developing.
 - **Signing in while developing.** Cloudflare returns only to the client's
-  registered callbacks, `https://appflare.dev/deploy/callback` and the preview's,
+  registered callbacks, `https://cf.hejige.com/deploy/callback` and the preview's,
   so a local server (`localhost`) cannot finish a sign-in with the public client:
   the page says so. To try the whole journey, deploy the preview, or build with
   `VITE_APPFLARE_OAUTH_CLIENT_ID` and `VITE_APPFLARE_OAUTH_CALLBACK_URL` naming
@@ -118,7 +118,7 @@ service binding points at it):
    owns the `appflare.dev` zone. Only after the preview deployed.
 
 The installer's `INSTALLER_ORIGIN` must be the origin of the site it sits behind
-(the preview at the top level of its config, `https://appflare.dev` in
+(the preview at the top level of its config, `https://cf.hejige.com` in
 `production`); the workflow checks both.
 
 It runs on every push to `main` that touches the site, once a day, and when the
@@ -171,15 +171,15 @@ run still succeeds.
    them only to choose an account when none is given. DNS Edit is not needed
    either; the custom domain creates its own record. If the first deploy is
    refused while it adds the domain, add Zone › DNS › Edit for `appflare.dev`.
-3. **Two repository secrets** on `appflare/appflare` (Settings › Secrets and
+3. **Two repository secrets** on `yys9253462-gif/appflare` (Settings › Secrets and
    variables › Actions), with exactly these names:
    - `DOCS_CLOUDFLARE_API_TOKEN`: the token above.
    - `DOCS_CLOUDFLARE_ACCOUNT_ID`: the production account's id. The job refuses
      the development account's id.
 
    ```sh
-   gh secret set DOCS_CLOUDFLARE_API_TOKEN --repo appflare/appflare
-   gh secret set DOCS_CLOUDFLARE_ACCOUNT_ID --repo appflare/appflare
+   gh secret set DOCS_CLOUDFLARE_API_TOKEN --repo yys9253462-gif/appflare
+   gh secret set DOCS_CLOUDFLARE_ACCOUNT_ID --repo yys9253462-gif/appflare
    ```
 4. **Deploy:** `gh workflow run docs.yml --ref main`. A new custom domain can take
    a few minutes to get its certificate; until then the job's last check warns

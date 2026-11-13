@@ -27,10 +27,10 @@ const INDEX = {
       summary: "Self-hosted link shortener on Workers + KV.",
       version: "0.0.0-20260826.6056400",
       artifacts: {
-        zip: "https://github.com/appflare/catalog/releases/download/cut@0.0.0-20260826.6056400/cut-0.0.0-20260826.6056400.zip",
+        zip: "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.0.0-20260826.6056400/cut-0.0.0-20260826.6056400.zip",
         manifest:
-          "https://github.com/appflare/catalog/releases/download/cut@0.0.0-20260826.6056400/manifest.json",
-        sig: "https://github.com/appflare/catalog/releases/download/cut@0.0.0-20260826.6056400/manifest.sig",
+          "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.0.0-20260826.6056400/manifest.json",
+        sig: "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.0.0-20260826.6056400/manifest.sig",
         digest: "a".repeat(64),
       },
       tagline: "Short links on your own domain",
@@ -39,12 +39,12 @@ const INDEX = {
       services: ["kv"],
       categories: ["utilities"],
       license: "MIT",
-      authors: [{ name: "MendyLanda", github: "MendyLanda" }],
+      authors: [{ name: "yys9253462-gif", github: "yys9253462-gif" }],
       tier: "artifact",
       plan: "free",
       requires: [],
       lastVerified: null,
-      maintainers: ["MendyLanda"],
+      maintainers: ["yys9253462-gif"],
     },
   ],
 };
@@ -174,7 +174,7 @@ describe("parseCatalogIndex", () => {
       tier: "sandbox",
       build: {
         pin: "b".repeat(40),
-        manifest: "https://appflare.github.io/catalog/apps/built/appflare.json",
+        manifest: "https://yys9253462-gif.github.io/appflare-catalog/apps/built/appflare.json",
         manifestDigest: "c".repeat(64),
       },
     };
@@ -244,7 +244,10 @@ describe("parseCatalogIndex", () => {
     const { kv, store } = fakeKv();
     const [cut] = INDEX.apps;
     const media = {
-      icon: { url: "https://appflare.github.io/catalog/apps/cut/icon.svg", sha256: "b".repeat(64) },
+      icon: {
+        url: "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/icon.svg",
+        sha256: "b".repeat(64),
+      },
       screenshots: [],
     };
     store.set(
@@ -261,7 +264,7 @@ describe("parseCatalogIndex", () => {
             link: { url: "https://acme.example", label: "Go" },
           },
         ],
-        stats: "https://appflare.github.io/catalog/stats.json",
+        stats: "https://yys9253462-gif.github.io/appflare-catalog/stats.json",
       }),
     );
     const index = await readCachedCatalogIndex(kv);
@@ -385,13 +388,13 @@ describe("conditional refresh", () => {
     const proven = {
       ...STATS,
       apps: {
-        cut: { ...STATS.apps.cut, stars: { ...STATS.apps.cut.stars, repo: "MendyLanda/cut" } },
+        cut: { ...STATS.apps.cut, stars: { ...STATS.apps.cut.stars, repo: "yys9253462-gif/cut" } },
       },
     };
     const s = site({ [STATS_URL]: { body: proven, etag: '"s1"' } });
     expect(
       (await refreshCatalogStats(kv, STATS_URL, { fetch: s.fetch })).apps.cut?.stars?.repo,
-    ).toBe("MendyLanda/cut");
+    ).toBe("yys9253462-gif/cut");
     await refreshCatalogStats(kv, STATS_URL, { fetch: s.fetch });
     expect(s.requests.map((request) => request.ifNoneMatch)).toEqual([null, '"s1"']);
     expect(meta.get(CATALOG_STATS_KEY)).toMatchObject({ v: 2 });

@@ -20,7 +20,7 @@ import { compareVersions, isUpdateAvailable, parseVersion } from "./versions";
 
 /**
  * The manager's own release feed. Appflare releases are GitHub Releases on
- * appflare/appflare tagged `manager@<version>`, each with
+ * yys9253462-gif/appflare tagged `manager@<version>`, each with
  * `appflare-<version>.zip`, `manifest.json`, and `manifest.sig`. The cron
  * reads the releases list, picks the newest published (not draft, not
  * pre-release) manager release, and keeps it in KV under `manager:latest`

@@ -2,6 +2,7 @@ import type { FetchLike } from "@appflare/cf-api";
 import {
   isInstallId,
   TELEMETRY_BATCH_URL,
+  TELEMETRY_PROJECT_KEY,
   type TelemetryValue,
   telemetryBatchBody,
 } from "@appflare/schema";
@@ -340,6 +341,9 @@ export async function sendFailureReport(
   opts: FailureReportOptions = {},
 ): Promise<SendOutcome> {
   if (isDevBuild(runningVersion(env))) throw new FailureReportError(FAILURE_REPORT_COPY.devBuild);
+  if (TELEMETRY_PROJECT_KEY === "" && opts.fetch === undefined) {
+    throw new FailureReportError(FAILURE_REPORT_COPY.sendFailed);
+  }
   const now = (opts.now ?? Date.now)();
   const { job, settings } = await load(env, jobId);
   if (job.reportedAt !== null) {

@@ -8,7 +8,7 @@ import type { StepAnswer } from "./installer-api.ts";
  * request is recorded, so tests can check what went where.
  */
 
-export const ORIGIN = "https://appflare.dev";
+export const ORIGIN = "https://cf.hejige.com";
 export const ACCOUNT_ID = "0123456789abcdef0123456789abcdef";
 export const OTHER_ACCOUNT_ID = "fedcba9876543210fedcba9876543210";
 export const CLIENT_ID = "b99863433175d812f9595af56dd1b71d";

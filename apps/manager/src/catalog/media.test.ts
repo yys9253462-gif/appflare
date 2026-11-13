@@ -12,8 +12,8 @@ import {
 } from "./media";
 import { catalogMediaRoute, readLimited, serveCatalogMedia } from "./media.server";
 
-const INDEX_URL = "https://appflare.github.io/catalog/index.json";
-const SITE = "https://appflare.github.io/catalog";
+const INDEX_URL = "https://yys9253462-gif.github.io/appflare-catalog/index.json";
+const SITE = "https://yys9253462-gif.github.io/appflare-catalog";
 const PNG: Uint8Array<ArrayBuffer> = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 1, 2, 3]);
 
 async function sha256(bytes: Uint8Array<ArrayBuffer>): Promise<string> {
@@ -31,9 +31,10 @@ function index(media: unknown, featured: unknown[] = []) {
         summary: "Links.",
         version: "1.0.0",
         artifacts: {
-          zip: "https://github.com/appflare/catalog/releases/download/cut@1.0.0/cut-1.0.0.zip",
-          manifest: "https://github.com/appflare/catalog/releases/download/cut@1.0.0/manifest.json",
-          sig: "https://github.com/appflare/catalog/releases/download/cut@1.0.0/manifest.sig",
+          zip: "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@1.0.0/cut-1.0.0.zip",
+          manifest:
+            "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@1.0.0/manifest.json",
+          sig: "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@1.0.0/manifest.sig",
           digest: "a".repeat(64),
         },
         tagline: "Short links on your own domain",
@@ -42,12 +43,12 @@ function index(media: unknown, featured: unknown[] = []) {
         services: ["kv"],
         categories: ["utilities"],
         license: "MIT",
-        authors: [{ name: "MendyLanda", github: "MendyLanda" }],
+        authors: [{ name: "yys9253462-gif", github: "yys9253462-gif" }],
         tier: "artifact",
         plan: "free",
         requires: [],
         lastVerified: null,
-        maintainers: ["MendyLanda"],
+        maintainers: ["yys9253462-gif"],
         media,
       },
     ],
@@ -59,7 +60,9 @@ describe("catalog media rules", () => {
   it("allows only images on the index's own origin", () => {
     expect(mediaAllowed(`${SITE}/apps/cut/icon.svg`, INDEX_URL)).toBe(true);
     expect(mediaAllowed("https://tracker.example/pixel.png", INDEX_URL)).toBe(false);
-    expect(mediaAllowed("https://appflare.github.io.evil.example/x.png", INDEX_URL)).toBe(false);
+    expect(mediaAllowed("https://yys9253462-gif.github.io.evil.example/x.png", INDEX_URL)).toBe(
+      false,
+    );
     expect(mediaAllowed(`${SITE}/apps/cut/page.html`, INDEX_URL)).toBe(false);
     expect(mediaAllowed("not a url", INDEX_URL)).toBe(false);
   });

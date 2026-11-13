@@ -3,7 +3,12 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { resetAnalytics, startAnalytics, track } from "../../analytics/analytics.ts";
+import {
+  resetAnalytics,
+  setPosthogKeyForTests,
+  startAnalytics,
+  track,
+} from "../../analytics/analytics.ts";
 import type { FlowState } from "../../install/flow.ts";
 import { FlowPanel } from "../install/flow-panel.tsx";
 import { InstallButton } from "../install-appflare.tsx";
@@ -51,11 +56,12 @@ function setNavigator(name: string, value: unknown) {
 function browse(userAgent: string, path = "/apps/glance/") {
   setNavigator("userAgent", userAgent);
   (window as unknown as { happyDOM: { setURL(url: string): void } }).happyDOM.setURL(
-    `https://appflare.dev${path}`,
+    `https://cf.hejige.com${path}`,
   );
 }
 
 beforeEach(() => {
+  setPosthogKeyForTests("phc_test");
   followed = [];
   writeText.mockClear();
   vi.mocked(track).mockClear();
@@ -68,6 +74,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  setPosthogKeyForTests(null);
   resetAnalytics();
   act(() => root.unmount());
   container.remove();
@@ -137,7 +144,7 @@ describe("安装 Appflare in an app's own browser", () => {
     await render(<InstallButton placement="home-hero-install" />);
     await tap(link("安装 Appflare"));
     await tap(button("复制链接"));
-    expect(writeText).toHaveBeenCalledWith("https://appflare.dev/deploy/");
+    expect(writeText).toHaveBeenCalledWith("https://cf.hejige.com/deploy/");
     expect(text(dialog())).toContain("链接已复制");
     expect(document.querySelector('[role="status"]')?.textContent).toBe("链接已复制");
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
@@ -154,7 +161,7 @@ describe("安装 Appflare in an app's own browser", () => {
     await tap(link("安装 Appflare"));
     await tap(button("复制链接"));
     const field = dialog()?.querySelector("input");
-    expect(field?.value).toBe("https://appflare.dev/deploy/");
+    expect(field?.value).toBe("https://cf.hejige.com/deploy/");
     expect(field?.readOnly).toBe(true);
     expect(track).not.toHaveBeenCalledWith("handoff_action", expect.anything());
   });
@@ -167,7 +174,7 @@ describe("安装 Appflare in an app's own browser", () => {
     await tap(link("安装 Appflare"));
     await tap(button("发送到电脑"));
     expect(share).toHaveBeenCalledWith({
-      url: "https://appflare.dev/deploy/",
+      url: "https://cf.hejige.com/deploy/",
       title: "安装 Appflare",
     });
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
@@ -198,7 +205,7 @@ describe("安装 Appflare in an app's own browser", () => {
     await tap(link("Install"));
     const open = link("在 Chrome 中打开");
     expect(open.getAttribute("href")).toBe(
-      "intent://appflare.dev/install/glance/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fappflare.dev%2Finstall%2Fglance%2F;end",
+      "intent://cf.hejige.com/install/glance/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fcf.hejige.com%2Finstall%2Fglance%2F;end",
     );
     expect(document.activeElement).toBe(open);
     expect(text(dialog())).toContain("请点菜单（⋮），选择 在浏览器中打开");
@@ -299,7 +306,7 @@ describe("counting clicks", () => {
     expect(names()).toEqual(["$pageview"]);
 
     await tap(link("仍在这里继续"));
-    expect(names()).toEqual(["$pageview", "outbound_click", "install_button_clicked"]);
+    expect(names()).toEqual(["$pageview", "install_button_clicked"]);
     expect(posthog.capture).toHaveBeenLastCalledWith("install_button_clicked", { path: "/" });
   });
 
@@ -315,7 +322,7 @@ describe("counting clicks", () => {
     });
     await flush();
     expect(dialog()).toBeNull();
-    expect(names()).toEqual(["$pageview", "outbound_click", "install_button_clicked"]);
+    expect(names()).toEqual(["$pageview", "install_button_clicked"]);
   });
 
   it("counts the same link as an install where it is followed", async () => {
@@ -323,7 +330,7 @@ describe("counting clicks", () => {
     startAnalytics(router);
     await render(<InstallButton placement="home-hero-install" />);
     await tap(link("安装 Appflare"));
-    expect(names()).toEqual(["$pageview", "outbound_click", "install_button_clicked"]);
+    expect(names()).toEqual(["$pageview", "install_button_clicked"]);
   });
 
   it("counts no visit for any link that opens a dialog", async () => {
@@ -355,11 +362,11 @@ describe("Cloudflare 部署按钮 on the front page", () => {
     expect(followed).toEqual([false]);
     expect(text(dialog())).toContain("在浏览器中打开");
     await tap(button("复制链接"));
-    expect(writeText).toHaveBeenCalledWith("https://appflare.dev/start/deploy-button/");
+    expect(writeText).toHaveBeenCalledWith("https://cf.hejige.com/start/deploy-button/");
     await tap(link("仍在这里继续"));
     expect(followed.at(-1)).toBe(true);
     expect(link("仍在这里继续").getAttribute("href")).toContain(
-      "https://link.appflare.dev/deploy-1c?",
+      "https://deploy.workers.cloudflare.com/",
     );
   });
 
@@ -389,7 +396,7 @@ describe("the share line under an install button", () => {
     ]);
     await tap(button("分享链接"));
     expect(share).toHaveBeenCalledWith({
-      url: "https://appflare.dev/install/glance/",
+      url: "https://cf.hejige.com/install/glance/",
       title: "Install Glance",
     });
     expect(track).toHaveBeenLastCalledWith("handoff_action", {
@@ -403,7 +410,7 @@ describe("the share line under an install button", () => {
     browse(UA.safariIphone, "/");
     await render(<ShareLinkLine path="/deploy/" title="安装 Appflare" />);
     await tap(button("复制链接"));
-    expect(writeText).toHaveBeenCalledWith("https://appflare.dev/deploy/");
+    expect(writeText).toHaveBeenCalledWith("https://cf.hejige.com/deploy/");
     expect(text(container)).toContain("链接已复制");
   });
 
@@ -450,7 +457,7 @@ describe("the install page's 安装 Appflare step", () => {
     expect(text(container)).not.toContain("7 days");
     await tap(link("安装 Appflare"));
     await tap(button("复制链接"));
-    expect(writeText).toHaveBeenCalledWith("https://appflare.dev/install/glance/");
+    expect(writeText).toHaveBeenCalledWith("https://cf.hejige.com/install/glance/");
   });
 
   it("keeps the app for 7 days in a real browser, and goes to the deploy page with it", async () => {

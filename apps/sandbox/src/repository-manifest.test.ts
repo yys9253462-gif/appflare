@@ -151,7 +151,7 @@ describe("artifactVersion", () => {
 
 describe("manifests", () => {
   const facts = {
-    repo: "MendyLanda/cut",
+    repo: "yys9253462-gif/cut",
     ref: "main",
     sha: SHA,
     version: "0.0.0-20260921.0123456",
@@ -167,9 +167,9 @@ describe("manifests", () => {
     const manifest = strictCatalogManifestSchema.parse(repositoryManifest(facts));
     expect(manifest).toMatchObject({
       slug: "cut",
-      name: "MendyLanda/cut",
-      tagline: "Built from MendyLanda/cut",
-      homepage: "https://github.com/MendyLanda/cut",
+      name: "yys9253462-gif/cut",
+      tagline: "Built from yys9253462-gif/cut",
+      homepage: "https://github.com/yys9253462-gif/cut",
       license: "MIT",
       categories: [REPOSITORY_CATEGORY],
       source: { ref: "main", sha: SHA, version: "0.0.0-20260921.0123456" },

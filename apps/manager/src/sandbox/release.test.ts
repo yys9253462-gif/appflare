@@ -29,7 +29,7 @@ describe("the pinned sandbox Worker release", () => {
 
   it("is looked up by its tag next to the manager's own release feed", () => {
     expect(sandboxReleaseUrl({}, "0.1.2")).toBe(
-      "https://api.github.com/repos/appflare/appflare/releases/tags/sandbox%400.1.2",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases/tags/sandbox%400.1.2",
     );
     expect(sandboxReleaseUrl({ MANAGER_RELEASES_URL: "http://localhost:9/r" }, "1.0.0")).toBe(
       "http://localhost:9/r/tags/sandbox%401.0.0",
@@ -43,14 +43,14 @@ describe("sandboxReleaseAssets", () => {
     draft: false,
     assets: ["appflare-sandbox-0.1.2.zip", "manifest.json", "manifest.sig"].map((name, i) => ({
       name,
-      url: `https://api.github.com/repos/appflare/appflare/releases/assets/${i + 1}`,
-      browser_download_url: `https://github.com/appflare/appflare/releases/download/sandbox@0.1.2/${name}`,
+      url: `https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/${i + 1}`,
+      browser_download_url: `https://github.com/yys9253462-gif/appflare/releases/download/sandbox@0.1.2/${name}`,
     })),
   };
 
   it("uses the API asset URLs with a GitHub token and the public ones without", () => {
     expect(sandboxReleaseAssets(release, "0.1.2", { viaApi: true }).zip).toBe(
-      "https://api.github.com/repos/appflare/appflare/releases/assets/1",
+      "https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/1",
     );
     expect(sandboxReleaseAssets(release, "0.1.2", { viaApi: false }).sig).toMatch(
       /download\/sandbox@0\.1\.2\/manifest\.sig$/,
@@ -71,7 +71,7 @@ describe("sandboxReleaseAssets", () => {
 });
 
 describe("finding the sandbox Worker release", () => {
-  const DOWNLOAD = "https://github.com/appflare/appflare/releases/download/sandbox%400.1.2";
+  const DOWNLOAD = "https://github.com/yys9253462-gif/appflare/releases/download/sandbox%400.1.2";
   /** Answers every request with `response`, recording the URLs and Range headers asked for. */
   function github(response: () => Response) {
     const seen: Array<{ url: string; range: string | null }> = [];

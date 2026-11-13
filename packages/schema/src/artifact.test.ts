@@ -73,10 +73,10 @@ const validArtifact = {
     name: "Cut",
     summary: "Self-hosted link shortener on Workers + KV.",
     tagline: "Short links on your own domain",
-    repo: "MendyLanda/cut",
+    repo: "yys9253462-gif/cut",
     license: "MIT",
     categories: ["utilities"],
-    maintainers: ["MendyLanda"],
+    maintainers: ["yys9253462-gif"],
     source: { ref: "v0.1.0", sha: gitSha },
     install: {
       tier: "artifact",

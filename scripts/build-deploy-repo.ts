@@ -3,7 +3,7 @@ import { parseArgs } from "node:util";
 import { buildDeployRepo, parseDeployRepository } from "./deploy-repo.ts";
 
 /**
- * Writes the contents of the public deploy repository (appflare/deploy) that
+ * Writes the contents of the public deploy repository (yys9253462-gif/appflare) that
  * the "Deploy to Cloudflare" button deploys from, from one manager release
  * (scripts/deploy-repo.ts explains every choice):
  *
@@ -19,7 +19,7 @@ import { buildDeployRepo, parseDeployRepository } from "./deploy-repo.ts";
  * and is refused; `--allow-legacy` (local experiments only) adds the binding.
  * `--no-lockfile` skips package-lock.json, which needs the npm registry.
  * `--repo` points the README's Deploy to Cloudflare button at another GitHub
- * repository than appflare/deploy, to try the button from a copy pushed there.
+ * repository than yys9253462-gif/appflare, to try the button from a copy pushed there.
  * A copy in which any file contains an account id pinned in this repository's
  * wrangler configs, or a value from its `.env`, is deleted and the run fails
  * (scripts/deploy-repo-guard.ts).

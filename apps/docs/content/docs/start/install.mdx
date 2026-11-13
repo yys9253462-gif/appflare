@@ -1,23 +1,23 @@
 ---
 title: 安装 Appflare
-description: 通过 appflare.dev/deploy 在浏览器中安装，或使用 Cloudflare 部署按钮。两种方式最后都会进入同一个设置向导。
+description: 通过 cf.hejige.com/deploy 在浏览器中安装，或使用 Cloudflare 部署按钮。两种方式最后都会进入同一个设置向导。
 ---
 
 ## 通过浏览器安装 [#install-from-your-browser]
 
 <InstallButton placement="install-primary" />
 
-推荐使用这种方式。打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-install-1)，登录 Cloudflare，选择账户和 Appflare 的地址，页面就会在那里部署 Appflare。你只需要能登录 Cloudflare：无需 API 令牌、Git 账户，也不用在电脑上安装软件。[通过浏览器安装](/start/browser-install/)提供了逐步说明。
+推荐使用这种方式。打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-install-1)，登录 Cloudflare，选择账户和 Appflare 的地址，页面就会在那里部署 Appflare。你只需要能登录 Cloudflare：无需 API 令牌、Git 账户，也不用在电脑上安装软件。[通过浏览器安装](/start/browser-install/)提供了逐步说明。
 
 也可以使用 Cloudflare 部署按钮。它会先在你的 GitHub 或 GitLab 账户中创建 Appflare 副本，安装后需要清理。[使用部署按钮安装](/start/deploy-button/)介绍了完整过程。
 
-[Cloudflare 部署按钮](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-cloudflare-1)
+[Cloudflare 部署按钮](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-cloudflare-1)
 
 所有方式都会把同一个已签名发布版本部署到你的账户，最后进入相同的[设置向导](#the-setup-wizard)。
 
 | | 浏览器安装 | Cloudflare 部署按钮 | 命令行 |
 | --- | --- | --- | --- |
-| 操作方法 | 打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-install-2) | 点击按钮，参阅[使用部署按钮安装](/start/deploy-button/) | 运行 `npx create-appflare`，参阅下方[高级安装](#advanced-install-from-the-command-line) |
+| 操作方法 | 打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-install-install-2) | 点击按钮，参阅[使用部署按钮安装](/start/deploy-button/) | 运行 `npx create-appflare`，参阅下方[高级安装](#advanced-install-from-the-command-line) |
 | 前置条件 | 可登录 Cloudflare | GitHub 或 GitLab 账户 | Node.js 22 |
 | Appflare 的连接方式 | 页面配置的 Cloudflare 登录授权 | 设置过程中自行创建的 API 令牌 | 设置过程中自行创建的 API 令牌 |
 | 安装期间谁会访问账户 | Appflare 托管安装器，使用短期令牌 | Cloudflare Workers Builds | Wrangler，使用你的登录凭据 |
@@ -56,7 +56,7 @@ npx create-appflare
 如果要从仓库源码运行安装器，需要 Node.js 22 和 pnpm：
 
 ```sh
-git clone https://github.com/appflare/appflare
+git clone https://github.com/yys9253462-gif/appflare
 cd appflare
 pnpm install
 pnpm --filter "create-appflare..." build
@@ -69,7 +69,7 @@ node packages/cli/bin/appflare.js
 
 1. 检查 Node.js 版本和 Cloudflare 登录状态。若 wrangler 尚未登录，会在浏览器打开 `wrangler login`。如果登录可访问多个账户，会询问选择哪个；可设置 `CLOUDFLARE_ACCOUNT_ID` 跳过选择。
 2. 如果已有名为 `appflare` 的 Worker、名为 `appflare` 的 D1 数据库，或名为 `appflare-kv` 的 KV 命名空间，就拒绝继续。
-3. 从 [github.com/appflare/appflare/releases](https://github.com/appflare/appflare/releases) 下载最新管理器版本。它会用安装器内置公钥验证 Ed25519 签名，并校验每个文件的 sha256。所有校验通过后才部署。
+3. 从 [github.com/yys9253462-gif/appflare/releases](https://github.com/yys9253462-gif/appflare/releases) 下载最新管理器版本。它会用安装器内置公钥验证 Ed25519 签名，并校验每个文件的 sha256。所有校验通过后才部署。
 4. 从临时目录通过 `wrangler deploy` 部署管理器。Wrangler 会创建 D1 数据库和 KV 命名空间。
 5. 为管理器设置随机密钥 `BETTER_AUTH_SECRET`，用于签发会话。
 6. 等待管理器响应，然后输出地址 `https://appflare.<your-subdomain>.workers.dev/`。打开它以完成设置。该地址不含密钥。

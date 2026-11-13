@@ -1606,7 +1606,7 @@ describe("an update from a reviewed build", () => {
       `INSERT INTO source_builds (id, install_id, purpose, origin, app_slug, repo, status,
          commit_sha, ref, version, digest, manifest_key, artifact_key, image, manifest_json,
          built_at, created_at, updated_at)
-       VALUES ('build1', ?1, 'update', 'source', 'cut', 'MendyLanda/cut', 'built', ?2, 'main',
+       VALUES ('build1', ?1, 'update', 'source', 'cut', 'yys9253462-gif/cut', 'built', ?2, 'main',
          ?3, ?4, 'builds/m.json', 'builds/a.zip', 'docker.io/appflare/sandbox:test', ?5, 1, 1, 1)`,
     )
       .bind(

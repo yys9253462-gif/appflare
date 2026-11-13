@@ -1,6 +1,6 @@
 ---
 title: 通过浏览器安装
-description: 通过 appflare.dev/deploy 安装 Appflare，了解托管安装器接收和保存的数据，以及如何继续或移除未完成的安装。
+description: 通过 cf.hejige.com/deploy 安装 Appflare，了解托管安装器接收和保存的数据，以及如何继续或移除未完成的安装。
 ---
 
 <Callout type="info" title="本站的授权令牌转发">
@@ -9,7 +9,7 @@ description: 通过 appflare.dev/deploy 安装 Appflare，了解托管安装器�
 
 <InstallButton placement="browser-install-primary" />
 
-[appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-1) 会把 Appflare 安装到你自己的 Cloudflare 账户中。登录 Cloudflare，选择账户、名称和地址后，页面会部署 Appflare，并在该地址打开它，供你创建所有者账户。无需创建 API 令牌，不涉及 Git 账户，也不用在电脑上安装软件。
+[cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-1) 会把 Appflare 安装到你自己的 Cloudflare 账户中。登录 Cloudflare，选择账户、名称和地址后，页面会部署 Appflare，并在该地址打开它，供你创建所有者账户。无需创建 API 令牌，不涉及 Git 账户，也不用在电脑上安装软件。
 
 网页本身无法创建 Worker，因为 Cloudflare API 不接受来自网页的这类请求。实际部署由页面背后的 Appflare 托管安装器完成，它是一个小型开源服务，在安装的几分钟里能够操作你的账户。[安装器会看到并保存什么](#what-the-installer-sees-and-keeps)详细解释了其中的含义。如果你不希望 Appflare 的任何服务访问账户，请选择[其他安装方式](/start/install/#which-way-to-choose)。
 
@@ -18,7 +18,7 @@ description: 通过 appflare.dev/deploy 安装 Appflare，了解托管安装器�
 - **Cloudflare 账户。** Workers 免费套餐即可。
 - **Appflare 的访问地址。** 可以是账户中状态为 **Active** 的域名，也可以是 `workers.dev` 子域名。如果两者都没有，首次在 Cloudflare 控制台打开 **Workers & Pages** 时会获得一个 `workers.dev` 子域名。
 - **至少一个空闲的定时触发器。** Appflare 的定时更新检查需要一个触发器。免费账户共有五个。如果全部占用，部署仍会完成，Appflare 也可以使用，但页面会提示更新检查等例行检查无法自动运行。释放其他 Worker 的一个触发器即可开启这些检查。
-- **允许 appflare.dev 保存站点数据且开启 JavaScript 的浏览器。** 隐私窗口经常拒绝保存站点数据，此时页面无法完成登录。
+- **允许 cf.hejige.com 保存站点数据且开启 JavaScript 的浏览器。** 隐私窗口经常拒绝保存站点数据，此时页面无法完成登录。
 
 如果账户管理员在 Cloudflare 控制台的 **Manage Account > Members > Settings** 中关闭了 **Public OAuth App access**，Cloudflare 会拒绝 Appflare 等应用的新登录授权。请改用 [Cloudflare 部署按钮](/start/deploy-button/)或[命令行](/start/install/#advanced-install-from-the-command-line)。
 
@@ -32,7 +32,7 @@ description: 通过 appflare.dev/deploy 安装 Appflare，了解托管安装器�
 
 这些权限与其他安装方式使用的 [API 令牌](/start/install/#1-connect-cloudflare)相同，但不包含 Billing：Cloudflare 不向这种登录方式的应用提供 Billing 权限。Appflare 会根据账户可用功能推断 [Workers 套餐](/guides/install-apps/#workers-free-or-workers-paid)，或者由你在设置中选择。
 
-Cloudflare 会把你送回 appflare.dev，由浏览器完成登录。
+Cloudflare 会把你送回 cf.hejige.com，由浏览器完成登录。
 
 ### 2. 选择账户 [#2-choose-the-account]
 
@@ -68,7 +68,7 @@ Cloudflare 会把你送回 appflare.dev，由浏览器完成登录。
 
 进度条会逐一显示步骤：检查发布版本、创建数据库和键值存储、上传 Appflare 文件与管理器本身、配置后台任务、安排定时检查、保存设置密钥、启用 `workers.dev` 地址、连接域名，以及等待 Appflare 响应。安装器在上传任何内容之前，会验证发布版本的 Ed25519 签名和每个文件的 sha256。
 
-运行期间可以关闭标签页。安装进度会被保留；以后在同一个浏览器重新打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-2)，再次连接 Cloudflare 后，页面会继续安装。如果浏览器不允许页面记住安装信息，页面会明确提示，此时请保持标签页打开直到结束。
+运行期间可以关闭标签页。安装进度会被保留；以后在同一个浏览器重新打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-2)，再次连接 Cloudflare 后，页面会继续安装。如果浏览器不允许页面记住安装信息，页面会明确提示，此时请保持标签页打开直到结束。
 
 最后一步会等待新 Appflare 在所选地址响应，并证明它属于这次安装。仅仅有网页响应还不够；在地址证明身份之前，不会向它发送任何凭据。
 
@@ -82,7 +82,7 @@ Cloudflare 会把你送回 appflare.dev，由浏览器完成登录。
 
 如果 Appflare 已在你的域名上运行，会跳过 **Appflare 应该放在哪里？**，因为它已经在那里了。若运行在 `workers.dev`，而账户中有已激活域名，向导会提供迁移选项。
 
-打开所有者步骤的链接只能使用一次，有效期 30 分钟。如果页面提示**这个设置链接已失效**，请在原安装浏览器中重新打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-3)，连接 Cloudflare，然后选择**继续**。页面会使用新的链接打开 Appflare。
+打开所有者步骤的链接只能使用一次，有效期 30 分钟。如果页面提示**这个设置链接已失效**，请在原安装浏览器中重新打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-3)，连接 Cloudflare，然后选择**继续**。页面会使用新的链接打开 Appflare。
 
 如果有人先在另一个浏览器打开你的新 Appflare，他们会看到**请回到安装 Appflare 的地方完成设置**，不能创建所有者。同一页面也提供**改用 API 令牌连接**，任何能为账户创建令牌的人都能使用；这样的人本来就拥有账户控制权。
 
@@ -90,13 +90,13 @@ Cloudflare 会把你送回 appflare.dev，由浏览器完成登录。
 
 ## 紧接着安装应用 [#install-an-app-right-after]
 
-在 appflare.dev 的应用页面选择**安装**时，如果浏览器还不知道你的 Appflare 地址，可以选择**获取 Appflare**，再选择**安装 Appflare**。它会以 `appflare.dev/deploy/?app=<slug>` 打开部署页，提示你所选应用会在 Appflare 设置完成后打开。安装步骤相同。
+在 cf.hejige.com 的应用页面选择**安装**时，如果浏览器还不知道你的 Appflare 地址，可以选择**获取 Appflare**，再选择**安装 Appflare**。它会以 `cf.hejige.com/deploy/?app=<slug>` 打开部署页，提示你所选应用会在 Appflare 设置完成后打开。安装步骤相同。
 
 Appflare 就绪后，页面会打开设置向导，并在后面保留该应用的[安装链接](/guides/install-links/)。创建所有者并选择**完成**，新 Appflare 就会打开该应用页面，等待安装。如果 Appflare 已有所有者，**在 Appflare 中打开应用**会在登录后直接打开该应用页面。
 
 登录 Cloudflare 期间，页面仅在当前标签页保存所选应用，并在返回时继续使用它。不带 `?app=`，或参数不是有效应用时，只安装 Appflare。如果关掉标签页之后再继续，请在 Appflare 设置完成后重新点击应用的**安装**按钮。
 
-页面也会像[在 appflare.dev 上使用你的 Appflare](/guides/install-links/#use-your-appflare-on-appflaredev)一样，在这个浏览器记住新 Appflare 的地址，此后 appflare.dev 的安装按钮就会在那里打开应用。
+页面也会像[在 cf.hejige.com 上使用你的 Appflare](/guides/install-links/#use-your-appflare-on-appflaredev)一样，在这个浏览器记住新 Appflare 的地址，此后 cf.hejige.com 的安装按钮就会在那里打开应用。
 
 ## 如果域名需要等待 [#if-the-domain-takes-a-while]
 
@@ -108,7 +108,7 @@ Appflare 就绪后，页面会打开设置向导，并在后面保留该应用�
 
 安装器会一直保留未完成的安装，直到创建所有者或手动移除。关闭标签页或放置几天，都不会删除安装记录及已创建的资源。
 
-要继续，请在最初使用的浏览器中打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-4)。页面会显示**继续安装 Appflare**。连接 Cloudflare（页面不能自行续期访问，因此通常需要再次授权），然后点击安装旁的**继续**。它会在同一地址从中断处继续，不会重复创建部署。
+要继续，请在最初使用的浏览器中打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-browser-install-install-4)。页面会显示**继续安装 Appflare**。连接 Cloudflare（页面不能自行续期访问，因此通常需要再次授权），然后点击安装旁的**继续**。它会在同一地址从中断处继续，不会重复创建部署。
 
 页面会在账户下列出其他浏览器中开始的安装。只有发起安装的浏览器能够继续，因为只有它持有安装密钥。但任何能登录并访问该 Cloudflare 账户的浏览器，都可以移除安装。
 
@@ -127,11 +127,11 @@ Appflare 就绪后，页面会打开设置向导，并在后面保留该应用�
 - **它会收到短期访问令牌。** 页面发给安装器的每个请求都携带连接 Cloudflare 时签发的访问令牌。令牌约一小时有效，拥有你允许 Appflare 的全部权限，远多于部署所需。在有效期内，安装器理论上可以在你选择的账户里执行这些权限允许的任何操作。安装器实际只用它部署 Appflare，不保存也不记录令牌。但丢弃令牌不等于在 Cloudflare 撤销它，它会一直有效直到过期。
 - **它永远不会收到刷新令牌**，也就是之后维持 Appflare 连接的那部分。浏览器直接把刷新令牌交给新 Appflare 后便遗忘它，Appflare 会立即续期。这描述的是公开代码的行为。运行其他代码的安装器不能从浏览器直接取得刷新令牌，但在访问令牌有效期内，它可以做部署之外的事情，例如修改正在部署的 Appflare。这就是下文所说的信任。
 - **它会保留安装记录**直到设置完成：你的 Cloudflare 账户 id、名称、地址、Appflare 发布版本、已创建资源的 id 和当前进度。不含令牌、密码、所有者信息或应用信息。记录没有保留期限；创建新 Appflare 的所有者账户，或移除未完成安装后才会删除。
-- **代码开源**，位于 Appflare 仓库的 [apps/installer](https://github.com/appflare/appflare/tree/main/apps/installer)，你可以阅读它如何使用令牌。但你无法验证 appflare.dev 实际运行的是否就是同一份代码。使用它意味着选择信任这个服务。
+- **代码开源**，位于 Appflare 仓库的 [apps/installer](https://github.com/yys9253462-gif/appflare/tree/main/apps/installer)，你可以阅读它如何使用令牌。但你无法验证 cf.hejige.com 实际运行的是否就是同一份代码。使用它意味着选择信任这个服务。
 
 部署页及 Cloudflare 返回的页面不会运行其他分析，仅统计每次安装进行到哪一步，不包含你或账户的信息。请参阅[隐私](/privacy/#installing-appflare-from-this-site)。
 
-Appflare 获得连接后，就会自行与 Cloudflare 通信。即使 appflare.dev 不可用，你的 Appflare 和应用仍会工作。之后还有两件事会经过 appflare.dev：从 Appflare 设置里再次用 Cloudflare 登录时，会回到该站点的页面，并使用 Appflare 在 Cloudflare 注册的客户端。API 令牌不需要这两项；请参阅 [Appflare 的 Cloudflare 连接](/guides/cloudflare-connection/)。
+Appflare 获得连接后，就会自行与 Cloudflare 通信。即使 cf.hejige.com 不可用，你的 Appflare 和应用仍会工作。之后还有两件事会经过 cf.hejige.com：从 Appflare 设置里再次用 Cloudflare 登录时，会回到该站点的页面，并使用 Appflare 在 Cloudflare 注册的客户端。API 令牌不需要这两项；请参阅 [Appflare 的 Cloudflare 连接](/guides/cloudflare-connection/)。
 
 要让所有 Appflare 服务都不接触你的账户，请通过[Deploy to Cloudflare 按钮](/start/deploy-button/)或[安装器](/start/install/)安装。它们使用你自行创建的 API 令牌，令牌从 Cloudflare 控制台直接进入你的 Appflare，不经过其他地方。
 

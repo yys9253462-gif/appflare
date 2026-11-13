@@ -51,7 +51,7 @@ export function changedPages(
 
 /**
  * The body of an IndexNow submission of the given pages, all on the site at
- * `origin` (`https://appflare.dev`), which serves the key file.
+ * `origin` (`https://cf.hejige.com`), which serves the key file.
  */
 export function indexNowBody(origin: string, urls: readonly string[]) {
   return {

@@ -60,7 +60,7 @@ This restores every permission Appflare uses at once.
 1. Choose **Sign in with Cloudflare**, then **Continue to Cloudflare**. The tab goes to
    Cloudflare.
 2. Sign in, choose the account Appflare runs in, and allow every permission.
-3. Cloudflare sends you to appflare.dev, which shows **Return to your Appflare at** and
+3. Cloudflare sends you to cf.hejige.com, which shows **Return to your Appflare at** and
    an address. Check that it is your own Appflare's address, then select **Return to my
    Appflare**. The page asks because anyone can start a Cloudflare sign-in that names
    their own address, and whoever runs that address gets access to your account.
@@ -71,7 +71,7 @@ again with **Reconnect Cloudflare**. Appflare checks the result before it change
 anything: a sign-in for another account, or one that leaves a permission out, changes
 nothing and says so.
 
-appflare.dev only passes along the one-time code Cloudflare returns. The code is useless
+cf.hejige.com only passes along the one-time code Cloudflare returns. The code is useless
 without a secret your Appflare kept for itself when you started, and Appflare's hosted
 installer takes no part.
 
@@ -91,7 +91,7 @@ If Appflare connected with Cloudflare sign-in before, it now uses the token and
 withdraws its sign-in at Cloudflare. It redeploys itself to pick the token up, which
 takes a few seconds.
 
-This way never leaves Appflare's own pages and never goes through appflare.dev, so it
+This way never leaves Appflare's own pages and never goes through cf.hejige.com, so it
 works when signing in does not.
 
 ## Change how Appflare connects
@@ -118,7 +118,7 @@ What a switch means for permissions:
 ## With Cloudflare Access in front of Appflare
 
 When [Cloudflare Access](/security/#protect-with-cloudflare-access) protects Appflare,
-Access also checks the return from a Cloudflare sign-in: appflare.dev sends it to your
+Access also checks the return from a Cloudflare sign-in: cf.hejige.com sends it to your
 Appflare's address, and it needs your Access session there to get through. Appflare's
 Access application keeps Cloudflare's default cookie setting, which lets that session
 come along.
@@ -141,5 +141,5 @@ an account-owned token).
 
 [Remove Appflare](/guides/danger-zone/#remove-appflare-from-this-account) withdraws a
 Cloudflare sign-in by itself, as its last step. If you removed an unfinished
-installation from [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=guides-cloudflare-connection-install-1) after it had received its connection,
+installation from [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=guides-cloudflare-connection-install-1) after it had received its connection,
 revoke Appflare in your profile as well.

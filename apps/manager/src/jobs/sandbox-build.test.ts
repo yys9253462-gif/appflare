@@ -228,7 +228,7 @@ describe("installing a sandbox tier app", () => {
       protocol: 1,
       installId: r.installId,
       version: "1.0.0",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       sha: PIN,
       wranglerConfigPath: "wrangler.jsonc",
       instanceType: "standard-1",

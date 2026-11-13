@@ -28,7 +28,6 @@ import {
   Wordmark,
   ZoomableShot,
 } from "./parts.tsx";
-import { Testimonials } from "./testimonials.tsx";
 
 const notAffiliated = "Appflare 是独立开源项目，与 Cloudflare, Inc. 没有隶属、背书或赞助关系。";
 
@@ -63,15 +62,6 @@ export function LandingContent({ data }: { data: LandingData }) {
         </dl>
       </section>
 
-      <Testimonials
-        heading={
-          <SectionHeading
-            eyebrow="来自 X"
-            title="大家怎么说"
-            lead="其中也有 Cloudflare 团队成员的评价。"
-          />
-        }
-      />
       <HowItWorks data={data} />
       <Apps data={data} />
       <Features />

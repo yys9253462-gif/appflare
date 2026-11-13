@@ -22,7 +22,7 @@ import { APPFLARE_OAUTH_CALLBACK_URL } from "@appflare/cf-api/oauth";
  */
 
 /** Appflare's public OAuth client (a public identifier, not a secret). */
-export const APPFLARE_OAUTH_CLIENT_ID = "b99863433175d812f9595af56dd1b71d";
+export const APPFLARE_OAUTH_CLIENT_ID = "accf8da473f0e9b110cac7de75b54149";
 
 /** The deploy page's callback, on the installer's origin. */
 const CALLBACK_PATH = "/deploy/callback";

@@ -4,6 +4,7 @@ import {
   INSTALL_ID_VAR,
   TELEMETRY_BATCH_URL,
   TELEMETRY_DOCS_URL,
+  TELEMETRY_PROJECT_KEY,
   TELEMETRY_VAR,
   type TelemetryValue,
   telemetryBatchBody,
@@ -208,6 +209,7 @@ export class CliTelemetry {
    */
   async finish(outcome: "succeeded" | "failed" | "cancelled", error?: unknown): Promise<void> {
     if (!this.started || !this.enabled || this.installId === null) return;
+    if (TELEMETRY_PROJECT_KEY === "" && this.options.fetch === globalThis.fetch) return;
     if (outcome === "succeeded") this.step = "done";
     const body = telemetryBatchBody(this.installId, [
       {

@@ -50,15 +50,15 @@ import { emailScriptName, installedScriptNames } from "./workers";
 
 /** A manifest that states only what has no default. */
 const validManifest = {
-  $schema: "https://appflare.github.io/catalog/schema/v1.json",
+  $schema: "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   slug: "cut",
   name: "Cut",
   summary: "Self-hosted link shortener on Workers + KV.",
   tagline: "Short links on your own domain",
-  repo: "MendyLanda/cut",
+  repo: "yys9253462-gif/cut",
   license: "MIT",
   categories: ["utilities"],
-  maintainers: ["MendyLanda"],
+  maintainers: ["yys9253462-gif"],
   source: { ref: "v0.1.0", sha: "0".repeat(40) },
   install: {
     packageManager: "pnpm",
@@ -131,7 +131,7 @@ describe("catalogManifestSchema", () => {
   it("defaults the homepage to the repository, and requires https when set", () => {
     const parsed = catalogManifestSchema.parse(validManifest);
     expect(parsed.homepage).toBeUndefined();
-    expect(catalogHomepage(parsed)).toBe("https://github.com/MendyLanda/cut");
+    expect(catalogHomepage(parsed)).toBe("https://github.com/yys9253462-gif/cut");
     const set = catalogManifestSchema.parse({ ...validManifest, homepage: "https://cut.dev" });
     expect(catalogHomepage(set)).toBe("https://cut.dev");
     for (const homepage of ["http://example.com", "javascript:alert(1)", "ftp://example.com"]) {
@@ -152,7 +152,9 @@ describe("catalogManifestSchema", () => {
     expect(catalogHomepage({ ...manifest, homepage: "https://emdash.example" })).toBe(
       "https://emdash.example",
     );
-    expect(catalogRepository(catalogManifestSchema.parse(validManifest))).toBe("MendyLanda/cut");
+    expect(catalogRepository(catalogManifestSchema.parse(validManifest))).toBe(
+      "yys9253462-gif/cut",
+    );
     for (const upstreamRepo of [
       "https://github.com/emdash-cms/emdash",
       "missing-owner",

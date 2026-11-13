@@ -1,10 +1,10 @@
 {
   // Catalog manifest for the manager itself: the manager is packed with
   // @appflare/pack like any catalog app and released as `manager@<version>` on
-  // appflare/appflare (docs/RELEASING.md). Pack it with `pnpm release:pack`, never
+  // yys9253462-gif/appflare (docs/RELEASING.md). Pack it with `pnpm release:pack`, never
   // with this file directly: `source` below holds placeholders that
   // scripts/release-pack.ts overwrites in a temporary copy at build time.
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "slug": "appflare",
   "name": "Appflare",
   "summary": "A single Worker in your own Cloudflare account that lets you browse a catalog of Cloudflare-native apps, install them, and keep them updated.",
@@ -14,7 +14,7 @@
   "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["utilities"],
-  "maintainers": ["MendyLanda"],
+  "maintainers": ["yys9253462-gif"],
   // Placeholders. At build time `ref` becomes the release version (APPFLARE_VERSION,
   // e.g. "0.1.0"; the packer derives the artifact version from a semver ref) and
   // `sha` becomes the commit being built (`git rev-parse HEAD`).

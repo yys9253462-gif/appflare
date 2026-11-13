@@ -6,8 +6,8 @@ their browser and only they can do them. Follow these instructions exactly, in o
 
 Background, if you need it:
 
-- The install guide: https://appflare.dev/start/install.md
-- All of Appflare's documentation for agents: https://appflare.dev/llms.txt
+- The install guide: https://cf.hejige.com/start/install.md
+- All of Appflare's documentation for agents: https://cf.hejige.com/llms.txt
 
 ## Rules for the whole session
 
@@ -16,7 +16,7 @@ Background, if you need it:
 - Change nothing in their Cloudflare account except through the Appflare installer. If the installer refuses because something already exists, stop and ask them. Never delete anything.
 - Never use `--allow-unsigned` and never set `APPFLARE_DEV`.
 - Work in a new directory outside their projects. The installer writes nothing to the current directory.
-- These steps install with the installer, and the manager then connects to Cloudflare with an API token the user creates. If Node.js 22 is missing and the user does not want to install it, or they would rather not run anything on their computer, tell them they can install from their browser at https://appflare.dev/deploy/ (guide: https://appflare.dev/start/browser-install.md), and stop. That page needs their own Cloudflare sign-in in their own browser: do not drive it for them, and do not open it with a browser automation tool.
+- These steps install with the installer, and the manager then connects to Cloudflare with an API token the user creates. If Node.js 22 is missing and the user does not want to install it, or they would rather not run anything on their computer, tell them they can install from their browser at https://cf.hejige.com/deploy/ (guide: https://cf.hejige.com/start/browser-install.md), and stop. That page needs their own Cloudflare sign-in in their own browser: do not drive it for them, and do not open it with a browser automation tool.
 
 ## Steps
 
@@ -47,8 +47,8 @@ These steps happen in the setup page you opened, and only the user can do them.
 
 ## If setup asks where Appflare should live
 
-When the account has an active domain, setup shows "Where should Appflare live?" after the owner account. Tell the user to keep the workers.dev address (the default; select Continue) unless they asked you for Appflare on a domain. If they did, they choose "Use a domain of yours", pick the domain and name, and select Continue. The move can take a few minutes while Cloudflare issues the certificate (up to 15); the page shows its progress. Then they sign in again at the new address, where setup goes on. They can also choose a domain later in Settings > Domains > Appflare's address. Guide: https://appflare.dev/guides/appflare-address.md
+When the account has an active domain, setup shows "Where should Appflare live?" after the owner account. Tell the user to keep the workers.dev address (the default; select Continue) unless they asked you for Appflare on a domain. If they did, they choose "Use a domain of yours", pick the domain and name, and select Continue. The move can take a few minutes while Cloudflare issues the certificate (up to 15); the page shows its progress. Then they sign in again at the new address, where setup goes on. They can also choose a domain later in Settings > Domains > Appflare's address. Guide: https://cf.hejige.com/guides/appflare-address.md
 
 ## End with
 
-The manager's URL, the version the installer reported (or that the manager had not answered yet), and anything that did not work. After setup, everything else happens in the manager: updates in Settings > Updates (`/settings/updates#appflare` on the manager's address), sandbox builds in Settings > Building apps (`/settings/building#sandbox`), and removal in Settings > Your account > Danger zone (`/settings/account#danger-zone`). To replace the API token later, or to switch to Cloudflare sign-in, an admin uses Settings > Your account > Cloudflare connection (guide: https://appflare.dev/guides/cloudflare-connection.md).
+The manager's URL, the version the installer reported (or that the manager had not answered yet), and anything that did not work. After setup, everything else happens in the manager: updates in Settings > Updates (`/settings/updates#appflare` on the manager's address), sandbox builds in Settings > Building apps (`/settings/building#sandbox`), and removal in Settings > Your account > Danger zone (`/settings/account#danger-zone`). To replace the API token later, or to switch to Cloudflare sign-in, an admin uses Settings > Your account > Cloudflare connection (guide: https://cf.hejige.com/guides/cloudflare-connection.md).

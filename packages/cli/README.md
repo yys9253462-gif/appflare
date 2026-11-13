@@ -1,14 +1,14 @@
 <!-- Absolute image URLs: npm shows this README too and does not resolve relative paths. -->
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/appflare/appflare/main/docs/assets/logo_full_white.svg">
-    <img alt="Appflare" src="https://raw.githubusercontent.com/appflare/appflare/main/docs/assets/logo_full.svg" width="160">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yys9253462-gif/appflare/main/docs/assets/logo_full_white.svg">
+    <img alt="Appflare" src="https://raw.githubusercontent.com/yys9253462-gif/appflare/main/docs/assets/logo_full.svg" width="160">
   </picture>
 </p>
 
 # create-appflare
 
-Installs [Appflare](https://github.com/appflare/appflare), a self-hosted app manager
+Installs [Appflare](https://github.com/yys9253462-gif/appflare), a self-hosted app manager
 for Cloudflare, into your own Cloudflare account. Once it runs, you manage it from its
 own settings pages.
 
@@ -37,7 +37,7 @@ npx create-appflare [--version <x.y.z>] [--name appflare] [--yes]
 
 1. Checks Node.js and your Cloudflare login, and picks the account.
 2. Downloads the latest manager release (or `--version`) from
-   `github.com/appflare/appflare/releases`: `appflare-<version>.zip`,
+   `github.com/yys9253462-gif/appflare/releases`: `appflare-<version>.zip`,
    `manifest.json`, and `manifest.sig`. It checks the Ed25519 signature against the
    public keys built into this package and the sha256 of every file. Nothing is
    deployed unless all of that passes.

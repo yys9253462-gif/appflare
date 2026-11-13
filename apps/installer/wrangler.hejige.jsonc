@@ -7,10 +7,7 @@
     "@appflare/schema": "../../packages/schema/src/index.ts"
   },
   "compatibility_date": "2026-09-21",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
   "preview_urls": false,
   "observability": {

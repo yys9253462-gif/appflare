@@ -55,7 +55,7 @@ describe("configuration", () => {
     const prod = installerApp(world, {
       env: {
         INSTALLER_ENV: "production",
-        INSTALLER_ORIGIN: "https://appflare.dev",
+        INSTALLER_ORIGIN: "https://cf.hejige.com",
         DEV_RELEASE_URL,
       },
     });

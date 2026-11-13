@@ -174,7 +174,9 @@ describe("classifyJobError", () => {
       ),
     ).toMatchObject({ errorCategory: "artifact_integrity" });
     expect(
-      classifyJobError("load artifact manifest: GET github.com/appflare/catalog/x.json -> 404"),
+      classifyJobError(
+        "load artifact manifest: GET github.com/yys9253462-gif/appflare-catalog/x.json -> 404",
+      ),
     ).toMatchObject({ errorCategory: "artifact_fetch", failedPhase: "preflight" });
   });
 
@@ -716,7 +718,7 @@ describe("a failed preflight", () => {
         "manifest_invalid",
       ],
       [
-        "load artifact manifest: GET github.com/appflare/catalog/x.json -> 404",
+        "load artifact manifest: GET github.com/yys9253462-gif/appflare-catalog/x.json -> 404",
         "artifact_unavailable",
       ],
       [

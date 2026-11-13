@@ -206,7 +206,7 @@ describe("release downloads", () => {
         url.endsWith("/missing") ? new Response("", { status: 404 }) : Response.json([]),
     });
     expect(await releaseTokenSecret({ DB: env.DB, SANDBOX: sandbox })).toBeNull();
-    await addToken(OTHER, "appflare/appflare", 1, true);
+    await addToken(OTHER, "yys9253462-gif/appflare", 1, true);
     expect(await releaseTokenSecret({ DB: env.DB })).toBeNull();
     const secret = await releaseTokenSecret({ DB: env.DB, SANDBOX: sandbox });
     expect(secret).toBe(`GITHUB_TOKEN_${OTHER}`);
@@ -220,15 +220,15 @@ describe("release downloads", () => {
       () => AT,
     );
     expect(viaSandbox.token).toBeUndefined();
-    await viaSandbox.github?.("https://api.github.com/repos/appflare/appflare/missing");
+    await viaSandbox.github?.("https://api.github.com/repos/yys9253462-gif/appflare/missing");
     expect((await readGithubTokens(env.DB))[0]?.lastUsedAt).toBeNull();
-    await viaSandbox.github?.("https://api.github.com/repos/appflare/appflare/releases", {
+    await viaSandbox.github?.("https://api.github.com/repos/yys9253462-gif/appflare/releases", {
       headers: { accept: "application/vnd.github+json", cookie: "dropped" },
     });
     expect((await readGithubTokens(env.DB))[0]?.lastUsedAt).toBe(AT.getTime());
     expect(sandbox.githubRequests.at(-1)).toEqual({
       protocol: 1,
-      url: "https://api.github.com/repos/appflare/appflare/releases",
+      url: "https://api.github.com/repos/yys9253462-gif/appflare/releases",
       tokenSecret: `GITHUB_TOKEN_${OTHER}`,
       headers: { accept: "application/vnd.github+json" },
     });

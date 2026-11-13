@@ -1,9 +1,9 @@
 // Writes the social preview images of the three GitHub repositories into
 // docs/assets/, drawn with the same pieces as the site's OpenGraph cards:
 //
-//   social-preview.png          appflare/appflare
-//   social-preview-catalog.png  appflare/catalog
-//   social-preview-deploy.png   appflare/deploy
+//   social-preview.png          yys9253462-gif/appflare
+//   social-preview-catalog.png  yys9253462-gif/appflare-catalog
+//   social-preview-deploy.png   yys9253462-gif/appflare
 //
 //   CATALOG_SNAPSHOT=live pnpm --filter @appflare/docs social-previews
 //

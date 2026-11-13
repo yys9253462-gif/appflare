@@ -127,14 +127,14 @@ describe("configuration", () => {
   const base = {
     DB: env.DB,
     INSTALLER_ENV: "production",
-    INSTALLER_ORIGIN: "https://appflare.dev",
+    INSTALLER_ORIGIN: "https://cf.hejige.com",
     MIN_MANAGER_VERSION: "0.4.0",
   };
 
   it("reads a production configuration", () => {
     expect(readConfig(base)).toEqual({
       environment: "production",
-      origin: "https://appflare.dev",
+      origin: "https://cf.hejige.com",
       minManagerVersion: "0.4.0",
       devRelease: null,
     });
@@ -145,7 +145,7 @@ describe("configuration", () => {
     expect(() => readConfig({ ...base, INSTALLER_ORIGIN: "http://localhost:8787" })).toThrow(
       /INSTALLER_ORIGIN/,
     );
-    expect(() => readConfig({ ...base, INSTALLER_ORIGIN: "https://appflare.dev/deploy" })).toThrow(
+    expect(() => readConfig({ ...base, INSTALLER_ORIGIN: "https://cf.hejige.com/deploy" })).toThrow(
       /INSTALLER_ORIGIN/,
     );
     expect(() => readConfig({ ...base, MIN_MANAGER_VERSION: "latest" })).toThrow(
@@ -178,7 +178,9 @@ describe("configuration", () => {
 describe("releases", () => {
   it("reads the tag of github.com's latest-release redirect", () => {
     expect(
-      tagOfLatestRedirect("https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.4.0"),
+      tagOfLatestRedirect(
+        "https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.4.0",
+      ),
     ).toBe("manager@0.4.0");
     expect(
       tagOfLatestRedirect("https://github.com/other/repo/releases/tag/manager@0.4.0"),

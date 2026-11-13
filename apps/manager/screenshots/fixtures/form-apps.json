@@ -9,9 +9,9 @@
       "addedAt": "2026-09-24T08:09:39+03:00",
       "version": "0.1.10",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/open-seo@0.1.10/open-seo-0.1.10.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/open-seo@0.1.10/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/open-seo@0.1.10/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/open-seo@0.1.10/open-seo-0.1.10.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/open-seo@0.1.10/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/open-seo@0.1.10/manifest.sig",
         "digest": "62bcae45fdf56e1ef8ab7127f963cd497903366d54014d289a01ca31def6249f"
       },
       "tier": "artifact",
@@ -30,10 +30,10 @@
           "github": "every-app"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/open-seo/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/icon.png",
           "sha256": "9d8d56587bd72607f0b86b096442122303b2be7406e43895da1c189a3ee72d27"
         }
       },
@@ -51,9 +51,9 @@
       "addedAt": "2026-09-27T01:13:10+03:00",
       "version": "0.3.0",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/sink@0.3.0/sink-0.3.0.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/sink@0.3.0/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/sink@0.3.0/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/sink@0.3.0/sink-0.3.0.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/sink@0.3.0/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/sink@0.3.0/manifest.sig",
         "digest": "ad58e8a120ee874b8bd65e5487aea51535311819c59044289f8eb7b313269eed"
       },
       "tier": "artifact",
@@ -68,10 +68,10 @@
           "x": "miantiao_me"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/sink/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/sink/icon.png",
           "sha256": "07eb308b47d29f08f2d629285c20b138741630e0bbe6562c0b437ec5415ba5e4"
         }
       },
@@ -89,9 +89,9 @@
       "addedAt": "2026-09-27T05:55:55+03:00",
       "version": "2.29.0",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/garrul@2.29.0/garrul-2.29.0.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/garrul@2.29.0/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/garrul@2.29.0/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/garrul@2.29.0/garrul-2.29.0.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/garrul@2.29.0/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/garrul@2.29.0/manifest.sig",
         "digest": "2b6f35520bf73094c61299b4a14aff432e6a5439cd7d10934a57da5f75da449f"
       },
       "tier": "artifact",
@@ -105,10 +105,10 @@
           "github": "KingPin"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/garrul/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/garrul/icon.png",
           "sha256": "b6c98bbadfa8a210065c149e0c132aad782d48a488c7644526d0a5ffcefacdbe"
         }
       },
@@ -126,9 +126,9 @@
       "addedAt": "2026-09-27T06:14:13+03:00",
       "version": "0.0.0-20260709.83927b8",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/auth-inbox-0.0.0-20260709.83927b8.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/auth-inbox-0.0.0-20260709.83927b8.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/auth-inbox@0.0.0-20260709.83927b8/manifest.sig",
         "digest": "0f9fa0c25cd57be00ecbde259cd7d45b26601bbf5b470fb223fc83e00b44925d"
       },
       "tier": "artifact",
@@ -142,7 +142,7 @@
           "github": "TooonyChen"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {},
       "services": ["d1", "email-routing", "zone"],
       "categories": ["email", "ai"],
@@ -158,9 +158,9 @@
       "addedAt": "2026-09-27T07:10:18+03:00",
       "version": "0.0.0-20260817.fa69913",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/edgekey@0.0.0-20260817.fa69913/edgekey-0.0.0-20260817.fa69913.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/edgekey@0.0.0-20260817.fa69913/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/edgekey@0.0.0-20260817.fa69913/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/edgekey@0.0.0-20260817.fa69913/edgekey-0.0.0-20260817.fa69913.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/edgekey@0.0.0-20260817.fa69913/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/edgekey@0.0.0-20260817.fa69913/manifest.sig",
         "digest": "dc58a530981196e0fc86880dd2cbbc2cdff33dfdcde626dbfc9353e3ac0264aa"
       },
       "tier": "artifact",
@@ -173,10 +173,10 @@
           "github": "34892002"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/edgekey/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/edgekey/icon.png",
           "sha256": "2b9854d3d27c83ecfd2007c1e87a71480d3aa747409e1c753c026ab95f4b69d3"
         }
       },
@@ -194,9 +194,9 @@
       "addedAt": "2026-09-24T07:29:19+03:00",
       "version": "0.0.0-20260920.1bf70d2",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/mailflare-0.0.0-20260920.1bf70d2.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/mailflare-0.0.0-20260920.1bf70d2.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.sig",
         "digest": "2d8739cfbef1ba06730d746c57b3dc8f02aaa3296254f0c25624774e7ab19c89"
       },
       "tier": "artifact",
@@ -210,10 +210,10 @@
           "x": "hieuSSR"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/mailflare/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/mailflare/icon.png",
           "sha256": "99e25176a3c443b584503fe07a5ed66fe2e06413b7e1c605e52649ed57bdc493"
         }
       },
@@ -235,7 +235,7 @@
   ],
   "manifests": {
     "open-seo": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "open-seo",
       "name": "OpenSEO",
       "summary": "Self-hosted SEO research: keywords, rankings, backlinks and site audits, on your own Cloudflare account and behind Cloudflare Access.",
@@ -255,7 +255,7 @@
           "github": "every-app"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "v0.1.10",
         "sha": "95c4d10c1c1d7bf57ad7328a682a86e16eec2f06"
@@ -417,7 +417,7 @@
       }
     },
     "sink": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "sink",
       "name": "Sink",
       "summary": "Link shortener with visit analytics: custom slugs, expiring links, QR codes, AI slug suggestions and a realtime globe, all on Cloudflare.",
@@ -434,7 +434,7 @@
           "x": "miantiao_me"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "v0.3.0",
         "sha": "6cb6ba3cbd7aa880e562d57fb010d2192b4a9e39"
@@ -529,7 +529,7 @@
       }
     },
     "garrul": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "garrul",
       "name": "Garrul",
       "summary": "Self-hosted comments for static sites and blogs: an embeddable widget with threads, reactions and votes, OAuth or anonymous posting behind Turnstile, a moderation queue, and reply emails.",
@@ -545,7 +545,7 @@
           "github": "KingPin"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "v2.29.0",
         "sha": "30cb07d9f003585010b9734f04bc55f5ce307176"
@@ -720,7 +720,7 @@
       }
     },
     "auth-inbox": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "auth-inbox",
       "name": "Auth Inbox",
       "summary": "An inbox for sign-up and verification mail: Email Routing delivers it, an AI model of your choice pulls out codes and links and sorts each mail, and a dashboard, per-user grants and a remote MCP server let people and agents read them.",
@@ -735,7 +735,7 @@
           "github": "TooonyChen"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "main",
         "sha": "83927b8b2b37bb61a53db69017c05a13570be89d"
@@ -889,7 +889,7 @@
       ]
     },
     "edgekey": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "edgekey",
       "name": "EdgeKey",
       "summary": "A shop for digital goods: sell card keys and codes, take payment through USDT, Epay, Alipay or Stripe, and deliver each order automatically by page and email.",
@@ -903,7 +903,7 @@
           "github": "34892002"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "main",
         "sha": "fa69913b89a3dbd916be931fb4e06a0ae80958f4"
@@ -976,7 +976,7 @@
       }
     },
     "mailflare": {
-      "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+      "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       "slug": "mailflare",
       "name": "Mailflare",
       "summary": "A self-hosted email service for your own domains: mailboxes, forwarding rules, and a web inbox, on Email Routing, D1, R2, Queues, and Durable Objects.",
@@ -991,7 +991,7 @@
           "x": "hieuSSR"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "source": {
         "ref": "main",
         "sha": "1bf70d2ef2771360a546704182752eb7a1ff63f2"

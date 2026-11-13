@@ -68,7 +68,7 @@
       "d1_databases": [{ "binding": "DB", "database_name": "appflare-installer" }],
       "vars": {
         "INSTALLER_ENV": "production",
-        "INSTALLER_ORIGIN": "https://appflare.dev",
+        "INSTALLER_ORIGIN": "https://cf.hejige.com",
         "MIN_MANAGER_VERSION": "0.4.0"
       }
     }

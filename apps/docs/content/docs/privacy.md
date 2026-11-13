@@ -1,57 +1,19 @@
 ---
 title: 隐私
-description: 了解 appflare.dev 记录哪些页面访问数据，以及 Appflare 安装器保存哪些信息。
+description: 了解 cf.hejige.com 记录哪些信息，以及 Appflare 安装器会保存哪些数据。
 ---
 
-appflare.dev uses PostHog analytics, including session recordings, heatmaps, error reports
-and what visitors search for, to learn how its pages are used, and keeps that data in PostHog's EU region. Your browser
-sends it through the site's own address, `swgo.appflare.dev`, which passes it on to PostHog. The
-site has no accounts, and the address of your own Appflare stays in your browser: it is
-never recorded or sent.
+本站默认**不启用**第三方页面分析、会话录制或热力图追踪，也不会向外部统计服务发送你的浏览记录。你的 Appflare 管理面板地址只保存在当前浏览器中，不会发送到服务器。
 
-Links from an Appflare to this site say so in their address (`utm_source=appflare-manager`,
-with the name of the link and the Appflare version), so the analytics count how many visits
-come from Appflare and from which help links. They never say which Appflare sent you.
+## 从本站安装 Appflare [#installing-appflare-from-this-site]
 
-Links that install Appflare go through `link.appflare.dev`, which counts clicks and
-their UTM source and placement before redirecting to the deploy page.
+当你通过浏览器在 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=privacy-install-1) 安装 Appflare 时：
 
-## Installing Appflare from this site
+- 本站通过 `cf.hejige.com/api/oauth/token` 代理与 Cloudflare 交换或刷新授权令牌，以处理浏览器跨域限制；该代理不会持久化保存你的令牌。
+- 部署由背后的安装器 Worker 完成。对于尚未完成的安装，安装器会临时保存以下信息以便你断点续传或移除：
+  - 你的 Cloudflare 账户 ID；
+  - 你选择的 Worker 名称和访问地址；
+  - 本次安装的 Appflare 版本；
+  - 已在账户中创建的资源与当前安装进度。
 
-The page that installs Appflare from your browser, [appflare.dev/deploy](https://link.appflare.dev/deploy?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=privacy-install-1), and the
-page Cloudflare sends you back to after you connect do not load PostHog. No page views,
-clicks, recordings or heatmaps are taken there.
-
-To learn how far installs get and where they stop, those pages send PostHog one short
-message for each step an install reaches, once per step, through the same
-`swgo.appflare.dev` address. Each message holds only:
-
-- the step: the first screen, leaving for Cloudflare to connect, back from Cloudflare,
-  deploying, deployed, or an error;
-- for an error, its kind from a fixed list, such as `deploy-failed:worker` or `declined`,
-  never the error's text;
-- a random id made for one install and kept in that browser tab until it closes, so the
-  steps of one install are counted together. Trying again after an error, or starting
-  over, keeps the same id, and a step already sent is not sent again. The tab makes a new
-  id only for an install after one that was deployed, or, if the browser refuses to keep
-  it, each time the page loads. It is not the id PostHog gives you on the rest of this
-  site, so the steps cannot be tied to your visit.
-
-Nothing else: no Cloudflare account, no name or address you chose, no token, no page
-address, no cookie. Each message asks PostHog not to make a profile and not to look up a
-location, and gives `0.0.0.0` as the IP address, which replaces the one PostHog would
-otherwise store.
-
-The deploying is done by Appflare's installer, an open-source service behind that page. For
-each installation that is not finished yet, it keeps a record so you can continue or remove
-it:
-
-- your Cloudflare account id;
-- the name and the address you chose;
-- the Appflare release it installs;
-- what it created in your account, and how far it got.
-
-It keeps no Cloudflare token, no password and nothing about your apps. The record has no
-time limit: it is deleted when your new Appflare's owner account is created, or when you
-remove the unfinished installation from the deploy page. Your browser remembers the same
-installation, with the key that lets you continue it, until then.
+安装器不会保存你的 Cloudflare 令牌、登录密码或任何应用数据。这条记录在所有者账户创建完成，或你在部署页面移除未完成安装时自动删除。你的浏览器仅在本地保存继续该安装所需的密钥，直到安装完成为止。

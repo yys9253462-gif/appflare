@@ -1,6 +1,6 @@
 {
   "catalog": {
-    "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+    "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
     "slug": "emdash",
     "name": "EmDash",
     "summary": "A full-stack TypeScript CMS built on Astro, the spiritual successor to WordPress: this is its blog template, with posts, pages, categories and tags, search, RSS and an admin editor, on D1 and R2.",
@@ -25,7 +25,7 @@
         "github": "emdash-cms"
       }
     ],
-    "maintainers": ["MendyLanda"],
+    "maintainers": ["yys9253462-gif"],
     "source": {
       "ref": "main",
       "sha": "a7bb43df40b2a1dbc63495579be612837e95aa2e",

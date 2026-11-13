@@ -148,7 +148,7 @@ describe("CloudflareTokenCard", () => {
     await settle();
     expect(container.textContent).toContain("Appflare renews its access by itself.");
     expect(container.textContent).toContain("b99863433175d812f9595af56dd1b71d");
-    expect(container.querySelector('a[href^="https://appflare.dev/my/"]')).not.toBeNull();
+    expect(container.querySelector('a[href^="https://cf.hejige.com/my/"]')).not.toBeNull();
     // Each permission by its name, why Appflare holds it one more click away.
     expect(container.textContent).toContain("Permissions (1)");
     await act(async () => button(container, "Workers Scripts").click());

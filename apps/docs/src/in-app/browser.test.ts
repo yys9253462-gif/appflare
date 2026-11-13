@@ -127,8 +127,8 @@ describe("inAppBrowserName", () => {
 
 describe("chromeIntentUrl", () => {
   it("opens the same https address in Chrome, and falls back to it", () => {
-    expect(chromeIntentUrl("https://appflare.dev/install/glance/?x=1")).toBe(
-      "intent://appflare.dev/install/glance/?x=1#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fappflare.dev%2Finstall%2Fglance%2F%3Fx%3D1;end",
+    expect(chromeIntentUrl("https://cf.hejige.com/install/glance/?x=1")).toBe(
+      "intent://cf.hejige.com/install/glance/?x=1#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fcf.hejige.com%2Finstall%2Fglance%2F%3Fx%3D1;end",
     );
   });
 

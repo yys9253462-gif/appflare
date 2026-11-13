@@ -33,8 +33,8 @@ import { CATALOG_ORIGIN, catalogMediaUrl } from "./urls.ts";
  * build fails and the site already deployed stays up.
  */
 
-/** Where the official catalog publishes its index. */
-export const CATALOG_BASE_URL = `${CATALOG_ORIGIN}/catalog/`;
+/** Where the catalog publishes its index. */
+export const CATALOG_BASE_URL = `${CATALOG_ORIGIN}/appflare-catalog/`;
 
 export interface FetchSnapshotOptions {
   /** The catalog's address, ending in `/`. */

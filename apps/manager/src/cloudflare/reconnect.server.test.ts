@@ -192,7 +192,7 @@ describe("startReconnect", () => {
     const { started, url, state } = await start();
     expect(`${url.origin}${url.pathname}`).toBe(CLOUDFLARE_OAUTH_AUTHORIZE_URL);
     expect(url.searchParams.get("client_id")).toBe(APPFLARE_OAUTH_CLIENT_ID);
-    expect(url.searchParams.get("redirect_uri")).toBe("https://appflare.dev/deploy/callback");
+    expect(url.searchParams.get("redirect_uri")).toBe("https://cf.hejige.com/deploy/callback");
     expect(url.searchParams.get("scope")).toBe(MANAGER_OAUTH_SCOPES.join(" "));
     expect(url.searchParams.get("code_challenge_method")).toBe("S256");
     expect(decodeOAuthState(state)).toMatchObject({ v: 1, k: "reconnect", o: ORIGIN });
@@ -273,7 +273,7 @@ describe("handleOAuthReturn", () => {
     expect(exchange).toMatchObject({
       code: CODE,
       clientId: APPFLARE_OAUTH_CLIENT_ID,
-      redirectUri: "https://appflare.dev/deploy/callback",
+      redirectUri: "https://cf.hejige.com/deploy/callback",
     });
     expect(await pkceChallenge(exchange?.verifier ?? "")).toBe(
       url.searchParams.get("code_challenge"),

@@ -61,7 +61,9 @@ describe("appsSearchPath", () => {
 describe("suggestAppUrl", () => {
   it("opens a new issue on the catalog's repository, titled with the app", () => {
     const url = new URL(suggestAppUrl(" karakeep "));
-    expect(`${url.origin}${url.pathname}`).toBe("https://github.com/appflare/catalog/issues/new");
+    expect(`${url.origin}${url.pathname}`).toBe(
+      "https://github.com/yys9253462-gif/appflare-catalog/issues/new",
+    );
     expect(url.searchParams.get("title")).toBe("App request: karakeep");
     expect(url.searchParams.get("body")).toContain("repository");
   });

@@ -9,7 +9,7 @@ import { featured_dismissals, user } from "../db/schema";
 import { featuredCard, pickFeatured, safeExternalUrl } from "./featured";
 import { dismissedFeaturedIds, dismissFeaturedItem } from "./featured.server";
 
-const INDEX_URL = "https://appflare.github.io/catalog/index.json";
+const INDEX_URL = "https://yys9253462-gif.github.io/appflare-catalog/index.json";
 const NOW = new Date("2026-10-15T00:00:00.000Z");
 
 const item = (id: string, extra: Partial<FeaturedItem> = {}): FeaturedItem => ({
@@ -43,7 +43,11 @@ describe("featuredCard", () => {
     const sha = "a".repeat(64);
     const hosted = featuredCard(
       item("a", {
-        image: { url: "https://appflare.github.io/catalog/featured/a.png", sha256: sha, alt: "A" },
+        image: {
+          url: "https://yys9253462-gif.github.io/appflare-catalog/featured/a.png",
+          sha256: sha,
+          alt: "A",
+        },
       }),
       INDEX_URL,
       names,

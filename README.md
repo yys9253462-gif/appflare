@@ -5,100 +5,71 @@
   </picture>
 </h1>
 
-<p align="center"><strong>An app store for your own Cloudflare account.</strong></p>
+<p align="center"><strong>运行在你自己 Cloudflare 账户中的应用商店。</strong></p>
 
 <p align="center">
-  <a href="https://appflare.dev?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-home-1"><img alt="Documentation" src="https://img.shields.io/badge/docs-appflare-f38020"></a>
-  <a href="https://github.com/appflare/appflare/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/appflare/appflare/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://cf.hejige.com?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-home-1"><img alt="文档" src="https://img.shields.io/badge/docs-cf.hejige.com-f38020"></a>
+  <a href="https://github.com/yys9253462-gif/appflare/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/yys9253462-gif/appflare/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
 </p>
 
-Install and manage 100+ open-source apps, including [OpenSEO](https://appflare.dev/apps/open-seo/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-open-seo-1),
-[Sink](https://appflare.dev/apps/sink/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-sink-1) and [Counterscale](https://appflare.dev/apps/counterscale/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-counterscale-1).
-Appflare sets up each app and gives you one dashboard for updates, custom domains
-and access control. Your apps run in your own Cloudflare account.
+在自己的 Cloudflare 账户中一键安装、更新并管理上百个开源应用，包括 [OpenSEO](https://cf.hejige.com/apps/open-seo/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-open-seo-1)、[Sink](https://cf.hejige.com/apps/sink/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-sink-1) 和 [Counterscale](https://cf.hejige.com/apps/counterscale/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-counterscale-1)。Appflare 会自动创建每个应用所需资源，并提供统一面板管理版本更新、自定义域名与访问控制。
 
-[![Install Appflare](docs/assets/install-appflare.svg)](https://link.appflare.dev/deploy?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-install-1)
+[![安装 Appflare](docs/assets/install-appflare.svg)](https://cf.hejige.com/deploy/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-install-1)
 
-Or use [Cloudflare's Deploy button](https://link.appflare.dev/deploy-1c?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-cloudflare-deploy-1).
+或使用 [Cloudflare 部署按钮](https://deploy.workers.cloudflare.com/?url=https://github.com/yys9253462-gif/appflare)。
 
-[Browse the apps](https://appflare.dev/apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-1) · [Installation guide](https://appflare.dev/start/install/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-install-1) · [Documentation](https://appflare.dev?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-home-2) · [App catalog repository](https://github.com/appflare/catalog)
+[浏览应用](https://cf.hejige.com/apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-1) · [安装指南](https://cf.hejige.com/start/install/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-install-1) · [在线文档](https://cf.hejige.com?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-home-2) · [自建应用目录](https://github.com/yys9253462-gif/appflare-catalog)
 
-[![Appflare with a gallery of apps you can install in your own Cloudflare account](docs/assets/readme-hero.png)](https://appflare.dev/apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-2)
+[![Appflare 控制台预览](docs/assets/readme-hero.png)](https://cf.hejige.com/apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-apps-2)
 
-## Install Appflare
+## 安装 Appflare
 
-Select **Install Appflare** above, sign in to Cloudflare, and choose the account
-and address. Appflare's hosted deploy page installs it for you. You need only a
-Cloudflare account, with no API token to create or Git repository to clean up.
-[The browser setup guide](https://appflare.dev/start/browser-install/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-browser-install-1) covers each step.
+点击上方 **安装 Appflare**（或访问 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/)），登录 Cloudflare 并选择账户与访问地址，页面会自动将管理面板部署到你的账户中，无需手动创建 API 令牌或清理 Git 仓库。详细步骤见[浏览器安装指南](https://cf.hejige.com/start/browser-install/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-browser-install-1)。
 
-You can also use [Cloudflare's Deploy button](https://link.appflare.dev/deploy-1c?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-cloudflare-deploy-2),
-which copies a repository into your GitHub or GitLab account.
-[Its setup guide](https://appflare.dev/start/deploy-button/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-deploy-button-1) explains the token and cleanup.
-
-Or run the installer with **Node.js 22 or newer**:
+也可以使用 [Cloudflare 部署按钮](https://deploy.workers.cloudflare.com/?url=https://github.com/yys9253462-gif/appflare)，将仓库复制到你的 GitHub/GitLab 账户进行部署；或使用 **Node.js 22+** 运行命令行安装器：
 
 ```sh
 npx create-appflare
 ```
 
-You can also [give the installation prompt to a coding agent](https://appflare.dev/start/install/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-install-2).
-All these methods install the same Appflare release into your account.
+Appflare 免费且开源，管理面板本身和大多数目录应用都可运行在 Cloudflare Workers 免费套餐上；需要 Workers Paid 的应用会在各自页面注明。
 
-Appflare is free and open source. It runs on the free Workers plan, and most
-catalog apps do too. Each app's page shows whether it needs Workers Paid. Apps count
-against your own Cloudflare plan, and some use third-party services with their own
-pricing.
+## 主要功能
 
-## What you can do
+- 在浏览器中浏览网站分析、邮件、文件、AI、效率等分类应用并一键安装。
+- 检查应用更新并支持回滚，自动更新默认关闭。
+- 实时查看安装、更新、卸载的任务日志。
+- 为应用配置自定义域名，并可通过 Cloudflare Access 保护访问。
+- 修改应用配置，或连同 Cloudflare 资源一起卸载。
 
-- Browse apps for analytics, email, files, AI, productivity and more, then install them from your browser.
-- Update apps when a new version is available. Automatic updates are off until you turn them on.
-- Follow installs and updates in a live log, and roll back to an earlier app version when supported.
-- Give apps custom domains and protect them with Cloudflare Access.
-- Change app settings, or remove apps along with their resources.
+Appflare 为应用创建数据库和存储等资源后，已安装的应用独立运行，不依赖管理面板本身。
 
-Appflare creates each app's Cloudflare resources, such as databases and storage.
-Installed apps don't need Appflare to run, so they keep running if it stops or
-you remove it.
+## 本地开发
 
-## Contribute
-
-[Report a bug or suggest a feature](https://github.com/appflare/appflare/issues),
-or open a pull request to improve the manager, installer or documentation.
-To add an app, use the [catalog repository](https://github.com/appflare/catalog)
-and [submission guide](https://appflare.dev/catalog/submit/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-catalog-submit-1).
-
-For development, use Node.js 22 or newer and pnpm 10. The repository's
-[`package.json`](package.json) pins the pnpm version.
+需要 Node.js 22 或更新版本，以及 [`package.json`](package.json) 指定的 pnpm 版本：
 
 ```sh
-git clone https://github.com/appflare/appflare.git
+git clone https://github.com/yys9253462-gif/appflare.git
 cd appflare
 pnpm install --frozen-lockfile
 pnpm check
 ```
 
-The [manager](apps/manager), [installer](packages/cli), [catalog packer](packages/pack)
-and [documentation site](apps/docs) live in this repository.
+本仓库包含[管理面板](apps/manager)、[CLI 安装器](packages/cli)、[目录打包工具](packages/pack)以及[中文文档与部署站](apps/docs)。应用目录位于 [yys9253462-gif/appflare-catalog](https://github.com/yys9253462-gif/appflare-catalog)。
 
-## Documentation
+## 常用文档
 
-Find setup instructions and guides at [appflare.dev](https://appflare.dev?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-home-3):
+- [Appflare 是什么](https://cf.hejige.com/start/overview/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-overview-1)
+- [安装 Appflare](https://cf.hejige.com/deploy/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-install-2)
+- [安装应用](https://cf.hejige.com/guides/install-apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-install-apps-1)
+- [更新与回滚](https://cf.hejige.com/guides/updates/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-updates-1)
+- [自定义域名](https://cf.hejige.com/guides/custom-domains/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-custom-domains-1)
+- [安全模型](https://cf.hejige.com/security/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-security-1)
+- [常见问题](https://cf.hejige.com/faq/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-faq-1)
 
-- [What Appflare is](https://appflare.dev/start/overview/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-start-overview-1)
-- [Install Appflare](https://link.appflare.dev/deploy?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-install-2)
-- [Install an app](https://appflare.dev/guides/install-apps/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-install-apps-1)
-- [Update and roll back](https://appflare.dev/guides/updates/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-updates-1)
-- [Custom domains](https://appflare.dev/guides/custom-domains/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-guides-custom-domains-1)
-- [Submit an app to the catalog](https://appflare.dev/catalog/submit/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-catalog-submit-2)
-- [Security model](https://appflare.dev/security/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-security-1)
-- [FAQ](https://appflare.dev/faq/?utm_source=github&utm_medium=readme&utm_campaign=appflare&utm_content=appflare-readme-faq-1)
+## 许可证
 
-## License
+遵循 [Apache-2.0](LICENSE) 开源协议；目录中收录的各个应用保留其各自上游许可证。
 
-[Apache-2.0](LICENSE). Catalog apps have their own licenses, shown on their app pages.
-
-Appflare is an independent open-source project and is not affiliated with, endorsed by,
-or sponsored by Cloudflare, Inc.
+Appflare 是独立开源项目，与 Cloudflare, Inc. 没有隶属、背书或赞助关系。

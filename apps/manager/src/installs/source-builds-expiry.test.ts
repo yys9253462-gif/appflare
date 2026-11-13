@@ -72,7 +72,7 @@ async function seedBuild(opts: {
   await env.DB.prepare(
     `INSERT INTO source_builds (id, install_id, purpose, origin, repo, status, version,
        artifact_key, created_at, updated_at)
-     VALUES (?1, ?2, ?3, 'repository', 'MendyLanda/cut', ?4, ?5, ?6, ?7, ?7)`,
+     VALUES (?1, ?2, ?3, 'repository', 'yys9253462-gif/cut', ?4, ?5, ?6, ?7, ?7)`,
   )
     .bind(
       opts.id,

@@ -8,7 +8,7 @@ describe("oauthClientConfig", () => {
       clientId: APPFLARE_OAUTH_CLIENT_ID,
       callbackUrl: APPFLARE_OAUTH_CALLBACK_URL,
     });
-    expect(APPFLARE_OAUTH_CLIENT_ID).toBe("b99863433175d812f9595af56dd1b71d");
+    expect(APPFLARE_OAUTH_CLIENT_ID).toBe("accf8da473f0e9b110cac7de75b54149");
   });
 
   it("takes a development client and callback from the vars, ignoring blanks", () => {
@@ -63,6 +63,6 @@ describe("oauthClientConfig", () => {
         APPFLARE_OAUTH_CALLBACK_URL,
       );
     }
-    expect(strictOrigin("https://appflare.dev")).toBe("https://appflare.dev");
+    expect(strictOrigin("https://cf.hejige.com")).toBe("https://cf.hejige.com");
   });
 });

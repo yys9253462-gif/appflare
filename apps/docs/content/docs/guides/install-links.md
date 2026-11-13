@@ -57,23 +57,23 @@ setting up a new Appflare.
 Appflare only returns you to its own pages. A link that tries to send you anywhere
 else after signing in takes you to Home instead.
 
-## Use your Appflare on appflare.dev
+## Use your Appflare on cf.hejige.com [#use-your-appflare-on-appflaredev]
 
-Install buttons on appflare.dev need to know where your Appflare is. In **Settings >
+Install buttons on cf.hejige.com need to know where your Appflare is. In **Settings >
 Your account > Cloudflare connection**, select **Use this Appflare on
-appflare.dev**. The site remembers your Appflare's address in your browser only; the
+cf.hejige.com**. The site remembers your Appflare's address in your browser only; the
 address is passed in the part of the link that browsers never send to a server.
 
 ## No Appflare yet
 
-An Install button on appflare.dev asks whether you have Appflare. **Get Appflare**
+An Install button on cf.hejige.com asks whether you have Appflare. **Get Appflare**
 offers [the install from your browser](/start/browser-install/#install-an-app-right-after),
-which takes the app along: `appflare.dev/deploy/?app=<slug>`. When your new Appflare is
+which takes the app along: `cf.hejige.com/deploy/?app=<slug>`. When your new Appflare is
 ready, setup opens with the app's install link waiting behind it, so **Finish** opens
 the app's page. The deploy page also remembers your new Appflare in this browser, so
 later Install buttons go straight to it.
 
 A repository link does not travel this way: a new Appflare needs Workers Paid and
 sandbox builds turned on before it can build one. Installed another way, open
-**Use this Appflare on appflare.dev** once Appflare is ready: the browser keeps the
-app you chose for 7 days, and appflare.dev offers to continue installing it.
+**Use this Appflare on cf.hejige.com** once Appflare is ready: the browser keeps the
+app you chose for 7 days, and cf.hejige.com offers to continue installing it.

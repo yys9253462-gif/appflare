@@ -10,7 +10,7 @@ import {
 
 describe("links", () => {
   it("names the public site as a bare https origin, so paths can be appended", () => {
-    expect(SITE_URL).toBe("https://appflare.dev");
+    expect(SITE_URL).toBe("https://cf.hejige.com");
     expect(new URL(SITE_URL).origin).toBe(SITE_URL);
   });
 

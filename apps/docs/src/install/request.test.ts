@@ -33,13 +33,13 @@ describe("appRequest", () => {
 
 describe("repoRequestFromSearch", () => {
   it("reads owner/repo and a github.com address, reduced to owner/repo", () => {
-    expect(repoRequestFromSearch("?repo=MendyLanda/cut")).toEqual({
+    expect(repoRequestFromSearch("?repo=yys9253462-gif/cut")).toEqual({
       kind: "repo",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
     });
-    expect(repoRequestFromSearch("?repo=https://github.com/MendyLanda/cut")).toEqual({
+    expect(repoRequestFromSearch("?repo=https://github.com/yys9253462-gif/cut")).toEqual({
       kind: "repo",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
     });
     expect(
       repoRequestFromSearch(`?repo=${encodeURIComponent("https://github.com/o/r.git/")}`),

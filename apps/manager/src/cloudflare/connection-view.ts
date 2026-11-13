@@ -81,9 +81,10 @@ export const CONNECTION_COPY = {
   }),
   /** What happens after Continue to Cloudflare, for a browser at `host`. */
   signInNext: (host: string | null, kind: ConnectionKind) =>
-    `Approve on Cloudflare, then confirm ${host ?? "this address"} on appflare.dev to come back.${
-      kind === "api_token" ? " Appflare then removes its API token from its Worker." : ""
-    }`,
+    t("Approve on Cloudflare, then confirm {host} on appflare.dev to come back.{extra}", {
+      host: host ?? t("this address"),
+      extra: kind === "api_token" ? t(" Appflare then removes its API token from its Worker.") : "",
+    }),
   /** After an API token was saved in the dialog. */
   tokenSaved: (saved: { workerName: string; replacedAuthorization: boolean }) =>
     saved.replacedAuthorization

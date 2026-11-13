@@ -7,7 +7,7 @@
 // <dir> is one artifact directory (manifest.json, manifest.sig, <slug>-<version>.zip)
 // or a directory of them (<dir>/<slug>/...). The script writes <dir>/index.json
 // listing every artifact it found, using the catalog's rules
-// (appflare/catalog scripts/lib/index-builder.ts): release-style URLs
+// (yys9253462-gif/appflare-catalog scripts/lib/index-builder.ts): release-style URLs
 // `<base>/releases/download/<slug>@<version>/{<slug>-<version>.zip,manifest.json,manifest.sig}`
 // and `digest` = sha256 of the exact manifest.json bytes. It then serves the
 // index and the files, honouring `Range: bytes=a-b` with 206 like GitHub's asset

@@ -4,7 +4,7 @@ description: Add an app to the Appflare catalog with one manifest file and a pul
 ---
 
 Adding an app takes one file, `apps/<slug>/appflare.jsonc`, in a pull request to
-[appflare/catalog](https://github.com/appflare/catalog). You do not need to change the
+[yys9253462-gif/appflare-catalog](https://github.com/yys9253462-gif/appflare-catalog). You do not need to change the
 app's own repository.
 
 ## Before you start
@@ -117,16 +117,16 @@ example:
 
 ```jsonc
 {
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "slug": "cut",
   "name": "Cut",
   "summary": "Self-hosted link shortener on Workers + KV.",
   "tagline": "Short links on your own domain",
-  "repo": "MendyLanda/cut",
+  "repo": "yys9253462-gif/cut",
   "license": "MIT",
   "categories": ["utilities"],
-  "authors": [{ "name": "Mendy Landa", "github": "MendyLanda" }],
-  "maintainers": ["MendyLanda"],
+  "authors": [{ "name": "yys9253462-gif", "github": "yys9253462-gif" }],
+  "maintainers": ["yys9253462-gif"],
   "source": { "ref": "v0.1.0", "sha": "6056400d47530aa87e4ae5764b37ffca9d00e87f" },
   "install": {
     "packageManager": "pnpm",
@@ -1077,7 +1077,7 @@ The pull request runs these checks:
    answer at all, fails the check. A plain 404 at the end passes.
 
 Pull requests from forks get no CI secrets. The checks build the packer from the
-appflare/appflare repository, which is private until launch and needs a secret to
+yys9253462-gif/appflare repository, which is private until launch and needs a secret to
 read, so a pull request from a fork fails the `verify` check until that repository
 is public.
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://appflare.github.io/catalog/schema/v1.json",
+  "$id": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "title": "Appflare catalog manifest (appflare.jsonc)",
   "type": "object",
   "properties": {

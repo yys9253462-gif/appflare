@@ -12,7 +12,7 @@ Start the file with the schema URL so your editor can check it as you type:
 
 \`\`\`jsonc
 {
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json"
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json"
 }
 \`\`\`
 
@@ -28,7 +28,8 @@ example.
  * returns them; a test fails when one no longer exists.
  */
 export const manifestFieldNotes: FieldNotes = {
-  $schema: "Set it to `https://appflare.github.io/catalog/schema/v1.json` for editor checks.",
+  $schema:
+    "Set it to `https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json` for editor checks.",
   slug: "The app's id in the catalog. The folder name `apps/<slug>/` must be the same.",
   name: "Display name shown in the catalog.",
   summary: "One or two sentences shown on the app's catalog page.",

@@ -79,10 +79,10 @@ describe("listRemoteRefs", () => {
     const remote = await listRemoteRefs(async (url, init) => {
       seen.push({ url, headers: new Headers(init?.headers) });
       return new Response(ADVERTISEMENT, { status: 200 });
-    }, "MendyLanda/cut");
-    expect(seen[0]?.url).toBe(advertisementUrl("MendyLanda/cut"));
+    }, "yys9253462-gif/cut");
+    expect(seen[0]?.url).toBe(advertisementUrl("yys9253462-gif/cut"));
     expect(seen[0]?.url).toBe(
-      "https://github.com/MendyLanda/cut.git/info/refs?service=git-upload-pack",
+      "https://github.com/yys9253462-gif/cut.git/info/refs?service=git-upload-pack",
     );
     expect(seen[0]?.headers.get("authorization")).toBeNull();
     expect(remote.head).toBe("refs/heads/main");

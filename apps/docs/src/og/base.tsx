@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import fullLogo from "../../../../docs/assets/logo_full.svg?raw";
 import squareLogo from "../../../../docs/assets/logo_square.svg?raw";
 import squareLogoWhite from "../../../../docs/assets/logo_square_white.svg?raw";
+import { SITE_URL } from "../lib/shared.ts";
 import { fitText } from "./fit.ts";
 import type { OgPicture } from "./picture.ts";
 
@@ -81,18 +82,18 @@ export function Logo({ height }: { height: number }) {
   return <img src={LOGO} width={Math.round(height * LOGO_RATIO)} height={height} alt="" />;
 }
 
-/** `appflare.dev/start/install`: the site, then the page's path a shade darker. */
+/** `cf.hejige.com/start/install`: the site, then the page's path a shade darker. */
 export function Address({ path, size = 24 }: { path: string; size?: number }) {
   const rest = path.replace(/\/$/, "");
   return (
     <div style={{ display: "flex", fontSize: size, color: colors.soft, letterSpacing: "-0.01em" }}>
-      <span>appflare.dev</span>
+      <span>{new URL(SITE_URL).host}</span>
       {rest !== "" && <span style={{ color: colors.muted }}>{rest}</span>}
     </div>
   );
 }
 
-/** `appflare.dev / github.com/appflare/appflare`: the site and a repository. */
+/** `cf.hejige.com / github.com/yys9253462-gif/appflare`: the site and a repository. */
 export function RepoAddress({ repo, size }: { repo: string; size: number }) {
   return (
     <>

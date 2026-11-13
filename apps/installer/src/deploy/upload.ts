@@ -21,7 +21,7 @@ export interface UploadResources {
   d1Id: string;
   kvId: string;
   workflowName: string;
-  /** `https://appflare.dev`. */
+  /** `https://cf.hejige.com`. */
   installerOrigin: string;
   handoffHash: string;
   /** The assets completion token, or null when the release has no static files. */

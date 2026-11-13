@@ -15,16 +15,16 @@ const SHA = "0123456789abcdef0123456789abcdef01234567";
 
 describe("parseRepositoryInput", () => {
   it("reads owner/repo and GitHub URLs, with the branch, tag or commit they point at", () => {
-    expect(parseRepositoryInput("MendyLanda/cut")).toEqual({
+    expect(parseRepositoryInput("yys9253462-gif/cut")).toEqual({
       ok: true,
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       ref: null,
     });
-    expect(parseRepositoryInput(" https://github.com/MendyLanda/cut.git/ ")).toMatchObject({
+    expect(parseRepositoryInput(" https://github.com/yys9253462-gif/cut.git/ ")).toMatchObject({
       ok: true,
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
     });
-    expect(parseRepositoryInput("github.com/MendyLanda/cut")).toMatchObject({ ok: true });
+    expect(parseRepositoryInput("github.com/yys9253462-gif/cut")).toMatchObject({ ok: true });
     expect(parseRepositoryInput("https://github.com/o/r/tree/feat/home")).toEqual({
       ok: true,
       repo: "o/r",
@@ -81,7 +81,7 @@ describe("repositoryBuildRequestSchema", () => {
     protocol: SANDBOX_PROTOCOL_VERSION,
     installId: "01J8REPO",
     runId: "src-01J8JOB",
-    repo: "MendyLanda/cut",
+    repo: "yys9253462-gif/cut",
   };
 
   it("needs only the repository; the default branch and detection are the defaults", () => {

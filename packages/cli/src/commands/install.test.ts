@@ -111,7 +111,7 @@ describe("install", () => {
       readdirSync(artifactDir).map((f) => [f, readFileSync(path.join(artifactDir, f))]),
     );
     const assetUrl = (name: string) =>
-      `https://api.github.com/repos/appflare/appflare/releases/assets/${name}`;
+      `https://api.github.com/repos/yys9253462-gif/appflare/releases/assets/${name}`;
     t.ctx.fetch = async (url) => {
       if (url.endsWith("?per_page=100")) {
         return Response.json([

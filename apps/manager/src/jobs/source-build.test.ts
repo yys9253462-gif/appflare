@@ -85,7 +85,7 @@ function repositoryBuild(
     catalog: {
       name: "cut",
       summary: "Self-hosted link shortener.",
-      tagline: "Built from MendyLanda/cut",
+      tagline: "Built from yys9253462-gif/cut",
       categories: ["utilities"],
       maintainers: [],
       source: { ref: "main", sha: commit, version },
@@ -189,7 +189,7 @@ async function build(opts: {
     ),
     opts.request ?? {
       kind: "repository",
-      repository: "https://github.com/MendyLanda/cut",
+      repository: "https://github.com/yys9253462-gif/cut",
       costConfirmed: true,
     },
   );
@@ -241,7 +241,7 @@ describe("building a repository for review", () => {
     expect(r.error).toBeNull();
     expect(r.job).toMatchObject({ kind: "source_build", status: "succeeded", install_id: null });
     expect(r.params).toMatchObject({
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       ref: "main",
       commit: COMMIT,
       purpose: "install",
@@ -251,7 +251,7 @@ describe("building a repository for review", () => {
     expect(r.sandbox.requests[0]).toMatchObject({
       protocol: 1,
       runId: `src-${r.jobId}`,
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       ref: "main",
       commit: COMMIT,
     });
@@ -267,7 +267,7 @@ describe("building a repository for review", () => {
       status: "built",
       purpose: "install",
       origin: "repository",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       commit_sha: COMMIT,
       ref: "main",
       version: VERSION,
@@ -393,7 +393,7 @@ describe("building a repository for review", () => {
         ),
         {
           kind: "repository",
-          repository: "MendyLanda/cut",
+          repository: "yys9253462-gif/cut",
           costConfirmed: true,
         },
       ),
@@ -401,7 +401,7 @@ describe("building a repository for review", () => {
     await expect(
       build({
         fixture,
-        request: { kind: "repository", repository: "MendyLanda/cut", costConfirmed: false },
+        request: { kind: "repository", repository: "yys9253462-gif/cut", costConfirmed: false },
       }),
     ).rejects.toThrow(/Confirm its cost/);
   });
@@ -435,7 +435,7 @@ describe("building a repository for review", () => {
     };
     const request = {
       kind: "repository",
-      repository: "MendyLanda/cut",
+      repository: "yys9253462-gif/cut",
       costConfirmed: true,
     } as const;
     const { jobId } = await startSourceBuildCore(deps, request);
@@ -522,7 +522,7 @@ describe("building a repository for review", () => {
     await expect(
       startSourceBuildCore(deps, {
         kind: "repository",
-        repository: "MendyLanda/cut",
+        repository: "yys9253462-gif/cut",
         costConfirmed: true,
       }),
     ).rejects.toThrow(
@@ -538,11 +538,11 @@ describe("building a repository for review", () => {
         fixture,
         request: {
           kind: "repository",
-          repository: "https://github.com/MendyLanda/cut/tree/nope",
+          repository: "https://github.com/yys9253462-gif/cut/tree/nope",
           costConfirmed: true,
         },
       }),
-    ).rejects.toThrow("MendyLanda/cut has no branch or tag named nope.");
+    ).rejects.toThrow("yys9253462-gif/cut has no branch or tag named nope.");
   });
 
   it("throws a build away and deletes its objects", async () => {
@@ -638,9 +638,9 @@ describe("installing a reviewed build", () => {
     expect(r.built.sandbox.requests).toHaveLength(1);
     expect(r.install).toMatchObject({
       status: "installed",
-      app_slug: "repository:MendyLanda/cut",
+      app_slug: "repository:yys9253462-gif/cut",
       origin: "repository",
-      source_url: "https://github.com/MendyLanda/cut",
+      source_url: "https://github.com/yys9253462-gif/cut",
       source_ref: "main",
       pin_sha: COMMIT,
       build_kind: "sandbox",
@@ -770,7 +770,7 @@ describe("installing a reviewed build", () => {
         null,
       );
       expect(props).toMatchObject({ slug: "custom", origin: "repository", catalog_version: null });
-      expect(JSON.stringify(props)).not.toMatch(/github|MendyLanda|cut/i);
+      expect(JSON.stringify(props)).not.toMatch(/github|yys9253462-gif|cut/i);
     }
     expect(r.install?.origin).toBe("repository");
   });
@@ -972,7 +972,7 @@ describe("installing a build from a repository again", () => {
     const record = await readInstallAgain(env.DB, failed.installId, { buildFiles: files });
     expect(record?.source).toMatchObject({
       origin: "repository",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       ref: "main",
       buildId: failed.built.jobId,
       build: { state: "gone", cause: "missing" },
@@ -984,7 +984,7 @@ describe("installing a build from a repository again", () => {
       ok: true,
       request: {
         kind: "repository",
-        repository: "MendyLanda/cut",
+        repository: "yys9253462-gif/cut",
         ref: "main",
         buildCommand: { mode: "detect" },
         costConfirmed: false,
@@ -1182,7 +1182,7 @@ describe("installing a build from a repository again", () => {
       "This install came from the catalog, so it is installed again from the app's catalog page.",
     );
     await env.DB.prepare(
-      "UPDATE installs SET app_slug = 'repository:MendyLanda/cut', origin = 'repository' WHERE id = ?1",
+      "UPDATE installs SET app_slug = 'repository:yys9253462-gif/cut', origin = 'repository' WHERE id = ?1",
     )
       .bind(failed.installId)
       .run();
@@ -1278,7 +1278,7 @@ describe("building a catalog app from source", () => {
     expect(r.error).toBeNull();
     expect(r.params).toMatchObject({
       origin: "source",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       commit: COMMIT,
       baseline: { slug: "cut", name: "Cut" },
     });
@@ -1301,7 +1301,7 @@ describe("checking for changes and rebuilding", () => {
     const r = await installFromRepository();
     const deps = { db: env.DB, listRefs: async () => refsAt(NEWER) };
     await expect(checkSourceChangesCore(deps, r.started.installId)).resolves.toEqual({
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       ref: "main",
       pinned: false,
       installed: COMMIT,

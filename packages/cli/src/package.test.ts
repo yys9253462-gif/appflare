@@ -50,11 +50,11 @@ describe("the published package", () => {
   });
 
   it("points at this repository and the docs site, under the repository's license", () => {
-    expect(pkg.homepage).toBe("https://appflare.dev");
+    expect(pkg.homepage).toBe("https://cf.hejige.com");
     // npm checks a provenance statement against this URL and directory.
     expect(pkg.repository).toEqual({
       type: "git",
-      url: "git+https://github.com/appflare/appflare.git",
+      url: "git+https://github.com/yys9253462-gif/appflare.git",
       directory: "packages/cli",
     });
     expect(pkg.license).toBe("Apache-2.0");

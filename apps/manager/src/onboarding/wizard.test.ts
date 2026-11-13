@@ -114,12 +114,12 @@ describe("the setup wizard", () => {
   it("on a manager installed from the browser, points to the installer or lets a token in", () => {
     const handoff = initialWizardState("handoff", null, {
       handoff: "waiting",
-      installPage: "https://appflare.dev/deploy",
+      installPage: "https://cf.hejige.com/deploy",
     });
     expect(handoff).toEqual({
       step: "handoff",
       received: false,
-      installPage: "https://appflare.dev/deploy",
+      installPage: "https://cf.hejige.com/deploy",
     });
     expect(wizardProgress(handoff)).toEqual({ step: 1, count: 3 });
     expect(wizardCopy(handoff).title).toBe("Finish where you installed Appflare");

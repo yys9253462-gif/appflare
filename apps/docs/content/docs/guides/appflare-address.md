@@ -129,8 +129,8 @@ that domain stops answering. Note the records first if you may need them again.
   hold on to it if the address changes again.
 - **Links Appflare sends.** Links in [notifications](/guides/notifications/) point at
   the new address.
-- **appflare.dev.** The **Use this Appflare on appflare.dev** link names the new
-  address. Select it again so Install buttons on appflare.dev open Appflare there;
+- **cf.hejige.com.** The **Use this Appflare on cf.hejige.com** link names the new
+  address. Select it again so Install buttons on cf.hejige.com open Appflare there;
   see [Install links](/guides/install-links/#use-your-appflare-on-appflaredev).
 - **Cloudflare Access.** With [Access protection](/security/#protect-with-cloudflare-access)
   on, Access moves with the address: its applications then protect the new

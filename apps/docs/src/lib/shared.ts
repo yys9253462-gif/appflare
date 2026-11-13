@@ -22,7 +22,7 @@ export const siteDescription =
   "在自己的 Cloudflare 账户里安装、更新和移除应用，使用 Appflare 统一管理。";
 
 export const repository = {
-  owner: "appflare",
+  owner: "yys9253462-gif",
   name: "appflare",
   branch: "main",
   /** Where the content files live inside the repository. */

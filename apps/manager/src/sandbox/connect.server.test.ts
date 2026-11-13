@@ -122,7 +122,7 @@ describe("connectSandboxCore", () => {
     ]);
     const calls = r.account.state.calls;
     expect(calls.indexOf("PATCH /workers/workers/appflare/versions/latest")).toBeLessThan(
-      calls.indexOf("POST /workers/scripts/appflare/deployments"),
+      calls.indexOf("POST /workers/scripts/yys9253462-gif/appflarements"),
     );
   });
 
@@ -235,7 +235,9 @@ describe("connectSandboxCore", () => {
   it("never deploys a version whose preview does not answer as this Appflare", async () => {
     const r = await connect({ previews: [healthy("0.3.0")] });
     expect(String(r.error)).toMatch(/did not pass its check .*reports version 0.3.0/);
-    expect(r.account.state.calls).not.toContain("POST /workers/scripts/appflare/deployments");
+    expect(r.account.state.calls).not.toContain(
+      "POST /workers/scripts/yys9253462-gif/appflarements",
+    );
   });
 });
 

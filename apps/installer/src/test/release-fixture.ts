@@ -150,10 +150,10 @@ export async function buildRelease(opts: ReleaseOptions = {}): Promise<ReleaseFi
       name: "Appflare",
       summary: "A single Worker in your own Cloudflare account that installs and updates apps.",
       tagline: "Install and update apps in your own Cloudflare account",
-      repo: "appflare/appflare",
+      repo: "yys9253462-gif/appflare",
       license: "Apache-2.0",
       categories: ["utilities"],
-      maintainers: ["MendyLanda"],
+      maintainers: ["yys9253462-gif"],
       source: { ref: version, sha: "5e1f4f360d3f12adcef66adac922a4a69be9af84" },
       install: {
         tier: "artifact",

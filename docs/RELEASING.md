@@ -64,8 +64,8 @@ node packages/pack/bin/appflare-pack.js verify /tmp/manager-release --hashes-onl
   it (or push to its branch) to run CI before merging.
 - Settings > General > Social preview: GitHub has no API for it, so upload the
   image by hand. `docs/assets/social-preview.png` is this repository's,
-  `social-preview-catalog.png` belongs to `appflare/catalog` and
-  `social-preview-deploy.png` to `appflare/deploy`; redraw them with
+  `social-preview-catalog.png` belongs to `yys9253462-gif/appflare-catalog` and
+  `social-preview-deploy.png` to `yys9253462-gif/appflare`; redraw them with
   `CATALOG_SNAPSHOT=live pnpm --filter @appflare/docs social-previews`.
 
 ## Secrets
@@ -74,14 +74,14 @@ Organization Actions secrets of `appflare`:
 
 | Secret | Used by | Contents |
 |---|---|---|
-| `APPFLARE_SIGNING_KEY` | `sign` jobs here and in `appflare/catalog` | Base64 PKCS#8 Ed25519 private key |
+| `APPFLARE_SIGNING_KEY` | `sign` jobs here and in `yys9253462-gif/appflare-catalog` | Base64 PKCS#8 Ed25519 private key |
 | `DOCKERHUB_USERNAME` | `sandbox-image.yml` | A Docker Hub account with push access to the `mendylanda` namespace |
 | `DOCKERHUB_TOKEN` | `sandbox-image.yml` | A Docker Hub access token of that account, Read & Write scope |
-| `DEPLOY_REPO_PUSH_KEY` | `deploy-repo` job of `release.yml` | Private key of a deploy key with write access to `appflare/deploy` (see below) |
+| `DEPLOY_REPO_PUSH_KEY` | `deploy-repo` job of `release.yml` | Private key of a deploy key with write access to `yys9253462-gif/appflare` (see below) |
 | `CLOUDFLARE_API_TOKEN` | `docs.yml` preview deploy | API token for the development account |
 | `CLOUDFLARE_ACCOUNT_ID` | same | The development account's id |
 
-Repository Actions secrets of `appflare/appflare`, for the account that owns the
+Repository Actions secrets of `yys9253462-gif/appflare`, for the account that owns the
 `appflare.dev` zone (`apps/docs/README.md` lists the token's permissions):
 
 | Secret | Used by | Contents |
@@ -89,7 +89,7 @@ Repository Actions secrets of `appflare/appflare`, for the account that owns the
 | `DOCS_CLOUDFLARE_API_TOKEN` | `docs.yml` production deploy | API token for that account |
 | `DOCS_CLOUDFLARE_ACCOUNT_ID` | same | That account's id |
 
-Repository Actions secret of `appflare/appflare` for npm, only until the installer
+Repository Actions secret of `yys9253462-gif/appflare` for npm, only until the installer
 publishes through npm trusted publishing (see [The installer on npm](#the-installer-on-npm)):
 
 | Secret | Used by | Contents |
@@ -106,7 +106,7 @@ succeeds.
 ## The deploy repository
 
 The "Deploy to Cloudflare" button deploys from the public repository
-[`appflare/deploy`](https://github.com/appflare/deploy). It holds the current manager
+[`yys9253462-gif/appflare`](https://github.com/yys9253462-gif/appflare). It holds the current manager
 release as a prebuilt npm project: the release's Worker modules and static assets,
 a `wrangler.jsonc`, a `package.json` whose `deploy` script is `wrangler deploy`, and a
 `package-lock.json`. `scripts/deploy-repo.ts` explains every choice (no build step,
@@ -121,7 +121,7 @@ After each release of the current version, two jobs of `release.yml` update it:
   value of at least 16 characters in a local `.env`; if one turns up, it deletes the
   copy and fails, naming the file and where the value comes from (never the value).
 - **deploy-repo** (holds only `DEPLOY_REPO_PUSH_KEY`, runs no code from this
-  repository) replaces the files on `main` of `appflare/deploy` and pushes one
+  repository) replaces the files on `main` of `yys9253462-gif/appflare` and pushes one
   commit, `chore(release): appflare <version>`. A repository that already holds this
   version or a newer one is left alone, so re-runs and older versions never add
   commits. "Newer" follows semantic versioning precedence: major, minor and patch
@@ -131,7 +131,7 @@ After each release of the current version, two jobs of `release.yml` update it:
   semantic version, the job fails until a run with **deploy_repo_reset** replaces it.
 
 After a version reset (every package set back to an earlier version, such as
-`0.1.0`), `appflare/deploy` still holds the higher version and would never be
+`0.1.0`), `yys9253462-gif/appflare` still holds the higher version and would never be
 updated again. Once the reset version is released, run the release workflow by hand
 with **deploy_repo_reset** ticked:
 
@@ -150,8 +150,8 @@ the one place the site's address is set.
 To set up the key once:
 
 ```sh
-ssh-keygen -t ed25519 -N "" -C "appflare release: appflare/deploy" -f deploy-repo-key
-gh repo deploy-key add deploy-repo-key.pub --repo appflare/deploy --allow-write --title "appflare release"
+ssh-keygen -t ed25519 -N "" -C "appflare release: yys9253462-gif/appflare" -f deploy-repo-key
+gh repo deploy-key add deploy-repo-key.pub --repo yys9253462-gif/appflare --allow-write --title "appflare release"
 gh secret set DEPLOY_REPO_PUSH_KEY --org appflare --repos appflare < deploy-repo-key
 rm deploy-repo-key deploy-repo-key.pub
 ```
@@ -250,7 +250,7 @@ tar -tzf /tmp/create-appflare/create-appflare-<version>.tgz
 5. Set a short expiration (7 days is enough for the first release; npm allows at most
    90 days for a token that can publish).
 6. Generate the token and store it without it touching the shell history:
-   `gh secret set NPM_TOKEN --repo appflare/appflare`, then paste it when asked.
+   `gh secret set NPM_TOKEN --repo yys9253462-gif/appflare`, then paste it when asked.
 7. Squash-merge the version pull request. `npm-publish` publishes the first version with the
    token.
 
@@ -262,7 +262,7 @@ tar -tzf /tmp/create-appflare/create-appflare-<version>.tgz
    `release.yml` (the file name only, not its path and not the job name; every field
    is case-sensitive). Leave the environment empty: the publish job uses none.
 3. Delete the granular token on npmjs.com (avatar > **Access Tokens**), then delete
-   the secret: `gh secret delete NPM_TOKEN --repo appflare/appflare`. From now on
+   the secret: `gh secret delete NPM_TOKEN --repo yys9253462-gif/appflare`. From now on
    `npm-publish` publishes through trusted publishing, and npm records provenance on
    its own.
 4. Once a version has been published that way, set the package's **Publishing
@@ -309,11 +309,11 @@ rebuilt:
   curl -fsS -X POST \
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer $DOCS_REBUILD_TOKEN" \
-    https://api.github.com/repos/appflare/appflare/actions/workflows/docs.yml/dispatches \
+    https://api.github.com/repos/yys9253462-gif/appflare/actions/workflows/docs.yml/dispatches \
     -d '{"ref":"main"}'
   ```
 
-  `DOCS_REBUILD_TOKEN` is a fine-grained token for `appflare/appflare` only, with
+  `DOCS_REBUILD_TOKEN` is a fine-grained token for `yys9253462-gif/appflare` only, with
   **Actions: write** and nothing else. The job runs no code from either repository
   and takes no inputs; the docs workflow always builds `main` against whatever the
   catalog has published, and a run without inputs deploys appflare.dev.
@@ -404,7 +404,7 @@ Artifacts are Ed25519-signed; verifiers pick the public key by the manifest's
 | Key id | Signs |
 |---|---|
 | `appflare-yys-2026-10` | Manager releases (`manager@<version>`, this repository) |
-| `catalog-2026-09` | Catalog app releases (`<slug>@<version>`, `appflare/catalog`) |
+| `catalog-2026-09` | Catalog app releases (`<slug>@<version>`, `yys9253462-gif/appflare-catalog`) |
 
 Both ids currently share one keypair, so the single org secret signs both
 repositories; the separate ids let either repository move to its own key later

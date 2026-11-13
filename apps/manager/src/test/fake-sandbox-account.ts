@@ -35,7 +35,7 @@ export const DANGLING_SANDBOX = {
   service_deleted: true,
   type: "service",
 };
-const RELEASES = "https://api.github.com/repos/appflare/appflare/releases";
+const RELEASES = "https://api.github.com/repos/yys9253462-gif/appflare/releases";
 /** What `GET /containers/applications` shows for each instance type (recorded live). */
 const SIZES: Record<string, Record<string, unknown>> = {
   "standard-1": { vcpu: 0.5, memory_mib: 4096, disk: { size_mb: 8000, size: "8GB" } },

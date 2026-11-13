@@ -30,8 +30,8 @@ const UNSIGNED_KEY_ID = "unsigned";
 /**
  * The 2026-09 public key. ONE private key, the org Actions secret
  * `APPFLARE_SIGNING_KEY`, currently signs both the manager's own releases
- * (appflare/appflare, key id `appflare-2026-09`) and catalog app releases
- * (appflare/catalog, key id `catalog-2026-09`). The two key ids are distinct on
+ * (yys9253462-gif/appflare, key id `appflare-2026-09`) and catalog app releases
+ * (yys9253462-gif/appflare-catalog, key id `catalog-2026-09`). The two key ids are distinct on
  * purpose: either repository can later move to its own key by changing only its
  * entry below and its secret, without touching the other's artifacts.
  */
@@ -52,7 +52,7 @@ export const signingKeys: readonly SigningKey[] = [
   // official key is deliberately NOT here: a release signed with it must not be
   // able to replace this manager.
   { keyId: "appflare-yys-2026-10", publicKeyBase64: PUBLIC_KEY_YYS_2026_10 },
-  // Catalog app releases: `<slug>@<version>` on appflare/catalog.
+  // Catalog app releases: `<slug>@<version>` on yys9253462-gif/appflare-catalog.
   { keyId: "catalog-2026-09", publicKeyBase64: PUBLIC_KEY_2026_09 },
 ];
 

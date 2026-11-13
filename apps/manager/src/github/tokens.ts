@@ -10,7 +10,7 @@ import { t } from "../i18n";
  */
 
 /** Appflare's own repository, whose releases a token may be used to download. */
-export const APPFLARE_REPOSITORY = "appflare/appflare";
+export const APPFLARE_REPOSITORY = "yys9253462-gif/appflare";
 
 /** One word of a repositories description: `owner/repo`, `owner/*`, `owner` or `*`. */
 const REPOSITORY_PATTERN = /^(?:\*|[a-z0-9][a-z0-9-]{0,38}(?:\/(?:\*|[a-z0-9._-]{1,100}))?)$/;

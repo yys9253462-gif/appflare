@@ -15,7 +15,7 @@ const APPFLARE = { owner: "appflare", repo: "appflare" };
 describe("GitHub release URLs", () => {
   it("knows the repository of a GitHub releases API URL, and of nothing else", () => {
     expect(
-      repositoryOfReleasesApi("https://api.github.com/repos/appflare/appflare/releases"),
+      repositoryOfReleasesApi("https://api.github.com/repos/yys9253462-gif/appflare/releases"),
     ).toEqual(APPFLARE);
     expect(repositoryOfReleasesApi("https://api.github.com/repos/a/b/releases/")).toEqual({
       owner: "a",
@@ -32,22 +32,22 @@ describe("GitHub release URLs", () => {
 
   it("spells download URLs as GitHub's browser_download_url does", () => {
     expect(releaseDownloadUrl(APPFLARE, "manager@0.3.1", "appflare-0.3.1.zip")).toBe(
-      "https://github.com/appflare/appflare/releases/download/manager%400.3.1/appflare-0.3.1.zip",
+      "https://github.com/yys9253462-gif/appflare/releases/download/manager%400.3.1/appflare-0.3.1.zip",
     );
   });
 
   it("reads the tag out of the latest-release redirect", () => {
     const at = (location: string | null) => tagOfReleaseLocation(APPFLARE, location);
-    expect(at("https://github.com/appflare/appflare/releases/tag/manager@0.3.1")).toBe(
+    expect(at("https://github.com/yys9253462-gif/appflare/releases/tag/manager@0.3.1")).toBe(
       "manager@0.3.1",
     );
-    expect(at("https://github.com/appflare/appflare/releases/tag/manager%400.3.1")).toBe(
+    expect(at("https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.3.1")).toBe(
       "manager@0.3.1",
     );
-    expect(at("/appflare/appflare/releases/tag/manager@0.3.1")).toBe("manager@0.3.1");
-    expect(at("https://github.com/appflare/appflare/releases")).toBeNull();
+    expect(at("/yys9253462-gif/appflare/releases/tag/manager@0.3.1")).toBe("manager@0.3.1");
+    expect(at("https://github.com/yys9253462-gif/appflare/releases")).toBeNull();
     expect(at("https://github.com/someone/else/releases/tag/manager@9.0.0")).toBeNull();
-    expect(at("https://evil.test/appflare/appflare/releases/tag/manager@9.0.0")).toBeNull();
+    expect(at("https://evil.test/yys9253462-gif/appflare/releases/tag/manager@9.0.0")).toBeNull();
     expect(at(null)).toBeNull();
   });
 
@@ -58,7 +58,9 @@ describe("GitHub release URLs", () => {
         seen.push({ url: input, redirect: init?.redirect });
         return new Response(null, {
           status: 302,
-          headers: { location: "https://github.com/appflare/appflare/releases/tag/manager@0.3.1" },
+          headers: {
+            location: "https://github.com/yys9253462-gif/appflare/releases/tag/manager@0.3.1",
+          },
         });
       },
       APPFLARE,
@@ -66,7 +68,7 @@ describe("GitHub release URLs", () => {
     );
     expect(tag).toBe("manager@0.3.1");
     expect(seen).toEqual([
-      { url: "https://github.com/appflare/appflare/releases/latest", redirect: "manual" },
+      { url: "https://github.com/yys9253462-gif/appflare/releases/latest", redirect: "manual" },
     ]);
     expect(await latestReleaseTag(async () => new Response("<html>"), APPFLARE, "UA")).toBeNull();
     expect(

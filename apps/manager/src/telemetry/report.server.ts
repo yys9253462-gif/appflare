@@ -2,6 +2,7 @@ import type { FetchLike } from "@appflare/cf-api";
 import {
   isInstallId,
   TELEMETRY_BATCH_URL,
+  TELEMETRY_PROJECT_KEY,
   type TelemetryEvent,
   type TelemetryValue,
   telemetryBatchBody,
@@ -345,6 +346,9 @@ export async function reportTelemetry(
   }
   const lock = lockOf(env);
   if (lock !== null) return { status: "skipped", reason: `turned off by ${lock}` };
+  if (TELEMETRY_PROJECT_KEY === "" && opts.fetch === undefined) {
+    return { status: "skipped", reason: "no project key" };
+  }
   try {
     return await report(env, opts);
   } catch (error) {

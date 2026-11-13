@@ -11,18 +11,18 @@ Appflare 是面向 Cloudflare 的自托管应用管理器。把它安装到你�
 
 <InstallButton placement="overview-primary" />
 
-打开 [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-1)，登录 Cloudflare，然后选择 Appflare 的安装位置。页面会将它部署到你的账户，无需在电脑上安装任何软件。
+打开 [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-1)，登录 Cloudflare，然后选择 Appflare 的安装位置。页面会将它部署到你的账户，无需在电脑上安装任何软件。
 
 <Cards>
   <Card title="通过浏览器安装" href="https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=overview-install-card">
-    推荐方式。在 appflare.dev/deploy 登录 Cloudflare，选择地址，页面就会在那里部署 Appflare。
+    推荐方式。在 cf.hejige.com/deploy 登录 Cloudflare，选择地址，页面就会在那里部署 Appflare。
   </Card>
   <Card title="或使用 Cloudflare 的部署按钮" href="/start/deploy-button/">
     这种方式会先在你的 GitHub 或 GitLab 账户中创建一份 Appflare 副本，安装后需要删除它。
   </Card>
 </Cards>
 
-[Cloudflare 部署按钮](https://link.appflare.dev/deploy-1c?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-cloudflare-1)
+[Cloudflare 部署按钮](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-cloudflare-1)
 
 [安装 Appflare](/start/install/) 对比了两种方式，并提供适用于高级场景的命令行安装方法。所有方式最后都会进入同一个[设置向导](/start/install/#the-setup-wizard)。
 
@@ -65,9 +65,9 @@ D1 数据库保存用户、设置、安装记录和任务日志。KV 命名空�
 ## 项目组成 [#the-parts]
 
 - **管理器**是上面所说的 Worker，以及它的网页界面。
-- **部署页** [appflare.dev/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-2) 负责将管理器安装到你的账户。Cloudflare 的部署按钮和命令行安装器 `create-appflare` 也能完成这件事。
+- **部署页** [cf.hejige.com/deploy](https://cf.hejige.com/deploy/?utm_source=appflare-docs&utm_medium=website&utm_campaign=appflare&utm_content=start-overview-install-2) 负责将管理器安装到你的账户。Cloudflare 的部署按钮和命令行安装器 `create-appflare` 也能完成这件事。
 - 安装之后的所有操作，包括更新和移除，都在管理器的设置页进行。
-- **应用目录**是公开的 GitHub 仓库 `appflare/catalog`。它的 CI 从固定提交构建每个应用，签名后发布。请参阅[目录工作原理](/catalog/how-it-works/)。
+- **应用目录**是公开的 GitHub 仓库 `yys9253462-gif/appflare-catalog`。它的 CI 从固定提交构建每个应用，签名后发布。请参阅[目录工作原理](/catalog/how-it-works/)。
 
 ## 接下来 [#next]
 

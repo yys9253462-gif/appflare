@@ -125,7 +125,7 @@ export function ogCardElement(card: OgCard): ReactNode {
           frame={FRAME}
           title={card.title}
           line={card.description}
-          footer={<RepoAddress repo="appflare/appflare" size={FRAME.footer.size} />}
+          footer={<RepoAddress repo="yys9253462-gif/appflare" size={FRAME.footer.size} />}
         >
           {card.dashboard === null ? (
             <MarkPicture />

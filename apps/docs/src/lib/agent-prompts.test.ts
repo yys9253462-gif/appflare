@@ -23,7 +23,7 @@ describe("the prompts for coding agents", () => {
 
   it("the install prompt reads as the site shows it", () => {
     expect(agentPrompt("install")).toBe(
-      "Install Appflare into my Cloudflare account. Read https://appflare.dev/agent/install.md and follow it exactly.",
+      "Install Appflare into my Cloudflare account. Read https://cf.hejige.com/agent/install.md and follow it exactly.",
     );
   });
 

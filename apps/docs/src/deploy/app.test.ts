@@ -33,7 +33,7 @@ describe("appParam", () => {
 describe("deployPathFor", () => {
   it("is exactly /deploy/?app=<slug>", () => {
     expect(deployPathFor("open-seo")).toBe("/deploy/?app=open-seo");
-    expect(appParam(new URL(deployPathFor("cut") ?? "", "https://appflare.dev").search)).toEqual({
+    expect(appParam(new URL(deployPathFor("cut") ?? "", "https://cf.hejige.com").search)).toEqual({
       kind: "app",
       slug: "cut",
     });

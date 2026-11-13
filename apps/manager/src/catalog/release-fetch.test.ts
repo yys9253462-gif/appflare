@@ -9,12 +9,12 @@ import {
 
 describe("releaseFetch", () => {
   it("sends the token only to api.github.com and github.com over https", () => {
-    expect(mayCarryGithubToken("https://api.github.com/repos/yys9253462-gif/appflare/releases")).toBe(
-      true,
-    );
-    expect(mayCarryGithubToken("https://github.com/yys9253462-gif/appflare/releases/download/x/y")).toBe(
-      true,
-    );
+    expect(
+      mayCarryGithubToken("https://api.github.com/repos/yys9253462-gif/appflare/releases"),
+    ).toBe(true);
+    expect(
+      mayCarryGithubToken("https://github.com/yys9253462-gif/appflare/releases/download/x/y"),
+    ).toBe(true);
     expect(mayCarryGithubToken("http://api.github.com/repos")).toBe(false);
     expect(mayCarryGithubToken("https://release-assets.githubusercontent.com/x")).toBe(false);
     expect(mayCarryGithubToken("https://api.github.com.evil.test/x")).toBe(false);
@@ -135,18 +135,24 @@ describe("releaseFetch", () => {
   });
 
   it("recognises Appflare's own repository only", () => {
-    expect(isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare/releases")).toBe(
-      true,
-    );
+    expect(
+      isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare/releases"),
+    ).toBe(true);
     expect(
       isAppflareRepositoryUrl("https://github.com/Yys9253462-gif/Appflare/releases/download/t/f"),
     ).toBe(true);
     expect(
       isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare-x/releases"),
     ).toBe(false);
-    expect(isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare")).toBe(false);
-    expect(isAppflareRepositoryUrl("https://github.com/appflare/catalog/releases")).toBe(false);
-    expect(isAppflareRepositoryUrl("https://evil.test/repos/yys9253462-gif/appflare/x")).toBe(false);
+    expect(isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare")).toBe(
+      false,
+    );
+    expect(
+      isAppflareRepositoryUrl("https://github.com/yys9253462-gif/appflare-catalog/releases"),
+    ).toBe(false);
+    expect(isAppflareRepositoryUrl("https://evil.test/repos/yys9253462-gif/appflare/x")).toBe(
+      false,
+    );
     expect(
       isAppflareRepositoryUrl("https://api.github.com/repos/yys9253462-gif/appflare/../../other/x"),
     ).toBe(false);

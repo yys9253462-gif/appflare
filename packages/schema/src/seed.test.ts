@@ -22,7 +22,7 @@ const base = {
   repo: "aozorae/Edgechat",
   license: "MIT",
   categories: ["chat"],
-  maintainers: ["MendyLanda"],
+  maintainers: ["yys9253462-gif"],
   source: { ref: "main", sha: "0".repeat(40) },
   install: {
     tier: "artifact",

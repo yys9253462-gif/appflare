@@ -10,10 +10,10 @@ import { AuthorizationNeeded, RENEW_BEFORE_MS, TokenKeeper } from "./tokens.ts";
 
 describe("oauthSetup", () => {
   it("uses the public client and the callback on the page's own registered origin", () => {
-    expect(oauthSetup("https://appflare.dev")).toEqual({
+    expect(oauthSetup("https://cf.hejige.com")).toEqual({
       ok: true,
       clientId: PUBLIC_OAUTH_CLIENT_ID,
-      redirectUri: "https://appflare.dev/deploy/callback",
+      redirectUri: "https://cf.hejige.com/deploy/callback",
     });
     expect(oauthSetup(PREVIEW_ORIGIN)).toEqual({
       ok: true,
@@ -42,9 +42,9 @@ describe("oauthSetup", () => {
       redirectUri: "http://localhost:5173/deploy/callback",
     });
     expect(
-      oauthSetup("http://localhost:5173", { callbackUrl: "https://appflare.dev/deploy/callback" }),
+      oauthSetup("http://localhost:5173", { callbackUrl: "https://cf.hejige.com/deploy/callback" }),
     ).toEqual({ ok: false, reason: "callback-elsewhere" });
-    expect(oauthSetup("https://appflare.dev", { clientId: "  " })).toMatchObject({
+    expect(oauthSetup("https://cf.hejige.com", { clientId: "  " })).toMatchObject({
       clientId: PUBLIC_OAUTH_CLIENT_ID,
     });
   });
@@ -326,7 +326,7 @@ describe("managerApi", () => {
         secret,
         grant: { refreshToken: "r", clientId: "c", scopes: [] },
         accountId: "a",
-        installer: { url: "https://appflare.dev", installationId: "i", key: "k" },
+        installer: { url: "https://cf.hejige.com", installationId: "i", key: "k" },
       })
       .catch((e) => e);
     expect(error).toBeInstanceOf(HandoffError);
@@ -339,7 +339,7 @@ describe("managerApi", () => {
         secret,
         grant: { refreshToken: "r", clientId: "c", scopes: [] },
         accountId: "a",
-        installer: { url: "https://appflare.dev", installationId: "i", key: "k" },
+        installer: { url: "https://cf.hejige.com", installationId: "i", key: "k" },
       })
       .catch((e) => e);
 

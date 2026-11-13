@@ -13,7 +13,7 @@
  * the installer's, the site's own OpenGraph, sitemap and llms.txt URLs)
  * starts here, with no trailing slash.
  */
-export const SITE_URL = "https://appflare.dev";
+export const SITE_URL = "https://cf.hejige.com";
 
 /**
  * The strict form of a catalog slug: lowercase letters, digits and dashes,

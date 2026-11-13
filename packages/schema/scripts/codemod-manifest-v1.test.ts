@@ -5,7 +5,7 @@ import { leftForAPerson, migrate, preV1Signs } from "./codemod-manifest-v1.mjs";
 
 /** A manifest in the shape before v1, using every field the rewrite changes. */
 const old = `{
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "slug": "demo",
   "name": "Demo",
   "summary": "A demo app.",
@@ -67,7 +67,7 @@ describe("codemod-manifest-v1", () => {
 
   it("moves every field to its v1 shape", () => {
     expect(parsed).toEqual({
-      $schema: "https://appflare.github.io/catalog/schema/v1.json",
+      $schema: "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
       slug: "demo",
       name: "Demo",
       summary: "A demo app.",

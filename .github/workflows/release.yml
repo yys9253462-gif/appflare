@@ -25,10 +25,10 @@ name: release
 #                 only job that creates tags or releases. Then waits until the
 #                 release's public view lists the three assets.
 #   deploy-repo-build  read-only, no secrets; for the current version only,
-#                 writes the public deploy repository (appflare/deploy) that the
+#                 writes the public deploy repository (yys9253462-gif/appflare) that the
 #                 "Deploy to Cloudflare" button deploys from, from the signed
 #                 release (scripts/build-deploy-repo.ts)
-#   deploy-repo   DEPLOY_REPO_PUSH_KEY only; replaces appflare/deploy's files and
+#   deploy-repo   DEPLOY_REPO_PUSH_KEY only; replaces yys9253462-gif/appflare's files and
 #                 pushes one commit named after the version. Skipped, with a
 #                 notice, while that secret is not set.
 #   npm-plan      read-only; for the current version only, after the release,
@@ -47,7 +47,7 @@ name: release
 #
 # Manual runs (workflow_dispatch) may name a `version` to (re)release that exact
 # version from the commit that set it; without it they behave like a push.
-# `deploy_repo_reset` makes deploy-repo replace appflare/deploy even when it
+# `deploy_repo_reset` makes deploy-repo replace yys9253462-gif/appflare even when it
 # already holds the same or a newer version, for a version reset (every package
 # back to an earlier version); pushes never set it.
 #
@@ -79,7 +79,7 @@ on:
         default: ""
         type: string
       deploy_repo_reset:
-        description: "Replace appflare/deploy with this run's version even when it holds the same or a newer one (after a version reset). Pushes never set it."
+        description: "Replace yys9253462-gif/appflare with this run's version even when it holds the same or a newer one (after a version reset). Pushes never set it."
         required: false
         default: false
         type: boolean
@@ -569,7 +569,7 @@ jobs:
           done
 
   # --------------------------------------------------------------------------
-  # The public deploy repository appflare/deploy, which the "Deploy to
+  # The public deploy repository yys9253462-gif/appflare, which the "Deploy to
   # Cloudflare" button deploys from (scripts/deploy-repo.ts): the signed
   # release unpacked into a prebuilt npm project, one commit per release.
   # --------------------------------------------------------------------------
@@ -642,12 +642,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     # Holds DEPLOY_REPO_PUSH_KEY, a deploy key with write access to
-    # appflare/deploy only. No checkout of this repository, no dependency
+    # yys9253462-gif/appflare only. No checkout of this repository, no dependency
     # install, no build: it only replaces the deploy repository's files and
     # pushes one commit. Until the key is added, it reports and does nothing.
     permissions: {}
     env:
-      DEPLOY_REPOSITORY: appflare/deploy
+      DEPLOY_REPOSITORY: yys9253462-gif/appflare
     steps:
       - name: Download the deploy repository
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -1068,7 +1068,7 @@ jobs:
             # ENEEDAUTH: npm had no token and the OIDC exchange was refused, so
             # it stopped before uploading anything.
             if [ -z "${NODE_AUTH_TOKEN}" ] && grep -q ENEEDAUTH "${log}"; then
-              echo "::notice title=create-appflare was not published::npm refused this workflow's trusted publishing exchange and NPM_TOKEN is not set, so create-appflare@${VERSION} is not on npm. Name appflare/appflare and release.yml as the package's trusted publisher, or set NPM_TOKEN for a first version (docs/RELEASING.md), then re-run this workflow run."
+              echo "::notice title=create-appflare was not published::npm refused this workflow's trusted publishing exchange and NPM_TOKEN is not set, so create-appflare@${VERSION} is not on npm. Name yys9253462-gif/appflare and release.yml as the package's trusted publisher, or set NPM_TOKEN for a first version (docs/RELEASING.md), then re-run this workflow run."
               exit 0
             fi
             exit "${status}"

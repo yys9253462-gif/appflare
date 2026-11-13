@@ -28,7 +28,7 @@ function env(
 describe("the site's Worker", () => {
   it("hands /api/install/* to the installer, the request itself, unchanged", async () => {
     const bindings = env();
-    const request = new Request("https://appflare.dev/api/install/accounts", {
+    const request = new Request("https://cf.hejige.com/api/install/accounts", {
       method: "POST",
       headers: { authorization: "Bearer access-token-value", "content-type": "application/json" },
       body: "{}",
@@ -42,7 +42,7 @@ describe("the site's Worker", () => {
   it("serves everything else from the static files", async () => {
     for (const path of ["/", "/deploy/", "/api/search.json", "/api/install", "/api/installer/x"]) {
       const bindings = env({ "/api/search.json": "assets" });
-      const response = await worker.fetch(new Request(`https://appflare.dev${path}`), bindings);
+      const response = await worker.fetch(new Request(`https://cf.hejige.com${path}`), bindings);
       expect(await response.text(), path).toBe("assets");
       expect(bindings.INSTALLER.seen, path).toEqual([]);
     }
@@ -56,7 +56,7 @@ describe("the site's Worker", () => {
       ["/", "# Appflare"],
     ] as const) {
       const response = await worker.fetch(
-        new Request(`https://appflare.dev${path}`, { headers: { Accept: "text/markdown" } }),
+        new Request(`https://cf.hejige.com${path}`, { headers: { Accept: "text/markdown" } }),
         env(files),
       );
       expect(await response.text(), path).toBe(body);
@@ -72,7 +72,7 @@ describe("the site's Worker", () => {
       ["/apps/counterscale/", "text/markdown"],
     ] as const) {
       const response = await worker.fetch(
-        new Request(`https://appflare.dev${path}`, { headers: { Accept: accept } }),
+        new Request(`https://cf.hejige.com${path}`, { headers: { Accept: accept } }),
         env(files),
       );
       expect(await response.text(), path).toBe("assets");
@@ -84,7 +84,7 @@ describe("the site's Worker", () => {
   it("answers a missing build file with a 404 browsers never keep", async () => {
     const bindings = env();
     const response = await worker.fetch(
-      new Request("https://appflare.dev/assets/main-0ld.js"),
+      new Request("https://cf.hejige.com/assets/main-0ld.js"),
       bindings,
     );
     expect(response.status).toBe(404);
@@ -98,7 +98,7 @@ describe("the site's Worker", () => {
 
   it("serves a build file the static files have, as they answer it", async () => {
     const response = await worker.fetch(
-      new Request("https://appflare.dev/assets/main-n3w.js"),
+      new Request("https://cf.hejige.com/assets/main-n3w.js"),
       env({ "/assets/main-n3w.js": "code" }),
     );
     expect(response.status).toBe(200);
@@ -108,13 +108,13 @@ describe("the site's Worker", () => {
   it("answers any other path without a file with the 404 page, as a 404", async () => {
     for (const path of ["/no-such-page/", "/no-such-page", "/no-such-file.png"]) {
       const bindings = notFoundSite();
-      const response = await worker.fetch(new Request(`https://appflare.dev${path}`), bindings);
+      const response = await worker.fetch(new Request(`https://cf.hejige.com${path}`), bindings);
       expect(response.status, path).toBe(404);
       expect(await response.text(), path).toBe("the 404 page");
       expect(response.headers.get("Content-Type"), path).toBe("text/html");
     }
     const head = await worker.fetch(
-      new Request("https://appflare.dev/no-such-page/", { method: "HEAD" }),
+      new Request("https://cf.hejige.com/no-such-page/", { method: "HEAD" }),
       notFoundSite(),
     );
     expect(head.status).toBe(404);

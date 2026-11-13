@@ -48,7 +48,7 @@ export const CLOUDFLARE_OAUTH_REVOKE_URL = "https://dash.cloudflare.com/oauth2/r
  * the `state` says which. Development builds may use another registered
  * callback, so take this as the default, not the only value.
  */
-export const APPFLARE_OAUTH_CALLBACK_URL = "https://appflare.dev/deploy/callback";
+export const APPFLARE_OAUTH_CALLBACK_URL = "https://cf.hejige.com/deploy/callback";
 
 // --- base64url ---------------------------------------------------------------
 

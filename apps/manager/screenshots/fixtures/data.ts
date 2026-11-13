@@ -779,17 +779,17 @@ const failedJob = {
 function setupEntry() {
   switch (variant) {
     case "setup-handoff":
-      return { step: "handoff", handoff: "waiting", installPage: "https://appflare.dev/deploy" };
+      return { step: "handoff", handoff: "waiting", installPage: "https://cf.hejige.com/deploy" };
     case "setup-handoff-received":
     case "setup-claim-refused":
     case "setup-claim-retry":
-      return { step: "handoff", handoff: "received", installPage: "https://appflare.dev/deploy" };
+      return { step: "handoff", handoff: "received", installPage: "https://cf.hejige.com/deploy" };
     // Handed over at workers.dev while the chosen domain does not serve yet.
     case "address-pending":
       return {
         step: "create-owner",
         handoff: "received",
-        installPage: "https://appflare.dev/deploy",
+        installPage: "https://cf.hejige.com/deploy",
         pendingAddress: "appflare.example.com",
       };
     default:

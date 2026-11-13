@@ -1,6 +1,6 @@
 {
   "catalog": {
-    "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+    "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
     "slug": "cloudmark",
     "name": "Cloudmark",
     "summary": "Bookmarks without an account: create a collection with a write token, save pages with a bookmarklet or the Chrome extension, and open them from any device. On D1.",
@@ -16,7 +16,7 @@
         "github": "wesleyel"
       }
     ],
-    "maintainers": ["MendyLanda"],
+    "maintainers": ["yys9253462-gif"],
     "source": {
       "ref": "main",
       "sha": "7a3ee4782ab701aeb8b4edfb8288f876cb8bcb66"

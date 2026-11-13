@@ -31,7 +31,7 @@ export interface DevRelease {
 
 export interface InstallerConfig {
   environment: InstallerEnvironment;
-  /** `https://appflare.dev`: no path, no trailing slash. */
+  /** `https://cf.hejige.com`: no path, no trailing slash. */
   origin: string;
   minManagerVersion: string;
   devRelease: DevRelease | null;

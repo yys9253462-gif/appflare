@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { ICON_WIDTHS, iconImage } from "./icon-copies.ts";
 import { dataUriBytes, makeIconCopies } from "./make-icon-copies.ts";
 
-const PNG_URL = "https://appflare.github.io/catalog/apps/big/icon.png";
-const SVG_URL = "https://appflare.github.io/catalog/apps/vector/icon.svg";
+const PNG_URL = "https://yys9253462-gif.github.io/appflare-catalog/apps/big/icon.png";
+const SVG_URL = "https://yys9253462-gif.github.io/appflare-catalog/apps/vector/icon.svg";
 
 async function png(size: number): Promise<Uint8Array> {
   const image = sharp({

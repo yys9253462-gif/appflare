@@ -104,7 +104,7 @@ the names of their apps.
 
 The official catalog's repository doubles as a template: copy it, generate a key,
 and its workflows sign and publish your apps. See
-[Run your own catalog](https://github.com/appflare/catalog/blob/main/TEMPLATE.md).
+[Run your own catalog](https://github.com/yys9253462-gif/appflare-catalog/blob/main/TEMPLATE.md).
 
 ## Next
 

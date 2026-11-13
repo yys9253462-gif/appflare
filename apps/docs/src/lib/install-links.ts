@@ -1,6 +1,7 @@
-/** Install links count clicks at the shortener before opening either installer. */
+/** Install links go straight to this site's deploy page or Cloudflare's 1-click deploy for this repository. */
 export const HOSTED_INSTALL_URL = "https://cf.hejige.com/deploy/";
-export const CLOUDFLARE_DEPLOY_URL = "https://link.appflare.dev/deploy-1c";
+export const CLOUDFLARE_DEPLOY_URL =
+  "https://deploy.workers.cloudflare.com/?url=https://github.com/yys9253462-gif/appflare";
 
 export function installLink(
   placement: string,

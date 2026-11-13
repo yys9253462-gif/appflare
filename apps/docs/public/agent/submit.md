@@ -2,7 +2,7 @@
 
 The user asked you to add an app to the Appflare catalog: write its catalog manifest,
 check it with the catalog's own tooling, and open a pull request to
-https://github.com/appflare/catalog. You run commands on their computer. Follow these
+https://github.com/yys9253462-gif/appflare-catalog. You run commands on their computer. Follow these
 instructions exactly, in order.
 
 You need two things from the user. If their message did not give them, ask for both
@@ -13,9 +13,9 @@ before anything else:
 
 Read these first. Where they disagree with these instructions, they win:
 
-- CONTRIBUTING.md of https://github.com/appflare/catalog
-- https://appflare.dev/catalog/submit.md
-- https://appflare.dev/catalog/manifest-reference.md
+- CONTRIBUTING.md of https://github.com/yys9253462-gif/appflare-catalog
+- https://cf.hejige.com/catalog/submit.md
+- https://cf.hejige.com/catalog/manifest-reference.md
 
 You need Node.js 22, pnpm, git, and the GitHub CLI (`gh`). No Cloudflare credentials:
 packing an app never touches an account.
@@ -38,9 +38,9 @@ packing an app never touches an account.
    - If it has no wrangler project Appflare can read (it ships its own installer) or must be built in each user's account, read the sandbox and self-deploying tier sections of CONTRIBUTING.md and ask the user before going on. Those tiers need Workers Paid.
 2. Run `gh auth status`. If the user is not logged in, ask them to run `gh auth login`. Ask them before forking. Then fork and clone the catalog, and create a branch named `add-<slug>`:
    ```sh
-   gh repo fork appflare/catalog --clone
+   gh repo fork yys9253462-gif/appflare-catalog --clone
    ```
-3. Set up the catalog's tooling, as CONTRIBUTING.md describes. Clone https://github.com/appflare/appflare next to the catalog checkout as `../appflare` (the repository is private until launch: use `gh repo clone appflare/appflare ../appflare` with the user's gh login, and if they have no access, stop and tell them), then, in the catalog checkout:
+3. Set up the catalog's tooling, as CONTRIBUTING.md describes. Clone https://github.com/yys9253462-gif/appflare next to the catalog checkout as `../appflare` (the repository is private until launch: use `gh repo clone yys9253462-gif/appflare ../appflare` with the user's gh login, and if they have no access, stop and tell them), then, in the catalog checkout:
    ```sh
    git -C ../appflare checkout "$(cat .appflare-ref)"
    (cd ../appflare && pnpm install --frozen-lockfile && pnpm build)
@@ -78,8 +78,8 @@ packing an app never touches an account.
    ```
    `pack-app` clones the app at the pin, installs its dependencies with install scripts disabled, and runs its build on this machine without credentials. It prints each Worker's modules and their size, which must be at most 32 MiB; any number of modules is fine. If a Worker is larger, or the build fails, stop and tell the user what the app would need to change. Do not commit the `dist/` directory `pack-app` writes.
 7. Commit `apps/<slug>/` and `CODEOWNERS` with the message `feat(apps): add <slug>` and a body that says what the app is and why it belongs in the catalog. Check it with `pnpm exec commitlint --from origin/main`.
-8. Show the user the manifest and ask them to confirm. Then push the branch to their fork and open the pull request with `gh pr create --repo appflare/catalog`. In its description, say what the app does, which tag or commit it is pinned to, what `validate` and `pack-app` reported, and anything you were unsure about.
+8. Show the user the manifest and ask them to confirm. Then push the branch to their fork and open the pull request with `gh pr create --repo yys9253462-gif/appflare-catalog`. In its description, say what the app does, which tag or commit it is pinned to, what `validate` and `pack-app` reported, and anything you were unsure about.
 
 ## End with
 
-The pull request's URL and a list of what is left for the user: the review on the pull request; once the app is merged, asking the upstream project to add the Install with Appflare badge to its README (https://appflare.dev/catalog/install-badge/; a request, not a requirement); and, as the entry's maintainer, reviewing its version bumps later (https://appflare.dev/catalog/bumps.md). Pull requests from forks get no CI secrets, so they fail the catalog's `verify` check until the appflare/appflare repository is public; if the pull request comes from a fork, say so in that list.
+The pull request's URL and a list of what is left for the user: the review on the pull request; once the app is merged, asking the upstream project to add the Install with Appflare badge to its README (https://cf.hejige.com/catalog/install-badge/; a request, not a requirement); and, as the entry's maintainer, reviewing its version bumps later (https://cf.hejige.com/catalog/bumps.md). Pull requests from forks get no CI secrets, so they fail the catalog's `verify` check until the yys9253462-gif/appflare repository is public; if the pull request comes from a fork, say so in that list.

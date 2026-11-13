@@ -186,8 +186,8 @@ describe("bindingChanges", () => {
 
 describe("repositoryAppSlug", () => {
   it("can never be a catalog slug", () => {
-    const slug = repositoryAppSlug("MendyLanda/cut");
-    expect(slug).toBe("repository:MendyLanda/cut");
+    const slug = repositoryAppSlug("yys9253462-gif/cut");
+    expect(slug).toBe("repository:yys9253462-gif/cut");
     // Two repositories of the same name stay apart.
     expect(repositoryAppSlug("someone/cut")).not.toBe(slug);
     expect(isRepositorySlug(slug)).toBe(true);

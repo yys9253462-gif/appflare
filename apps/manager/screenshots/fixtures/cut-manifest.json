@@ -1,14 +1,14 @@
 {
   "catalog": {
-    "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+    "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
     "slug": "cut",
     "name": "Cut",
     "summary": "Self-hosted link shortener on Workers + KV.",
     "tagline": "Short links on your own domain",
-    "repo": "MendyLanda/cut",
+    "repo": "yys9253462-gif/cut",
     "license": "MIT",
     "categories": ["utilities"],
-    "maintainers": ["MendyLanda"],
+    "maintainers": ["yys9253462-gif"],
     "source": {
       "ref": "v0.1.0",
       "sha": "6056400d47530aa87e4ae5764b37ffca9d00e87f"

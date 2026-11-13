@@ -35,7 +35,7 @@ describe("installLinkKey", () => {
 describe("installLinkRepository", () => {
   it("normalises owner and repository, dropping .git", () => {
     expect(installLinkRepository("cloudflare", "agents-starter")).toBe("cloudflare/agents-starter");
-    expect(installLinkRepository("MendyLanda", "my.app_1.git")).toBe("MendyLanda/my.app_1");
+    expect(installLinkRepository("yys9253462-gif", "my.app_1.git")).toBe("yys9253462-gif/my.app_1");
   });
 
   it("refuses what GitHub would not name a repository", () => {

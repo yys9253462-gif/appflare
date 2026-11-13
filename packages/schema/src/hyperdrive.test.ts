@@ -20,7 +20,7 @@ const validManifest = {
   repo: "linkcraftstudio/feedlog",
   license: "MIT",
   categories: ["business"],
-  maintainers: ["MendyLanda"],
+  maintainers: ["yys9253462-gif"],
   source: { ref: "v0.5.0", sha: "0".repeat(40) },
   install: {
     tier: "artifact",

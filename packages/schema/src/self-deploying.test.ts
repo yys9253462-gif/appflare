@@ -184,7 +184,7 @@ describe("the index entry of a self-deploying app", () => {
     categories: ["marketing"],
     build: {
       pin: PIN,
-      manifest: "https://appflare.github.io/catalog/apps/open-seo/appflare.json",
+      manifest: "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/appflare.json",
       manifestDigest: "a".repeat(64),
       expectedMinutes: 12,
     },

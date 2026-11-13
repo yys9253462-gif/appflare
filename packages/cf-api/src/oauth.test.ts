@@ -90,7 +90,7 @@ describe("endpoints", () => {
     expect(CLOUDFLARE_OAUTH_AUTHORIZE_URL).toBe("https://dash.cloudflare.com/oauth2/auth");
     expect(CLOUDFLARE_OAUTH_TOKEN_URL).toBe("https://dash.cloudflare.com/oauth2/token");
     expect(CLOUDFLARE_OAUTH_REVOKE_URL).toBe("https://dash.cloudflare.com/oauth2/revoke");
-    expect(APPFLARE_OAUTH_CALLBACK_URL).toBe("https://appflare.dev/deploy/callback");
+    expect(APPFLARE_OAUTH_CALLBACK_URL).toBe("https://cf.hejige.com/deploy/callback");
   });
 });
 
@@ -138,7 +138,7 @@ describe("authorizationUrl", () => {
     expect(Object.fromEntries(url.searchParams)).toEqual({
       response_type: "code",
       client_id: CLIENT_ID,
-      redirect_uri: "https://appflare.dev/deploy/callback",
+      redirect_uri: "https://cf.hejige.com/deploy/callback",
       scope: "workers-scripts.write d1.write offline_access",
       state: "c3RhdGU",
       code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
@@ -148,7 +148,7 @@ describe("authorizationUrl", () => {
 
   it("percent-encodes the redirect URI and joins scopes with %20", () => {
     const raw = authorizationUrl(args);
-    expect(raw).toContain("redirect_uri=https%3A%2F%2Fappflare.dev%2Fdeploy%2Fcallback");
+    expect(raw).toContain("redirect_uri=https%3A%2F%2Fcf.hejige.com%2Fdeploy%2Fcallback");
     expect(raw).toContain("scope=workers-scripts.write%20d1.write%20offline_access");
   });
 

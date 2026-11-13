@@ -8,7 +8,7 @@ import { catalogManifestSchema } from "../src/catalog.ts";
 
 /**
  * Regenerates `packages/schema/json-schema/v1.json`, the JSON Schema for the
- * catalog manifest published to `https://appflare.github.io/catalog/schema/v1.json`
+ * catalog manifest published to `https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json`
  * and referenced by every `appflare.jsonc` `$schema`. Run via:
  *   pnpm --filter @appflare/schema export-json-schema
  * The output is deterministic; re-running it must produce no diff.
@@ -53,7 +53,7 @@ const jsonSchema = z.toJSONSchema(catalogManifestSchema) as JsonObject;
 optionalDefaults(jsonSchema);
 const document = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://appflare.github.io/catalog/schema/v1.json",
+  $id: "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   title: "Appflare catalog manifest (appflare.jsonc)",
   ...jsonSchema,
 };

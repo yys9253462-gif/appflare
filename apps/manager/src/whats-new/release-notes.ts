@@ -3,7 +3,7 @@ import { compareVersions, parseVersion } from "../catalog/versions";
 
 /**
  * Appflare's release notes as "What's new" shows them. The cron reads
- * GitHub's releases list of appflare/appflare (the same request that finds
+ * GitHub's releases list of yys9253462-gif/appflare (the same request that finds
  * the newest release), keeps the newest published Appflare releases, and
  * stores them in KV; the browser only ever sees that copy. Client-safe.
  */
@@ -14,7 +14,7 @@ export const RELEASE_NOTES_LIMIT = 10;
 export const RELEASE_BODY_MAX_CHARS = 20_000;
 
 const TAG_PREFIX = "manager@";
-const RELEASE_PAGE_PREFIX = "https://github.com/appflare/appflare/releases/";
+const RELEASE_PAGE_PREFIX = "https://github.com/yys9253462-gif/appflare/releases/";
 
 export const releaseNoteSchema = z.object({
   /** `manager@<version>`. */
@@ -64,7 +64,7 @@ export function cleanReleaseBody(body: string): string {
     : cleaned;
 }
 
-/** The release page, trusted only when it is one of appflare/appflare's release pages. */
+/** The release page, trusted only when it is one of yys9253462-gif/appflare's release pages. */
 function releasePage(htmlUrl: string | undefined, tag: string): string {
   if (htmlUrl?.startsWith(RELEASE_PAGE_PREFIX)) return htmlUrl;
   return `${RELEASE_PAGE_PREFIX}tag/${encodeURIComponent(tag)}`;

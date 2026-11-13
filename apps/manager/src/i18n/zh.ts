@@ -678,9 +678,14 @@ export const ZH: Record<string, string> = {
   Permissions: "权限",
   "Token permissions": "令牌权限",
   "Not granted": "未授予",
-  "Use this Appflare on appflare.dev": "在 appflare.dev 上使用这个 Appflare",
+  "Use this Appflare on appflare.dev": "在 cf.hejige.com 上使用这个 Appflare",
   "Install buttons on appflare.dev then open here, in this browser.":
-    "在 appflare.dev 上点安装按钮，然后在这个浏览器里打开这里。",
+    "在 cf.hejige.com 上点安装按钮，然后在这个浏览器里打开这里。",
+  "Approve on Cloudflare, then confirm {host} on appflare.dev to come back.{extra}":
+    "在 Cloudflare 批准授权，然后在 cf.hejige.com 确认 {host} 后返回。{extra}",
+  "this address": "此地址",
+  " Appflare then removes its API token from its Worker.":
+    " 之后 Appflare 会从其 Worker 移除之前的 API 令牌。",
   "How Appflare connects": "Appflare 如何连接",
   "Sign in with Cloudflare": "使用 Cloudflare 登录",
   "1. Create a token": "1. 创建令牌",

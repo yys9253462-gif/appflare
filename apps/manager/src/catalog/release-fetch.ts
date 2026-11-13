@@ -3,7 +3,7 @@ import type { FetchLike } from "@appflare/cf-api";
 /**
  * Fetching from the manager's release feed and its release assets.
  *
- * The appflare/appflare repository is public, so no token is needed; one
+ * The yys9253462-gif/appflare repository is public, so no token is needed; one
  * moves the feed's API reads off the shared 60-an-hour limit of requests
  * without a token (see github-releases.ts), and would make a private fork
  * readable. It is a GitHub access token marked for release downloads (held
@@ -69,7 +69,7 @@ const APPFLARE_REPOSITORY_PREFIXES = [
   "https://api.github.com/repos/yys9253462-gif/appflare/",
 ];
 
-/** Whether `url` is about Appflare's own repository (`appflare/appflare`) on GitHub. */
+/** Whether `url` is about Appflare's own repository (`yys9253462-gif/appflare`) on GitHub. */
 export function isAppflareRepositoryUrl(url: string): boolean {
   try {
     const u = new URL(url);

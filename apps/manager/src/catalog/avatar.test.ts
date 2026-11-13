@@ -55,7 +55,7 @@ function setup(image: () => Response, profile: () => Response = () => redirectTo
   const { kv, store } = fakeKv();
   store.set(
     CATALOG_INDEX_KEY,
-    JSON.stringify(index([{ name: "Mendy Landa", github: "MendyLanda" }])),
+    JSON.stringify(index([{ name: "yys9253462-gif", github: "yys9253462-gif" }])),
   );
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   const fetch: FetchLike = async (url, init) => {
@@ -67,7 +67,7 @@ function setup(image: () => Response, profile: () => Response = () => redirectTo
 
 describe("avatar rules", () => {
   it("accepts GitHub logins only", () => {
-    expect(isGithubLogin("MendyLanda")).toBe(true);
+    expect(isGithubLogin("yys9253462-gif")).toBe(true);
     expect(isGithubLogin("every-app")).toBe(true);
     expect(isGithubLogin("a-")).toBe(false);
     expect(isGithubLogin("a--b")).toBe(false);
@@ -76,10 +76,12 @@ describe("avatar rules", () => {
   });
 
   it("gives the page a manager path and starts from one fixed URL", () => {
-    expect(avatarSrc("MendyLanda")).toBe("/api/catalog/avatar/MendyLanda");
+    expect(avatarSrc("yys9253462-gif")).toBe("/api/catalog/avatar/yys9253462-gif");
     expect(avatarSrc(undefined)).toBeNull();
     expect(avatarSrc("not a login")).toBeNull();
-    expect(avatarUpstreamUrl("MendyLanda")).toBe("https://github.com/MendyLanda.png?size=64");
+    expect(avatarUpstreamUrl("yys9253462-gif")).toBe(
+      "https://github.com/yys9253462-gif.png?size=64",
+    );
   });
 
   it("follows GitHub's redirect only to an avatar by numeric id", () => {
@@ -95,9 +97,12 @@ describe("avatar rules", () => {
 describe("serveAuthorAvatar", () => {
   it("serves a listed author's avatar through the one redirect, cached a day by URL", async () => {
     const { env, fetch, calls } = setup(png);
-    const response = await serveAuthorAvatar(env, "mendylanda", { fetch });
+    const response = await serveAuthorAvatar(env, "YYS9253462-GIF", { fetch });
     expect(response.status).toBe(200);
-    expect(calls.map((c) => c.url)).toEqual(["https://github.com/mendylanda.png?size=64", AVATAR]);
+    expect(calls.map((c) => c.url)).toEqual([
+      "https://github.com/YYS9253462-GIF.png?size=64",
+      AVATAR,
+    ]);
     for (const call of calls) {
       expect(call.init?.redirect).toBe("manual");
       expect(call.init?.cf).toMatchObject({ cacheTtl: 86400 });
@@ -118,12 +123,12 @@ describe("serveAuthorAvatar", () => {
 
   it("refuses a redirect anywhere else, or none", async () => {
     const elsewhere = setup(png, () => redirectTo("https://tracker.test/u/1"));
-    expect((await serveAuthorAvatar(elsewhere.env, "MendyLanda", elsewhere)).status).toBe(502);
+    expect((await serveAuthorAvatar(elsewhere.env, "yys9253462-gif", elsewhere)).status).toBe(502);
     expect(elsewhere.calls).toHaveLength(1);
     const missing = setup(png, () => new Response("Not Found", { status: 404 }));
-    expect((await serveAuthorAvatar(missing.env, "MendyLanda", missing)).status).toBe(502);
+    expect((await serveAuthorAvatar(missing.env, "yys9253462-gif", missing)).status).toBe(502);
     const again = setup(() => redirectTo(AVATAR));
-    expect((await serveAuthorAvatar(again.env, "MendyLanda", again)).status).toBe(502);
+    expect((await serveAuthorAvatar(again.env, "yys9253462-gif", again)).status).toBe(502);
     expect(again.calls).toHaveLength(2);
   });
 
@@ -131,24 +136,24 @@ describe("serveAuthorAvatar", () => {
     const svg = setup(
       () => new Response("<svg/>", { headers: { "content-type": "image/svg+xml" } }),
     );
-    expect((await serveAuthorAvatar(svg.env, "MendyLanda", svg)).status).toBe(502);
+    expect((await serveAuthorAvatar(svg.env, "yys9253462-gif", svg)).status).toBe(502);
     const big = setup(
       () =>
         new Response(new Uint8Array(MAX_AVATAR_BYTES + 1), {
           headers: { "content-type": "image/jpeg" },
         }),
     );
-    const response = await serveAuthorAvatar(big.env, "MendyLanda", big);
+    const response = await serveAuthorAvatar(big.env, "yys9253462-gif", big);
     expect(response.status).toBe(502);
     expect(response.headers.get("cache-control")).toBe("no-store");
   });
 
   it("answers 401 without a session and never fetches", async () => {
     const { env, fetch, calls } = setup(png);
-    const refused = await authorAvatarRoute(env, "MendyLanda", async () => false, { fetch });
+    const refused = await authorAvatarRoute(env, "yys9253462-gif", async () => false, { fetch });
     expect(refused.status).toBe(401);
     expect(calls).toEqual([]);
-    const served = await authorAvatarRoute(env, "MendyLanda", async () => true, { fetch });
+    const served = await authorAvatarRoute(env, "yys9253462-gif", async () => true, { fetch });
     expect(served.status).toBe(200);
   });
 });

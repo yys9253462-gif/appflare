@@ -48,7 +48,7 @@ export function socialPreviewElement(preview: SocialPreview): ReactNode {
     case "appflare":
       return (
         <Layout
-          repo="appflare/appflare"
+          repo="yys9253462-gif/appflare"
           title="The app manager for your own Cloudflare account"
           line="One Worker in your account installs apps built for Workers and keeps them updated."
         >
@@ -65,7 +65,7 @@ export function socialPreviewElement(preview: SocialPreview): ReactNode {
     case "catalog":
       return (
         <Layout
-          repo="appflare/catalog"
+          repo="yys9253462-gif/appflare-catalog"
           title="The catalog of apps Appflare installs"
           line={`${preview.count} apps built for Workers, each built from a pinned upstream commit and signed.`}
         >
@@ -75,7 +75,7 @@ export function socialPreviewElement(preview: SocialPreview): ReactNode {
     case "deploy":
       return (
         <Layout
-          repo="appflare/deploy"
+          repo="yys9253462-gif/appflare"
           title="Deploy Appflare to your Cloudflare account"
           line="One click puts a prebuilt Appflare in your account and opens the setup wizard."
         >

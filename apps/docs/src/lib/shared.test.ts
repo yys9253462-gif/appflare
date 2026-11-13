@@ -55,7 +55,7 @@ describe("OpenGraph image paths", () => {
 describe("sourceFileUrl", () => {
   it("links a content file on GitHub", () => {
     expect(sourceFileUrl("start/install.mdx")).toBe(
-      "https://github.com/appflare/appflare/blob/main/apps/docs/content/docs/start/install.mdx",
+      "https://github.com/yys9253462-gif/appflare/blob/main/apps/docs/content/docs/start/install.mdx",
     );
   });
 });

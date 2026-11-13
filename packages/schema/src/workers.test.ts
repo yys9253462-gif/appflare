@@ -64,7 +64,7 @@ function catalog(install: Record<string, unknown> = {}, rest: Record<string, unk
     repo: "plivo-labs/glance",
     license: "MIT",
     categories: ["developer-tools"],
-    maintainers: ["MendyLanda"],
+    maintainers: ["yys9253462-gif"],
     source: { ref: "main", sha: gitSha },
     install: {
       tier: "artifact",

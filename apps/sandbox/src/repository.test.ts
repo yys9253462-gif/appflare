@@ -111,7 +111,7 @@ function request(overrides: Record<string, unknown> = {}): Record<string, unknow
     protocol: SANDBOX_PROTOCOL_VERSION,
     installId: INSTALL,
     runId: RUN,
-    repo: "MendyLanda/cut",
+    repo: "yys9253462-gif/cut",
     ...overrides,
   };
 }
@@ -187,7 +187,7 @@ describe("runRepositoryBuild", () => {
     expect(sandbox.destroyed).toBe(true);
     expect(sandbox.commands.slice(0, 4)).toEqual([
       "rm -rf /workspace/appflare-build && mkdir -p /workspace/appflare-build",
-      "<gitCheckout https://github.com/MendyLanda/cut.git (default branch)>",
+      "<gitCheckout https://github.com/yys9253462-gif/cut.git (default branch)>",
       "git -C /workspace/appflare-build/source rev-parse HEAD",
       "git -C /workspace/appflare-build/source rev-parse --abbrev-ref HEAD",
     ]);
@@ -207,8 +207,8 @@ describe("runRepositoryBuild", () => {
     const catalog = packedCatalog(sandbox);
     expect(catalog).toMatchObject({
       slug: "cut",
-      name: "MendyLanda/cut",
-      repo: "MendyLanda/cut",
+      name: "yys9253462-gif/cut",
+      repo: "yys9253462-gif/cut",
       summary: "Self-hosted link shortener.",
       tagline: "Self-hosted link shortener",
       license: "MIT",
@@ -228,7 +228,7 @@ describe("runRepositoryBuild", () => {
     const result = asResult(await build(sandbox, request({ ref: "v1.4.0" })).promise);
     expect(result).toMatchObject({ commit: TAGGED, ref: "v1.4.0", version: "1.4.0" });
     expect(sandbox.commands).toContain(
-      "<gitCheckout https://github.com/MendyLanda/cut.git v1.4.0>",
+      "<gitCheckout https://github.com/yys9253462-gif/cut.git v1.4.0>",
     );
   });
 
@@ -352,10 +352,10 @@ describe("runRepositoryBuild", () => {
       name: "Cut",
       summary: "Link shortener.",
       tagline: "Short links on your own domain",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       license: "MIT",
       categories: ["utilities"],
-      maintainers: ["MendyLanda"],
+      maintainers: ["yys9253462-gif"],
       source: { ref: "v0.1.0", sha: "f".repeat(40), version: "0.1.0" },
       install: {
         packageManager: "pnpm",
@@ -389,7 +389,7 @@ describe("runRepositoryBuild", () => {
       name: "Blog",
       summary: "A blog template.",
       tagline: "A blog template",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       license: "MIT",
       categories: ["notes"],
       maintainers: [],
@@ -431,7 +431,7 @@ describe("runRepositoryBuild", () => {
       name: "md.page",
       summary: "Markdown pages.",
       tagline: "Markdown pages",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       license: "MIT",
       categories: ["notes"],
       maintainers: [],
@@ -500,7 +500,7 @@ describe("runRepositoryBuild of a private repository", () => {
     // No SDK clone (it takes no environment); a plain remote URL, then a fetch.
     expect(sandbox.commands.some((c) => c.startsWith("<gitCheckout"))).toBe(false);
     expect(sandbox.commands).toContain(
-      `rm -rf ${SRC} && git init -q ${SRC} && git -C ${SRC} remote add origin https://github.com/MendyLanda/cut.git && git -C ${SRC} fetch -q --depth 1 origin ${MAIN} && git -C ${SRC} checkout -q --detach FETCH_HEAD`,
+      `rm -rf ${SRC} && git init -q ${SRC} && git -C ${SRC} remote add origin https://github.com/yys9253462-gif/cut.git && git -C ${SRC} fetch -q --depth 1 origin ${MAIN} && git -C ${SRC} checkout -q --detach FETCH_HEAD`,
     );
     for (const command of sandbox.commands) {
       expect(command).not.toContain(TOKEN);
@@ -546,7 +546,7 @@ describe("runRepositoryBuild of a private repository", () => {
         {
           match: /fetch -q --depth 1/,
           exitCode: 128,
-          output: `fatal: Authentication failed for 'https://x-access-token:${TOKEN}@github.com/MendyLanda/cut.git/'\n`,
+          output: `fatal: Authentication failed for 'https://x-access-token:${TOKEN}@github.com/yys9253462-gif/cut.git/'\n`,
         },
       ],
     });

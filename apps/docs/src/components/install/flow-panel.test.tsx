@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import type { FlowPage, FlowState, FlowView } from "../../install/flow.ts";
-import { DEPLOY_BUTTON_URL, FlowPanel, keepLine } from "./flow-panel.tsx";
+import { FlowPanel, keepLine } from "./flow-panel.tsx";
 
 const origin = "https://appflare.example.com";
 const apps = [{ slug: "2fa", name: "2FA" }];
@@ -74,7 +74,7 @@ describe("FlowPanel", () => {
   it("sends an app along to the install from the browser, which installs it right after", () => {
     const html = render({ step: "get", intentSaved: true });
     expect(html).toContain('href="/deploy/?app=2fa"');
-    expect(html).not.toContain("https://link.appflare.dev/deploy?");
+    expect(html).not.toContain("https://cf.hejige.com/deploy/?");
     expect(text(html)).toContain(
       "在浏览器中安装 Appflare，完成设置后会自动打开 2FA，供你确认安装。",
     );
@@ -98,7 +98,7 @@ describe("FlowPanel", () => {
   it("offers the install from the browser first, then Cloudflare 部署按钮, then the way back", () => {
     const html = render({ step: "get", intentSaved: true });
     const browser = html.indexOf('href="/deploy/?app=2fa"');
-    const deploy = html.indexOf(DEPLOY_BUTTON_URL);
+    const deploy = html.indexOf("https://deploy.workers.cloudflare.com/");
     expect(browser).toBeGreaterThan(-1);
     expect(deploy).toBeGreaterThan(browser);
     expect(html).toContain(">安装 Appflare<");
@@ -108,7 +108,7 @@ describe("FlowPanel", () => {
     expect(html).not.toContain("deploy.workers.cloudflare.com/button");
     expect(html).toContain("install-get-appflare-install");
     expect(html).toContain("install-get-appflare-cloudflare");
-    expect(html).toContain("账户 › 在 appflare.dev 上使用这个 Appflare");
+    expect(html).toContain("账户 › 在 cf.hejige.com 上使用这个 Appflare");
     expect(html).toContain("保存 2FA 的安装信息 7 天");
   });
 

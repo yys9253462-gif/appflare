@@ -18,7 +18,7 @@ const keepHere = (event: MouseEvent) => {
 
 function at(path: string) {
   (window as unknown as { happyDOM: { setURL(url: string): void } }).happyDOM.setURL(
-    `https://appflare.dev${path}`,
+    `https://cf.hejige.com${path}`,
   );
 }
 

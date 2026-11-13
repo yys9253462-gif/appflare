@@ -15,7 +15,7 @@ function release(tag: string, extra: Record<string, unknown> = {}) {
     tag_name: tag,
     name: `Release ${tag}`,
     body: `Notes for ${tag}`,
-    html_url: `https://github.com/appflare/appflare/releases/tag/${encodeURIComponent(tag)}`,
+    html_url: `https://github.com/yys9253462-gif/appflare/releases/tag/${encodeURIComponent(tag)}`,
     draft: false,
     prerelease: false,
     published_at: "2026-09-23T13:35:49Z",
@@ -30,7 +30,7 @@ function note(version: string): ReleaseNote {
     name: `Appflare ${version}`,
     publishedAt: null,
     body: "",
-    url: "https://github.com/appflare/appflare/releases",
+    url: "https://github.com/yys9253462-gif/appflare/releases",
   };
 }
 
@@ -54,7 +54,7 @@ describe("pickReleaseNotes", () => {
       name: "Release manager@0.4.0",
       publishedAt: "2026-09-23T13:35:49Z",
       body: "Notes for manager@0.4.0",
-      url: "https://github.com/appflare/appflare/releases/tag/manager%400.4.0",
+      url: "https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.4.0",
     });
   });
 
@@ -82,7 +82,7 @@ describe("pickReleaseNotes", () => {
       name: "Appflare 0.2.0",
       publishedAt: null,
       body: "",
-      url: "https://github.com/appflare/appflare/releases/tag/manager%400.2.0",
+      url: "https://github.com/yys9253462-gif/appflare/releases/tag/manager%400.2.0",
     });
   });
 

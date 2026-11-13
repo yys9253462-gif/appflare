@@ -21,11 +21,11 @@ const rowFacts = {
   license: "MIT",
   revision: 1,
   services: ["kv"],
-  authors: [{ name: "Mendy Landa", github: "MendyLanda" }],
+  authors: [{ name: "yys9253462-gif", github: "yys9253462-gif" }],
   categories: ["utilities"],
 };
 
-const base = "https://github.com/appflare/catalog/releases/download/cut@0.1.0";
+const base = "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.1.0";
 
 const validIndex = {
   generatedAt: "2026-09-22T12:00:00Z",
@@ -46,7 +46,7 @@ const validIndex = {
       plan: "free",
       requires: [],
       lastVerified: null,
-      maintainers: ["MendyLanda"],
+      maintainers: ["yys9253462-gif"],
       ...rowFacts,
     },
   ],
@@ -125,7 +125,7 @@ describe("indexJsonSchema", () => {
 
   it("accepts rows with authors, at least one", () => {
     const row = validIndex.apps[0];
-    const authors = [{ name: "Mendy Landa", github: "MendyLanda" }];
+    const authors = [{ name: "yys9253462-gif", github: "yys9253462-gif" }];
     expect(indexAppSchema.parse({ ...row, authors }).authors).toEqual(authors);
     expect(indexAppSchema.safeParse({ ...row, authors: [] }).success).toBe(false);
     expect(
@@ -166,7 +166,7 @@ describe("indexJsonSchema", () => {
   it("accepts a revision and a revised catalog manifest on a release row", () => {
     const row = validIndex.apps[0];
     const catalogManifest = {
-      url: "https://appflare.github.io/catalog/apps/cut/manifest.json",
+      url: "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/manifest.json",
       sha256: "d".repeat(64),
       keyId: "catalog-2026-09",
       signature: "c2lnbmF0dXJl",
@@ -195,7 +195,7 @@ describe("indexJsonSchema", () => {
         tier: "sandbox",
         build: {
           pin: "a".repeat(40),
-          manifest: "https://appflare.github.io/catalog/apps/cut/manifest.json",
+          manifest: "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/manifest.json",
           manifestDigest: "e".repeat(64),
         },
         catalogManifest,
@@ -301,7 +301,7 @@ describe("indexAppSchema for sandbox tier entries", () => {
     ...rowFacts,
     build: {
       pin: "a".repeat(40),
-      manifest: "https://appflare.github.io/catalog/apps/flaremo/appflare.json",
+      manifest: "https://yys9253462-gif.github.io/appflare-catalog/apps/flaremo/appflare.json",
       manifestDigest: "d".repeat(64),
       buildCommand: "pnpm build",
       expectedMinutes: 12,
@@ -350,7 +350,7 @@ describe("indexAppSchema for sandbox tier entries", () => {
 describe("index media", () => {
   const [row] = validIndex.apps;
   if (row === undefined) throw new Error("the fixture index has no app");
-  const site = "https://appflare.github.io/catalog/apps/cut";
+  const site = "https://yys9253462-gif.github.io/appflare-catalog/apps/cut";
 
   it("accepts an icon, a cover and screenshots, and defaults screenshots to none", () => {
     const media = {
@@ -398,10 +398,10 @@ describe("featured items and the stats URL", () => {
   it("defaults featured to an empty array and accepts a stats URL", () => {
     const parsed = indexJsonSchema.parse({
       ...validIndex,
-      stats: "https://appflare.github.io/catalog/stats.json",
+      stats: "https://yys9253462-gif.github.io/appflare-catalog/stats.json",
     });
     expect(parsed.featured).toEqual([]);
-    expect(parsed.stats).toBe("https://appflare.github.io/catalog/stats.json");
+    expect(parsed.stats).toBe("https://yys9253462-gif.github.io/appflare-catalog/stats.json");
   });
 
   it("accepts an item with a link, or one promoting an app in the index", () => {

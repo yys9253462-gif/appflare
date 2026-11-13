@@ -48,7 +48,7 @@ export function installerApp(world: FakeWorld, opts: AppOptions = {}) {
     if (token !== null) headers.set("authorization", `Bearer ${token}`);
     const before = world.calls.length;
     const response = await handleRequest(
-      new Request(`https://appflare.dev/api/install/${path}`, {
+      new Request(`https://cf.hejige.com/api/install/${path}`, {
         method: init.method ?? "POST",
         headers,
         ...(init.method === "GET" ? {} : { body: JSON.stringify(body) }),

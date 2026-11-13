@@ -19,7 +19,7 @@ const manifest = {
   name: "Cut",
   summary: "Self-hosted link shortener on Workers + KV.",
   tagline: "Short links on your own domain",
-  repo: "MendyLanda/cut",
+  repo: "yys9253462-gif/cut",
   license: "MIT",
   categories: ["utilities"],
   source: { ref: "v0.1.0", sha: "0".repeat(40) },

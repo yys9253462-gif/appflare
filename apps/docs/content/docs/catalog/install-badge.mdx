@@ -4,7 +4,7 @@ description: Put an "Install with Appflare" button in your project's README, for
 ---
 
 The Install badge lets people install your app from its README with a click. It takes
-them to appflare.dev, which opens the app in their own Appflare, where they check what
+them to cf.hejige.com, which opens the app in their own Appflare, where they check what
 it needs and confirm. People who do not have Appflare yet are shown how to get it, and
 the page keeps the app for them for 7 days.
 
@@ -24,7 +24,7 @@ Use the app's slug, its short name in the catalog (the last part of its address 
 [the apps page](/apps/)). For an app with the slug `2fa`:
 
 ```md
-[![Install with Appflare](https://appflare.dev/badge.svg)](https://appflare.dev/install/2fa/)
+[![Install with Appflare](https://cf.hejige.com/badge.svg)](https://cf.hejige.com/install/2fa/)
 ```
 
 This is the badge to use whenever your app is in the catalog: the catalog's version is
@@ -36,7 +36,7 @@ itself needs Workers Paid.
 Use your repository's `owner/repo`:
 
 ```md
-[![Install with Appflare](https://appflare.dev/badge.svg)](https://appflare.dev/install/?repo=owner/repo)
+[![Install with Appflare](https://cf.hejige.com/badge.svg)](https://cf.hejige.com/install/?repo=owner/repo)
 ```
 
 **This form builds your project in the visitor's own Cloudflare account and needs
@@ -54,22 +54,22 @@ If the repository is in the catalog, the page offers the catalog's version first
 In HTML, which also lets you set the height:
 
 ```html
-<a href="https://appflare.dev/install/2fa/"><img src="https://appflare.dev/badge.svg" alt="Install with Appflare" height="39"></a>
+<a href="https://cf.hejige.com/install/2fa/"><img src="https://cf.hejige.com/badge.svg" alt="Install with Appflare" height="39"></a>
 <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/owner/repo"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare" height="39"></a>
 ```
 
-For a repository, use `https://appflare.dev/install/?repo=owner/repo` as the first
+For a repository, use `https://cf.hejige.com/install/?repo=owner/repo` as the first
 link instead.
 
 In Markdown, put both on one line:
 
 ```md
-[![Install with Appflare](https://appflare.dev/badge.svg)](https://appflare.dev/install/2fa/) [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/owner/repo)
+[![Install with Appflare](https://cf.hejige.com/badge.svg)](https://cf.hejige.com/install/2fa/) [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/owner/repo)
 ```
 
 ## What happens when someone selects it
 
-- **They have told appflare.dev where their Appflare is:** the page shows "Opening in
+- **They have told cf.hejige.com where their Appflare is:** the page shows "Opening in
   your Appflare at …" with the address, and opens it a moment later. They can select
   **Change** to stop.
 - **First visit:** the page asks whether they have Appflare. They enter its address
@@ -79,8 +79,8 @@ In Markdown, put both on one line:
   the same way.
 - **No Appflare yet:** the page offers the hosted installer and the
   installer. Once Appflare is ready, **Your account › Use this Appflare on
-  appflare.dev** in Appflare brings them back to the app.
+  cf.hejige.com** in Appflare brings them back to the app.
 
-The address of someone's Appflare stays in their browser. appflare.dev never installs
+The address of someone's Appflare stays in their browser. cf.hejige.com never installs
 anything itself, and the link only opens a page in their Appflare, where an admin
 confirms. See [Install links](/guides/install-links/) for the pages it opens.

@@ -11,9 +11,9 @@
         "addedAt": "2026-09-26T23:19:31+03:00",
         "version": "1.9.0",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/2fa@1.9.0/2fa-1.9.0.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/2fa@1.9.0/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/2fa@1.9.0/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/2fa@1.9.0/2fa-1.9.0.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/2fa@1.9.0/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/2fa@1.9.0/manifest.sig",
           "digest": "2cff0e8de6c29b33ca3da41b5a372757e72bb0b0cad6398c50e1b39726aa4b64"
         },
         "tier": "artifact",
@@ -26,10 +26,10 @@
             "github": "wuzf"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/2fa/icon.svg",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/2fa/icon.svg",
             "sha256": "5c9a0c9e7d2f58ed9a0cbfed6588423bdac4c67028b0bb561978c84c94d1b485"
           },
           "screenshots": []
@@ -47,9 +47,9 @@
         "addedAt": "2026-09-24T00:14:03+03:00",
         "version": "0.0.0-20260417.48039bb",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/agentic-inbox-0.0.0-20260417.48039bb.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/agentic-inbox-0.0.0-20260417.48039bb.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/agentic-inbox@0.0.0-20260417.48039bb/manifest.sig",
           "digest": "93a950b6d2cc2a1f8a4934d36af6dd84d39db8580d82ddbee554ae40652d631d"
         },
         "tier": "artifact",
@@ -63,15 +63,15 @@
             "github": "cloudflare"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/agentic-inbox/icon.svg",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/agentic-inbox/icon.svg",
             "sha256": "cc4d8665195f648a1c6913a228a903a453660aafaf678518afed3a930c05c5f8"
           },
           "screenshots": [
             {
-              "url": "https://appflare.github.io/catalog/apps/agentic-inbox/screenshots/01-inbox-with-the-agent.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/agentic-inbox/screenshots/01-inbox-with-the-agent.png",
               "sha256": "05e139a1ba42e691a8e56cd5c1c6b01a39132a36932dd33dc2d8e41c996f4a91",
               "alt": "Agentic Inbox: Inbox with the agent"
             }
@@ -90,9 +90,9 @@
         "addedAt": "2026-09-27T04:19:23+03:00",
         "version": "1.0.0",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/cattopic@1.0.0/cattopic-1.0.0.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/cattopic@1.0.0/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/cattopic@1.0.0/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cattopic@1.0.0/cattopic-1.0.0.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cattopic@1.0.0/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cattopic@1.0.0/manifest.sig",
           "digest": "a41b4caf0d7334ed02b98eb4a232a61cdccaad406ef01cf32f9682c16af2b27b"
         },
         "tier": "artifact",
@@ -106,10 +106,10 @@
             "github": "Yuri-NagaSaki"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/cattopic/icon.svg",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/cattopic/icon.svg",
             "sha256": "9a341cf8e73d50632860b17fc818826c35ae7e3993a1a0ed7574b8b3c8be8cf2"
           },
           "screenshots": []
@@ -119,7 +119,7 @@
         "license": "GPL-3.0-only",
         "revision": 2,
         "catalogManifest": {
-          "url": "https://appflare.github.io/catalog/apps/cattopic/manifest.json",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/cattopic/manifest.json",
           "sha256": "613e611d19545e777e04f8892475766be6937896b454d11af75383658be22cc9",
           "keyId": "catalog-2026-09",
           "signature": "WjvtzlJJISHfoPodlvnVo/TNGhhd5r1P9r9t0UIPcn2xII1mmPYO0jL3jEv+m7TmTiA+MeLpIOVaAYPhjEBFBA=="
@@ -133,9 +133,9 @@
         "addedAt": "2026-09-23T20:44:39+03:00",
         "version": "0.20.1",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/flaremo@0.20.1/flaremo-0.20.1.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/flaremo@0.20.1/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/flaremo@0.20.1/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/flaremo@0.20.1/flaremo-0.20.1.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/flaremo@0.20.1/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/flaremo@0.20.1/manifest.sig",
           "digest": "5f70b5772b8bb3a38240e42e8273e95601a7e6a6c69fb045746cdf2e6ce6b2bc"
         },
         "tier": "artifact",
@@ -148,24 +148,24 @@
             "github": "realchendahuang"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/flaremo/icon.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/flaremo/icon.png",
             "sha256": "33faa4d7cd1069cbbd27bf78bf6fbe7098f02112ccdf25bf28304b82268e720a"
           },
           "cover": {
-            "url": "https://appflare.github.io/catalog/apps/flaremo/cover.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/flaremo/cover.png",
             "sha256": "c78c5c4c3b2c2d47d39a2c6767bae01293e658c6efcec7dc7d0b703ffdc21cff"
           },
           "screenshots": [
             {
-              "url": "https://appflare.github.io/catalog/apps/flaremo/screenshots/01-notes-timeline.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/flaremo/screenshots/01-notes-timeline.png",
               "sha256": "7d5f451001e5f742d1f7bb1ac6ed6c7041f187b5e0bf1546d7ccad7a41fa0a32",
               "alt": "FlareMo: Notes timeline"
             },
             {
-              "url": "https://appflare.github.io/catalog/apps/flaremo/screenshots/02-on-a-phone.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/flaremo/screenshots/02-on-a-phone.png",
               "sha256": "107c66d7099537767b45a56ea2a7459a323f1573e6a62fb887e785f2d081ddc9",
               "alt": "FlareMo: On a phone"
             }
@@ -184,9 +184,9 @@
         "addedAt": "2026-09-24T07:29:19+03:00",
         "version": "0.0.0-20260920.1bf70d2",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/mailflare-0.0.0-20260920.1bf70d2.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/mailflare-0.0.0-20260920.1bf70d2.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/mailflare@0.0.0-20260920.1bf70d2/manifest.sig",
           "digest": "fbe601fe7065ec7cda3fb1b9c7e1aeb7e45838142c2825f0164de17ccdcc6803"
         },
         "tier": "artifact",
@@ -200,25 +200,25 @@
             "x": "hieuSSR"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/mailflare/icon.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/mailflare/icon.png",
             "sha256": "99e25176a3c443b584503fe07a5ed66fe2e06413b7e1c605e52649ed57bdc493"
           },
           "screenshots": [
             {
-              "url": "https://appflare.github.io/catalog/apps/mailflare/screenshots/01-inbox.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/mailflare/screenshots/01-inbox.png",
               "sha256": "6d6116e232cb8f762303de24ce6cf818eeacb3f4a5e4d903be4adc0492865e14",
               "alt": "Mailflare: Inbox"
             },
             {
-              "url": "https://appflare.github.io/catalog/apps/mailflare/screenshots/02-domains.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/mailflare/screenshots/02-domains.png",
               "sha256": "b2db3790cee7e45bc347f36889455cc7cf5f6a30280135921fbfb476f0e4de76",
               "alt": "Mailflare: Domains"
             },
             {
-              "url": "https://appflare.github.io/catalog/apps/mailflare/screenshots/03-mailboxes.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/mailflare/screenshots/03-mailboxes.png",
               "sha256": "450ffbebdd462fe98789d8e6c13a0757807726fad5bef16ce3751a0f23dcdbfb",
               "alt": "Mailflare: Mailboxes"
             }
@@ -261,10 +261,10 @@
             "github": "every-app"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "build": {
           "pin": "84e4705503ceaef54d1b284c167de9942563cdae",
-          "manifest": "https://appflare.github.io/catalog/apps/open-seo/manifest.json",
+          "manifest": "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/manifest.json",
           "manifestDigest": "974cb5e62f1b679434eae44dce7e3a01f22054ef87cfc1f2f02c86e684d49e3d",
           "buildCommand": "pnpm exec vite build --mode selfhost",
           "expectedMinutes": 5,
@@ -272,17 +272,17 @@
         },
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/open-seo/icon.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/icon.png",
             "sha256": "9d8d56587bd72607f0b86b096442122303b2be7406e43895da1c189a3ee72d27"
           },
           "screenshots": [
             {
-              "url": "https://appflare.github.io/catalog/apps/open-seo/screenshots/01-keyword-results.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/screenshots/01-keyword-results.png",
               "sha256": "b38fbce16a87ec10950832b2e8cdf6d39fd34b97a20999d499931c6493ced18a",
               "alt": "OpenSEO: Keyword results"
             },
             {
-              "url": "https://appflare.github.io/catalog/apps/open-seo/screenshots/02-site-audit.png",
+              "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/open-seo/screenshots/02-site-audit.png",
               "sha256": "53b23274ce22794376368d9ed87b242656d2c3659abbad03d5cb6502dafe3781",
               "alt": "OpenSEO: Site audit"
             }
@@ -301,9 +301,9 @@
         "addedAt": "2026-09-27T12:03:21+03:00",
         "version": "0.3.3",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/resolvehq@0.3.3/resolvehq-0.3.3.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/resolvehq@0.3.3/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/resolvehq@0.3.3/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/resolvehq@0.3.3/resolvehq-0.3.3.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/resolvehq@0.3.3/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/resolvehq@0.3.3/manifest.sig",
           "digest": "5416969726a5f872641dab71a45c606f1878d7463166606cda6bbdec9094b9f5"
         },
         "tier": "artifact",
@@ -317,10 +317,10 @@
             "x": "mirza_rizvi"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/resolvehq/icon.svg",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/resolvehq/icon.svg",
             "sha256": "9a5c89a8b0e5577066c826e7fa3f3e573416c6ae582b61ae2c260a0d8dee3ebc"
           },
           "screenshots": []
@@ -330,7 +330,7 @@
         "license": "LicenseRef-ResolveHQ-Source-Available",
         "revision": 2,
         "catalogManifest": {
-          "url": "https://appflare.github.io/catalog/apps/resolvehq/manifest.json",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/resolvehq/manifest.json",
           "sha256": "48846370e2cec4ea176fee833f80f1c670584c93a92ce9c939c68ce659f89299",
           "keyId": "catalog-2026-09",
           "signature": "w+FkzMgEC5k9ryYLp4E0Fwxasxb/r9f/2RSqmR/4pbayqZ8+2WRL2iEi8CzrRaSQ1Rqb00RTYacgpR+LxV5UDQ=="
@@ -344,9 +344,9 @@
         "addedAt": "2026-09-27T10:43:47+03:00",
         "version": "0.0.0-20260728.cca7b69",
         "artifacts": {
-          "zip": "https://github.com/appflare/catalog/releases/download/veet@0.0.0-20260728.cca7b69/veet-0.0.0-20260728.cca7b69.zip",
-          "manifest": "https://github.com/appflare/catalog/releases/download/veet@0.0.0-20260728.cca7b69/manifest.json",
-          "sig": "https://github.com/appflare/catalog/releases/download/veet@0.0.0-20260728.cca7b69/manifest.sig",
+          "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/veet@0.0.0-20260728.cca7b69/veet-0.0.0-20260728.cca7b69.zip",
+          "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/veet@0.0.0-20260728.cca7b69/manifest.json",
+          "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/veet@0.0.0-20260728.cca7b69/manifest.sig",
           "digest": "a68862c9416db557838d77eab7aaa143566b2f7afc3e630c0a322786a5b87654"
         },
         "tier": "artifact",
@@ -361,10 +361,10 @@
             "x": "megaconfidence"
           }
         ],
-        "maintainers": ["MendyLanda"],
+        "maintainers": ["yys9253462-gif"],
         "media": {
           "icon": {
-            "url": "https://appflare.github.io/catalog/apps/veet/icon.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/veet/icon.png",
             "sha256": "a8d25861780b9fa262cc2e0fa9145e1f626fff67a60b804387c4b6905065e3e0"
           },
           "screenshots": []
@@ -376,7 +376,7 @@
       }
     ],
     "featured": [],
-    "stats": "https://appflare.github.io/catalog/stats.json"
+    "stats": "https://yys9253462-gif.github.io/appflare-catalog/stats.json"
   },
   "stats": {
     "generatedAt": "2026-09-28T07:08:03.239Z",

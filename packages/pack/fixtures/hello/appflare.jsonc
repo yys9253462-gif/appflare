@@ -1,11 +1,11 @@
 {
   // Catalog manifest for the `hello` packer fixture.
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "slug": "hello",
   "name": "Hello",
   "summary": "Minimal hello Worker fixture used to exercise the packer.",
   "tagline": "A greeting on your own Worker",
-  "repo": "appflare/appflare",
+  "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["utilities"],
   "maintainers": ["appflare"],

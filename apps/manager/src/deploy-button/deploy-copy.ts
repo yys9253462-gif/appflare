@@ -1,6 +1,6 @@
 /**
  * Managers deployed with the "Deploy to Cloudflare" button. The button copies
- * the public `appflare/deploy` repository into the visitor's GitHub or GitLab
+ * the public `yys9253462-gif/appflare` repository into the visitor's GitHub or GitLab
  * account and connects that copy to the new Worker with Workers Builds. Both
  * stay behind after the deploy, and Appflare needs neither: it updates itself
  * from signed releases. Worse, a push to the copy rebuilds it and deploys the

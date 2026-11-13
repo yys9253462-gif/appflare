@@ -9,9 +9,9 @@
       "addedAt": "2026-09-27T04:19:23+03:00",
       "version": "0.0.0-20260810.7a3ee47",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/cloudmark-0.0.0-20260810.7a3ee47.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/cloudmark-0.0.0-20260810.7a3ee47.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cloudmark@0.0.0-20260810.7a3ee47/manifest.sig",
         "digest": "56a8b857077fd4873279469dc92856dee299aaff60454947a138b0e68f97b86f"
       },
       "tier": "artifact",
@@ -25,10 +25,10 @@
           "github": "wesleyel"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/cloudmark/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/cloudmark/icon.png",
           "sha256": "541b6dcc527bff65ea33b4f6f45452b8b74c3efc0f4122eff8e99a5b2c573d1e"
         },
         "screenshots": []
@@ -46,9 +46,9 @@
       "addedAt": "2026-09-22T21:32:42+03:00",
       "version": "0.1.0",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/cut@0.1.0/cut-0.1.0.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/cut@0.1.0/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/cut@0.1.0/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.1.0/cut-0.1.0.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.1.0/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/cut@0.1.0/manifest.sig",
         "digest": "86bbb3cbe1afbcff52c18a91a659b8f7876043a78f434a6a9c7eb274edb4a6c1"
       },
       "tier": "artifact",
@@ -57,14 +57,14 @@
       "lastVerified": "2026-09-28T10:13:31.000Z",
       "authors": [
         {
-          "name": "Mendy Landa",
-          "github": "MendyLanda"
+          "name": "yys9253462-gif",
+          "github": "yys9253462-gif"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/cut/icon.svg",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/icon.svg",
           "sha256": "9aeb8bd7cee3770df6d9fc17f9a55537400d678ec9c95d911ab95182a98f6970"
         },
         "screenshots": []
@@ -74,7 +74,7 @@
       "license": "MIT",
       "revision": 3,
       "catalogManifest": {
-        "url": "https://appflare.github.io/catalog/apps/cut/manifest.json",
+        "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/manifest.json",
         "sha256": "de7842381e1d59f9b4c61fc1635d28ece2e1fc7cac385af9063403c45ad26169",
         "keyId": "catalog-2026-09",
         "signature": "+T6pk8oqs2yKAxtEuC30D/zww5KAcpa7WWXGr1xZnSWsnuqA3t//X8TnSISr+XBPcG/xNjb+aJKlh3dZfwsUCQ=="
@@ -97,9 +97,9 @@
       "addedAt": "2026-09-27T06:14:13+03:00",
       "version": "1.3.0",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/emdash@1.3.0/emdash-1.3.0.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/emdash@1.3.0/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/emdash@1.3.0/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/emdash@1.3.0/emdash-1.3.0.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/emdash@1.3.0/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/emdash@1.3.0/manifest.sig",
         "digest": "23ca4f66c9058988d93d0d66efb8ee6016746a1145577ed756510ce8a17679fe"
       },
       "tier": "artifact",
@@ -113,20 +113,20 @@
           "github": "emdash-cms"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/emdash/icon.svg",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/emdash/icon.svg",
           "sha256": "323512d1d707c4a7e07a1a8a9234a740a14c9aa5f479672cdf66188d0109da77"
         },
         "screenshots": [
           {
-            "url": "https://appflare.github.io/catalog/apps/emdash/screenshots/01-home-page.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/emdash/screenshots/01-home-page.png",
             "sha256": "88653dc93f80f8a20113422dc5e7de8f3cab5fe6aed8b0d1f65ea8a55bd738eb",
             "alt": "EmDash: Home page"
           },
           {
-            "url": "https://appflare.github.io/catalog/apps/emdash/screenshots/02-a-post.png",
+            "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/emdash/screenshots/02-a-post.png",
             "sha256": "ea9814577576e524c5fe33db508a77da3caf28275aefd879b90eac012d15c762",
             "alt": "EmDash: A post"
           }
@@ -146,9 +146,9 @@
       "addedAt": "2026-09-27T06:02:01+03:00",
       "version": "0.0.0-20260426.a4ddde2",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/formzero-0.0.0-20260426.a4ddde2.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/formzero-0.0.0-20260426.a4ddde2.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/formzero@0.0.0-20260426.a4ddde2/manifest.sig",
         "digest": "dbe643804779df8d1f78833e9162b6908fc06511c153020db7cbb2c3dd13a8df"
       },
       "tier": "artifact",
@@ -161,10 +161,10 @@
           "github": "BohdanPetryshyn"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/formzero/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/formzero/icon.png",
           "sha256": "ac3d329d506ec7fe9e7027a02785f6a8bdb805c719c0718bc542f95b1729429b"
         },
         "screenshots": []
@@ -182,9 +182,9 @@
       "addedAt": "2026-09-23T15:41:37+03:00",
       "version": "1.1.10",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/r2-explorer@1.1.10/r2-explorer-1.1.10.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/r2-explorer@1.1.10/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/r2-explorer@1.1.10/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/r2-explorer@1.1.10/r2-explorer-1.1.10.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/r2-explorer@1.1.10/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/r2-explorer@1.1.10/manifest.sig",
         "digest": "c699b308a4f8a80f2a9d40a06bac0aef5f2f4ff13b953a55f1e845421c7ba71b"
       },
       "tier": "artifact",
@@ -204,10 +204,10 @@
           "github": "cloudflare"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/r2-explorer/icon.png",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/r2-explorer/icon.png",
           "sha256": "9f9482b8f370e9fb891adc609d4c158cbbe0c73f455922a9bed46c52308cceca"
         },
         "screenshots": []
@@ -217,7 +217,7 @@
       "license": "MIT",
       "revision": 2,
       "catalogManifest": {
-        "url": "https://appflare.github.io/catalog/apps/r2-explorer/manifest.json",
+        "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/r2-explorer/manifest.json",
         "sha256": "f5199ec04849d84bc2489d0ebdbd6a9a0e9b8b1ccdd5892a6d488fa04a40d050",
         "keyId": "catalog-2026-09",
         "signature": "dfrp7Ui+X2IG6JRlxLzgB8uYEr4Vc4+Qvco5bfALq/MAXTtigayrluKHBMue+ku2ip6twL2AvjzHRzMgTJYeCQ=="
@@ -231,9 +231,9 @@
       "addedAt": "2026-09-27T06:14:13+03:00",
       "version": "0.1.1",
       "artifacts": {
-        "zip": "https://github.com/appflare/catalog/releases/download/statusbeam@0.1.1/statusbeam-0.1.1.zip",
-        "manifest": "https://github.com/appflare/catalog/releases/download/statusbeam@0.1.1/manifest.json",
-        "sig": "https://github.com/appflare/catalog/releases/download/statusbeam@0.1.1/manifest.sig",
+        "zip": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/statusbeam@0.1.1/statusbeam-0.1.1.zip",
+        "manifest": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/statusbeam@0.1.1/manifest.json",
+        "sig": "https://github.com/yys9253462-gif/appflare-catalog/releases/download/statusbeam@0.1.1/manifest.sig",
         "digest": "035609fe8e3e266d8de0b1d79e8f66a1112962b935a5f44a57eb9ad30afec49b"
       },
       "tier": "artifact",
@@ -247,10 +247,10 @@
           "github": "pleaseai"
         }
       ],
-      "maintainers": ["MendyLanda"],
+      "maintainers": ["yys9253462-gif"],
       "media": {
         "icon": {
-          "url": "https://appflare.github.io/catalog/apps/statusbeam/icon.svg",
+          "url": "https://yys9253462-gif.github.io/appflare-catalog/apps/statusbeam/icon.svg",
           "sha256": "bb9bc1ee944bdf197ff939110b020de630a8314a52210e7e86ba7f37627c0ec0"
         },
         "screenshots": []

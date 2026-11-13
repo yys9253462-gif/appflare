@@ -55,7 +55,7 @@ const PIN = "84e4705503ceaef54d1b284c167de9942563cdae";
 const NEW_PIN = "1111111111111111111111111111111111111111";
 const APP_TOKEN = "app-own-token-value-DO-NOT-LEAK";
 const SECRET = "admin-password-DO-NOT-LEAK";
-const MANIFEST_URL = "https://appflare.github.io/catalog/apps/cut/appflare.json";
+const MANIFEST_URL = "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/appflare.json";
 const STAGE = "appflare-id1";
 const MAIN = `cut-${STAGE}`;
 const JOBS = `cut-${STAGE}-jobs`;
@@ -102,9 +102,9 @@ async function indexApp(catalog: CatalogManifest, version = "1.0.0"): Promise<In
     services: ["containers"],
     categories: catalog.categories,
     license: catalog.license,
-    authors: [{ name: "MendyLanda", github: "MendyLanda" }],
+    authors: [{ name: "yys9253462-gif", github: "yys9253462-gif" }],
     lastVerified: null,
-    maintainers: ["MendyLanda"],
+    maintainers: ["yys9253462-gif"],
     build: {
       pin: catalog.source.sha,
       manifest: MANIFEST_URL,
@@ -394,7 +394,7 @@ describe("installing a self-deploying app", () => {
       runId: "deploy-1.0.0",
       accountId: ACC,
       tool: "alchemy",
-      repo: "MendyLanda/cut",
+      repo: "yys9253462-gif/cut",
       sha: PIN,
       ref: "v1.0.0",
       buildCommand: ["pnpm", "build"],

@@ -119,7 +119,7 @@ describe("RELEASE_DOWNLOADS_HELP", () => {
   it("says what it is for, when it is needed, and the access the token needs", () => {
     expect(RELEASE_DOWNLOADS_HELP).toContain("updates work without a token");
     expect(RELEASE_DOWNLOADS_HELP).toContain(
-      "read-only access to the contents of appflare/appflare",
+      "read-only access to the contents of yys9253462-gif/appflare",
     );
   });
 });

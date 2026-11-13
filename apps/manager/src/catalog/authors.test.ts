@@ -29,9 +29,9 @@ describe("authorLinks", () => {
 
 describe("maintainerProfile", () => {
   it("links a GitHub user, with or without @", () => {
-    expect(maintainerProfile("MendyLanda")).toEqual({
-      label: "MendyLanda",
-      href: "https://github.com/MendyLanda",
+    expect(maintainerProfile("yys9253462-gif")).toEqual({
+      label: "yys9253462-gif",
+      href: "https://github.com/yys9253462-gif",
     });
     expect(maintainerProfile("@octocat")).toEqual({
       label: "octocat",

@@ -131,10 +131,10 @@ export async function buildFixtureArtifact(options: FixtureOptions = {}): Promis
       name: "Appflare",
       summary: "The manager.",
       tagline: "Installs and updates apps in your Cloudflare account",
-      repo: "appflare/appflare",
+      repo: "yys9253462-gif/appflare",
       license: "Apache-2.0",
       categories: ["developer-tools"],
-      maintainers: ["MendyLanda"],
+      maintainers: ["yys9253462-gif"],
       source: { ref: version, sha: "a".repeat(40) },
       install: {
         packageManager: "pnpm",

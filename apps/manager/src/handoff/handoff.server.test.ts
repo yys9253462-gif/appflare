@@ -47,7 +47,7 @@ const HASH = "ea866a757e4c38babfa8127cbe9a409d3e1f93a00ff1488ff735fcf917afffd0";
 const CHALLENGE = "challenge-0123456789abcdef";
 const PROOF = "xn5hB0PJwzSj5QhpoGLa5KM2v8aQNNUdCqMfmIZO9O0";
 
-const INSTALLER = "https://appflare.dev";
+const INSTALLER = "https://cf.hejige.com";
 const A = `/accounts/${ACC}`;
 const VERSION = "11111111-2222-4333-8444-555555555555";
 const WORKERS_DEV = "appflare.appflare-dev.workers.dev";
@@ -64,7 +64,7 @@ const CLAIM_URL = /^https:\/\/([^/]+)\/setup#claim=([A-Za-z0-9_-]{16,256})$/;
 const ok = (result: unknown): FakeRoute => ({ result });
 const SECRETS = `PUT ${A}/workers/scripts/appflare/secrets`;
 const SELF_PATCH = `PATCH ${A}/workers/workers/appflare/versions/latest`;
-const DEPLOY = `POST ${A}/workers/scripts/appflare/deployments`;
+const DEPLOY = `POST ${A}/workers/scripts/yys9253462-gif/appflarements`;
 const DOMAINS = `GET ${A}/workers/domains`;
 
 function world(over: Record<string, FakeRoute | "network-error"> = {}) {
@@ -234,7 +234,7 @@ describe("CORS", () => {
     expect(allowed.headers.get("access-control-allow-origin")).toBe(INSTALLER);
     expect(allowed.headers.get("access-control-allow-credentials")).toBeNull();
     expect(allowed.headers.get("vary")).toBe("Origin");
-    for (const origin of ["https://evil.example", "https://appflare.dev.evil.example", "null"]) {
+    for (const origin of ["https://evil.example", "https://cf.hejige.com.evil.example", "null"]) {
       const other = await handoffResponse(get(CHALLENGE, { origin }), managerEnv());
       // The answer stays readable to the installer's server, not to that page.
       expect(other.status).toBe(200);

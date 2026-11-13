@@ -48,7 +48,8 @@ import type { ArtifactFixture } from "./artifact-fixture";
  */
 
 export const SANDBOX_IMAGE = "docker.io/mendylanda/appflare-sandbox:0.4.0";
-export const CATALOG_MANIFEST_URL = "https://appflare.github.io/catalog/apps/cut/appflare.json";
+export const CATALOG_MANIFEST_URL =
+  "https://yys9253462-gif.github.io/appflare-catalog/apps/cut/appflare.json";
 
 export interface FakeSandboxOptions {
   /** Replaces the build's answer (the default builds the fixture). */

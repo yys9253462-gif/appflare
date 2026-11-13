@@ -43,12 +43,12 @@ describe("catalogStatsSchema", () => {
     const withRepo = {
       ...stats,
       apps: {
-        cut: { ...stats.apps.cut, stars: { ...stats.apps.cut.stars, repo: "MendyLanda/cut" } },
+        cut: { ...stats.apps.cut, stars: { ...stats.apps.cut.stars, repo: "yys9253462-gif/cut" } },
       },
     };
-    expect(catalogStatsSchema.parse(withRepo).apps.cut?.stars?.repo).toBe("MendyLanda/cut");
+    expect(catalogStatsSchema.parse(withRepo).apps.cut?.stars?.repo).toBe("yys9253462-gif/cut");
     expect(catalogStatsSchema.parse(stats).apps.cut?.stars?.repo).toBeUndefined();
-    withRepo.apps.cut.stars.repo = "https://github.com/MendyLanda/cut";
+    withRepo.apps.cut.stars.repo = "https://github.com/yys9253462-gif/cut";
     expect(catalogStatsSchema.safeParse(withRepo).success).toBe(false);
   });
 });

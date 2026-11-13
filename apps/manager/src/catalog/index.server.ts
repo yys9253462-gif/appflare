@@ -29,7 +29,8 @@ export { CatalogError } from "./conditional-fetch";
  * (see `stats.server.ts`); a stats failure is logged and never fails the index.
  */
 
-export const DEFAULT_CATALOG_INDEX_URL = "https://appflare.github.io/catalog/index.json";
+export const DEFAULT_CATALOG_INDEX_URL =
+  "https://yys9253462-gif.github.io/appflare-catalog/index.json";
 
 export const CATALOG_INDEX_KEY = "catalog:index";
 export const CATALOG_UPDATED_AT_KEY = "catalog:updatedAt";

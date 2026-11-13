@@ -17,8 +17,8 @@ export const TELEMETRY_HOST = "https://eu.i.posthog.com";
 /** The batch capture endpoint (one request for any number of events). */
 export const TELEMETRY_BATCH_URL = `${TELEMETRY_HOST}/batch/`;
 
-/** The public PostHog project token (ingestion only). */
-export const TELEMETRY_PROJECT_KEY = "phc_ALESBsbeNDUPHQQN3KNbEYTrFJwBmJvqh28BGDXF9PUs";
+/** Optional PostHog project token; empty disables sending anonymous usage reports. */
+export const TELEMETRY_PROJECT_KEY = "";
 
 /** What is sent and how to turn it off. */
 export const TELEMETRY_DOCS_URL = `${SITE_URL}/telemetry/`;

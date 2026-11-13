@@ -330,7 +330,7 @@ describe("UsageTab", () => {
       (a) => a.getAttribute("href"),
     );
     expect(docs).toContain(
-      "https://appflare.dev/guides/spend-protection/?utm_source=appflare-manager&utm_medium=app&utm_content=spendProtection",
+      "https://cf.hejige.com/guides/spend-protection/?utm_source=appflare-manager&utm_medium=app&utm_content=spendProtection",
     );
   });
 

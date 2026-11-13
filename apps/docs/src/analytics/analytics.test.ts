@@ -13,6 +13,7 @@ import {
   posthogOptions,
   resetAnalytics,
   SEARCH_SETTLE_MS,
+  setPosthogKeyForTests,
   startAnalytics,
   themeFromLabel,
   track,
@@ -59,11 +60,13 @@ function captured(): Array<[string, unknown]> {
 }
 
 beforeEach(() => {
+  setPosthogKeyForTests("phc_test");
   posthog.init.mockClear();
   posthog.capture.mockClear();
 });
 
 afterEach(() => {
+  setPosthogKeyForTests(null);
   resetAnalytics();
   vi.unstubAllGlobals();
 });
@@ -97,14 +100,16 @@ describe("startAnalytics", () => {
   });
 
   it("reports from the public address, once", async () => {
-    expect(isReportingHost("appflare.dev")).toBe(true);
-    browserAt("https://appflare.dev/start/install/");
+    expect(isReportingHost("cf.hejige.com")).toBe(true);
+    expect(isReportingHost("appflare.dev")).toBe(false);
+    browserAt("https://cf.hejige.com/start/install/");
     const { router, listeners } = fakeRouter();
     expect(startAnalytics(router)).toBe(true);
     expect(startAnalytics(router)).toBe(true);
     await vi.waitFor(() => expect(posthog.init).toHaveBeenCalledTimes(1));
     const [key, options] = posthog.init.mock.calls[0] ?? [];
-    expect(key).toBe(POSTHOG_KEY);
+    expect(key).toBe("phc_test");
+    expect(POSTHOG_KEY).toBe("");
     expect(options).toMatchObject({
       api_host: POSTHOG_HOST,
       ui_host: POSTHOG_UI_HOST,
@@ -119,7 +124,7 @@ describe("startAnalytics", () => {
       person_profiles: "always",
       session_recording: { maskAllInputs: false, maskInputOptions: { password: true } },
     });
-    expect(POSTHOG_HOST).toBe("https://swgo.appflare.dev");
+    expect(POSTHOG_HOST).toBe("https://eu.i.posthog.com");
     expect(POSTHOG_UI_HOST).toBe("https://eu.posthog.com");
     expect(options).toMatchObject({ disable_surveys: true });
     expect(listeners).toHaveLength(1);
@@ -128,9 +133,9 @@ describe("startAnalytics", () => {
 
 describe("the deploy page and its callback", () => {
   it.each([
-    "https://appflare.dev/deploy/",
-    "https://appflare.dev/deploy",
-    "https://appflare.dev/deploy/callback",
+    "https://cf.hejige.com/deploy/",
+    "https://cf.hejige.com/deploy",
+    "https://cf.hejige.com/deploy/callback",
   ])("load nothing and send nothing at %s", async (url) => {
     browserAt(url);
     const { router, listeners } = fakeRouter();
@@ -143,14 +148,14 @@ describe("the deploy page and its callback", () => {
   });
 
   it("get no page view when the router moves there from another page", async () => {
-    browserAt("https://appflare.dev/start/install/");
+    browserAt("https://cf.hejige.com/start/install/");
     const { router, navigate } = fakeRouter();
     startAnalytics(router);
     navigate("/deploy/");
     navigate("/deploy/callback", "?code=secret-code&state=s");
     await vi.waitFor(() => expect(posthog.capture).toHaveBeenCalledTimes(1));
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(captured()).toEqual([["$pageview", "https://appflare.dev/start/install/"]]);
+    expect(captured()).toEqual([["$pageview", "https://cf.hejige.com/start/install/"]]);
     expect(JSON.stringify(posthog.capture.mock.calls)).not.toContain("secret-code");
   });
 
@@ -160,10 +165,12 @@ describe("the deploy page and its callback", () => {
       event: "$autocapture",
       properties: { $current_url: url },
     });
-    const elsewhere = "https://appflare.dev/apps/";
+    const elsewhere = "https://cf.hejige.com/apps/";
     expect(outsideDeployPages(event(elsewhere), elsewhere)).not.toBeNull();
-    expect(outsideDeployPages(event("https://appflare.dev/deploy/?x=1"), elsewhere)).toBeNull();
-    expect(outsideDeployPages(event(elsewhere), "https://appflare.dev/deploy/callback")).toBeNull();
+    expect(outsideDeployPages(event("https://cf.hejige.com/deploy/?x=1"), elsewhere)).toBeNull();
+    expect(
+      outsideDeployPages(event(elsewhere), "https://cf.hejige.com/deploy/callback"),
+    ).toBeNull();
     expect(
       outsideDeployPages(
         { uuid: "0", event: "$snapshot", properties: { $pathname: "/deploy/" } },
@@ -172,30 +179,32 @@ describe("the deploy page and its callback", () => {
     ).toBeNull();
     expect(outsideDeployPages(null, elsewhere)).toBeNull();
     // A page whose name merely starts the same way is measured as usual.
-    expect(outsideDeployPages(event("https://appflare.dev/deployment/"), elsewhere)).not.toBeNull();
+    expect(
+      outsideDeployPages(event("https://cf.hejige.com/deployment/"), elsewhere),
+    ).not.toBeNull();
   });
 });
 
 describe("page views", () => {
   it("sends one for the first page and one for each page the router moves to", async () => {
-    browserAt("https://appflare.dev/start/install/");
+    browserAt("https://cf.hejige.com/start/install/");
     const { router, navigate } = fakeRouter();
     startAnalytics(router);
     navigate("/apps/", "?q=mail");
     await vi.waitFor(() => expect(posthog.capture).toHaveBeenCalledTimes(3));
     expect(captured()).toEqual([
-      ["$pageview", "https://appflare.dev/start/install/"],
-      ["$pageleave", "https://appflare.dev/start/install/"],
-      ["$pageview", "https://appflare.dev/apps/?q=mail"],
+      ["$pageview", "https://cf.hejige.com/start/install/"],
+      ["$pageleave", "https://cf.hejige.com/start/install/"],
+      ["$pageview", "https://cf.hejige.com/apps/?q=mail"],
     ]);
     expect(posthog.capture).toHaveBeenLastCalledWith("$pageview", {
-      $current_url: "https://appflare.dev/apps/?q=mail",
+      $current_url: "https://cf.hejige.com/apps/?q=mail",
       $pathname: "/apps/",
     });
   });
 
   it("does not count the same page again when only its search changes", async () => {
-    browserAt("https://appflare.dev/apps/");
+    browserAt("https://cf.hejige.com/apps/");
     const { router, navigate } = fakeRouter();
     startAnalytics(router);
     navigate("/apps/");
@@ -207,22 +216,22 @@ describe("page views", () => {
   });
 
   it("sends a page's own events that came before it started after the page view", async () => {
-    browserAt("https://appflare.dev/apps/2fa/");
+    browserAt("https://cf.hejige.com/apps/2fa/");
     track("app_page_viewed", { slug: "2fa", category: "security", categories: ["security"] });
     startAnalytics(fakeRouter().router);
     await vi.waitFor(() => expect(posthog.capture).toHaveBeenCalledTimes(2));
     expect(captured()).toEqual([
-      ["$pageview", "https://appflare.dev/apps/2fa/"],
+      ["$pageview", "https://cf.hejige.com/apps/2fa/"],
       ["app_page_viewed", { slug: "2fa", category: "security", categories: ["security"] }],
     ]);
   });
 });
 
 describe("linkEvents", () => {
-  const here = { host: "appflare.dev", pathname: "/start/install/" };
+  const here = { host: "cf.hejige.com", pathname: "/start/install/" };
 
   it("counts a link to another site by its host only", () => {
-    expect(linkEvents("https://github.com/appflare/appflare/issues?q=x", here)).toEqual([
+    expect(linkEvents("https://github.com/yys9253462-gif/appflare/issues?q=x", here)).toEqual([
       ["outbound_click", { host: "github.com" }],
     ]);
   });
@@ -230,7 +239,7 @@ describe("linkEvents", () => {
   it("counts the Deploy to Cloudflare button with the page it is on", () => {
     expect(
       linkEvents(
-        "https://deploy.workers.cloudflare.com/?url=https://github.com/appflare/deploy",
+        "https://deploy.workers.cloudflare.com/?url=https://github.com/yys9253462-gif/appflare",
         here,
       ),
     ).toEqual([
@@ -239,40 +248,25 @@ describe("linkEvents", () => {
     ]);
   });
 
-  it("counts Appflare's short link to the button the same way", () => {
-    expect(linkEvents("https://link.appflare.dev/deploy-1c", here)).toEqual([
-      ["outbound_click", { host: "link.appflare.dev" }],
-      ["deploy_button_clicked", { path: "/start/install/" }],
-    ]);
-    expect(linkEvents("https://link.appflare.dev/other", here)).toEqual([
-      ["outbound_click", { host: "link.appflare.dev" }],
-    ]);
-  });
-
-  it("counts Install Appflare apart from the button: the short link and the deploy page", () => {
-    expect(linkEvents("https://link.appflare.dev/deploy", here)).toEqual([
-      ["outbound_click", { host: "link.appflare.dev" }],
+  it("counts Install Appflare on the deploy page without outbound_click when same-host", () => {
+    expect(linkEvents("https://cf.hejige.com/deploy/", here)).toEqual([
       ["install_button_clicked", { path: "/start/install/" }],
     ]);
-    expect(linkEvents("https://link.appflare.dev/deploy/", here)).toEqual([
-      ["outbound_click", { host: "link.appflare.dev" }],
+    expect(linkEvents("https://cf.hejige.com/deploy//", here)).toEqual([
       ["install_button_clicked", { path: "/start/install/" }],
     ]);
     // On the site itself the Install button goes straight to the deploy page.
     expect(linkEvents("/deploy/", here)).toEqual([
       ["install_button_clicked", { path: "/start/install/" }],
     ]);
-    expect(linkEvents("https://appflare.dev/deploy/", here)).toEqual([
-      ["install_button_clicked", { path: "/start/install/" }],
-    ]);
     // A link within the deploy pages is not a new install.
-    expect(linkEvents("/deploy/", { host: "appflare.dev", pathname: "/deploy/callback" })).toEqual(
+    expect(linkEvents("/deploy/", { host: "cf.hejige.com", pathname: "/deploy/callback" })).toEqual(
       [],
     );
   });
 
   it("ignores links within the site and links that are not web pages", () => {
-    expect(linkEvents("https://appflare.dev/apps/", here)).toEqual([]);
+    expect(linkEvents("https://cf.hejige.com/apps/", here)).toEqual([]);
     expect(linkEvents("/apps/", here)).toEqual([]);
     expect(linkEvents("mailto:someone@example.com", here)).toEqual([]);
   });
@@ -288,9 +282,9 @@ describe("click helpers", () => {
 
   it("tells a repository badge from a catalog one", () => {
     expect(
-      badgeOf("[![Install](https://appflare.dev/badge.svg)](https://appflare.dev/install/2fa/)"),
+      badgeOf("[![Install](https://cf.hejige.com/badge.svg)](https://cf.hejige.com/install/2fa/)"),
     ).toBe("app");
-    expect(badgeOf("https://appflare.dev/install/?repo=owner/repo")).toBe("repo");
+    expect(badgeOf("https://cf.hejige.com/install/?repo=owner/repo")).toBe("repo");
   });
 });
 
@@ -298,7 +292,7 @@ describe("search events", () => {
   it("send what was searched for once the field rests", async () => {
     vi.useFakeTimers();
     try {
-      browserAt("https://appflare.dev/apps/");
+      browserAt("https://cf.hejige.com/apps/");
       startAnalytics(fakeRouter().router);
       trackWhenSettled("catalog_search", { query: "mail", query_length: 4, result_count: 2 });
       await vi.advanceTimersByTimeAsync(SEARCH_SETTLE_MS);
@@ -411,13 +405,13 @@ describe("errors from other people's scripts", () => {
   it("drops what X's browser throws from the script it puts in every page", () => {
     // The page itself is the file: the script is inline, not one of the site's.
     const config = error("Can't find variable: CONFIG", [
-      ["updateGapFiller", "https://appflare.dev/apps/glance/"],
-      ["updateFooterPositions", "https://appflare.dev/apps/glance/"],
+      ["updateGapFiller", "https://cf.hejige.com/apps/glance/"],
+      ["updateFooterPositions", "https://cf.hejige.com/apps/glance/"],
     ]);
     expect(withoutForeignErrors(config)).toBeNull();
     const webkit = error(
       "undefined is not an object (evaluating 'window.webkit.messageHandlers.scrollEventHandler')",
-      [["?", "https://appflare.dev/"]],
+      [["?", "https://cf.hejige.com/"]],
     );
     expect(withoutForeignErrors(webkit)).toBeNull();
     const extension = error("x is not defined", [
@@ -428,16 +422,20 @@ describe("errors from other people's scripts", () => {
 
   it("keeps an error from an inline script of the page outside an app's own browser", () => {
     // The page as the file says nothing about whose script it was.
-    const inline = error("boom", [["hydrate", "https://appflare.dev/apps/glance/"]], SAFARI_IPHONE);
+    const inline = error(
+      "boom",
+      [["hydrate", "https://cf.hejige.com/apps/glance/"]],
+      SAFARI_IPHONE,
+    );
     expect(withoutForeignErrors(inline)).toBe(inline);
     // A Home Screen web app reports a web view's user agent, without the app's name.
     const homeScreen = error(
       "boom",
-      [["hydrate", "https://appflare.dev/"]],
+      [["hydrate", "https://cf.hejige.com/"]],
       "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
     );
     expect(withoutForeignErrors(homeScreen)).toBe(homeScreen);
-    const noAgent = error("boom", [["hydrate", "https://appflare.dev/"]], "");
+    const noAgent = error("boom", [["hydrate", "https://cf.hejige.com/"]], "");
     expect(withoutForeignErrors(noAgent)).toBe(noAgent);
     const otherSite = error("boom", [["f", "https://cdn.example.com/x.js"]], SAFARI_IPHONE);
     expect(withoutForeignErrors(otherSite)).toBeNull();
@@ -445,12 +443,12 @@ describe("errors from other people's scripts", () => {
 
   it("keeps the site's own errors, even when another script called in", () => {
     const own = error("Cannot read properties of undefined", [
-      ["AppPage", "https://appflare.dev/assets/_slug-Bq3x9Z.js"],
+      ["AppPage", "https://cf.hejige.com/assets/_slug-Bq3x9Z.js"],
     ]);
     expect(withoutForeignErrors(own)).toBe(own);
     const through = error("boom", [
-      ["handler", "https://appflare.dev/apps/glance/"],
-      ["onScroll", "https://appflare.dev/assets/main-Df8a1.js"],
+      ["handler", "https://cf.hejige.com/apps/glance/"],
+      ["onScroll", "https://cf.hejige.com/assets/main-Df8a1.js"],
     ]);
     expect(withoutForeignErrors(through)).toBe(through);
   });
@@ -466,22 +464,22 @@ describe("errors from other people's scripts", () => {
   });
 
   it("does not take another site's /assets/ for the site's own", () => {
-    const lookalike = error("boom", [["f", "https://appflare.dev.example.com/assets/main.js"]]);
+    const lookalike = error("boom", [["f", "https://cf.hejige.com.example.com/assets/main.js"]]);
     expect(withoutForeignErrors(lookalike)).toBeNull();
   });
 
   it("is applied to everything PostHog sends", () => {
     vi.stubGlobal("window", {
-      location: { href: "https://appflare.dev/apps/glance/" },
+      location: { href: "https://cf.hejige.com/apps/glance/" },
       localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
     });
     const beforeSend = posthogOptions.before_send;
     if (typeof beforeSend !== "function") throw new Error("before_send is not a function");
     const config = error("Can't find variable: CONFIG", [
-      ["updateFooterPositions", "https://appflare.dev/apps/glance/"],
+      ["updateFooterPositions", "https://cf.hejige.com/apps/glance/"],
     ]);
     expect(beforeSend(config)).toBeNull();
-    const own = error("boom", [["f", "https://appflare.dev/assets/main-Df8a1.js"]]);
+    const own = error("boom", [["f", "https://cf.hejige.com/assets/main-Df8a1.js"]]);
     expect(beforeSend(own)).toBe(own);
   });
 });

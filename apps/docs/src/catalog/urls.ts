@@ -11,7 +11,7 @@ export const appsPath = "/apps/";
  * as the manager does, so an index can never make the site load images from
  * anywhere else.
  */
-export const CATALOG_ORIGIN = "https://appflare.github.io";
+export const CATALOG_ORIGIN = "https://yys9253462-gif.github.io";
 
 /** `url` when it is on `origin` (the catalog's by default), else null. */
 export function catalogMediaUrl(
@@ -27,7 +27,7 @@ export function catalogMediaUrl(
 }
 
 /** The catalog's repository, where apps are added. */
-export const catalogRepositoryUrl = "https://github.com/appflare/catalog";
+export const catalogRepositoryUrl = "https://github.com/yys9253462-gif/appflare-catalog";
 
 /**
  * Where a visitor asks for an app the catalog does not have: a new issue on

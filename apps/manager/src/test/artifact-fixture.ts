@@ -134,11 +134,11 @@ export function baseCatalogInput(overrides: Partial<CatalogInput> = {}): Catalog
     name: "Cut",
     summary: "Self-hosted link shortener on Workers + KV.",
     tagline: "Short links on your own domain",
-    homepage: "https://github.com/MendyLanda/cut",
-    repo: "MendyLanda/cut",
+    homepage: "https://github.com/yys9253462-gif/cut",
+    repo: "yys9253462-gif/cut",
     license: "MIT",
     categories: ["utilities"],
-    maintainers: ["MendyLanda"],
+    maintainers: ["yys9253462-gif"],
     source: { ref: "main", sha: "6056400d47530aa87e4ae5764b37ffca9d00e87f" },
     install: {
       packageManager: "pnpm",
@@ -386,9 +386,9 @@ export async function buildArtifactFixture(
     services: ["kv"],
     categories: manifest.catalog.categories,
     license: manifest.catalog.license,
-    authors: [{ github: "MendyLanda", name: "MendyLanda" }],
+    authors: [{ github: "yys9253462-gif", name: "yys9253462-gif" }],
     lastVerified: null,
-    maintainers: ["MendyLanda"],
+    maintainers: ["yys9253462-gif"],
   };
   const signBytes = async (bytes: Uint8Array): Promise<string> =>
     toBase64(

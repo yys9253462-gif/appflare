@@ -34,7 +34,7 @@ const cut = app({
   name: "Cut",
   summary: "Self-hosted link shortener on Workers + KV.",
   tagline: "Short links on your own domain",
-  authors: [{ name: "Mendy Landa" }],
+  authors: [{ name: "yys9253462-gif" }],
   categories: ["utilities"],
   primitives: { ids: ["kv"] },
   lastVerified: "2026-09-20T00:00:00.000Z",

@@ -4,7 +4,7 @@
   "name": "Duo",
   "summary": "Two Workers deployed together, used to exercise the packer.",
   "tagline": "A web Worker and a jobs Worker, installed together",
-  "repo": "appflare/appflare",
+  "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["utilities"],
   "maintainers": ["appflare"],

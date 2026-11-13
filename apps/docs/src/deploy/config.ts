@@ -9,22 +9,18 @@ import { CALLBACK_PATH } from "./paths.ts";
 
 export { CALLBACK_PATH, DEPLOY_PATH, isCallbackPath, isDeployPath } from "./paths.ts";
 
-/** Appflare's public Cloudflare OAuth client. */
-export const PUBLIC_OAUTH_CLIENT_ID = "b99863433175d812f9595af56dd1b71d";
+/** Appflare's public Cloudflare OAuth client on cf.hejige.com. */
+export const PUBLIC_OAUTH_CLIENT_ID = "accf8da473f0e9b110cac7de75b54149";
 
-/** The site's preview deploy, on the development account's workers.dev address. */
-export const PREVIEW_ORIGIN = "https://appflare-docs.appflare-dev.workers.dev";
+/** The site's primary origin, where Cloudflare sends OAuth callbacks back. */
+export const PREVIEW_ORIGIN = "https://cf.hejige.com";
 
 /**
  * The origins whose `/deploy/callback` the public client accepts as a
- * redirect URI (and whose requests its token endpoint answers across
- * origins). Cloudflare refuses any other, so a copy of the page served
+ * redirect URI. Cloudflare refuses any other, so a copy of the page served
  * elsewhere, a local server included, cannot finish signing in with it.
  */
-export const REGISTERED_ORIGINS: readonly string[] = [
-  new URL(APPFLARE_OAUTH_CALLBACK_URL).origin,
-  PREVIEW_ORIGIN,
-];
+export const REGISTERED_ORIGINS: readonly string[] = [new URL(APPFLARE_OAUTH_CALLBACK_URL).origin];
 
 /** Build-time overrides, for development against another OAuth client. */
 export interface OAuthOverrides {

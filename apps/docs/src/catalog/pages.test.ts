@@ -207,19 +207,19 @@ describe("media", () => {
             ...first,
             media: {
               icon: {
-                url: "https://appflare.github.io/catalog/apps/x/icon.png",
+                url: "https://yys9253462-gif.github.io/appflare-catalog/apps/x/icon.png",
                 sha256: "b".repeat(64),
               },
               cover: elsewhere,
               screenshots: [
                 { ...elsewhere, alt: "Elsewhere" },
                 {
-                  url: "https://appflare.github.io.evil.example/s.png",
+                  url: "https://yys9253462-gif.github.io.evil.example/s.png",
                   sha256: "c".repeat(64),
                   alt: "Lookalike",
                 },
                 {
-                  url: "https://appflare.github.io/catalog/apps/x/1.png",
+                  url: "https://yys9253462-gif.github.io/appflare-catalog/apps/x/1.png",
                   sha256: "d".repeat(64),
                   alt: "Here",
                 },
@@ -240,7 +240,7 @@ describe("media", () => {
       },
     });
     const [only] = derived.apps;
-    expect(only?.icon).toBe("https://appflare.github.io/catalog/apps/x/icon.png");
+    expect(only?.icon).toBe("https://yys9253462-gif.github.io/appflare-catalog/apps/x/icon.png");
     expect(only?.cover).toBeNull();
     expect(only?.screenshots.map((s) => s.alt)).toEqual(["Here"]);
     expect(derived.featured?.image).toBeNull();

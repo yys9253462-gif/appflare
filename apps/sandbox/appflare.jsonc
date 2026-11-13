@@ -1,11 +1,11 @@
 {
   // Catalog manifest for the sandbox Worker itself: it is packed with
   // @appflare/pack like the manager and released as `sandbox@<version>` on
-  // appflare/appflare (docs/RELEASING.md). Pack it with
+  // yys9253462-gif/appflare (docs/RELEASING.md). Pack it with
   // `pnpm release:pack --app sandbox`, never with this file directly: `source`
   // below holds placeholders that scripts/release-pack.ts overwrites in a
   // temporary copy at build time.
-  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "$schema": "https://yys9253462-gif.github.io/appflare-catalog/schema/v1.json",
   "slug": "appflare-sandbox",
   "name": "Appflare sandbox Worker",
   "summary": "Builds sandbox tier apps from their pinned source inside a Cloudflare Sandbox container in your own account.",
@@ -13,7 +13,7 @@
   "repo": "yys9253462-gif/appflare",
   "license": "Apache-2.0",
   "categories": ["developer-tools"],
-  "maintainers": ["MendyLanda"],
+  "maintainers": ["yys9253462-gif"],
   // Placeholders. At build time `ref` becomes the release version and `sha` the
   // commit being built.
   "source": { "ref": "0.0.0-dev", "sha": "0000000000000000000000000000000000000000" },

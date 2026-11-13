@@ -13,13 +13,13 @@
     "create",
     "wrangler"
   ],
-  "homepage": "https://appflare.dev",
+  "homepage": "https://cf.hejige.com",
   "bugs": {
-    "url": "https://github.com/appflare/appflare/issues"
+    "url": "https://github.com/yys9253462-gif/appflare/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appflare/appflare.git",
+    "url": "git+https://github.com/yys9253462-gif/appflare.git",
     "directory": "packages/cli"
   },
   "license": "Apache-2.0",

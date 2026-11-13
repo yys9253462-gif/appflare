@@ -3,7 +3,7 @@
  * and a new issue for feedback. Client-safe.
  */
 
-export const REPOSITORY_URL = "https://github.com/appflare/appflare";
+export const REPOSITORY_URL = "https://github.com/yys9253462-gif/appflare";
 
 /** Prefix of a feedback issue's title; the person finishes the sentence. */
 export const FEEDBACK_TITLE_PREFIX = "Feedback: ";

@@ -1,7 +1,7 @@
 import type { CallbackView } from "../deploy/callback.ts";
 import { type DeployView, NO_ACCOUNT_ERROR, STORAGE_REFUSED_ERROR } from "../deploy/flow.ts";
 import type { CountedAttempt, Slot } from "../deploy/storage.ts";
-import { isReportingHost, POSTHOG_HOST, POSTHOG_KEY, type SiteEvents } from "./analytics.ts";
+import { activePosthogKey, isReportingHost, POSTHOG_HOST, type SiteEvents } from "./analytics.ts";
 
 /**
  * How far installs from the deploy page get: the one event the deploy page
@@ -119,7 +119,7 @@ export function callbackStepOf(view: CallbackView): StepEvent | null {
 /** The request body for one step of the attempt `attemptId`. */
 export function captureBody(event: StepEvent, attemptId: string): string {
   return JSON.stringify({
-    api_key: POSTHOG_KEY,
+    api_key: activePosthogKey(),
     event: "deploy_step",
     distinct_id: attemptId,
     properties: {
@@ -185,6 +185,12 @@ function send(body: string): void {
 
 /** The counter for this page: counts on the public address only. */
 export function browserStepCounter(slot: Slot<CountedAttempt>): (event: StepEvent | null) => void {
-  if (typeof window === "undefined" || !isReportingHost(window.location.hostname)) return () => {};
+  if (
+    typeof window === "undefined" ||
+    activePosthogKey() === "" ||
+    !isReportingHost(window.location.hostname)
+  ) {
+    return () => {};
+  }
   return stepCounter({ slot, send, newId: () => crypto.randomUUID() });
 }

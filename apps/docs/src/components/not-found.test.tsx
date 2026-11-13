@@ -13,7 +13,7 @@ describe("the page for an app that is not in the catalog", () => {
   it("offers to ask for the app", () => {
     const suggest = /<a href="([^"]+)"[^>]*>推荐应用<\/a>/.exec(html)?.[1] ?? "";
     const url = new URL(suggest.replaceAll("&amp;", "&"));
-    expect(url.pathname).toBe("/appflare/catalog/issues/new");
+    expect(url.pathname).toBe("/yys9253462-gif/appflare-catalog/issues/new");
     expect(url.searchParams.get("title")).toBe("App request: trading edge");
   });
 });

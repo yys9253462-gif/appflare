@@ -354,7 +354,7 @@ writeFileSync(".wrangler/deploy/config.json", JSON.stringify({ configPath: "../.
       name: "SEO",
       summary: "Two Workers built by Vite, one running the other's Workflow.",
       tagline: "An app Worker and an audit Worker",
-      repo: "appflare/appflare",
+      repo: "yys9253462-gif/appflare",
       license: "Apache-2.0",
       categories: ["utilities"],
       maintainers: ["appflare"],

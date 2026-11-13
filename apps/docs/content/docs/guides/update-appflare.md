@@ -4,7 +4,7 @@ description: 了解管理器如何自行更新，以及如何返回旧版本。
 ---
 
 The manager checks its release feed,
-[github.com/appflare/appflare/releases](https://github.com/appflare/appflare/releases),
+[github.com/yys9253462-gif/appflare/releases](https://github.com/yys9253462-gif/appflare/releases),
 every 30 minutes. It only considers complete, published releases with a valid
 signature.
 

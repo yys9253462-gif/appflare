@@ -1,5 +1,5 @@
 import { MANAGER_OAUTH_SCOPES } from "@appflare/cf-api/oauth";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SAMPLE_CALLBACK_VIEWS, SAMPLE_VIEWS } from "../components/deploy/sample-views.ts";
 import {
   DeployFlow,
@@ -14,7 +14,7 @@ import { ACCOUNT_ID, CLIENT_ID, FakeWorld, ORIGIN } from "../deploy/test-fakes.t
 import { TokenKeeper } from "../deploy/tokens.ts";
 import { openMemory } from "../install/memory.ts";
 import { fakeStore } from "../install/test-store.ts";
-import { POSTHOG_KEY } from "./analytics.ts";
+import { activePosthogKey, setPosthogKeyForTests } from "./analytics.ts";
 import {
   browserStepCounter,
   CAPTURE_URL,
@@ -26,7 +26,12 @@ import {
   stepCounter,
 } from "./deploy-steps.ts";
 
+beforeEach(() => {
+  setPosthogKeyForTests("phc_test");
+});
+
 afterEach(() => {
+  setPosthogKeyForTests(null);
   vi.unstubAllGlobals();
 });
 
@@ -168,7 +173,7 @@ describe("captureBody", () => {
 
   it("is the step, the attempt's id, and PostHog's switches, and nothing else", () => {
     expect(JSON.parse(captureBody({ step: "consent" }, ID))).toEqual({
-      api_key: POSTHOG_KEY,
+      api_key: activePosthogKey(),
       event: "deploy_step",
       distinct_id: ID,
       properties: {
@@ -189,8 +194,8 @@ describe("captureBody", () => {
     });
   });
 
-  it("goes to PostHog's single-event endpoint through the site's own address", () => {
-    expect(CAPTURE_URL).toBe("https://swgo.appflare.dev/i/v0/e/");
+  it("goes to PostHog's single-event endpoint", () => {
+    expect(CAPTURE_URL).toBe("https://eu.i.posthog.com/i/v0/e/");
   });
 });
 
@@ -313,7 +318,7 @@ describe("browserStepCounter", () => {
   });
 
   it("sends one plain-text request without cookies or a referrer from the public address", () => {
-    const fetch = browserAt("appflare.dev");
+    const fetch = browserAt("cf.hejige.com");
     browserStepCounter(slot())({ step: "intro" });
     expect(fetch).toHaveBeenCalledTimes(1);
     const [url, init] = fetch.mock.calls[0] as unknown as [string, RequestInit];
@@ -329,7 +334,7 @@ describe("browserStepCounter", () => {
   });
 
   it("never falls back to sendBeacon, which would send cookies", () => {
-    const fetch = browserAt("appflare.dev");
+    const fetch = browserAt("cf.hejige.com");
     const sendBeacon = vi.fn(() => true);
     vi.stubGlobal("navigator", { sendBeacon });
     vi.stubGlobal("Request", class {});
